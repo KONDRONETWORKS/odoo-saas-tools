@@ -1,6 +1,6 @@
 {
     'name': 'SaaS Base',
-    'version': '11.0.1.0.1',
+    'version': '18.0.1.0.1',
     'author': 'Cesar Lage, Nicolas JEUDY',
     'license': 'LGPL-3',
     'category': 'SaaS',

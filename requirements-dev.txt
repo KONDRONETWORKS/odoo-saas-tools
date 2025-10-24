@@ -1,0 +1,17 @@
+# Dépendances de développement pour Odoo 18.0
+-r requirements.txt
+
+# Outils de développement
+pytest>=7.4.0
+pytest-odoo>=1.0.0
+black>=23.0.0
+flake8>=6.0.0
+isort>=5.12.0
+
+# Documentation
+sphinx>=7.0.0
+sphinx-rtd-theme>=1.3.0
+sphinxcontrib-odoo>=1.0.0
+
+# Outils de migration
+odoo-migrate>=1.0.0

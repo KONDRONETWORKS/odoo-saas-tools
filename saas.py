@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 
-ODOO_VERSION = 11
+ODOO_VERSION = 18
 SUPERUSER_ID = 1
 SAAS_PORTAL_MODULES_REGEXP = '(saas_portal.*|saas_sysadmin.*)'
 SAAS_SERVER_MODULES_REGEXP = '(saas_server.*)'
 
-try:
-    import configparser as ConfigParser
-except ImportError:
-    import ConfigParser
+import configparser as ConfigParser
 import argparse
 import contextlib
 import datetime

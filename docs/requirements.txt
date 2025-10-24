@@ -1,3 +1,4 @@
-sphinx==1.2.3
-mercurial==3.2.2
-sphinx-patchqueue==0.4.0
+sphinx>=7.0.0
+sphinx-rtd-theme>=1.3.0
+sphinxcontrib-odoo>=1.0.0
+sphinx-patchqueue>=0.4.0

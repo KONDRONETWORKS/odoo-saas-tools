@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: odoo
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  odoo:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      - HOST=postgres
+      - USER=odoo
+      - PASSWORD=odoo
+    ports:
+      - "8069:8069"
+    volumes:
+      - ./addons:/opt/odoo/addons
+      - ./filestore:/opt/odoo/filestore
+    command: >
+      python3 saas.py
+      --portal-create
+      --server-create
+      --plan-create
+      --run
+
+volumes:
+  postgres_data:
