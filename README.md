@@ -310,6 +310,480 @@ longpolling_port = 8072
 - Monitoring des jobs
 - Gestion des erreurs
 
+## 🔄 Workflows et Flux de Communication
+
+### 🏗️ Architecture des Flux
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        WORKFLOW GÉNÉRAL                        │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Client    │    │   Portal    │    │   Server    │    │  Database   │
+│  (Browser)  │◄──►│  (Control)  │◄──►│ (Technical) │◄──►│  (Instance) │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+       │                   │                   │                   │
+       │                   │                   │                   │
+       ▼                   ▼                   ▼                   ▼
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   OAuth2    │    │   API       │    │   RPC       │    │ PostgreSQL  │
+│  Auth Flow  │    │  Gateway    │    │  Manager    │    │  Database   │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+```
+
+### 🔄 Scénarios Principaux
+
+#### 1. 🚀 **Création d'un Nouveau Client**
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant P as Portal
+    participant S as Server
+    participant D as Database
+    participant A as Auth
+
+    C->>P: 1. Visite page d'inscription
+    P->>C: 2. Affiche formulaires
+    C->>P: 3. Soumet données + plan
+    P->>A: 4. Valide OAuth2
+    A->>P: 5. Token d'authentification
+    P->>S: 6. Demande création DB
+    S->>D: 7. Crée base de données
+    D->>S: 8. Confirme création
+    S->>P: 9. Retourne infos DB
+    P->>C: 10. Envoie accès client
+    C->>D: 11. Accède à son instance
+```
+
+**Flux Détaillé :**
+1. **Client** visite la page de démarrage (`saas_portal_start`)
+2. **Portal** affiche les plans disponibles et formulaires
+3. **Client** sélectionne un plan et remplit ses informations
+4. **Portal** valide les données et initie l'authentification OAuth2
+5. **Auth** génère un token d'accès sécurisé
+6. **Portal** envoie une requête RPC au serveur SaaS
+7. **Server** crée une nouvelle base de données PostgreSQL
+8. **Database** confirme la création et retourne les identifiants
+9. **Server** retourne les informations de connexion au Portal
+10. **Portal** envoie les accès au client par email
+11. **Client** accède directement à son instance Odoo
+
+#### 2. 💰 **Processus de Vente et Facturation**
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant P as Portal
+    participant S as Sale
+    participant B as Billing
+    participant A as Auth
+
+    C->>P: 1. Sélectionne plan
+    P->>S: 2. Crée devis
+    S->>C: 3. Affiche prix
+    C->>S: 4. Confirme commande
+    S->>B: 5. Génère facture
+    B->>C: 6. Demande paiement
+    C->>B: 7. Effectue paiement
+    B->>S: 8. Confirme paiement
+    S->>P: 9. Active abonnement
+    P->>A: 10. Crée accès client
+    A->>C: 11. Envoie identifiants
+```
+
+**Flux Commercial :**
+1. **Client** navigue dans la boutique (`saas_portal_sale_online`)
+2. **Portal** affiche les plans avec tarifs et fonctionnalités
+3. **Sale** génère un devis personnalisé
+4. **Client** confirme sa commande
+5. **Billing** génère une facture automatique
+6. **Client** effectue le paiement (Stripe, PayPal, etc.)
+7. **Billing** confirme le paiement et active l'abonnement
+8. **Portal** crée automatiquement l'accès client
+9. **Auth** génère les identifiants de connexion
+10. **Client** reçoit ses accès par email
+
+#### 3. 🛠️ **Gestion d'Instance (Admin)**
+
+```mermaid
+sequenceDiagram
+    participant A as Admin
+    participant P as Portal
+    participant S as Server
+    participant D as Database
+    participant C as Client
+
+    A->>P: 1. Accède interface admin
+    P->>A: 2. Affiche liste clients
+    A->>P: 3. Sélectionne client
+    P->>S: 4. Récupère infos instance
+    S->>D: 5. Interroge base de données
+    D->>S: 6. Retourne métriques
+    S->>P: 7. Envoie données
+    P->>A: 8. Affiche dashboard
+    A->>P: 9. Demande modification
+    P->>S: 10. Envoie commande
+    S->>D: 11. Exécute modification
+    D->>C: 12. Notifie client
+```
+
+**Flux d'Administration :**
+1. **Admin** se connecte au portail de gestion
+2. **Portal** affiche le dashboard avec tous les clients
+3. **Admin** sélectionne un client pour gestion
+4. **Portal** interroge le serveur pour les métriques
+5. **Server** collecte les données de la base de données
+6. **Database** retourne les statistiques d'utilisation
+7. **Portal** affiche le dashboard détaillé
+8. **Admin** effectue des modifications (modules, utilisateurs, etc.)
+9. **Portal** envoie les commandes au serveur
+10. **Server** exécute les modifications sur la base
+11. **Database** notifie le client des changements
+
+#### 4. 🔄 **Synchronisation et Monitoring**
+
+```mermaid
+sequenceDiagram
+    participant P as Portal
+    participant S1 as Server1
+    participant S2 as Server2
+    participant D1 as DB1
+    participant D2 as DB2
+    participant M as Monitor
+
+    P->>S1: 1. Ping de santé
+    S1->>P: 2. Status OK
+    P->>S2: 3. Ping de santé
+    S2->>P: 4. Status OK
+    P->>M: 5. Envoie métriques
+    M->>P: 6. Alertes si nécessaire
+    P->>S1: 7. Demande backup
+    S1->>D1: 8. Crée sauvegarde
+    D1->>S1: 9. Confirme backup
+    S1->>P: 10. Status backup
+```
+
+**Flux de Monitoring :**
+1. **Portal** ping régulièrement tous les serveurs
+2. **Servers** retournent leur statut de santé
+3. **Portal** collecte les métriques de performance
+4. **Monitor** analyse les données et génère des alertes
+5. **Portal** programme les sauvegardes automatiques
+6. **Servers** exécutent les sauvegardes selon la planification
+7. **Databases** confirment les sauvegardes
+8. **Portal** met à jour le statut des sauvegardes
+
+### 🔐 Flux d'Authentification OAuth2
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant P as Portal
+    participant A as Auth Provider
+    participant S as Server
+    participant D as Database
+
+    C->>P: 1. Demande accès
+    P->>A: 2. Redirige vers OAuth
+    A->>C: 3. Demande authentification
+    C->>A: 4. Fournit credentials
+    A->>A: 5. Valide credentials
+    A->>P: 6. Retourne code auth
+    P->>A: 7. Échange code contre token
+    A->>P: 8. Retourne access token
+    P->>S: 9. Valide token
+    S->>D: 10. Vérifie permissions
+    D->>S: 11. Confirme accès
+    S->>P: 12. Autorise accès
+    P->>C: 13. Accès accordé
+```
+
+### 📊 Flux de Données et Métriques
+
+```mermaid
+flowchart TD
+    A[Client Database] --> B[Server Collection]
+    B --> C[Portal Aggregation]
+    C --> D[Dashboard Display]
+    C --> E[Alert System]
+    C --> F[Reporting Engine]
+    
+    B --> G[Backup System]
+    G --> H[FTP/S3 Storage]
+    
+    C --> I[API Gateway]
+    I --> J[External Integrations]
+    
+    E --> K[Email Notifications]
+    E --> L[SMS Alerts]
+    E --> M[Webhook Calls]
+```
+
+### 🔄 Scénarios d'Erreur et Récupération
+
+#### 1. **Panne de Serveur**
+```
+1. Monitor détecte panne
+2. Alert envoyée à l'admin
+3. Load balancer redirige trafic
+4. Clients migrés vers serveur de secours
+5. Base de données restaurée depuis backup
+6. Service rétabli
+```
+
+#### 2. **Échec de Paiement**
+```
+1. Billing détecte échec
+2. Notification envoyée au client
+3. Période de grâce accordée
+4. Tentatives de recouvrement
+5. Suspension si échec persistant
+6. Réactivation après paiement
+```
+
+#### 3. **Surcharge de Ressources**
+```
+1. Monitor détecte surcharge
+2. Auto-scaling déclenché
+3. Nouveaux serveurs provisionnés
+4. Load balancing ajusté
+5. Clients redistribués
+6. Performance optimisée
+```
+
+### 🌐 Communication Inter-Services
+
+#### **Portal ↔ Server Communication**
+- **Protocole** : XML-RPC/JSON-RPC
+- **Authentification** : OAuth2 + API Keys
+- **Fréquence** : Temps réel + Polling
+- **Données** : Commandes, métriques, statuts
+
+#### **Server ↔ Database Communication**
+- **Protocole** : PostgreSQL Native
+- **Authentification** : Database credentials
+- **Fréquence** : Continu
+- **Données** : Requêtes SQL, métadonnées
+
+#### **Client ↔ Portal Communication**
+- **Protocole** : HTTPS/REST API
+- **Authentification** : OAuth2 + Session
+- **Fréquence** : On-demand
+- **Données** : Interface utilisateur, API calls
+
+### 📈 Monitoring et Alertes
+
+#### **Métriques Collectées**
+- **Performance** : CPU, RAM, Disk I/O
+- **Réseau** : Latence, bande passante
+- **Base de données** : Taille, connexions, requêtes
+- **Business** : Utilisateurs actifs, revenus, conversions
+
+#### **Seuils d'Alerte**
+- **Critique** : Service indisponible
+- **Warning** : Performance dégradée
+- **Info** : Événements normaux
+- **Success** : Opérations réussies
+
+### 🎯 Scénarios d'Utilisation Détaillés
+
+#### **Scénario 1 : Démarrage d'une Nouvelle Plateforme SaaS**
+
+```mermaid
+flowchart TD
+    A[Installation Odoo SaaS Tools] --> B[Configuration Portal]
+    B --> C[Configuration Serveurs]
+    C --> D[Création Plans Tarifaires]
+    D --> E[Configuration Templates]
+    E --> F[Configuration Paiements]
+    F --> G[Tests de Fonctionnement]
+    G --> H[Lancement Commercial]
+    
+    B --> B1[Domaine de base]
+    B --> B2[Configuration OAuth2]
+    B --> B3[Paramètres système]
+    
+    C --> C1[Provisioning serveurs]
+    C --> C2[Configuration DNS]
+    C --> C3[Certificats SSL]
+    
+    D --> D1[Plans gratuits]
+    D --> D2[Plans payants]
+    D --> D3[Limites par plan]
+    
+    E --> E1[Templates de base]
+    E --> E2[Modules pré-installés]
+    E --> E3[Configurations par défaut]
+```
+
+**Étapes Détaillées :**
+1. **Installation** : Déploiement des modules Odoo SaaS Tools
+2. **Configuration Portal** : Paramétrage du portail principal
+3. **Configuration Serveurs** : Mise en place des serveurs techniques
+4. **Création Plans** : Définition des offres commerciales
+5. **Configuration Templates** : Préparation des modèles de bases
+6. **Configuration Paiements** : Intégration des moyens de paiement
+7. **Tests** : Validation du fonctionnement complet
+8. **Lancement** : Mise en production et acquisition clients
+
+#### **Scénario 2 : Acquisition d'un Nouveau Client**
+
+```mermaid
+flowchart TD
+    A[Client visite site] --> B[Sélection plan]
+    B --> C[Inscription]
+    C --> D[Paiement]
+    D --> E[Création instance]
+    E --> F[Configuration automatique]
+    F --> G[Envoi accès]
+    G --> H[Onboarding client]
+    
+    C --> C1[Validation données]
+    C --> C2[Vérification email]
+    C --> C3[Génération OAuth2]
+    
+    D --> D1[Stripe/PayPal]
+    D --> D2[Validation paiement]
+    D --> D3[Activation abonnement]
+    
+    E --> E1[Création base PostgreSQL]
+    E --> E2[Installation modules]
+    E --> E3[Configuration DNS]
+    
+    F --> F1[Paramètres par défaut]
+    F --> F2[Utilisateurs initiaux]
+    F --> F3[Permissions de base]
+```
+
+**Processus Automatisé :**
+1. **Landing Page** : Client découvre les offres
+2. **Sélection** : Choix du plan adapté
+3. **Inscription** : Saisie des informations
+4. **Paiement** : Transaction sécurisée
+5. **Provisioning** : Création automatique de l'instance
+6. **Configuration** : Paramétrage selon le plan
+7. **Livraison** : Envoi des accès au client
+8. **Support** : Accompagnement initial
+
+#### **Scénario 3 : Gestion Quotidienne (Admin)**
+
+```mermaid
+flowchart TD
+    A[Connexion Admin] --> B[Dashboard Principal]
+    B --> C{Action Requise}
+    
+    C -->|Monitoring| D[Vérification Santé]
+    C -->|Client| E[Gestion Client]
+    C -->|Système| F[Maintenance]
+    C -->|Commercial| G[Gestion Ventes]
+    
+    D --> D1[Status serveurs]
+    D --> D2[Métriques performance]
+    D --> D3[Alertes système]
+    
+    E --> E1[Modification instance]
+    E --> E2[Support client]
+    E --> E3[Facturation]
+    
+    F --> F1[Sauvegardes]
+    F --> F2[Mises à jour]
+    F --> F3[Optimisation]
+    
+    G --> G1[Nouveaux plans]
+    G --> G2[Promotions]
+    G --> G3[Reporting]
+```
+
+**Tâches Administratives :**
+1. **Monitoring** : Surveillance continue du système
+2. **Support Client** : Assistance et résolution de problèmes
+3. **Maintenance** : Sauvegardes, mises à jour, optimisations
+4. **Commercial** : Gestion des ventes et facturation
+5. **Développement** : Amélioration des fonctionnalités
+
+#### **Scénario 4 : Scaling et Optimisation**
+
+```mermaid
+flowchart TD
+    A[Détection Surcharge] --> B[Analyse Performance]
+    B --> C{Type de Scaling}
+    
+    C -->|Vertical| D[Upgrade Serveur]
+    C -->|Horizontal| E[Ajout Serveurs]
+    C -->|Optimisation| F[Tuning Base]
+    
+    D --> D1[Plus de RAM/CPU]
+    D --> D2[Stockage SSD]
+    D --> D3[Monitoring]
+    
+    E --> E1[Provisioning nouveau serveur]
+    E --> E2[Configuration load balancer]
+    E --> E3[Migration clients]
+    
+    F --> F1[Optimisation requêtes]
+    F --> F2[Indexation base]
+    F --> F3[Cache Redis]
+```
+
+**Stratégies de Scaling :**
+1. **Monitoring** : Détection des goulots d'étranglement
+2. **Analyse** : Identification des causes de surcharge
+3. **Scaling Vertical** : Amélioration des serveurs existants
+4. **Scaling Horizontal** : Ajout de nouveaux serveurs
+5. **Optimisation** : Amélioration des performances
+6. **Migration** : Redistribution des charges
+
+### 🔄 Flux de Données en Temps Réel
+
+#### **Collecte de Métriques**
+```
+Client Database → Server Agent → Portal API → Dashboard
+     ↓              ↓              ↓           ↓
+  PostgreSQL    Collectd/StatsD  InfluxDB   Grafana
+```
+
+#### **Système d'Alertes**
+```
+Monitor → Alert Manager → Notification Channels
+   ↓           ↓              ↓
+Thresholds  Rules Engine   Email/SMS/Slack
+```
+
+#### **Pipeline de Sauvegarde**
+```
+Database → Backup Agent → Storage (FTP/S3) → Verification
+    ↓           ↓              ↓              ↓
+PostgreSQL   pg_dump      Compressed      Checksum
+```
+
+### 🌐 Intégrations Externes
+
+#### **Paiements**
+- **Stripe** : Cartes de crédit, SEPA
+- **PayPal** : Paiements en ligne
+- **Bank Transfer** : Virements bancaires
+- **Cryptocurrency** : Bitcoin, Ethereum
+
+#### **Communication**
+- **Email** : SMTP, SendGrid, Mailgun
+- **SMS** : Twilio, Nexmo
+- **Chat** : Slack, Discord, Teams
+- **Support** : Zendesk, Intercom
+
+#### **Monitoring**
+- **APM** : New Relic, DataDog
+- **Logs** : ELK Stack, Splunk
+- **Metrics** : Prometheus, Grafana
+- **Uptime** : Pingdom, UptimeRobot
+
+#### **Cloud Services**
+- **AWS** : EC2, S3, RDS, Route53
+- **Google Cloud** : Compute Engine, Storage
+- **Azure** : Virtual Machines, Blob Storage
+- **DigitalOcean** : Droplets, Spaces
+
 ## 🔧 Mode Opératoire
 
 ### 1. 🚀 Démarrage Initial
