@@ -922,9 +922,11 @@ python3 saas.py --monitor-performance
 
 ### 📖 Guides Détaillés
 
-- **[Guide de Migration](MIGRATION_18.md)** - Migration vers Odoo 18.0
-- **[Résultats des Tests](TEST_RESULTS.md)** - Tests de compatibilité
-- **[Résumé de Migration](MIGRATION_SUMMARY.md)** - Résumé des modifications
+- **[📚 Livrables Complets](LIVRABLES/)** - Tous les documents de livraison
+- **[Guide de Migration](LIVRABLES/MIGRATION_18.md)** - Migration vers Odoo 18.0
+- **[Résultats des Tests](LIVRABLES/TEST_RESULTS.md)** - Tests de compatibilité
+- **[Résumé de Migration](LIVRABLES/MIGRATION_SUMMARY.md)** - Résumé des modifications
+- **[Rapport de Démarrage](LIVRABLES/DEMARRAGE_PROJET.md)** - Tests et validation
 
 ### 🔗 Liens Utiles
 
