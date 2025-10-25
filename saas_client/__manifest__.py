@@ -7,6 +7,7 @@
     "support": "apps@it-projects.info",
     'website': 'https://it-projects.info',
     'depends': [
+        'base',
         'auth_oauth',
         'auth_oauth_ip',
         'auth_oauth_check_client_id',

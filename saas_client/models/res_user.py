@@ -13,14 +13,16 @@ class ResUsers(models.Model):
     oauth_provider_id = fields.Many2one('auth.oauth.provider', default=lambda self: self.env.ref('saas_client.saas_oauth_provider').id)
 
     @api.model
-    def create(self, vals):
+    def create(self, vals_list):
+        if isinstance(vals_list, dict):
+            vals_list = [vals_list]
         max_users = self.env["ir.config_parameter"].sudo().get_param("saas_client.max_users")
         max_users = int(max_users)
         if max_users:
             cur_users = self.env['res.users'].search_count([('share', '=', False), ('id', '!=', SI)])
             if cur_users >= max_users:
                 raise exceptions.Warning(_('Maximum allowed users is %(max_users)s, while you already have %(cur_users)s') % {'max_users': max_users, 'cur_users': cur_users})
-        return super(ResUsers, self).create(vals)
+        return super(ResUsers, self).create(vals_list)
 
     @classmethod
     def check(cls, db, uid, passwd):

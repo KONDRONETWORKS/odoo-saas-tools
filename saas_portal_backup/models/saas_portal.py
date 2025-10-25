@@ -8,19 +8,16 @@ class SaasPortalClient(models.Model):
     backup = fields.Boolean('Backup on Modify', help="Backs up first before deleting \
                              or upgrading", default=True)
 
-    @api.multi
     def action_backup(self):
         self.ensure_one()
         self._backup()
 
-    @api.multi
     def delete_database(self):
         for database_obj in self:
             if database_obj.backup:
                 database_obj._backup()
         return super(SaasPortalClient, self).delete_database()
 
-    @api.multi
     def upgrade(self, payload=None):
         for database_obj in self:
             if database_obj.backup:

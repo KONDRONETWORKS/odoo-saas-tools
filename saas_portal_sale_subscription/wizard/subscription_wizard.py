@@ -9,7 +9,6 @@ class SaasSubscriptionWizard(models.TransientModel):
     invoice_lines_count = fields.Integer(
         'Invoice lines count', compute='_count_invoice_lines')
 
-    @api.multi
     @api.depends('invoice_line_ids')
     def _count_invoice_lines(self):
         for invoice in self:
@@ -24,7 +23,6 @@ class SaasSubscriptionWizard(models.TransientModel):
             ('saas_client_id', '=', False)])
         return invoice_lines
 
-    @api.multi
     def apply_changes(self):
         super(SaasSubscriptionWizard, self).apply_changes()
         self.invoice_line_ids.write({

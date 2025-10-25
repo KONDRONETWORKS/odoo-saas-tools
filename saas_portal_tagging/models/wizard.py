@@ -16,7 +16,6 @@ class SaasTagClient(models.TransientModel):
         default=_default_categories
     )
 
-    @api.multi
     def apply(self):
         self.ensure_one()
         client = self.env['saas_portal.client'].browse(

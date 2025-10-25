@@ -19,7 +19,6 @@ class SaasSubscriptionWizard(models.TransientModel):
         result['expiration_new'] = client.expiration_datetime
         return result
 
-    @api.multi
     def apply_changes(self):
         if self.expiration_new != self.expiration:
             self.client_id.change_subscription(

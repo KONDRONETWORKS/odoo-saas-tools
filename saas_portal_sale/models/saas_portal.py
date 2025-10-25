@@ -18,7 +18,6 @@ class SaasPortalPlan(models.Model):
                                           'saas_plan_id',
                                           'Product variants')
 
-    @api.multi
     def _new_database_vals(self, vals):
         vals = super(SaasPortalPlan, self)._new_database_vals(vals)
 

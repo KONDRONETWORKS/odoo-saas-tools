@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-import openerp
-from openerp import SUPERUSER_ID
-from openerp.addons.web import http
-from openerp.addons.web.http import request
-from openerp.addons import saas_portal_signup
-from openerp.addons.saas_portal.controllers.main import SaasPortal
+from odoo import SUPERUSER_ID
+from odoo import http
+from odoo.http import request
+from odoo.addons import saas_portal_signup
+from odoo.addons.saas_portal.controllers.main import SaasPortal
 
 
 class AuthSignupHome(saas_portal_signup.controllers.main.AuthSignupHome):

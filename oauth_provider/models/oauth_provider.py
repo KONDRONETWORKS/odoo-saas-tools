@@ -14,6 +14,7 @@ class OauthApplication(models.Model):
     CLIENT_ID_CHARACTER_SET = r'_-.:;=?!@0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 
     _name = 'oauth.application'
+    _description = 'OAuth Application'
     _rec_name = 'client_id'
 
     def generate_client_id(self):
@@ -26,7 +27,6 @@ class OauthApplication(models.Model):
         ('client_id_uniq', 'unique (client_id)', 'client_id should be unique!'),
     ]
 
-    @api.multi
     def _get_access_token(self, user_id=None, create=False):
         self.ensure_one()
         if not user_id:
@@ -57,6 +57,7 @@ class OauthApplication(models.Model):
 
 class OauthAccessToken(models.Model):
     _name = 'oauth.access_token'
+    _description = 'OAuth Access Token'
 
     application_id = fields.Many2one('oauth.application', string='Application')
     token = fields.Char('Access Token', required=True)
@@ -64,7 +65,6 @@ class OauthAccessToken(models.Model):
     expires = fields.Datetime('Expires', required=True)
     scope = fields.Char('Scope')
 
-    @api.multi
     def is_valid(self, scopes=None):
         """
         Checks if the access token is valid.
@@ -74,12 +74,10 @@ class OauthAccessToken(models.Model):
         self.ensure_one()
         return not self.is_expired() and self._allow_scopes(scopes)
 
-    @api.multi
     def is_expired(self):
         self.ensure_one()
         return datetime.now() > datetime.strptime(self.expires, DEFAULT_SERVER_DATETIME_FORMAT)
 
-    @api.multi
     def _allow_scopes(self, scopes):
         self.ensure_one()
         if not scopes:

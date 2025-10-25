@@ -8,7 +8,6 @@ _logger = logging.getLogger(__name__)
 class SaasServerClient(models.Model):
     _inherit = 'saas_server.client'
 
-    @api.multi
     def _rotate_backups(self, rotation_scheme):
         return
 

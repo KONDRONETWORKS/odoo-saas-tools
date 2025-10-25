@@ -14,7 +14,6 @@ except Exception as e:
 class SaasServerClient(models.Model):
     _inherit = 'saas_server.client'
 
-    @api.multi
     def _rotate_backups(self, rotation_scheme):
         ir_params = self.env['ir.config_parameter']
         aws_access_key_id = ir_params.sudo().get_param('saas_s3.saas_s3_aws_accessid')

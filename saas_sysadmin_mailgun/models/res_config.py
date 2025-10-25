@@ -6,7 +6,6 @@ class SaasPortalConfigWizard(models.TransientModel):
 
     saas_mailgun_api_key = fields.Char('Mailgun API Key')
 
-    @api.multi
     def set_values(self):
         super(SaasPortalConfigWizard, self).set_values()
         ICPSudo = self.env['ir.config_parameter'].sudo()

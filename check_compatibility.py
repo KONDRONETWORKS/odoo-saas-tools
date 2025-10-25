@@ -6,7 +6,12 @@ Script de vérification de compatibilité pour Odoo 18.0
 import sys
 import subprocess
 import importlib
-import pkg_resources
+try:
+    import pkg_resources
+except ImportError:
+    # Fallback pour les versions récentes de Python
+    import importlib.metadata as metadata
+    pkg_resources = None
 from pathlib import Path
 
 def check_python_version():
@@ -36,12 +41,17 @@ def check_dependencies():
     for req in requirements:
         if req.strip() and not req.startswith('#'):
             try:
-                pkg_resources.require(req)
+                if pkg_resources:
+                    pkg_resources.require(req)
+                else:
+                    # Utiliser importlib.metadata pour les versions récentes
+                    package_name = req.split('>=')[0].split('==')[0]
+                    metadata.distribution(package_name)
                 print(f"✅ {req}")
-            except pkg_resources.DistributionNotFound:
+            except (pkg_resources.DistributionNotFound, metadata.PackageNotFoundError):
                 missing_deps.append(req)
                 print(f"❌ {req} - Non installé")
-            except pkg_resources.VersionConflict as e:
+            except (pkg_resources.VersionConflict, Exception) as e:
                 print(f"⚠️  {req} - Version incompatible: {e}")
     
     if missing_deps:

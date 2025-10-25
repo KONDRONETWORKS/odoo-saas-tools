@@ -17,7 +17,6 @@ class SaasPortalClient(models.Model):
 
     mail_domain = fields.Char('Mail domain')
 
-    @api.multi
     def _create_domain_on_mailgun(self):
         '''Create domain on mailgun and return data to configure dns and smtp'''
 
@@ -29,7 +28,6 @@ class SaasPortalClient(models.Model):
             self.mail_domain = self.name.split('.')[0] + '.' + self.server_id.aws_hosted_zone_id.name
         return mailgun.add_domain(api_key=api_key, domain_name=self.mail_domain, smtp_password=password)
 
-    @api.multi
     def _create_route_on_mailgun(self):
         '''Create route on mailgun for storing incomming messages'''
 
@@ -39,7 +37,6 @@ class SaasPortalClient(models.Model):
         return mailgun.create_store_route(api_key=api_key, domain=self.name,
                                           mail_domain=self.mail_domain, request_scheme=self.server_id.request_scheme)
 
-    @api.multi
     def _domain_verification_and_dns_route53(self, domain_info):
         self.ensure_one()
         receiving_dns_records = domain_info.get('receiving_dns_records')
@@ -61,7 +58,6 @@ class SaasPortalClient(models.Model):
 class SaasPortalPlan(models.Model):
     _inherit = 'saas_portal.plan'
 
-    @api.multi
     def _create_new_database(self, **kw):
         res = super(SaasPortalPlan, self)._create_new_database(**kw)
 

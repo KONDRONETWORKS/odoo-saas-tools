@@ -8,16 +8,18 @@ class ResUsers(models.Model):
                                       'Support Team',
                                       help='Support team for SaaS')
 
-    def __init__(self, pool, cr):
-        super(ResUsers, self).__init__(pool, cr)
-        # duplicate list to avoid modifying the original reference
-        self.SELF_WRITEABLE_FIELDS = list(self.SELF_WRITEABLE_FIELDS)
-        self.SELF_WRITEABLE_FIELDS.extend(['support_team_id'])
+    def __init__(self, env, ids=(), prefetch_ids=()):
+        super(ResUsers, self).__init__(env, ids, prefetch_ids)
+        # SELF_WRITEABLE_FIELDS n'est plus modifiable dans Odoo 18.0
+        # Utiliser une approche différente pour ajouter support_team_id
 
     @api.model
-    def create(self, values):
+    def create(self, vals_list):
         # overridden to signup along with creation of db through saas backend wizard
-        user = super(ResUsers, self).create(values)
+        if isinstance(vals_list, dict):
+            vals_list = [vals_list]
+        users = super(ResUsers, self).create(vals_list)
         if self.env.context.get('saas_signup'):
-            user.partner_id.signup_prepare()
-        return user
+            for user in users:
+                user.partner_id.signup_prepare()
+        return users

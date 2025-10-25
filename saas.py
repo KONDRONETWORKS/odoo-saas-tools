@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.11
 
 ODOO_VERSION = 18
 SUPERUSER_ID = 1
@@ -46,7 +46,7 @@ Local usage:
 
 settings_group = parser.add_argument_group('Common settings')
 settings_group.add_argument('--suffix', dest='suffix', default=ODOO_VERSION, help='suffix for names')
-settings_group.add_argument('--odoo-script', dest='odoo_script', help='Path to odoo-server', default='./odoo-server')
+settings_group.add_argument('--odoo-script', dest='odoo_script', help='Path to odoo-server', default='../odoo/odoo-bin')
 settings_group.add_argument('--odoo-config', dest='odoo_config', help='Path to odoo configuration file')
 settings_group.add_argument('--odoo-data-dir', dest='odoo_data_dir', help='Path to odoo data dir', default=None)
 settings_group.add_argument('--odoo-xmlrpc-port', dest='xmlrpc_port', default='8069', help='Port to run odoo temporarly')
@@ -65,7 +65,7 @@ settings_group.add_argument('--master-password', dest='master_password', help='M
 settings_group.add_argument('--admin-password', dest='admin_password', help='Password for admin user. It\'s used for all databases.', default='admin')
 settings_group.add_argument('--base-domain', dest='base_domain', help='Base domain. Used for system that work with --db-filter=%%d')
 settings_group.add_argument('--dynamic-base-domain', dest='dynamic_base_domain', default=False, action='store_true', help='Force to keep Base domain empty. It will be updated on first admin logining')
-settings_group.add_argument('--install-modules', dest='install_modules', help='Comma-separated list of modules to install. They will be automatically installed on appropriate database (Portal or Server)', default='saas_portal_start,saas_portal_sale_online')
+settings_group.add_argument('--install-modules', dest='install_modules', help='Comma-separated list of modules to install. They will be automatically installed on appropriate database (Portal or Server)', default='saas_portal_start')
 #settings_group.add_argument('--db_user', dest='db_user', help='database user name')
 settings_group.add_argument('-s', '--simulate', dest='simulate', action='store_true', help='Don\'t make actual changes. Just show what script is going to do.')
 settings_group.add_argument('--drop-databases', dest='drop_databases', help='Drop existed databases before creating portal or server', action='store_true', default=False)
@@ -134,7 +134,7 @@ datadir = args.get('odoo_data_dir') or odoo_config.get('data_dir')
 xmlrpc_port = args.get('xmlrpc_port') or odoo_config.get('xmlrpc_port') or '8069'
 local_xmlrpc_port = args.get('local_xmlrpc_port') or odoo_config.get('xmlrpc_port') or '8069'
 longpolling_port = args.get('longpolling_port') or odoo_config.get('longpolling_port') or '8072'
-master_password = args.get('master_password') or odoo_config.get('admin_passwd') or 'admin'
+master_password = args.get('master_password') or 'admin'
 
 def filter_modules(s, regexp):
     return set([m for m in s.split(',') if re.match(regexp, m)])
@@ -538,7 +538,7 @@ def get_cmd(dbname='', workers=3, run_cron=False):
     cmd = [
         args.get('odoo_script'),
         "--xmlrpc-port=%s" % xmlrpc_port,
-        "--longpolling-port=%s" % longpolling_port,
+        "--gevent-port=%s" % longpolling_port,
         "--database=%s" % dbname,
         "--db-filter=%s" % args.get('db_filter'),
         "--workers=%s" % workers,

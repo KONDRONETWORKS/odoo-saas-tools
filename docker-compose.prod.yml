@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: odoo
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - odoo-network
+
+  odoo:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      - HOST=postgres
+      - USER=odoo
+      - PASSWORD=${POSTGRES_PASSWORD}
+      - ODOO_RC=/opt/odoo/odoo.conf
+    ports:
+      - "8069:8069"
+    volumes:
+      - ./addons:/opt/odoo/addons
+      - ./filestore:/opt/odoo/filestore
+      - ./config:/opt/odoo/config
+    restart: unless-stopped
+    networks:
+      - odoo-network
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - odoo
+    restart: unless-stopped
+    networks:
+      - odoo-network
+
+volumes:
+  postgres_data:
+
+networks:
+  odoo-network:
+    driver: bridge

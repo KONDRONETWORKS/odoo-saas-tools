@@ -4,7 +4,6 @@ from odoo import api, fields, models
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    @api.multi
     def invoice_validate(self):
         '''
         If a invoice line has a product related to a plan that allows promote a
@@ -41,7 +40,6 @@ class AccountInvoice(models.Model):
                 clients[0].start_subscription(line.id)
         return res
 
-    @api.multi
     def action_invoice_paid(self):
         '''
         If the invoice has a product related to a plan and the line has no

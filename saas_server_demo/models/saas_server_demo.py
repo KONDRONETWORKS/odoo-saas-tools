@@ -29,7 +29,6 @@ class SaasServerRepository(models.Model):
                  if p not in [base_addons, main_addons] and os.path.exists(p + '/.git')]
         return paths
 
-    @api.multi
     def update(self):
         cwd = os.getcwd()
         ret = []

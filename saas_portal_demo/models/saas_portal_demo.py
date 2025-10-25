@@ -7,7 +7,6 @@ from odoo import SUPERUSER_ID as SI
 class SaasPortalServer(models.Model):
     _inherit = 'saas_portal.server'
 
-    @api.multi
     def _get_xmlrpc_object(self, db_name):
         self.ensure_one()
 
@@ -22,7 +21,6 @@ class SaasPortalServer(models.Model):
 
         return db, uid, password, xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
 
-    @api.multi
     def _get_odoo_version(self):
         self.ensure_one()
         db, uid, password, models = self._get_xmlrpc_object(self.name)
@@ -53,7 +51,6 @@ class SaasPortalServer(models.Model):
             'currency': module.get('currency'),
         }
 
-    @api.multi
     def _create_demo_plan(self, demo_module):
         self.ensure_one()
 
@@ -87,7 +84,6 @@ class SaasPortalServer(models.Model):
         else:
             return None
 
-    @api.multi
     def _create_demo_images(self, demo_module):
         self.ensure_one()
 
@@ -98,7 +94,6 @@ class SaasPortalServer(models.Model):
 
         return images
 
-    @api.multi
     def _create_demo_product(self, demo_module, plan):
         self.ensure_one()
 
@@ -154,7 +149,6 @@ class SaasPortalServer(models.Model):
             'variant_plan_id': plan.id,
         })
 
-    @api.multi
     def generate_demo_plans(self):
         demo_plan_module_obj = self.env['saas_portal.demo_plan_module']
         demo_plan_hidden_module_obj = self.env['saas_portal.hidden_demo_plan_module']
@@ -191,7 +185,6 @@ class SaasPortalServer(models.Model):
 
         return True
 
-    @api.multi
     def create_demo_templates(self):
         plan_obj = self.env['saas_portal.plan']
         for record in self:
@@ -226,7 +219,6 @@ class SaasPortalServer(models.Model):
 
         return True
 
-    @api.multi
     def update_repositories(self):
         for record in self:
             db, uid, password, models = record._get_xmlrpc_object(record.name)
@@ -236,7 +228,6 @@ class SaasPortalServer(models.Model):
                               'saas_server.repository', 'update', [ids])
         return True
 
-    @api.multi
     def restart_server(self):
         for record in self:
             db, uid, password, models = record._get_xmlrpc_object(record.name)
@@ -244,7 +235,6 @@ class SaasPortalServer(models.Model):
                               'saas_server.client', 'restart_server', [])
         return True
 
-    @api.multi
     def update_templates(self):
         for record in self:
             plans = self.env['saas_portal.plan'].search([('server_id', '=', record.id),
@@ -273,7 +263,7 @@ class SaaSPortalDemoPlanModule(models.Model):
     technical_name = fields.Char('Technical Name')
     url = fields.Char('url', compute="_compute_url", store=True)
     demo_plan_id = fields.Many2one(
-        'saas_portal.plan', string='Demo plan where the module intended to be installed', ondelete='cascade', require=True)
+        'saas_portal.plan', string='Demo plan where the module intended to be installed', ondelete='cascade', required=True)
     shortdesc = fields.Char('Module Name', readonly=True, translate=True)
     author = fields.Char("Author", readonly=True)
     icon_attachment_id = fields.Many2one('ir.attachment', ondelete='restrict')
@@ -282,7 +272,6 @@ class SaaSPortalDemoPlanModule(models.Model):
     price = fields.Float(string='Price')
     currency = fields.Char("Currency")
 
-    @api.multi
     @api.depends('technical_name')
     def _compute_url(self):
         for record in self:
@@ -311,7 +300,6 @@ class SaasPortalDemoPlan(models.Model):
 class SaasPortalDatabase(models.Model):
     _inherit = 'saas_portal.database'
 
-    @api.multi
     def _get_xmlrpc_object(self):
         self.ensure_one()
         url = self.server_id.local_request_scheme + '://' + self.server_id.local_host

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="saas_portal_create_client_view_form" model="ir.ui.view">
+        <field name="name">saas_portal.create_client.form</field>
+        <field name="model">saas_portal.create_client</field>
+        <field name="arch" type="xml">
+            <form string="Create client">
+                <group>
+                    <field name="name" />
+                    <field name="plan_id" />
+                    <field name="trial" />
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>

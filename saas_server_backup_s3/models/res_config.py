@@ -8,7 +8,6 @@ class SaasPortalConfigWizard(models.TransientModel):
     saas_s3_aws_accesskey = fields.Char('AWS Secret Key')
     saas_s3_aws_bucket = fields.Char('S3 Bucket')
 
-    @api.multi
     def set_values(self):
         super(SaasPortalConfigWizard, self).set_values()
         ICPSudo = self.env['ir.config_parameter'].sudo()

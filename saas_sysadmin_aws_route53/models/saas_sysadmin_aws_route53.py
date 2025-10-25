@@ -30,20 +30,22 @@ class SaasRoute53Zone(models.Model):
 
     @api.model
     @api.returns('self', lambda value: value.id)
-    def create(self, vals):
-        zone = super(SaasRoute53Zone, self).create(vals)
-        if zone.create_zone:
-            conn = _get_route53_conn(self.env)
-            # ensure that the period if at the end
-            zone_name = vals.get('name')
-            res = conn.create_zone(zone_name)
-            zone.write({
-                       'name': zone_name,
-                       'hosted_zone_ID': res.id,  # TODO check if right
-                       })
-        return zone
+    def create(self, vals_list):
+        if isinstance(vals_list, dict):
+            vals_list = [vals_list]
+        zones = super(SaasRoute53Zone, self).create(vals_list)
+        for zone in zones:
+            if zone.create_zone:
+                conn = _get_route53_conn(self.env)
+                # ensure that the period if at the end
+                zone_name = zone.name
+                res = conn.create_zone(zone_name)
+                zone.write({
+                           'name': zone_name,
+                           'hosted_zone_ID': res.id,  # TODO check if right
+                           })
+        return zones
 
-    @api.multi
     def unlink(self):
         # let's delete zone if it was created automatically
         for zone in self:
@@ -93,13 +95,15 @@ class SaasPortalServer(models.Model):
 
     @api.model
     @api.returns('self', lambda value: value.id)
-    def create(self, vals):
-        server = super(SaasPortalServer, self).create(vals)
-        if server.aws_hosted_zone_id:
-            server._update_zone(server.name, value=server.ip_address)
-        return server
+    def create(self, vals_list):
+        if isinstance(vals_list, dict):
+            vals_list = [vals_list]
+        servers = super(SaasPortalServer, self).create(vals_list)
+        for server in servers:
+            if server.aws_hosted_zone_id:
+                server._update_zone(server.name, value=server.ip_address)
+        return servers
 
-    @api.multi
     def write(self, vals):
         super(SaasPortalServer, self).write(vals)
         for server in self:
@@ -108,7 +112,6 @@ class SaasPortalServer(models.Model):
                     self._update_zone(server.name, value=server.ip_address, action='update')
         return True
 
-    @api.multi
     def unlink(self):
         for server in self:
             if server.aws_hosted_zone_id:

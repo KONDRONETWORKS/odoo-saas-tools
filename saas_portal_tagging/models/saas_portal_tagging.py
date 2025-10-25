@@ -4,7 +4,6 @@ from odoo.exceptions import Warning
 
 class SaasPortalCategory(models.Model):
 
-    @api.multi
     def name_get(self):
         res = []
         for record in self:
@@ -43,7 +42,7 @@ class SaasPortalCategory(models.Model):
     )
 
     @api.constrains('parent_id')
-    @api.multi
+
     def _check_recursion(self):
         level = 100
         cr = self.env.cr
@@ -67,11 +66,14 @@ class SaasPortalClient(models.Model):
 
     @api.model
     @api.returns('self', lambda value: value.id)
-    def create(self, vals):
-        if vals.get('plan_id'):
-            plan = self.env['saas_portal.plan'].browse(vals['plan_id'])
-            vals['category_ids'] = [(6, 0, plan.category_ids.ids)]
-        return super(SaasPortalClient, self).create(vals)
+    def create(self, vals_list):
+        if isinstance(vals_list, dict):
+            vals_list = [vals_list]
+        for vals in vals_list:
+            if vals.get('plan_id'):
+                plan = self.env['saas_portal.plan'].browse(vals['plan_id'])
+                vals['category_ids'] = [(6, 0, plan.category_ids.ids)]
+        return super(SaasPortalClient, self).create(vals_list)
 
 
 class SaasPortalPlan(models.Model):

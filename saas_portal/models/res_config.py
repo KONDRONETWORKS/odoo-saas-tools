@@ -15,7 +15,6 @@ class SaasPortalConfigWizard(models.TransientModel):
     module_saas_portal_sale_online = fields.Boolean(string='Sale SaaS from website shop', help='Use saas_portal_sale_online module')
     module_saas_server_backup_rotate = fields.Boolean(string='Rotate backups', help='Use saas_server_backup_rotate module')
 
-    @api.multi
     def set_values(self):
         super(SaasPortalConfigWizard, self).set_values()
         ICPSudo = self.env['ir.config_parameter'].sudo()

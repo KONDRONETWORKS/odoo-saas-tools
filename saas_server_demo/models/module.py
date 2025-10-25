@@ -39,7 +39,6 @@ class ModuleDemo(models.Model):
         })
         return res
 
-    @api.multi
     def get_demo_images(self):
         self.ensure_one()
         demo_images = self.demo_images and self.demo_images.split(',')

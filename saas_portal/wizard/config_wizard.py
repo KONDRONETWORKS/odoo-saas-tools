@@ -6,6 +6,7 @@ from odoo.tools.translate import _
 
 class SaasConfig(models.TransientModel):
     _name = 'saas.config'
+    _description = 'SaaS Configuration'
 
     def _default_database_ids(self):
         return self._context.get('active_ids')
@@ -17,9 +18,9 @@ class SaasConfig(models.TransientModel):
     database_ids = fields.Many2many(
         'saas_portal.client', string='Database', default=_default_database_ids)
     update_addons_list = fields.Boolean('Update Addon List', default=True)
-    update_addons = fields.Char('Update Addons', size=256)
-    install_addons = fields.Char('Install Addons', size=256)
-    uninstall_addons = fields.Char('Uninstall Addons', size=256)
+    update_addons = fields.Char('Update Addons')
+    install_addons = fields.Char('Install Addons')
+    uninstall_addons = fields.Char('Uninstall Addons')
     access_owner_add = fields.Char('Grant access to Owner')
     access_remove = fields.Char(
         'Restrict access',
@@ -30,7 +31,6 @@ class SaasConfig(models.TransientModel):
     param_ids = fields.One2many('saas.config.param', 'config_id', 'Parameters')
     description = fields.Text('Result')
 
-    @api.multi
     def execute_action(self):
         res = False
         method = '%s_database' % self.action
@@ -38,11 +38,9 @@ class SaasConfig(models.TransientModel):
             res = getattr(self, method)()
         return res
 
-    @api.multi
     def delete_database(self):
         return self.database_ids.delete_database()
 
-    @api.multi
     def upgrade_database(self):
         self.ensure_one()
         obj = self[0]
@@ -95,23 +93,26 @@ class SaasConfig(models.TransientModel):
 
 class SaasConfigFix(models.TransientModel):
     _name = 'saas.config.fix'
+    _description = 'SaaS Configuration Fix'
 
-    model = fields.Char('Model', required=1, size=64)
-    method = fields.Char('Method', required=1, size=64)
+    model = fields.Char('Model', required=True)
+    method = fields.Char('Method', required=True)
     config_id = fields.Many2one('saas.config', 'Config')
 
 
 class SaasConfigLimitNumberOfRecords(models.TransientModel):
     _name = 'saas.config.limit_number_of_records_line'
+    _description = 'SaaS Configuration Limit Number of Records'
 
-    model = fields.Char('Model', required=1, size=64)
-    domain = fields.Char('Domain', required=1, size=64, default='[]')
-    max_records = fields.Integer(string='Maximum Records', required=1)
+    model = fields.Char('Model', required=True)
+    domain = fields.Char('Domain', required=True, default='[]')
+    max_records = fields.Integer(string='Maximum Records', required=True)
     config_id = fields.Many2one('saas.config', 'Config')
 
 
 class SaasConfigParam(models.TransientModel):
     _name = 'saas.config.param'
+    _description = 'SaaS Configuration Parameter'
 
     def _get_keys(self):
         return [
@@ -122,14 +123,15 @@ class SaasConfigParam(models.TransientModel):
         ]
 
     key = fields.Selection(selection=_get_keys,
-                           string='Key', required=1, size=64)
-    value = fields.Char('Value', required=1, size=64)
+                           string='Key', required=True)
+    value = fields.Char('Value', required=True)
     config_id = fields.Many2one('saas.config', 'Config')
     hidden = fields.Boolean('Hidden parameter', default=True)
 
 
 class SaasPortalCreateClient(models.TransientModel):
     _name = 'saas_portal.create_client'
+    _description = 'SaaS Portal Create Client'
 
     def _default_plan_id(self):
         return self._context.get('active_id')
@@ -163,7 +165,6 @@ class SaasPortalCreateClient(models.TransientModel):
         if self.user_id:
             self.partner_id = self.user_id.partner_id
 
-    @api.multi
     def apply(self):
         self.ensure_one()
         plan_id = self.plan_id
@@ -173,7 +174,7 @@ class SaasPortalCreateClient(models.TransientModel):
             user_id=self.user_id.id,
             notify_user=self.notify_user,
             support_team_id=self.support_team_id.id,
-            async=self.async_creation,
+            async_mode=self.async_creation,
             trial=self.trial)
         if self.async_creation:
             return
@@ -191,6 +192,7 @@ class SaasPortalCreateClient(models.TransientModel):
 
 class SaasPortalDuplicateClient(models.TransientModel):
     _name = 'saas_portal.duplicate_client'
+    _description = 'SaaS Portal Duplicate Client'
 
     def _default_client_id(self):
         return self._context.get('active_id')
@@ -227,9 +229,8 @@ class SaasPortalDuplicateClient(models.TransientModel):
         'saas_portal.server',
         string="Target server",
         default=_default_target_server
-    )
+        )
 
-    @api.multi
     def apply(self):
         self.ensure_one()
         res = self.client_id.duplicate_database(
@@ -249,6 +250,7 @@ class SaasPortalDuplicateClient(models.TransientModel):
 
 class SaasPortalRenameDatabase(models.TransientModel):
     _name = 'saas_portal.rename_database'
+    _description = 'SaaS Portal Rename Database'
 
     def _default_client_id(self):
         return self._context.get('active_id')
@@ -258,7 +260,6 @@ class SaasPortalRenameDatabase(models.TransientModel):
         'saas_portal.client', string='Base Client',
         readonly=True, default=_default_client_id)
 
-    @api.multi
     def apply(self):
         self.ensure_one()
         self.client_id.rename_database(new_dbname=self.name)
@@ -269,6 +270,7 @@ class SaasPortalRenameDatabase(models.TransientModel):
 
 class SaasPortalEditDatabase(models.TransientModel):
     _name = 'saas_portal.edit_database'
+    _description = 'SaaS Portal Edit Database'
 
     name = fields.Char(readonly=True)
     active_id = fields.Char()

@@ -13,7 +13,6 @@ class SaasPortalClient(models.Model):
         'saas_portal.subscription_log', 'client_id', 'Subscription log',
         readonly=True)
 
-    @api.multi
     @api.depends('create_date', 'subscription_log_ids', 'trial')
     def _compute_expiration(self):
         for record in self:
@@ -26,7 +25,6 @@ class SaasPortalClient(models.Model):
                 expiration += timedelta(hours=record.plan_id.expiration)
             record.expiration_datetime = fields.Datetime.to_string(expiration)
 
-    @api.multi
     def change_subscription(self, expiration, reason):
         log_obj = self.env['saas_portal.subscription_log']
         for record in self:
@@ -41,7 +39,6 @@ class SaasPortalClient(models.Model):
                     'reason': reason,
                 })
 
-    @api.multi
     def get_subscription_log_timedelta(self):
         self.ensure_one()
         td = timedelta()
@@ -50,7 +47,6 @@ class SaasPortalClient(models.Model):
                    fields.Datetime.from_string(log.expiration))
         return td
 
-    @api.multi
     def send_expiration_info(self):
         for record in self:
             if (record.state not in ('draft', 'deleted') and

@@ -7,7 +7,6 @@ class SaasPortalConfigWizard(models.TransientModel):
     saas_route53_aws_accessid = fields.Char('AWS Access ID')
     saas_route53_aws_accesskey = fields.Char('AWS Secret Key')
 
-    @api.multi
     def set_values(self):
         super(SaasPortalConfigWizard, self).set_values()
         ICPSudo = self.env['ir.config_parameter'].sudo()
