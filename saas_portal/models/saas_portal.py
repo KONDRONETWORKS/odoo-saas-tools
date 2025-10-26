@@ -8,7 +8,7 @@ from odoo import api, exceptions, fields, models
 # scan_languages n'existe plus dans Odoo 18.0
 from odoo.tools.translate import _
 # _tz_get n'existe plus dans Odoo 18.0 - utiliser une alternative
-def _tz_get():
+def _tz_get(env):
     """Get timezone list for Odoo 18.0 compatibility"""
     import pytz
     return [(tz, tz) for tz in pytz.all_timezones]
@@ -203,7 +203,7 @@ class SaasPortalPlan(models.Model):
         return self.env.user.tz
 
     lang = fields.Selection([('en_US', 'English'), ('fr_FR', 'French'), ('es_ES', 'Spanish'), ('de_DE', 'German')], 'Language', default=_get_default_lang)
-    tz = fields.Selection(_tz_get, 'TimeZone', default=_default_tz)
+    tz = fields.Selection(selection=_tz_get, string='TimeZone', default=_default_tz)
     sequence = fields.Integer('Sequence')
     state = fields.Selection(
         [('draft', 'Draft'), ('confirmed', 'Confirmed')],
@@ -402,6 +402,13 @@ class SaasPortalPlan(models.Model):
 
     def create_template(self, addons=None):
         self.ensure_one()
+        p_server = self.env['saas_portal.server']
+        
+        # Obtenir le serveur (aléatoire si server_id n'est pas défini)
+        server = self.server_id
+        if not server:
+            server = p_server.get_saas_server()
+        
         state = {
             'd': self.template_id.name,
             'demo': self.demo and 1 or 0,
@@ -411,9 +418,9 @@ class SaasPortalPlan(models.Model):
             'is_template_db': 1,
         }
         client_id = self.template_id.client_id
-        self.template_id.server_id = self.server_id
+        self.template_id.server_id = server
 
-        req, req_kwargs = self.server_id._request_server(
+        req, req_kwargs = server._request_server(
             path='/saas_server/new_database', state=state, client_id=client_id)
         res = requests.Session().send(req, **req_kwargs)
 

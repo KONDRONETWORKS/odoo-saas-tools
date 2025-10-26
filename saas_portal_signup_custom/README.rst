@@ -13,11 +13,11 @@ Contributors
 
 Sponsors
 --------
-* `IT-Projects LLC <https://it-projects.info>`__
+* `IT-Projects LLC <https://www.itexperts4africa.com>`__
 
 Maintainers
 -----------
-* `IT-Projects LLC <https://it-projects.info>`__
+* `IT-Projects LLC <https://www.itexperts4africa.com>`__
 
 Further information
 ===================

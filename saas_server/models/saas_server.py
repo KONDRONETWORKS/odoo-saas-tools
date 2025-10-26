@@ -41,7 +41,9 @@ class SaasServerClient(models.Model):
         ('client_id_uniq',
          'unique (client_id)',
          'client_id should be unique!'),
-    ]    def create_database(self, template_db=None, demo=False, lang='en_US'):
+    ]
+
+    def create_database(self, template_db=None, demo=False, lang='en_US'):
         self.ensure_one()
         new_db = self.name
         res = {}
@@ -54,10 +56,14 @@ class SaasServerClient(models.Model):
             db.exp_create_database(
                 new_db, demo, lang, user_password=password)
         self.state = 'open'
-        return res    def registry(self, new=False, **kwargs):
+        return res
+
+    def registry(self, new=False, **kwargs):
         self.ensure_one()
         m = odoo.modules.registry.Registry
-        return m.new(self.name, **kwargs)    def install_addons(self, addons, is_template_db):
+        return m.new(self.name, **kwargs)
+
+    def install_addons(self, addons, is_template_db):
         self.ensure_one()
         addons = set(addons)
         addons.add('mail_delete_sent_by_footer')  # debug
@@ -70,7 +76,9 @@ class SaasServerClient(models.Model):
             return
         with self.registry().cursor() as cr:
             env = api.Environment(cr, SUPERUSER_ID, self._context)
-            self._install_addons(env, addons)    def disable_mail_servers(self):
+            self._install_addons(env, addons)
+
+    def disable_mail_servers(self):
         '''
         disables mailserver on db to stop it from sending and receiving mails
         '''
@@ -83,12 +91,18 @@ class SaasServerClient(models.Model):
         # let's disable outgoing mailservers too
         outgoing_mail_servers = self.env['ir.mail_server'].search([])
         if len(outgoing_mail_servers):
-            outgoing_mail_servers.write({'active': False})    def _install_addons(self, client_env, addons):
+            outgoing_mail_servers.write({'active': False})
+
+    def _install_addons(self, client_env, addons):
         for addon in client_env['ir.module.module'].search([
                 ('name', 'in', list(addons))]):
-            addon.button_install()    def update_registry(self):
+            addon.button_install()
+
+    def update_registry(self):
         self.ensure_one()
-        self.registry(new=True, update_module=True)    def prepare_database(self, **kwargs):
+        self.registry(new=True, update_module=True)
+
+    def prepare_database(self, **kwargs):
         self.ensure_one()
         with self.registry().cursor() as cr:
             env = api.Environment(cr, SUPERUSER_ID, self._context)
@@ -98,7 +112,9 @@ class SaasServerClient(models.Model):
     def _config_parameters_to_copy(self):
         return ['saas_client.ab_location',
                 'saas_client.ab_register',
-                'saas_client.saas_dashboard']    def _prepare_database(self,
+                'saas_client.saas_dashboard']
+
+    def _prepare_database(self,
                           client_env,
                           owner_user=None,
                           is_template_db=False,
@@ -197,9 +213,13 @@ class SaasServerClient(models.Model):
 
     @api.model
     def update_all(self):
-        self.sudo().search([]).update()    def update_one(self):
+        self.sudo().search([]).update()
+
+    def update_one(self):
         for server in self:
-            server.sudo().update()    def update(self):
+            server.sudo().update()
+
+    def update(self):
         for record in self:
             try:
                 registry = record.registry()
@@ -211,7 +231,9 @@ class SaasServerClient(models.Model):
             except psycopg2.OperationalError:
                 if record.state != 'draft':
                     record.state = 'deleted'
-                return    def _get_data(self, client_env, check_client_id):
+                return
+
+    def _get_data(self, client_env, check_client_id):
         self.ensure_one()
         client_id = client_env['ir.config_parameter'].sudo(
         ).get_param('database.uuid')
@@ -248,11 +270,15 @@ class SaasServerClient(models.Model):
             data.update({'state': 'open'})
         if suspended == '1' and self.state in ('open', 'deleted'):
             data.update({'state': 'pending'})
-        return data    def upgrade_database(self, **kwargs):
+        return data
+
+    def upgrade_database(self, **kwargs):
         for record in self.filtered(lambda record: record.state != "deleted"):
             with record.registry().cursor() as cr:
                 env = api.Environment(cr, SUPERUSER_ID, record._context)
-                return record._upgrade_database(env, **kwargs)    def _upgrade_database(self, client_env, data):
+                return record._upgrade_database(env, **kwargs)
+
+    def _upgrade_database(self, client_env, data):
         self.ensure_one()
         # "data" comes from saas_portal/models/wizard.py::upgrade_database
         post = data
@@ -372,10 +398,14 @@ class SaasServerClient(models.Model):
                            ('expiration_datetime', '<=', now),
                            ('trial', '=', True)])
         _logger.info('delete_expired_databases %s', res)
-        res.delete_database()    def delete_database(self):
+        res.delete_database()
+
+    def delete_database(self):
         for record in self:
             db.exp_drop(self.name)
-        self.write({'state': 'deleted'})    def rename_database(self, new_dbname):
+        self.write({'state': 'deleted'})
+
+    def rename_database(self, new_dbname):
         for record in self:
             db.exp_rename(self.name, new_dbname)
         self.name = new_dbname
@@ -388,7 +418,9 @@ class SaasServerClient(models.Model):
         raise exceptions.Warning(
             _('''Transport agent has not been configured. You need either
               install one of saas_server_backup_* or remove
-              saas_portal_backup'''))    def backup_database(self):
+              saas_portal_backup'''))
+
+    def backup_database(self):
         res = []
         for database_obj in self:
             data = {}

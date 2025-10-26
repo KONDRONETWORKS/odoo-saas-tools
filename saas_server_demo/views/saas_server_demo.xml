@@ -3,7 +3,7 @@
     <record id="action_saas_server_repositories" model="ir.actions.act_window">
             <field name="name">Repositories</field>
             <field name="res_model">saas_server.repository</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="help" type="html">
         <p class="oe_view_nocontent_create">
         Click to add a new repository with modules you want to demonstrate to.

@@ -24,7 +24,7 @@
     'version': '18.0.1.0.1',
     'author': 'OpenJAF, Nicolas JEUDY',
     'license': 'LGPL-3',
-    "support": "apps@it-projects.info",
+    "support": "apps@itexperts4africa.com",
     'website': 'http://www.openjaf.com',
     'category': 'Base',
     'depends': ['base'],

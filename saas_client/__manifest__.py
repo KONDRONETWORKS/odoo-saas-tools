@@ -4,16 +4,14 @@
     'author': 'Ivan Yelizariev, Nicolas JEUDY',
     'license': 'LGPL-3',
     'category': 'SaaS',
-    "support": "apps@it-projects.info",
-    'website': 'https://it-projects.info',
+    "support": "apps@itexperts4africa.com",
+    'website': 'https://www.itexperts4africa.com',
     'depends': [
         'base',
         'auth_oauth',
         'auth_oauth_ip',
         'auth_oauth_check_client_id',
         'mail',
-        'web_settings_dashboard',
-        'access_limit_records_number',
     ],
     'data': [
         'views/saas_client.xml',
@@ -26,7 +24,8 @@
         'data/ir_actions.xml',
     ],
     'installable': True,
-    'qweb': [
-        'static/src/xml/saas_dashboard.xml',
-    ],
+    # 'qweb' désactivé - web_settings_dashboard n'existe plus dans Odoo 18
+    # 'qweb': [
+    #     'static/src/xml/saas_dashboard.xml',
+    # ],
 }

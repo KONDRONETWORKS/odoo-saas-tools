@@ -6,8 +6,8 @@
     "version": "18.0.1.0.0",
 
     "author": "IT-Projects LLC, Ildar Nasyrov, Nicolas JEUDY",
-    "support": "apps@it-projects.info",
-    "website": "https://it-projects.info",
+    "support": "apps@itexperts4africa.com",
+    "website": "https://www.itexperts4africa.com",
     "license": "LGPL-3",
     # "price": 9.00,
     # "currency": "EUR",

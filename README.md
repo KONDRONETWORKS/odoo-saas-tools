@@ -1,7 +1,7 @@
 # 🏢 Odoo SaaS Tools - Plateforme SaaS Complète
 
 [![Build Status](http://runbot.it-projects.info/runbot/badge/flat/odoo-saas-tools/18.0.svg)](http://runbot.it-projects.info/demo/odoo-saas-tools/18.0)
-[![Version](https://img.shields.io/badge/version-18.0.1.0.0-blue.svg)](https://github.com/KONDRONETWORKS/odoo-saas-tools)
+[![Version](https://img.shields.io/badge/version-18.0.1.0.0-blue.svg)](https://github.com/itexperts4africa/odoo-saas-tools)
 [![License](https://img.shields.io/badge/license-LGPL--3-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://python.org)
 
@@ -236,7 +236,7 @@ Le système est composé de **3 composants principaux** :
 
 ```bash
 # Cloner le repository
-git clone https://github.com/KONDRONETWORKS/odoo-saas-tools.git
+git clone https://github.com/itexperts4africa/odoo-saas-tools.git
 cd odoo-saas-tools
 
 # Installer les dépendances
@@ -1116,13 +1116,13 @@ python3 saas.py --monitor-performance
 
 ### 📞 Contact
 
-- **Email** : apps@it-projects.info
-- **GitHub Issues** : [Créer une issue](https://github.com/KONDRONETWORKS/odoo-saas-tools/issues)
+- **Email** : apps@itexperts4africa.com
+- **GitHub Issues** : [Créer une issue](https://github.com/itexperts4africa/odoo-saas-tools/issues)
 - **Documentation** : [Lire la documentation](https://odoo-saas-tools.readthedocs.io/)
 
 ### 🐛 Signaler un Bug
 
-1. Vérifiez les [issues existantes](https://github.com/KONDRONETWORKS/odoo-saas-tools/issues)
+1. Vérifiez les [issues existantes](https://github.com/itexperts4africa/odoo-saas-tools/issues)
 2. Créez une nouvelle issue avec :
    - Description détaillée du problème
    - Étapes pour reproduire

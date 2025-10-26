@@ -127,7 +127,7 @@
         <field name="name">Clients</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">saas_portal.client</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_saas_portal_client_filter" />
         <field name="context">{'search_default_current': 1}</field>
     </record>
@@ -198,7 +198,7 @@
         <field name="name">Servers</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">saas_portal.server</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <menuitem action="saas_portal.action_server" id="menu_server" parent="saas_portal.menu_saas"
         sequence="20" />
@@ -286,7 +286,7 @@
         <field name="name">Plans</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">saas_portal.plan</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <menuitem action="action_plans" id="menu_plans" parent="saas_portal.menu_saas" sequence="30" />
     <record id="action_database_form" model="ir.ui.view">
@@ -406,7 +406,7 @@
     <record id="saas_portal_support_teams" model="ir.actions.act_window">
         <field name="name">Support Teams</field>
         <field name="res_model">saas_portal.support_team</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <menuitem action="saas_portal_support_teams" id="menu_saas_portal_support_teams"
         parent="menu_saas" sequence="100" />
@@ -452,7 +452,7 @@
         <field name="name">Templates</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">saas_portal.database</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'search_default_template': 1}</field>
     </record>
     <menuitem action="action_templates" id="menu_templates" parent="menu_saas_tech" sequence="40"
@@ -502,7 +502,7 @@
     <record id="oauth_applications" model="ir.actions.act_window">
         <field name="name">OAuth Applications</field>
         <field name="res_model">oauth.application</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <menuitem action="oauth_applications" id="menu_oauth_applications" parent="menu_saas_tech"
         sequence="99" />

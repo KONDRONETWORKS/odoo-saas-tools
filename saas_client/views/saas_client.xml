@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="assets_backend" name="assets" inherit_id="web.assets_backend">
+    <!-- Assets désactivés pour Odoo 18 - les scripts JS ne sont plus compatibles -->
+    <!-- 
+    <template id="assets_backend" name="assets">
         <xpath expr="." position="inside">
         <script type="text/javascript" src="/saas_client/static/src/js/saas_client.js" />
         <script type="text/javascript" src="/saas_client/static/src/js/saas_dashboard.js" />
         </xpath>
         </template>
+    -->
 </odoo>

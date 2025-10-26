@@ -1,27 +1,57 @@
-===================
- SaaS Sysadmin AWS
-===================
+SaaS Sysadmin AWS
+=================
 
-This is base module for all modules that use Amazon AWS.
-With it you set your credentials (Access Key ID and Secret Access Key)
-so that other modules could take them and use with AWS SDK that is boto python library
-to control services such as Route53 or EC2 for example.
+Module de base pour l'intégration Amazon AWS.
 
-Contributors
-============
-* Ildar Nasyrov <Nasyrov@it-projects.info>
-* Salton Massally <smassally@idtlabs.sl> (iDT Labs)
-* Nicolas JEUDY <https://github.com/njeudy>
+**Description:**
+Ce module est la fondation pour tous les modules qui utilisent Amazon AWS. Il permet de configurer les credentials AWS (Access Key ID et Secret Access Key) pour que les autres modules puissent les utiliser avec la bibliothèque boto pour contrôler des services comme Route53, EC2, S3, etc.
 
-Sponsors
-========
-* `IT-Projects LLC <https://it-projects.info>`__
+**Dépendances:**
+- saas_sysadmin
 
-Further information
-===================
+**Fonctionnalités:**
+- Stockage sécurisé des credentials AWS
+- Configuration centralisée des paramètres AWS
+- API commune pour tous les modules AWS
 
-Usage instructions: `<doc/index.rst>`__
+**Modules utilisant saas_sysadmin_aws:**
+- saas_sysadmin_aws_route53 : DNS avec Route53
+- saas_server_backup_s3 : Sauvegarde S3
+- saas_sysadmin_route53 : DNS générique
 
-Changelog: `<doc/changelog.rst>`__
+**Configuration:**
+1. Aller dans Système > SaaS > Configuration AWS
+2. Entrer AWS Access Key ID
+3. Entrer AWS Secret Access Key
+4. Sauvegarder
 
-Tested on Odoo 9.0 aa759451cf28b68dbdb1e9638dc68d09c82a3e5b
+**Services AWS utilisés:**
+- EC2 : Instances serveurs
+- S3 : Stockage sauvegardes
+- Route53 : Gestion DNS
+- AutoScaling : Scaling automatique
+
+**Sécurité:**
+- Credentials chiffrés en base
+- Pas d'exposition dans les logs
+- Rotation des clés supportée
+
+**Installation boto:**
+```bash
+pip install boto
+```
+
+**Crédits:**
+- Ildar Nasyrov <Nasyrov@it-projects.info>
+- Salton Massally <smassally@idtlabs.sl> (iDT Labs)
+- Nicolas JEUDY <https://github.com/njeudy>
+
+**Sponsor:**
+- IT-Projects LLC / ITExperts4Africa <https://www.itexperts4africa.com>
+
+**Documentation:**
+- Usage: `<doc/index.rst>`__
+- Changelog: `<doc/changelog.rst>`__
+
+**Compatibilité:**
+- Testé sur Odoo 9.0 à 18.0

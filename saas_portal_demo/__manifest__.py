@@ -6,7 +6,7 @@
     "version": "18.0.1.0.0",
 
     "author": "IT-Projects LLC, Cesar Lage, Ivan Yelizariev, Nicolas JEUDY",
-    "website": "https://it-projects.info",
+    "website": "https://www.itexperts4africa.com",
     "license": "GPL-3",
     # "price": 9.00,
     # "currency": "EUR",

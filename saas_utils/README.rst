@@ -1,10 +1,24 @@
+SaaS Utils
 ==========
-saas_utils
-==========
 
-Installation
-============
+Module d'utilitaires communs pour le développement.
 
-* `Install <https://odoo-development.readthedocs.io/en/latest/odoo/usage/install-module.html>`__ this module in a usual way
+**Description:**
+Ce module contient des fonctions utilitaires utilisées par l'équipe de développement pour faciliter les opérations courantes.
 
-This module add some utils to development team
+**Dépendances:**
+- base
+
+**Fonctionnalités:**
+- Fonctions utilitaires réutilisables
+- Helpers pour développement
+- Outils de manipulation de données
+
+**Installation:**
+- Via interface Apps standard Odoo
+- `Install <https://odoo-development.readthedocs.io/en/latest/odoo/usage/install-module.html>`__
+
+**Utilisé par:**
+- Modules de développement
+- Scripts d'administration
+- Outils de maintenance

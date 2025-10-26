@@ -7,7 +7,7 @@ name = "odoo-saas-tools"
 version = "18.0.1.0.0"
 description = "System to sale and manage odoo databases"
 authors = [
-    {name = "IT-Projects LLC", email = "apps@it-projects.info"}
+    {name = "IT-Projects LLC", email = "apps@itexperts4africa.com"}
 ]
 license = {text = "LGPL-3"}
 readme = "README.md"

@@ -4,8 +4,8 @@
     'author': 'Ivan Yelizariev, Nicolas JEUDY',
     'license': 'LGPL-3',
     'category': 'SaaS',
-    "support": "apps@it-projects.info",
-    'website': 'https://it-projects.info',
+    "support": "apps@itexperts4africa.com",
+    'website': 'https://www.itexperts4africa.com',
     'depends': ['website', 'saas_portal'],
     'data': [
         'views/website.xml',

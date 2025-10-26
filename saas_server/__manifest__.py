@@ -4,8 +4,8 @@
     'author': 'Ivan Yelizariev, Nicolas JEUDY',
     'license': 'LGPL-3',
     'category': 'SaaS',
-    "support": "apps@it-projects.info",
-    'website': 'https://it-projects.info',
+    "support": "apps@itexperts4africa.com",
+    'website': 'https://www.itexperts4africa.com',
     'depends': [
         'base',
         'auth_oauth',
@@ -18,7 +18,6 @@
         'views/res_config_settings_views.xml',
         'data/auth_oauth_data.xml',
         'data/ir_config_parameter.xml',
-        'data/pre_install.yml',
     ],
     'installable': True,
 }

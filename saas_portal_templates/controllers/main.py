@@ -1,6 +1,5 @@
 from odoo import http
 from odoo.http import request
-from odoo.addons.web.controllers.main import login_and_redirect
 from odoo.addons.saas_portal.controllers.main import SaasPortal as saas_portal_controller
 
 
@@ -17,7 +16,10 @@ class SaasPortalTemplates(saas_portal_controller):
     @http.route(['/saas_portal_templates/new_database'], type='http', auth='public', website=True)
     def new_database(self, **post):
         if not request.session.uid:
-            return login_and_redirect()
+            # Redirection vers la page de login si l'utilisateur n'est pas connecté
+            redirect = str('/saas_portal_templates/new_database?' + request.httprequest.query_string.decode('utf-8'))
+            query = {'redirect': redirect}
+            return http.local_redirect(path='/web/login', query=query)
         plan_id = int(post.get('plan_id'))
 
         res = self.create_new_database(plan_id)

@@ -40,7 +40,7 @@ Contributors
 
 Sponsors
 --------
-* `IT-Projects LLC <https://it-projects.info>`_
+* `IT-Projects LLC <https://www.itexperts4africa.com>`_
 
 Further information
 ===================

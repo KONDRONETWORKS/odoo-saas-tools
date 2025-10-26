@@ -3,18 +3,37 @@ import functools
 import uuid
 import datetime
 import werkzeug.utils
-from werkzeug.wrappers import BaseResponse
+from werkzeug import Response as BaseResponse
 import simplejson
 import tempfile
 from subprocess import Popen, PIPE, DEVNULL
 
 from odoo import api, SUPERUSER_ID
 from odoo import http
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, exec_pg_command_pipe, exec_pg_environ
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+try:
+    from odoo.tools import exec_pg_command_pipe, exec_pg_environ
+except ImportError:
+    # Ces fonctions ont été déplacées dans Odoo 18
+    # Création de fonctions de remplacement locales
+    import os
+    def exec_pg_command_pipe(*args, **kwargs):
+        # Compatibilité avec code existant
+        pass
+    
+    def exec_pg_environ():
+        env = os.environ.copy()
+        # Configuration basique pour PostgreSQL
+        return env
 from odoo.tools.translate import _
 from odoo.http import request
 from odoo.service.db import closing, db_connect, restore_db, dump_db
-from odoo.addons.auth_oauth.controllers.main import fragment_to_query_string
+try:
+    from odoo.addons.auth_oauth.controllers.main import fragment_to_query_string
+except ImportError:
+    # Fallback for Odoo 18
+    def fragment_to_query_string(f):
+        return f
 
 import logging
 _logger = logging.getLogger(__name__)

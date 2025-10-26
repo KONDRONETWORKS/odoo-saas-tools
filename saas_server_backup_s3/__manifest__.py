@@ -4,7 +4,7 @@
     'author': 'Salton Massally, Nicolas JEUDY',
     'license': 'LGPL-3',
     'category': 'SaaS',
-    "support": "apps@it-projects.info",
+    "support": "apps@itexperts4africa.com",
     'website': 'http://idtlabs.sl',
     'external_dependencies': {
         'python': [

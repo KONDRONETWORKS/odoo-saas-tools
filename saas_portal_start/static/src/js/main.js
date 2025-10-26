@@ -112,7 +112,7 @@ $(document).ready(function() {
                         });
                         window.dispatchEvent(ce);
 
-                        var lang = 'en_US';
+                        var lang = 'fr_FR';
                         var hosting = $input.attr('data-hosting') || url_params.hosting || '';
                         var offset = -(new Date().getTimezoneOffset());
                         // _.str.sprintf()'s zero front padding is buggy with signed decimals, so doing it manually

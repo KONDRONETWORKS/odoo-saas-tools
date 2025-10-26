@@ -105,4 +105,4 @@ pytest --cov=.
 En cas de problème :
 1. Consultez les logs d'erreur
 2. Vérifiez la compatibilité des modules
-3. Contactez le support : apps@it-projects.info
+3. Contactez le support : apps@itexperts4africa.com

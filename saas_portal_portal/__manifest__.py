@@ -4,9 +4,9 @@
     'author': "IT-Projects LLC, Ildar Nasyrov, Nicolas JEUDY",
     'license': 'LGPL-3',
     'category': 'SaaS',
-    "support": "apps@it-projects.info",
-    'website': 'https://it-projects.info',
-    'depends': ['portal', 'saas_portal'],
+    "support": "apps@itexperts4africa.com",
+    'website': 'https://www.itexperts4africa.com',
+    'depends': ['portal', 'saas_portal', 'website'],
     'data': [
         'views/website_instance_templates.xml',
     ],

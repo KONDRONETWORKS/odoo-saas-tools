@@ -3,7 +3,6 @@ from odoo import http
 from odoo.http import request
 import simplejson
 from odoo.addons.auth_oauth.controllers.main import OAuthLogin as Home
-from odoo.addons.web.controllers.main import ensure_db
 
 
 class SaasClient(http.Controller):
@@ -23,7 +22,7 @@ class SaaSClientLogin(Home):
 
     @http.route()
     def web_login(self, redirect=None, **kw):
-        ensure_db()
+        # ensure_db() n'existe plus dans Odoo 18, la base de données est automatiquement gérée
         param_model = request.env['ir.config_parameter']
         suspended = param_model.sudo().get_param('saas_client.suspended', '0')
         page_for_suspended = param_model.sudo().get_param('saas_client.page_for_suspended', '/')

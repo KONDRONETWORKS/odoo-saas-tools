@@ -1,15 +1,17 @@
-Addon allows to users to login in odoo databases via master database
+OAuth Provider
+===============
 
-INSTALLATION
-============
+Module de fournisseur OAuth2 pour l'authentification inter-bases.
 
-Dependencies
-------------
+**Description:**
+Ce module permet aux utilisateurs de se connecter à plusieurs bases Odoo via une base maître. Il implémente le protocole OAuth2 pour l'authentification sécurisée entre Portal (maître) et Server (clients).
 
-* https://github.com/idan/oauthlib
+**Dépendances:**
+- base
+- auth_oauth
+- web
 
-Basic flow
-==========
+**Installation:**
 
 Terms
 -----

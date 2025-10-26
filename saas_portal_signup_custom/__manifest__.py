@@ -8,8 +8,8 @@
     "application": False,
 
     "author": "IT-Projects LLC, Ildar Nasyrov",
-    "support": "apps@it-projects.info",
-    "website": "https://it-projects.info",
+    "support": "apps@itexperts4africa.com",
+    "website": "https://www.itexperts4africa.com",
     "license": "GPL-3",
     # "price": 9.00,
     # "currency": "EUR",

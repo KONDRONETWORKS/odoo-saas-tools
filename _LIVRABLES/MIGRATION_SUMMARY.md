@@ -123,7 +123,7 @@ docker build -t odoo-saas-tools:18.0 .
 En cas de problème :
 1. Consultez les logs d'erreur
 2. Vérifiez la compatibilité avec `check_compatibility.py`
-3. Contactez le support : apps@it-projects.info
+3. Contactez le support : apps@itexperts4africa.com
 
 ---
 
