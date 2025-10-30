@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="signup_fields" inherit_id="auth_signup.fields">
-        <xpath expr="//form[@id='signup_form']" position="inside">
+        <!-- Odoo 18: le formulaire n'a plus d'id signup_form; insérer après le champ name -->
+        <xpath expr="//div[contains(@class,'field-name')]" position="after">
         <t t-if="reset == false">
         <div class="form-group field-role">
         <label for="plan_id" class="control-label">Plan</label>

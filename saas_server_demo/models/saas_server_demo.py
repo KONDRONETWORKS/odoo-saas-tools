@@ -11,9 +11,10 @@ _logger = logging.getLogger(__name__)
 
 class SaasServerRepository(models.Model):
     _name = 'saas_server.repository'
+    _description = 'SaaS Server Repository'
 
     path = fields.Selection('_get_repositories',
-                            string='Repository', required='True')
+                            string='Repository', required=True)
 
     _sql_constraints = [('path_unique', 'unique(path)',
                          'Repository already exists.')]

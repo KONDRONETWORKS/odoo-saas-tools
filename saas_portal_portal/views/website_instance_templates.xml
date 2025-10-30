@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="assets_frontend" inherit_id="website.assets_frontend" name="saas portal portal assets">
+    <template id="assets_frontend_v18" inherit_id="web.assets_frontend" name="saas portal portal assets">
         <xpath expr="." position="inside">
         <script type="text/javascript" src="/saas_portal_portal/static/src/js/main.js" />
         </xpath>

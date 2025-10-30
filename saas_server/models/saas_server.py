@@ -23,6 +23,7 @@ def random_password(len=32):
 class SaasServerClient(models.Model):
     _name = 'saas_server.client'
     _inherit = ['mail.thread', 'saas_base.client']
+    _description = 'SaaS Server Client'
 
     name = fields.Char('Database name', readonly=True, required=True)
     client_id = fields.Char('Database UUID', readonly=True, index=True)

@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError
 
 
 class SaasPortalCategory(models.Model):
@@ -51,7 +51,7 @@ class SaasPortalCategory(models.Model):
             cr.execute('select distinct parent_id from saas_portal_category where id IN %s', (tuple(ids), ))
             ids = [_f for _f in [x[0] for x in cr.fetchall()] if _f]
             if not level:
-                raise Warning('Error! You cannot create recursive Categories')
+                raise UserError('Error! You cannot create recursive Categories')
             level -= 1
         return True
 
