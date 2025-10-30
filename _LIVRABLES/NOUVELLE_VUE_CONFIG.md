@@ -196,3 +196,4 @@ HTTP: 200
 **Compatibilité:** Odoo 18  
 **Date:** 26 Octobre 2025
 
+

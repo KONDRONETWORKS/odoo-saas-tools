@@ -6,6 +6,118 @@
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://python.org)
 
 
+╔═══════════════════════════════════════════════════════════════╗
+║     🚀 GUIDE D'INSTALLATION PAR ÉTAPES                        ║
+╔═══════════════════════════════════════════════════════════════╗
+
+╔═══════════════════════════════════════════════════════════════╗
+║     ÉTAPE 1: FONDATION (AVANT TOUT)                         ║
+╔═══════════════════════════════════════════════════════════════╗
+
+📋 Ordre d'installation obligatoire:
+
+1. auth_oauth             → OAuth2 pour authentification
+2. auth_oauth_ip          → Sécurité IP
+3. auth_oauth_check_client_id → Validation client
+4. oauth_provider          → Provider OAuth
+5. saas_base              ⭐ BASE CRITIQUE
+
+💡 Après cette étape:
+   → Infrastructure OAuth installée
+   → Classes de base disponibles
+   → Prêt pour la suite
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+╔═══════════════════════════════════════════════════════════════╗
+║     ÉTAPE 2: PORTAL & SERVEUR (CORE SAAS)                    ║
+╔═══════════════════════════════════════════════════════════════╗
+
+📋 Installation des modules Core:
+
+6. saas_portal            ⭐ PORTAL GESTION
+7. saas_server            ⭐ SERVEUR TECHNIQUE
+8. saas_client            ⭐ CONFIGURATION CLIENT
+
+💡 Après cette étape:
+   → Interface admin disponible (/settings)
+   → Serveurs configurés
+   → Capacité de créer des instances
+   → Système SaaS opérationnel de base
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+╔═══════════════════════════════════════════════════════════════╗
+║     ÉTAPE 3: INTERFACE UTILISATEUR (RECOMMANDÉS)           ║
+╔═══════════════════════════════════════════════════════════════╗
+
+📋 Modules UI/UX utilisateur:
+
+9. saas_portal_portal     → Espace client (/my/instances)
+10. saas_portal_templates → Sélection templates
+11. saas_portal_signup    → Inscription avec plan
+12. saas_portal_start     → Page d'accueil
+
+💡 Après cette étape:
+   → Espace client fonctionnel
+   → Sélection publique de templates
+   → Inscription avec plan
+   → Interface complète
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+╔═══════════════════════════════════════════════════════════════╗
+║     ÉTAPE 4: VENTE & COMMERCE (OPTIONNELS)                  ║
+╔═══════════════════════════════════════════════════════════════╗
+
+📋 Modules e-commerce et vente:
+
+13. saas_portal_sale           → Vente d'instances
+14. saas_portal_sale_online    → E-commerce SaaS
+15. saas_portal_sale_subscription → Abonnements
+16. saas_portal_subscription   → Souscriptions
+
+💡 Installation conditionnelle:
+   → Uniquement si vous vendez des plans SaaS
+   → Nécessite module 'sale'
+   → Permet facturation automatique
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+╔═══════════════════════════════════════════════════════════════╗
+║     ÉTAPE 5: INFRASTRUCTURE (OPTIONNELS AVANCÉS)            ║
+╔═══════════════════════════════════════════════════════════════╗
+
+📋 Modules infrastructure:
+
+GROUPE BACKUP:
+17. saas_server_backup_ftp      → Backup FTP
+18. saas_server_backup_s3       → Backup S3
+19. saas_server_backup_rotate   → Rotation backups
+20. saas_server_backup_rotate_s3 → Rotation S3
+
+GROUPE SYSTÈME:
+21. saas_sysadmin               → Outils admin
+22. saas_sysadmin_aws           → AWS
+23. saas_sysadmin_aws_route53   → Route53
+24. saas_sysadmin_route53       → DNS
+25. saas_sysadmin_mailgun       → Email
+
+GROUPE AMÉLIORATIONS:
+26. saas_portal_async           → Async
+27. saas_server_autodelete      → Auto-nettoyage
+28. saas_portal_demo            → Démo
+29. saas_portal_signup_custom   → Inscription custom
+30. saas_portal_tagging         → Tags
+31. saas_server_demo            → Demo serveur
+32. saas_utils                  → Utilitaires
+
+💡 Installation:
+   → Selon vos besoins spécifiques
+   → AWS: si infrastructure Amazon
+   → Backup: si sauvegardes automatiques
+   → DNS: si gestion automatique domaines
+
 ## COMMANDE  LINE RUN 
 ```bash
 python3.11 saas.py --portal-create --server-create --plan-create --run --odoo-addons-path=../odoo/addons,. --odoo-without-demo

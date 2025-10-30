@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="signup_fields" inherit_id="auth_signup.fields">
-        <xpath expr="//div[@class='form-group field-name']" position="after">
+        <xpath expr="//form[@id='signup_form']" position="inside">
         <t t-if="reset == false">
         <div class="form-group field-role">
         <label for="plan_id" class="control-label">Plan</label>

@@ -1,26 +1,19 @@
 {
-    "name": """Saas Sysadmin Mailgun""",
-    "summary": """This module configurates new databases for clients such as their users can send and receive mails""",
-    "category": "SaaS",
-    "images": [],
-    "version": "18.0.1.0.0",
-
-    "author": "IT-Projects LLC, Ildar Nasyrov, Nicolas JEUDY",
-    "support": "apps@itexperts4africa.com",
-    "website": "https://www.itexperts4africa.com",
-    "license": "LGPL-3",
-    # "price": 9.00,
-    # "currency": "EUR",
-
-    "depends": [
-        "saas_sysadmin_aws_route53",
-    ],
-    "external_dependencies": {"python": ['boto'], "bin": []},
-    "data": [
-        "views/res_config.xml",
-    ],
-    "demo": [
-    ],
-    "installable": True,
-    "auto_install": False,
+    'name': 'Saas Sysadmin Mailgun',
+    'summary': 'This module configurates new databases for clients such as their users can send and receive mails',
+    'category': 'SaaS',
+    'images': [],
+    'version': '18.0.1.0.0',
+    'author': 'IT-Projects LLC, Cheick Oumar Tidiane Traore',
+    'support': 'apps@itexperts4africa.com',
+    'website': 'https://www.itexperts4africa.com',
+    'license': 'LGPL-3',
+    'depends': ['saas_sysadmin_aws_route53'],
+    'external_dependencies': {'python': ['boto'], 'bin': []},
+    'data': ['views/res_config.xml'],
+    'demo': [],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+    'sequence': 10,
 }

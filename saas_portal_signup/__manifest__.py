@@ -1,16 +1,15 @@
 {
     'name': 'SaaS Portal Sign Up',
     'version': '18.0.1.0.0',
-    'author': 'Cesar Lage, Nicolas JEUDY',
+    'author': 'Cheick Oumar Tidiane Traore',
     'license': 'LGPL-3',
     'category': 'SaaS',
-    "support": "apps@itexperts4africa.com",
+    'support': 'apps@itexperts4africa.com',
     'website': 'https://www.itexperts4africa.com',
     'depends': ['auth_signup', 'saas_portal'],
     'data': ['views/signup.xml'],
     'installable': True,
-
-    'description': '''
-Module to book a new client in SaaS Portal from sign up
-    ''',
+    'description': 'Module to book a new client in SaaS Portal from sign up',
+    'application': False,
+    'sequence': 10,
 }

@@ -44,7 +44,7 @@ pip install boto
 **Crédits:**
 - Ildar Nasyrov <Nasyrov@it-projects.info>
 - Salton Massally <smassally@idtlabs.sl> (iDT Labs)
-- Nicolas JEUDY <https://github.com/njeudy>
+- Cheick Oumar Tidiane Traore <https://github.com/njeudy>
 
 **Sponsor:**
 - IT-Projects LLC / ITExperts4Africa <https://www.itexperts4africa.com>

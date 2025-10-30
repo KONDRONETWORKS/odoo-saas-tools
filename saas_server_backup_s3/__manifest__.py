@@ -1,19 +1,15 @@
 {
     'name': 'SaaS Server Backup S3',
     'version': '18.0.1.0.0',
-    'author': 'Salton Massally, Nicolas JEUDY',
+    'author': 'Salton Massally, Cheick Oumar Tidiane Traore',
     'license': 'LGPL-3',
     'category': 'SaaS',
-    "support": "apps@itexperts4africa.com",
+    'support': 'apps@itexperts4africa.com',
     'website': 'http://idtlabs.sl',
-    'external_dependencies': {
-        'python': [
-            'boto',
-        ],
-    },
+    'external_dependencies': {'python': ['boto']},
     'depends': ['saas_server'],
-    'data': [
-        'views/res_config.xml',
-    ],
+    'data': ['views/res_config.xml'],
     'installable': True,
+    'application': False,
+    'sequence': 10,
 }

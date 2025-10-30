@@ -1,7 +1,7 @@
 import os
 
 from odoo import models, fields, api, tools
-from odoo.addons.base.module.module import Module as A
+# from odoo.addons.base.module.module import Module as A  # N'existe plus dans Odoo 18
 from odoo.modules import get_module_resource
 
 
@@ -25,7 +25,23 @@ class ModuleDemo(models.Model):
 
     @staticmethod
     def get_values_from_terp(terp):
-        res = A.get_values_from_terp(terp)
+        # Dans Odoo 18, on extrait directement les valeurs du manifest
+        res = {
+            'name': terp.get('name', False),
+            'summary': terp.get('summary', False),
+            'author': terp.get('author', False),
+            'website': terp.get('website', False),
+            'version': terp.get('version', False),
+            'category': terp.get('category', False),
+            'description': terp.get('description', False),
+            'installable': terp.get('installable', True),
+            'external_dependencies': terp.get('external_dependencies', {}),
+            'depends': terp.get('depends', []),
+            'demo': terp.get('demo', []),
+            'data': terp.get('data', []),
+            'test': terp.get('test', []),
+            'auto_install': terp.get('auto_install', False),
+        }
         res.update({
             'demo_title': terp.get('demo_title', False),
             'demo_summary': terp.get('demo_summary', False),
@@ -48,8 +64,9 @@ class ModuleDemo(models.Model):
             full_name = os.path.join(mod_path, image_name)
             try:
                 with tools.file_open(full_name, 'rb') as image_file:
+                    import base64
                     res.append(
-                        (image_name, image_file.read().encode('base64')))
+                        (image_name, base64.b64encode(image_file.read()).decode('utf-8')))
             except Exception as e:
                 pass
         return res

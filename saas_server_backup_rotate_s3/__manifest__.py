@@ -1,14 +1,15 @@
 {
     'name': 'SaaS Server Rotate Backup S3',
     'version': '18.0.1.0.0',
-    'author': 'Salton Masssally, Nicolas JEUDY',
+    'author': 'Salton Masssally, Cheick Oumar Tidiane Traore',
     'license': 'GPL-3',
     'category': 'SaaS',
-    "support": "apps@itexperts4africa.com",
+    'support': 'apps@itexperts4africa.com',
     'website': 'http://idtlabs.sl',
     'depends': ['saas_server', 'saas_server_backup_s3', 'saas_server_backup_rotate'],
-    "external_dependencies": {"python": ['boto', 'rotate_backups_s3'], "bin": []},
-    'data': [
-    ],
+    'external_dependencies': {'python': ['boto', 'rotate_backups_s3'], 'bin': []},
+    'data': [],
     'installable': True,
+    'application': False,
+    'sequence': 10,
 }
