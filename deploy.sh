@@ -31,7 +31,7 @@ sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE odoo TO $POSTGRES_USE
 
 # Clonage du projet
 echo "📁 Clonage du projet..."
-sudo git clone https://github.com/itexperts4africa/odoo-saas-tools.git $PROJECT_DIR
+sudo git clone https://github.com/KONDRONETWORKS/odoo-saas-tools.git $PROJECT_DIR
 sudo chown -R $ODOO_USER:$ODOO_USER $PROJECT_DIR
 
 # Configuration Python
