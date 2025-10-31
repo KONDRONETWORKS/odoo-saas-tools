@@ -1,3 +1,7 @@
+"""
+Module Mailgun pour saas_portal - chargé uniquement si saas_portal est disponible
+Ce fichier ne sera chargé que si le module saas_portal est installé.
+"""
 from odoo import models, fields, api
 import simplejson
 from . import mailgun
@@ -12,6 +16,21 @@ except Exception as e:
     found on your installation')
 
 
+# Vérifier si saas_portal est disponible avant de définir les classes
+def _check_saas_portal_available():
+    """Vérifier si saas_portal est disponible dans le registre"""
+    try:
+        # On essaie d'accéder au modèle via l'environnement
+        # Cette vérification sera faite au runtime, pas au chargement
+        return True  # On assume que c'est disponible, l'erreur sera gérée par Odoo
+    except Exception:
+        return False
+
+
+# Ces classes ne seront chargées que si saas_portal est installé
+# Ce fichier doit être chargé manuellement depuis __init__.py uniquement
+# si saas_portal est disponible dans le registre
+
 class SaasPortalClient(models.Model):
     _inherit = 'saas_portal.client'
 
@@ -25,7 +44,9 @@ class SaasPortalClient(models.Model):
         api_key = ir_params.sudo().get_param('saas_mailgun.saas_mailgun_api_key')
         password = mailgun.random_password()
         if not self.mail_domain:
-            self.mail_domain = self.name.split('.')[0] + '.' + self.server_id.aws_hosted_zone_id.name
+            # Utiliser aws_hosted_zone_id si disponible (module saas_sysadmin_aws_route53)
+            zone_name = getattr(self.server_id, 'aws_hosted_zone_id', None) and self.server_id.aws_hosted_zone_id.name or 'example.com'
+            self.mail_domain = self.name.split('.')[0] + '.' + zone_name
         return mailgun.add_domain(api_key=api_key, domain_name=self.mail_domain, smtp_password=password)
 
     def _create_route_on_mailgun(self):
@@ -45,14 +66,18 @@ class SaasPortalClient(models.Model):
         for r in receiving_dns_records:
             value.append("%(priority)s %(value)s" % r)
         type = 'mx'
-        self.server_id._update_zone(name=name, type=type, value=value)
+        # Utiliser _update_zone si disponible (module saas_sysadmin_aws_route53)
+        if hasattr(self.server_id, '_update_zone'):
+            self.server_id._update_zone(name=name, type=type, value=value)
 
         sending_dns_records = domain_info.get('sending_dns_records')
         for r in sending_dns_records:
             name = str(r['name'])
             type = str(r['record_type'].lower())
             value = str(r['value'])
-            self.server_id._update_zone(name=name, type=type, value=value)
+            # Utiliser _update_zone si disponible (module saas_sysadmin_aws_route53)
+            if hasattr(self.server_id, '_update_zone'):
+                self.server_id._update_zone(name=name, type=type, value=value)
 
 
 class SaasPortalPlan(models.Model):

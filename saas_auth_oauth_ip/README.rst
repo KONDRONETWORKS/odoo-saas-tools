@@ -39,7 +39,7 @@ urllib2.Request(url, headers={'host': host})
 **Documentation:**
 - Usage: `<doc/index.rst>`__
 - Changelog: `<doc/changelog.rst>`__
-- Apps: https://apps.odoo.com/apps/modules/8.0/auth_oauth_ip/
+- Apps: https://apps.odoo.com/apps/modules/8.0/saas_auth_oauth_ip/
 
 **Compatibilité:**
 - Testé sur Odoo 8.0 à 18.0 

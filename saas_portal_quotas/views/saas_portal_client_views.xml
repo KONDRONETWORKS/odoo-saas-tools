@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Client Form View -->
+    <record id="view_clients_form_quotas" model="ir.ui.view">
+        <field name="name">saas_portal.client.form.quotas</field>
+        <field name="model">saas_portal.client</field>
+        <field name="inherit_id" ref="saas_portal.view_clients_form"/>
+        <field name="arch" type="xml">
+            <!-- Add quota buttons in header -->
+            <xpath expr="//button[@name='action_sync_server']" position="after">
+                <button string="Refresh Quotas" name="action_refresh_quotas" 
+                    type="object" icon="fa-refresh" 
+                    invisible="state in ['deleted', 'draft']"/>
+                <button string="View Quotas" name="action_view_quota_usage" 
+                    type="object" icon="fa-bar-chart" 
+                    invisible="state in ['deleted', 'draft']"/>
+                <button string="Upgrade Plan" name="action_upgrade_plan" 
+                    type="object" icon="fa-arrow-up" 
+                    invisible="state in ['deleted', 'draft'] or quota_status_overall != 'warning'"/>
+            </xpath>
+
+            <!-- Add Quotas tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Quotas" name="quotas">
+                    <group>
+                        <group string="Quota Status">
+                            <field name="quota_status_overall" widget="badge"
+                                decoration-success="quota_status_overall == 'ok'"
+                                decoration-warning="quota_status_overall == 'warning'"
+                                decoration-danger="quota_status_overall in ('alert', 'blocked')"/>
+                        </group>
+                        <group string="Current Usage">
+                            <field name="quota_current_users"/>
+                            <field name="quota_current_storage_mb"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Quota Usage History">
+                        <field name="quota_usage_ids" nolabel="1">
+                            <tree>
+                                <field name="quota_type"/>
+                                <field name="current_usage"/>
+                                <field name="limit"/>
+                                <field name="usage_percentage" widget="progressbar"/>
+                                <field name="status" widget="badge"
+                                    decoration-success="status == 'ok'"
+                                    decoration-warning="status == 'warning'"
+                                    decoration-danger="status in ('alert', 'blocked')"/>
+                                <field name="timestamp"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend Client Tree View -->
+    <record id="view_clients_tree_quotas" model="ir.ui.view">
+        <field name="name">saas_portal.client.tree.quotas</field>
+        <field name="model">saas_portal.client</field>
+        <field name="inherit_id" ref="saas_portal.view_clients_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="quota_status_overall" widget="badge"
+                    decoration-success="quota_status_overall == 'ok'"
+                    decoration-warning="quota_status_overall == 'warning'"
+                    decoration-danger="quota_status_overall in ('alert', 'blocked')"
+                    optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

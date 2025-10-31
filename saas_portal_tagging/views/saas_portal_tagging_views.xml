@@ -25,10 +25,10 @@
     <record id="view_saas_client_category_tree" model="ir.ui.view">
             <field name="name">saas.portal.category.tree</field>
             <field name="model">saas.portal.category</field>
-            <field name="field_parent">child_ids</field>
             <field name="arch" type="xml">
         <list string="SaaS Client Categories">
             <field name="name" />
+            <field name="parent_id" />
         </list>
             </field>
         </record>

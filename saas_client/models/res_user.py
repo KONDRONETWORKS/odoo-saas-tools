@@ -12,10 +12,8 @@ class ResUsers(models.Model):
 
     oauth_provider_id = fields.Many2one('auth.oauth.provider', default=lambda self: self.env.ref('saas_client.saas_oauth_provider').id)
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals_list):
-        if isinstance(vals_list, dict):
-            vals_list = [vals_list]
         max_users = self.env["ir.config_parameter"].sudo().get_param("saas_client.max_users")
         max_users = int(max_users)
         if max_users:

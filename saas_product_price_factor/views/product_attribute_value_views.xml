@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_attribute_value_view_tree_price_factor" model="ir.ui.view">
+        <field name="name">product.attribute.value.tree.price.factor</field>
+        <field name="model">product.attribute.value</field>
+        <field name="inherit_id" ref="product.product_attribute_value_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="price_factor"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vue form supprimée - product.product_attribute_value_view_form n'existe pas dans Odoo 18 -->
+    <!-- Les valeurs d'attributs sont gérées via les lignes d'attributs du produit -->
+</odoo>

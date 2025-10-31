@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -17,7 +17,7 @@ def _get_route53_conn(env):
     aws_access_key_id = ir_params.sudo().get_param('saas_route53.saas_route53_aws_accessid')
     aws_secret_access_key = ir_params.sudo().get_param('saas_route53.saas_route53_aws_accesskey')
     if not aws_access_key_id or not aws_secret_access_key:
-        raise Warning('Please specify both your AWS Access key and ID')
+        raise UserError('Please specify both your AWS Access key and ID')
     return boto.connect_route53(aws_access_key_id, aws_secret_access_key)
 
 
@@ -28,11 +28,9 @@ class SaasRoute53Zone(models.Model):
     create_zone = fields.Boolean('Create Zone', help="True if you want zone to be created for you. Leave unchecked if zone has already been created manually")
     hosted_zone_ID = fields.Char('Hosted Zone ID', readonly=True)
 
-    @api.model
+    @api.model_create_multi
     @api.returns('self', lambda value: value.id)
     def create(self, vals_list):
-        if isinstance(vals_list, dict):
-            vals_list = [vals_list]
         zones = super(SaasRoute53Zone, self).create(vals_list)
         for zone in zones:
             if zone.create_zone:
@@ -67,7 +65,7 @@ class SaasPortalServer(models.Model):
         '''
         assert type in ('cname', 'a', 'txt', 'mx')
         if action in ('add', 'write') and value is None:
-            raise Warning('This operation requires a supplied value')
+            raise UserError('This operation requires a supplied value')
         conn = _get_route53_conn(self.env)
         zone = conn.get_zone(self.aws_hosted_zone_id.name)
         method = '%s_%s' % (action, type)
@@ -91,13 +89,11 @@ class SaasPortalServer(models.Model):
             except Exception as e:
                 _logger.exception('Error modifying AWS hosted zone')
         else:
-            raise Warning('Supported zone operation!')
+            raise UserError('Supported zone operation!')
 
-    @api.model
+    @api.model_create_multi
     @api.returns('self', lambda value: value.id)
     def create(self, vals_list):
-        if isinstance(vals_list, dict):
-            vals_list = [vals_list]
         servers = super(SaasPortalServer, self).create(vals_list)
         for server in servers:
             if server.aws_hosted_zone_id:

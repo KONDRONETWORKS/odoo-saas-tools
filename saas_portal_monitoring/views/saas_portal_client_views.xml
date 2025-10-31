@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Client List View -->
+    <record id="view_clients_tree_monitoring" model="ir.ui.view">
+        <field name="name">saas_portal.client.tree.monitoring</field>
+        <field name="model">saas_portal.client</field>
+        <field name="inherit_id" ref="saas_portal.view_clients_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="health_status" widget="badge"
+                    decoration-success="health_status == 'healthy'"
+                    decoration-warning="health_status == 'warning'"
+                    decoration-danger="health_status in ('critical', 'down')"
+                    optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="cpu_usage" widget="progressbar" optional="hide"/>
+                <field name="ram_usage" widget="progressbar" optional="hide"/>
+                <field name="disk_usage" widget="progressbar" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend Client Form View -->
+    <record id="view_clients_form_monitoring" model="ir.ui.view">
+        <field name="name">saas_portal.client.form.monitoring</field>
+        <field name="model">saas_portal.client</field>
+        <field name="inherit_id" ref="saas_portal.view_clients_form"/>
+        <field name="arch" type="xml">
+            <!-- Add Monitoring buttons in header -->
+            <xpath expr="//button[@name='action_sync_server']" position="after">
+                <button string="Collect Metrics" name="action_collect_metrics" 
+                    type="object" icon="fa-line-chart" 
+                    invisible="state in ['deleted', 'draft']"/>
+                <button string="View Metrics" name="action_view_metrics" 
+                    type="object" icon="fa-bar-chart" 
+                    invisible="state in ['deleted', 'draft']"/>
+            </xpath>
+
+            <!-- Add Monitoring tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Monitoring" name="monitoring">
+                    <group>
+                        <group string="Health Status">
+                            <field name="health_status" widget="badge"
+                                decoration-success="health_status == 'healthy'"
+                                decoration-warning="health_status == 'warning'"
+                                decoration-danger="health_status in ('critical', 'down')"/>
+                            <field name="last_health_check"/>
+                            <field name="monitoring_enabled"/>
+                        </group>
+                        <group string="Current Metrics">
+                            <field name="cpu_usage" widget="progressbar"/>
+                            <field name="ram_usage" widget="progressbar"/>
+                            <field name="disk_usage" widget="progressbar"/>
+                            <field name="response_time"/>
+                            <field name="uptime_percentage" widget="progressbar"/>
+                            <field name="active_users_count"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Metrics History">
+                        <field name="monitoring_metrics_ids" nolabel="1">
+                            <tree>
+                                <field name="metric_type"/>
+                                <field name="value"/>
+                                <field name="status" widget="badge"
+                                    decoration-success="status == 'ok'"
+                                    decoration-warning="status == 'warning'"
+                                    decoration-danger="status in ('critical', 'down')"/>
+                                <field name="timestamp"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend Client Search View -->
+    <record id="view_saas_portal_client_filter_monitoring" model="ir.ui.view">
+        <field name="name">saas_portal.client.search.monitoring</field>
+        <field name="model">saas_portal.client</field>
+        <field name="inherit_id" ref="saas_portal.view_saas_portal_client_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='current']" position="after">
+                <separator/>
+                <filter string="Healthy" name="healthy" 
+                    domain="[('health_status', '=', 'healthy')]"/>
+                <filter string="Warning" name="warning" 
+                    domain="[('health_status', '=', 'warning')]"/>
+                <filter string="Critical" name="critical" 
+                    domain="[('health_status', '=', 'critical')]"/>
+                <filter string="Down" name="down" 
+                    domain="[('health_status', '=', 'down')]"/>
+            </xpath>
+            <xpath expr="//group[@expand='0']" position="inside">
+                <filter string="Health Status" name="group_by_health_status" 
+                    context="{'group_by': 'health_status'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

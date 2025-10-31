@@ -37,12 +37,12 @@ def main():
     # Dossiers à traiter
     directories = [
         "saas_portal",
-        "oauth_provider", 
+        "saas_oauth_provider", 
         "saas_base",
         "saas_client",
         "saas_server",
-        "auth_oauth_check_client_id",
-        "auth_oauth_ip"
+        "saas_auth_oauth_check_client_id",
+        "saas_auth_oauth_ip"
     ]
     
     total_fixed = 0

@@ -21,39 +21,41 @@ class ModuleDemo(models.Model):
         "Currency", help="The currency the field is expressed in.")
     demo_images = fields.Char(
         help="file names, the files should be placed in /static/description/demo of the module")
-    installable = fields.Boolean()
+    
+    # Note: En Odoo 18, le champ installable n'existe plus dans ir.module.module
+    # Mais certains modules standards (comme base_import_module) essaient encore d'y accéder
+    # On crée un champ calculé pour éviter les erreurs SQL
+    installable = fields.Boolean(
+        string='Installable',
+        compute='_compute_installable',
+        store=False,
+        help='Module can be installed (always True in Odoo 18 - computed from state)'
+    )
+    
+    @api.depends('state')
+    def _compute_installable(self):
+        """Compute installable from state - in Odoo 18, installable field was removed"""
+        for module in self:
+            # Un module est installable s'il n'est pas en état 'uninstallable'
+            module.installable = module.state != 'uninstallable'
 
     @staticmethod
     def get_values_from_terp(terp):
-        # Dans Odoo 18, on extrait directement les valeurs du manifest
+        # Dans Odoo 18, la méthode update_list() gère elle-même les champs standards
+        # On ne retourne que les champs spécifiques au module demo (définis dans cette classe)
+        # pour éviter les erreurs avec les champs qui n'existent plus ou qui ont changé
         res = {
-            'name': terp.get('name', False),
-            'summary': terp.get('summary', False),
-            'author': terp.get('author', False),
-            'website': terp.get('website', False),
-            'version': terp.get('version', False),
-            'category': terp.get('category', False),
-            'description': terp.get('description', False),
-            'installable': terp.get('installable', True),
-            'external_dependencies': terp.get('external_dependencies', {}),
-            'depends': terp.get('depends', []),
-            'demo': terp.get('demo', []),
-            'data': terp.get('data', []),
-            'test': terp.get('test', []),
-            'auto_install': terp.get('auto_install', False),
-        }
-        res.update({
             'demo_title': terp.get('demo_title', False),
             'demo_summary': terp.get('demo_summary', False),
-            'demo_addons': ','.join(terp.get('demo_addons', [])),
-            'demo_addons_hidden': ','.join(terp.get('demo_addons_hidden', [])),
+            'demo_addons': ','.join(terp.get('demo_addons', [])) if terp.get('demo_addons') else False,
+            'demo_addons_hidden': ','.join(terp.get('demo_addons_hidden', [])) if terp.get('demo_addons_hidden') else False,
             'demo_url': terp.get('demo_url', False),
-            'price': terp.get('price', False),
+            'price': terp.get('price', False) or 0,
             'currency': terp.get('currency', False),
-            'demo_images': ','.join(terp.get('demo_images', [])),
-            'installable': bool(terp.get('installable', False)),
-        })
-        return res
+            'demo_images': ','.join(terp.get('demo_images', [])) if terp.get('demo_images') else False,
+        }
+        # Filtrer les valeurs False pour éviter de mettre à jour avec False
+        return {k: v for k, v in res.items() if v is not False}
 
     def get_demo_images(self):
         self.ensure_one()

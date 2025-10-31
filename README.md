@@ -121,6 +121,8 @@ GROUPE AMÉLIORATIONS:
 ## COMMANDE  LINE RUN 
 ```bash
 python3.11 saas.py --portal-create --server-create --plan-create --run --odoo-addons-path=../odoo/addons,. --odoo-without-demo
+
+(.venv) apple@MacBookPro odoo-saas-tools % lsof -ti tcp:8069 | xargs -r kill -9; source .venv/bin/activate && python3.11 ../odoo/odoo-bin -c odoo.conf --logfile=odoo.log
 ```
 
 ## 🖥️ **Capacités Serveur et Déploiement du Projet SaaS Tools**

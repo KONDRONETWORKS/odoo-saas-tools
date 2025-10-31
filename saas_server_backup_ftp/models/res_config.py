@@ -14,62 +14,50 @@ except ImportError:
         pysftp which is not found on your installation''')
 
 
-class SaasPortalConfigWizard(models.TransientModel):
+class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     sftp_server = fields.Char(
         string='SFTP Server Address',
-        help='IP address of your remote server. For example 192.168.0.1')
+        config_parameter='saas_server.sftp_server',
+        help='IP address of your remote server. For example 192.168.0.1'
+    )
+    
     sftp_username = fields.Char(
         string='Username on SFTP Server',
-        help='''The username where the SFTP connection should be made with.
-        This is the user on the external server.''')
+        config_parameter='saas_server.sftp_username',
+        help='The username where the SFTP connection should be made with. This is the user on the external server.'
+    )
+    
     sftp_password = fields.Char(
         string='Password User SFTP Server',
-        help='''The password from the user where the SFTP connection should be
-              made with. This is the password from the user on the
-              external server.''')
+        config_parameter='saas_server.sftp_password',
+        help='The password from the user where the SFTP connection should be made with. This is the password from the user on the external server.'
+    )
+    
     sftp_path = fields.Char(
         string='Path external server',
-        help='''The location to the folder where the dumps should be written
-             to. For example /odoo/backups/.\nFiles will then be written to
-             /odoo/backups/ on your remote server.''')
-    sftp_public_key = fields.Char("SFTP-Server public key",
-                                  help="""Verify SFTP server's identity using its public rsa-key
-                                  The host key verification protects you from man-in-the-middle attacks""")
+        config_parameter='saas_server.sftp_path',
+        help='The location to the folder where the dumps should be written to. For example /odoo/backups/. Files will then be written to /odoo/backups/ on your remote server.'
+    )
+    
+    sftp_public_key = fields.Char(
+        string='SFTP-Server public key',
+        config_parameter='saas_server.sftp_public_key',
+        help='Verify SFTP server\'s identity using its public rsa-key. The host key verification protects you from man-in-the-middle attacks'
+    )
+    
     rsa_key_path = fields.Char(
         string='Path to RSA key on Odoo server',
-        help="The location to the folder where the rsa key is saved. "
-             "For example /opt/odoo/.ssh/id_rsa.")
+        config_parameter='saas_server.rsa_key_path',
+        help='The location to the folder where the rsa key is saved. For example /opt/odoo/.ssh/id_rsa.'
+    )
+    
     rsa_key_passphrase = fields.Char(
         string='Passphrase for RSA key',
-        help='''Passphrase used when rsa key was generated''')
-
-    def set_values(self):
-        super(SaasPortalConfigWizard, self).set_values()
-        ICPSudo = self.env['ir.config_parameter'].sudo()
-        ICPSudo.set_param("saas_server.sftp_server", self.sftp_server)
-        ICPSudo.set_param("saas_server.sftp_username", self.sftp_username)
-        ICPSudo.set_param("saas_server.sftp_password", self.sftp_password)
-        ICPSudo.set_param("saas_server.sftp_path", self.sftp_path)
-        ICPSudo.set_param("saas_server.rsa_key_path", self.rsa_key_path)
-        ICPSudo.set_param("saas_server.rsa_key_passphrase", self.rsa_key_passphrase)
-        ICPSudo.set_param("saas_server.sftp_public_key", self.sftp_public_key)
-
-    @api.model
-    def get_values(self):
-        res = super(SaasPortalConfigWizard, self).get_values()
-        ICPSudo = self.env['ir.config_parameter'].sudo()
-        res.update(
-            sftp_server=ICPSudo.get_param('saas_server.sftp_server'),
-            sftp_username=ICPSudo.get_param('saas_server.sftp_username'),
-            sftp_password=ICPSudo.get_param('saas_server.sftp_password'),
-            sftp_path=ICPSudo.get_param('saas_server.sftp_path'),
-            rsa_key_path=ICPSudo.get_param('saas_server.rsa_key_path'),
-            rsa_key_passphrase=ICPSudo.get_param('saas_server.rsa_key_passphrase'),
-            sftp_public_key=ICPSudo.get_param('saas_server.sftp_public_key'),
-        )
-        return res
+        config_parameter='saas_server.rsa_key_passphrase',
+        help='Passphrase used when rsa key was generated'
+    )
 
     def test_sftp_connection(self):
         params = {

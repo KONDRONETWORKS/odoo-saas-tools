@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Cron job to update quota usage every hour -->
+    <record id="ir_cron_update_quota_usage" model="ir.cron">
+        <field name="name">Update Quota Usage</field>
+        <field eval="True" name="active" />
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="model_id" ref="saas_portal.model_saas_portal_client" />
+        <field name="state">code</field>
+        <field name="code">
+# Update quota usage for all active clients
+clients = env['saas_portal.client'].search([('state', '=', 'open')])
+for client in clients:
+    if client.users_len:
+        client.update_quota_usage('users', client.users_len)
+    if client.file_storage or client.db_storage:
+        total_storage = (client.file_storage or 0) + (client.db_storage or 0)
+        client.update_quota_usage('storage', total_storage)
+</field>
+    </record>
+</odoo>

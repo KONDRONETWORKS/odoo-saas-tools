@@ -11,51 +11,65 @@
                     string="Saas Portal" data-key="saas_portal">
                     <h2>Domain</h2>
                     <div class="row mt16 o_settings_container">
-                        <div class="col-xs-12 col-md-12 o_setting_box">
-                            <div>
+                        <div class="col-12 col-lg-12 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="base_saas_domain" placeholder="odoo.com"  style="width: 100%; max-width: 1000px;"/>
+                            </div>
+                            <div class="o_setting_right_pane">
                                 <label for="base_saas_domain" />
                                 <div class="text-muted">
                                     Set base domain name for your saas env.
                                 </div>
-                                <field name="base_saas_domain" placeholder="odoo.com" />
                             </div>
                         </div>
                     </div>
                     <h2>Error pages</h2>
                     <div class="row mt16 o_settings_container">
-                        <div class="col-xs-12 col-md-4 o_setting_box">
-                            <label for="page_for_maximumdb" />
-                            <div class="text-muted">
-                                Redirection url for maximum non-trial databases limit exception.
+                        <div class="col-12 col-lg-12 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="page_for_maximumdb"  style="width: 100%; max-width: 1000px;"/>
                             </div>
-                            <field name="page_for_maximumdb" />
+                            <div class="o_setting_right_pane">
+                                <label for="page_for_maximumdb" />
+                                <div class="text-muted">
+                                    Redirection url for maximum non-trial databases limit exception.
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-xs-12 col-md-4 o_setting_box">
-                            <label for="page_for_maximumtrialdb" />
-                            <div class="text-muted">
-                                Redirection url for maximum trial databases limit exception.
+                        <div class="col-12 col-lg-12 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="page_for_maximumtrialdb"  style="width: 100%; max-width: 1000px;"/>
                             </div>
-                            <field name="page_for_maximumtrialdb" />
+                            <div class="o_setting_right_pane">
+                                <label for="page_for_maximumtrialdb" />
+                                <div class="text-muted">
+                                    Redirection url for maximum trial databases limit exception.
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-xs-12 col-md-4 o_setting_box">
-                            <label for="page_for_nonfree_subdomains" />
-                            <div class="text-muted">
-                                Redirection url from /page/start when subdomains is not free and not
-                                paid.
+                        <div class="col-12 col-lg-12 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="page_for_nonfree_subdomains"  style="width: 100%; max-width: 1000px;"/>
                             </div>
-                            <field name="page_for_nonfree_subdomains" />
+                            <div class="o_setting_right_pane">
+                                <label for="page_for_nonfree_subdomains" />
+                                <div class="text-muted">
+                                    Redirection url from /page/start when subdomains is not free and not paid.
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <h2>Notifications</h2>
                     <div class="row mt16 o_settings_container">
-                        <div class="col-xs-12 col-md-12 o_setting_box">
-                            <div>
+                        <div class="col-12 col-lg-12 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="expiration_notify_in_advance"  style="width: 100%; max-width: 1000px;"/>
+                            </div>
+                            <div class="o_setting_right_pane">
                                 <label for="expiration_notify_in_advance" />
                                 <div class="text-muted">
-                                    Notify partners when less then defined number of days left befor
-                                    expiration.
+                                    Notify partners when less then defined number of days left before expiration.
                                 </div>
-                                <field name="expiration_notify_in_advance" class="oe_inline" />
                             </div>
                         </div>
                     </div>

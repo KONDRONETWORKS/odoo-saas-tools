@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Cron job to collect metrics every 5 minutes -->
+    <record id="ir_cron_collect_metrics" model="ir.cron">
+        <field name="name">Collect Monitoring Metrics</field>
+        <field eval="True" name="active"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+        <field name="model_id" ref="saas_portal.model_saas_portal_client"/>
+        <field name="state">code</field>
+        <field name="code">model.collect_all_metrics()</field>
+    </record>
+
+    <!-- Cron job to clean old metrics (keep last 30 days) -->
+    <record id="ir_cron_clean_old_metrics" model="ir.cron">
+        <field name="name">Clean Old Monitoring Metrics</field>
+        <field eval="True" name="active"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="model_id" ref="saas_portal_monitoring.model_saas_portal_monitoring"/>
+        <field name="state">code</field>
+        <field name="code">model.clean_old_metrics(days=30)</field>
+    </record>
+</odoo>

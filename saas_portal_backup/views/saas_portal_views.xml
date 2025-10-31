@@ -5,9 +5,9 @@
             <field name="model">saas_portal.client</field>
             <field name="inherit_id" ref="saas_portal.view_clients_form" />
             <field name="arch" type="xml">
-                    <button name="action_sync_server" position="after">
-                    <button string="Backup DB" name="action_backup" type="object" invisible="state == in', ['deleted','draft'" icon="fa-cogs" />
-                    </button>
+                    <xpath expr="//button[@name='action_sync_server']" position="after">
+                    <button string="Backup DB" name="action_backup" type="object" invisible="state in ['deleted', 'draft']" icon="fa-cogs" />
+                    </xpath>
         <xpath expr="//form/sheet/group[2]" position="after">
                 <group string="Database settings">
             <field name="backup" />

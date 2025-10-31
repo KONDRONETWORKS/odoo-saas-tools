@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Plan Form View -->
+    <record id="view_plan_form_quotas" model="ir.ui.view">
+        <field name="name">saas_portal.plan.form.quotas</field>
+        <field name="model">saas_portal.plan</field>
+        <field name="inherit_id" ref="saas_portal.view_plan_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Quotas &amp; Limits" name="quotas">
+                    <group>
+                        <group string="Quota Limits">
+                            <field name="quota_max_users"/>
+                            <field name="quota_max_storage_mb"/>
+                            <field name="quota_max_api_calls_per_hour"/>
+                            <field name="quota_max_api_calls_per_day"/>
+                            <field name="quota_max_modules"/>
+                            <field name="quota_max_records_per_model"/>
+                            <field name="quota_bandwidth_mb_per_month"/>
+                        </group>
+                        <group string="Alert Settings">
+                            <field name="quota_alert_percentage"/>
+                            <field name="quota_warning_percentage"/>
+                            <field name="quota_block_percentage"/>
+                            <field name="quota_grace_period_days"/>
+                        </group>
+                    </group>
+                    <group string="Enforcement">
+                        <field name="quota_enforce_users"/>
+                        <field name="quota_enforce_storage"/>
+                        <field name="quota_enforce_api"/>
+                        <field name="quota_enforce_modules"/>
+                    </group>
+                    <group string="Auto-Upgrade">
+                        <field name="quota_auto_upgrade"/>
+                        <field name="quota_upgrade_plan_id" 
+                            invisible="not quota_auto_upgrade"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

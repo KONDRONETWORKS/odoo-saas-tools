@@ -26,11 +26,9 @@ class SaasPortalPlan(models.Model):
 class SaasPortalClient(models.Model):
     _inherit = 'saas_portal.client'
 
-    @api.model
+    @api.model_create_multi
     @api.returns('self', lambda value: value.id)
     def create(self, vals_list):
-        if isinstance(vals_list, dict):
-            vals_list = [vals_list]
         clients = super(SaasPortalClient, self).create(vals_list)
         for client in clients:
             if client.server_id.aws_hosted_zone_id:

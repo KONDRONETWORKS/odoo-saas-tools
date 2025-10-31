@@ -63,10 +63,8 @@ class SaasPortalServer(models.Model):
     clients_host_template = fields.Char('Template for clients host names',
                                         help='The possible dynamic parts of the host names are: {dbname}, {base_saas_domain}, {base_saas_domain_1}')
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals_list):
-        if isinstance(vals_list, dict):
-            vals_list = [vals_list]
         records = super(SaasPortalServer, self).create(vals_list)
         for record in records:
             record.oauth_application_id._get_access_token(create=True)

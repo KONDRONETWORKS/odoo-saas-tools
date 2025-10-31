@@ -10,13 +10,13 @@ class SaasPortalCategory(models.Model):
             res.append((record.id, record.display_name))
         return res
 
-    @api.one
-    @api.depends('name')
+    @api.depends('name', 'parent_id')
     def _name_get_fnc(self):
-        name = self.name
-        if self.parent_id:
-            name = self.parent_id.name + ' / ' + name
-        self.display_name = name
+        for record in self:
+            name = record.name
+            if record.parent_id:
+                name = record.parent_id.name + ' / ' + name
+            record.display_name = name
 
     _name = "saas.portal.category"
     _description = "SaaS Client  Category"
@@ -64,11 +64,9 @@ class SaasPortalClient(models.Model):
         string='Tags'
     )
 
-    @api.model
+    @api.model_create_multi
     @api.returns('self', lambda value: value.id)
     def create(self, vals_list):
-        if isinstance(vals_list, dict):
-            vals_list = [vals_list]
         for vals in vals_list:
             if vals.get('plan_id'):
                 plan = self.env['saas_portal.plan'].browse(vals['plan_id'])

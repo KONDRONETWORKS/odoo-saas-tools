@@ -49,8 +49,8 @@ except ImportError:
 'depends': [
     'base',
     'auth_oauth',
-    'auth_oauth_ip',
-    'auth_oauth_check_client_id',
+    'saas_auth_oauth_ip',
+    'saas_auth_oauth_check_client_id',
     'mail',
     # 'access_limit_records_number',  # Module optionnel, commenté pour compatibilité Odoo 18
 ],

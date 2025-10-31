@@ -6,7 +6,8 @@
     'website': 'https://twitter.com/nasyrov_ildar',
     'category': 'SaaS',
     'version': '18.0.1.0.0',
-    'depends': ['sale', 'saas_portal', 'product_price_factor', 'saas_portal_start', 'contract'],
+
+    'depends': ['sale', 'saas_portal', 'saas_product_price_factor', 'saas_portal_start', 'analytic'],
     'data': ['views/product_template_views.xml', 'views/product_attribute_views.xml', 'views/saas_portal.xml', 'data/mail_template_data.xml', 'data/ir_config_parameter.xml'],
     'application': False,
     'sequence': 10,

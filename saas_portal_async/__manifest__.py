@@ -6,7 +6,7 @@
     'website': 'https://www.itexperts4africa.com',
     'license': 'GPL-3',
     'category': 'SaaS',
-    'depends': ['base', 'saas_portal', 'connector'],
+    'depends': ['base', 'saas_portal'],
     'installable': False,
     'application': False,
     'data': ['views/wizard.xml'],

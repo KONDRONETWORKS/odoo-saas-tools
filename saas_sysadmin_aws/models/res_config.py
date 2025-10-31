@@ -1,24 +1,17 @@
-from odoo import models, fields, api
+from odoo import models, fields
 
 
-class SaasPortalConfigWizard(models.TransientModel):
+class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    saas_route53_aws_accessid = fields.Char('AWS Access ID')
-    saas_route53_aws_accesskey = fields.Char('AWS Secret Key')
-
-    def set_values(self):
-        super(SaasPortalConfigWizard, self).set_values()
-        ICPSudo = self.env['ir.config_parameter'].sudo()
-        ICPSudo.set_param("saas_route53.saas_route53_aws_accessid", self.saas_route53_aws_accessid)
-        ICPSudo.set_param("saas_route53.saas_route53_aws_accesskey", self.saas_route53_aws_accesskey)
-
-    @api.model
-    def get_values(self):
-        res = super(SaasPortalConfigWizard, self).get_values()
-        ICPSudo = self.env['ir.config_parameter'].sudo()
-        res.update(
-            saas_route53_aws_accessid=ICPSudo.get_param('saas_route53.saas_route53_aws_accessid'),
-            saas_route53_aws_accesskey=ICPSudo.get_param('saas_route53.saas_route53_aws_accesskey'),
-        )
-        return res
+    saas_route53_aws_accessid = fields.Char(
+        string='AWS Access ID',
+        config_parameter='saas_route53.saas_route53_aws_accessid',
+        help='AWS Access ID for Route53 DNS management'
+    )
+    
+    saas_route53_aws_accesskey = fields.Char(
+        string='AWS Secret Key',
+        config_parameter='saas_route53.saas_route53_aws_accesskey',
+        help='AWS Secret Key for Route53 DNS management'
+    )

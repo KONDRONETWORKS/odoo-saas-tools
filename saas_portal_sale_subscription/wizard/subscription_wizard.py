@@ -5,7 +5,7 @@ class SaasSubscriptionWizard(models.TransientModel):
     _inherit = 'saas_portal.subscription_wizard'
 
     invoice_line_ids = fields.Many2many(
-        'account.invoice.line', string='Add invoice lines to subscription')
+        'account.move.line', string='Add invoice lines to subscription')
     invoice_lines_count = fields.Integer(
         'Invoice lines count', compute='_count_invoice_lines')
 
@@ -16,8 +16,8 @@ class SaasSubscriptionWizard(models.TransientModel):
 
     @api.model
     def _get_invoice_lines_wo_client(self, partner_id, plan_id):
-        invoice_lines = self.env['account.invoice.line'].search([
-            ('partner_id', '=', partner_id),
+        invoice_lines = self.env['account.move.line'].search([
+            ('move_id.partner_id', '=', partner_id),
             ('saas_plan_id', '=', plan_id),
             ('saas_subscription_period', '!=', False),
             ('saas_client_id', '=', False)])

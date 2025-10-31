@@ -67,7 +67,7 @@ def check_odoo_modules():
     
     modules = [
         "saas_base", "saas_client", "saas_portal", "saas_server",
-        "oauth_provider", "auth_oauth_check_client_id"
+        "saas_oauth_provider", "saas_auth_oauth_check_client_id"
     ]
     
     issues = []

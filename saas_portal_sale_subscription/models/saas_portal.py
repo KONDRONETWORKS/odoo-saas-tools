@@ -36,7 +36,7 @@ class SaasPortalClient(models.Model):
     _inherit = 'saas_portal.client'
 
     invoice_line_ids = fields.One2many(
-        'account.invoice.line', 'saas_client_id', 'Invoice lines',
+        'account.move.line', 'saas_client_id', 'Invoice lines',
         readonly=True)
     period_paid = fields.Integer(
         'Period paid', compute='_compute_period_paid', store=True)
@@ -60,12 +60,12 @@ class SaasPortalClient(models.Model):
                 expiration += timedelta(hours=record.plan_id.expiration)
             record.expiration_datetime = fields.Datetime.to_string(expiration)
 
-    @api.depends('invoice_line_ids.invoice_id.state')
+    @api.depends('invoice_line_ids.move_id.payment_state')
     def _compute_period_paid(self):
         for client in self:
             period_paid = 0
             for line in client.invoice_line_ids:
-                if line.invoice_id.state == 'paid':
+                if line.move_id.payment_state == 'paid':
                     period_paid += (line.saas_subscription_period *
                                     line.quantity)
             client.period_paid = period_paid
@@ -110,40 +110,40 @@ class SaasPortalClient(models.Model):
 
         return res
 
-    @api.one
     def start_subscription(self, invoice_line_id):
         # start subscription and relate client with invoice line
-        self.write({
-            'subscription_start': fields.Datetime.now(),
-            'invoice_line_ids': [(6, 0, [invoice_line_id])],
-        })
-        if not self.contract_id:
-            return
-        invoice_line = self.env['account.invoice.line'].browse(invoice_line_id)
-        # relate invoice with contract
-        invoice_line.invoice_id.contract_id = self.contract_id.id
-        invoice_line.account_analytic_id = self.contract_id.id
-        # prepare contract from invoice line
-        recurring_interval = invoice_line.saas_subscription_period
-        date_start = fields.Date.today()
-        recurring_next_date = fields.Date.to_string(
-            fields.Date.from_string(date_start) +
-            timedelta(invoice_line.quantity * recurring_interval))
-        recurring_name = '%s\n%s' % (
-            invoice_line.product_id.display_name,
-            _('From #START# to #END#'))
-        self.contract_id.write({
-            'recurring_invoices': True,
-            'recurring_interval': recurring_interval,
-            'recurring_rule_type': 'daily',
-            'date_start': date_start,
-            'recurring_next_date': recurring_next_date,
-            'recurring_invoice_line_ids': [(0, 0, {
-                'product_id': invoice_line.product_id.id,
-                'name': recurring_name,
-                'quantity': 1,
-                'uom_id': invoice_line.product_id.uom_id.id,
-                'automatic_price': False,
-                'price_unit': invoice_line.price_unit,
-            })],
-        })
+        for record in self:
+            record.write({
+                'subscription_start': fields.Datetime.now(),
+                'invoice_line_ids': [(6, 0, [invoice_line_id])],
+            })
+            if not record.contract_id:
+                continue
+            invoice_line = record.env['account.move.line'].browse(invoice_line_id)
+            # relate invoice with contract
+            invoice_line.move_id.contract_id = record.contract_id.id
+            invoice_line.account_analytic_id = record.contract_id.id
+            # prepare contract from invoice line
+            recurring_interval = invoice_line.saas_subscription_period
+            date_start = fields.Date.today()
+            recurring_next_date = fields.Date.to_string(
+                fields.Date.from_string(date_start) +
+                timedelta(invoice_line.quantity * recurring_interval))
+            recurring_name = '%s\n%s' % (
+                invoice_line.product_id.display_name,
+                _('From #START# to #END#'))
+            record.contract_id.write({
+                'recurring_invoices': True,
+                'recurring_interval': recurring_interval,
+                'recurring_rule_type': 'daily',
+                'date_start': date_start,
+                'recurring_next_date': recurring_next_date,
+                'recurring_invoice_line_ids': [(0, 0, {
+                    'product_id': invoice_line.product_id.id,
+                    'name': recurring_name,
+                    'quantity': 1,
+                    'uom_id': invoice_line.product_id.uom_id.id,
+                    'automatic_price': False,
+                    'price_unit': invoice_line.price_unit,
+                })],
+            })

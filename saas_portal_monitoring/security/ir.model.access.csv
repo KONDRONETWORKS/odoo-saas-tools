@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_saas_portal_monitoring,saas_portal.monitoring,model_saas_portal_monitoring,base.group_system,1,1,1,1
+access_saas_portal_monitoring_user,saas_portal.monitoring.user,model_saas_portal_monitoring,base.group_user,1,0,0,0
+

@@ -6,12 +6,10 @@
             <field name="user_id" ref="base.user_root" />
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
             <field name="nextcall" eval="(DateTime.now().replace(hour=23, minute=00, second=00)).strftime('%Y-%m-%d %H:%M:%S')" />
-            <field name="doall" eval="False" />
             <field name="model_id" ref="model_saas_portal_server" />
-            <field name="function" eval="'update_repositories'" />
-            <field name="args" eval="'()'" />
+            <field name="state">code</field>
+            <field name="code">model.update_repositories()</field>
         </record>
     <record id="ir_cron_restart_server" model="ir.cron">
             <field name="name">Restart server with demo</field>
@@ -19,12 +17,10 @@
             <field name="user_id" ref="base.user_root" />
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
             <field name="nextcall" eval="(DateTime.now().replace(hour=23, minute=30, second=00)).strftime('%Y-%m-%d %H:%M:%S')" />
-            <field name="doall" eval="False" />
             <field name="model_id" ref="model_saas_portal_server" />
-            <field name="function" eval="'restart_server'" />
-            <field name="args" eval="'()'" />
+            <field name="state">code</field>
+            <field name="code">model.restart_server()</field>
         </record>
     <record id="ir_cron_update_templates" model="ir.cron">
             <field name="name">Update templates for demo</field>
@@ -32,11 +28,9 @@
             <field name="user_id" ref="base.user_root" />
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
             <field name="nextcall" eval="(DateTime.now().replace(hour=00, minute=00, second=00)).strftime('%Y-%m-%d %H:%M:%S')" />
-            <field name="doall" eval="False" />
             <field name="model_id" ref="model_saas_portal_server" />
-            <field name="function" eval="'update_all_templates'" />
-            <field name="args" eval="'()'" />
+            <field name="state">code</field>
+            <field name="code">model.update_all_templates()</field>
         </record>
 </odoo>
