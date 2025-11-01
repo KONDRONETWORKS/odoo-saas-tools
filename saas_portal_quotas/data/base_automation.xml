@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Automation: Alert when quota reaches alert threshold -->
+    <record id="base_automation_quota_alert" model="base.automation">
+        <field name="name">Alert on Quota Threshold</field>
+        <field name="model_id" ref="saas_portal_quotas.model_saas_portal_quota_usage"/>
+        <field eval="True" name="active"/>
+        <field name="trigger">on_create_or_write</field>
+    </record>
+
     <!-- Server Action: Alert when quota reaches alert threshold -->
     <record id="action_server_quota_alert" model="ir.actions.server">
         <field name="name">Alert on Quota Threshold</field>
@@ -15,20 +23,15 @@ for record in records:
             template.send_mail(record.id, force_send=True)
             record.write({'alert_sent': True})
 </field>
+        <field name="base_automation_id" ref="base_automation_quota_alert"/>
     </record>
 
-    <!-- Automation: Alert when quota reaches alert threshold -->
-    <record id="base_automation_quota_alert" model="base.automation">
-        <field name="name">Alert on Quota Threshold</field>
+    <!-- Automation: Warning when quota reaches warning threshold -->
+    <record id="base_automation_quota_warning" model="base.automation">
+        <field name="name">Warning on Quota Threshold</field>
         <field name="model_id" ref="saas_portal_quotas.model_saas_portal_quota_usage"/>
         <field eval="True" name="active"/>
         <field name="trigger">on_create_or_write</field>
-    </record>
-
-    <!-- Link action server to automation -->
-    <record id="action_server_quota_alert_update" model="ir.actions.server">
-        <field name="id" ref="action_server_quota_alert"/>
-        <field name="base_automation_id" ref="base_automation_quota_alert"/>
     </record>
 
     <!-- Server Action: Warning when quota reaches warning threshold -->
@@ -45,20 +48,15 @@ for record in records:
         if template and record.client_id.partner_id.email:
             template.send_mail(record.id, force_send=True)
 </field>
+        <field name="base_automation_id" ref="base_automation_quota_warning"/>
     </record>
 
-    <!-- Automation: Warning when quota reaches warning threshold -->
-    <record id="base_automation_quota_warning" model="base.automation">
-        <field name="name">Warning on Quota Threshold</field>
+    <!-- Automation: Block when quota reaches block threshold -->
+    <record id="base_automation_quota_block" model="base.automation">
+        <field name="name">Block on Quota Threshold</field>
         <field name="model_id" ref="saas_portal_quotas.model_saas_portal_quota_usage"/>
         <field eval="True" name="active"/>
         <field name="trigger">on_create_or_write</field>
-    </record>
-
-    <!-- Link action server to automation -->
-    <record id="action_server_quota_warning_update" model="ir.actions.server">
-        <field name="id" ref="action_server_quota_warning"/>
-        <field name="base_automation_id" ref="base_automation_quota_warning"/>
     </record>
 
     <!-- Server Action: Block when quota reaches block threshold -->
@@ -80,19 +78,6 @@ for record in records:
             # Trigger upgrade process (would need implementation)
             pass
 </field>
-    </record>
-
-    <!-- Automation: Block when quota reaches block threshold -->
-    <record id="base_automation_quota_block" model="base.automation">
-        <field name="name">Block on Quota Threshold</field>
-        <field name="model_id" ref="saas_portal_quotas.model_saas_portal_quota_usage"/>
-        <field eval="True" name="active"/>
-        <field name="trigger">on_create_or_write</field>
-    </record>
-
-    <!-- Link action server to automation -->
-    <record id="action_server_quota_block_update" model="ir.actions.server">
-        <field name="id" ref="action_server_quota_block"/>
         <field name="base_automation_id" ref="base_automation_quota_block"/>
     </record>
 </odoo>

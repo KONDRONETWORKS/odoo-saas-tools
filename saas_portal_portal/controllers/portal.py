@@ -9,7 +9,7 @@ class CustomerPortal(CustomerPortal):
         values = super(CustomerPortal, self)._prepare_portal_layout_values()
         partner = request.env.user.partner_id
 
-        SaasPortalClient = request.env['saas_portal.client']
+        SaasPortalClient = request.env['saas_portal.client'].sudo()
 
         instance_count = SaasPortalClient.search_count([
             ('partner_id', '=', partner.id),

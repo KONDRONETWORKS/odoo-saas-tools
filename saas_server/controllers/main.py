@@ -140,7 +140,7 @@ class SaasServer(http.Controller):
             'state': simplejson.dumps(state),
         }
         url = '{public_url}saas_client/edit_database?{params}'
-        url = url.format(public_url=public_url, params=werkzeug.url_encode(params))
+        url = url.format(public_url=public_url, params=werkzeug.urls.url_encode(params))
         return werkzeug.utils.redirect(url)
 
     @http.route(['/saas_server/upgrade_database'], type='http', auth='public')

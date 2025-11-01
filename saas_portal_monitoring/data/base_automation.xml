@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Automation: Alert when status becomes critical -->
+    <record id="base_automation_alert_critical" model="base.automation">
+        <field name="name">Alert on Critical Status</field>
+        <field name="model_id" ref="saas_portal_monitoring.model_saas_portal_monitoring"/>
+        <field eval="True" name="active"/>
+        <field name="trigger">on_create_or_write</field>
+    </record>
+
     <!-- Server Action: Alert when status becomes critical -->
     <record id="action_server_alert_critical" model="ir.actions.server">
         <field name="name">Alert on Critical Status</field>
@@ -13,21 +21,16 @@ for record in records:
         template = env.ref('saas_portal_monitoring.email_template_critical_alert', raise_if_not_found=False)
         if template and record.client_id.partner_id.email:
             template.send_mail(record.id, force_send=True)
-</field>
+        </field>
+        <field name="base_automation_id" ref="base_automation_alert_critical"/>
     </record>
 
-    <!-- Automation: Alert when status becomes critical -->
-    <record id="base_automation_alert_critical" model="base.automation">
-        <field name="name">Alert on Critical Status</field>
-        <field name="model_id" ref="saas_portal_monitoring.model_saas_portal_monitoring"/>
+    <!-- Automation: Alert when instance is down -->
+    <record id="base_automation_alert_down" model="base.automation">
+        <field name="name">Alert on Instance Down</field>
+        <field name="model_id" ref="saas_portal.model_saas_portal_client"/>
         <field eval="True" name="active"/>
         <field name="trigger">on_create_or_write</field>
-    </record>
-
-    <!-- Link action server to automation -->
-    <record id="action_server_alert_critical_update" model="ir.actions.server">
-        <field name="id" ref="action_server_alert_critical"/>
-        <field name="base_automation_id" ref="base_automation_alert_critical"/>
     </record>
 
     <!-- Server Action: Alert when instance is down -->
@@ -43,20 +46,7 @@ for record in records:
         template = env.ref('saas_portal_monitoring.email_template_instance_down', raise_if_not_found=False)
         if template and record.partner_id.email:
             template.send_mail(record.id, force_send=True)
-</field>
-    </record>
-
-    <!-- Automation: Alert when instance is down -->
-    <record id="base_automation_alert_down" model="base.automation">
-        <field name="name">Alert on Instance Down</field>
-        <field name="model_id" ref="saas_portal.model_saas_portal_client"/>
-        <field eval="True" name="active"/>
-        <field name="trigger">on_create_or_write</field>
-    </record>
-
-    <!-- Link action server to automation -->
-    <record id="action_server_alert_down_update" model="ir.actions.server">
-        <field name="id" ref="action_server_alert_down"/>
+        </field>
         <field name="base_automation_id" ref="base_automation_alert_down"/>
     </record>
 </odoo>

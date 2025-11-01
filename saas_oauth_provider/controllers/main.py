@@ -2,14 +2,17 @@ import logging
 import simplejson
 import traceback
 from ..validators import server
-from urllib.parse import urlparse
-from urllib.parse import urlunparse
+from urllib.parse import urlparse, urlunparse, urlencode as urllib_urlencode, quote as urllib_quote
 
 try:
     from oauthlib.oauth2.rfc6749 import errors
-    from oauthlib.common import urlencode, urlencoded, quote
+    from oauthlib.common import urlencoded, quote
 except Exception as e:
-    pass
+    # Fallback si oauthlib n'est pas disponible
+    urlencoded = set('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~')
+    quote = urllib_quote
+    _logger = logging.getLogger(__name__)
+    _logger.warning(f"oauthlib not fully available, using urllib fallback: {e}")
 
 from odoo import http
 from odoo.http import request
@@ -52,7 +55,7 @@ class OAuth2(http.Controller):
             del headers['wsgi.errors']
         if 'HTTP_AUTHORIZATION' in headers:
             headers['Authorization'] = headers['HTTP_AUTHORIZATION']
-        body = urlencode(list(post_dict.items()))
+        body = urllib_urlencode(list(post_dict.items()))
         return uri, http_method, body, headers
 
     def _response_from_error(self, e):
@@ -98,12 +101,12 @@ class OAuth2(http.Controller):
                       # 'debug':1,
                       # 'login':?,
                       # 'redirect_hostname':TODO,
-                      'redirect': '/oauth2/auth?%s' % werkzeug.url_encode(kw)
+                      'redirect': '/oauth2/auth?%s' % urllib_urlencode(list(kw.items()))
                       }
             url = '/web/login'
             if 'trial' in scope.split(' '):
                 url = '/web/signup'
-            return self._response({'Location': '{url}?{params}'.format(url=url, params=werkzeug.url_encode(params))}, None, 302)
+            return self._response({'Location': '{url}?{params}'.format(url=url, params=urllib_urlencode(list(params.items())))}, None, 302)
         else:
             credentials.update({'user': user})
             try:

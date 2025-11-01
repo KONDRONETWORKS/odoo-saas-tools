@@ -93,7 +93,7 @@ class SaasPortalServer(models.Model):
     def _request(self, **kwargs):
         self.ensure_one()
         params = self._request_params(**kwargs)
-        url = '/oauth2/auth?%s' % werkzeug.url_encode(params)
+        url = '/oauth2/auth?%s' % werkzeug.urls.url_encode(params)
         return url
 
     def _request_server(self, path=None, scheme=None, port=None, **kwargs):
@@ -364,7 +364,7 @@ class SaasPortalPlan(models.Model):
             'state': data.get('state'),
             'access_token': client.oauth_application_id._get_access_token(user_id, create=True),
         }
-        url = '{url}?{params}'.format(url=data.get('url'), params=werkzeug.url_encode(params))
+        url = '{url}?{params}'.format(url=data.get('url'), params=werkzeug.urls.url_encode(params))
         auth_url = url
 
         # send email if there is mail template record
@@ -471,12 +471,24 @@ class OauthApplication(models.Model):
 
     def _compute_get_last_connection(self):
         for r in self:
-            oat = self.env['oauth.access_token']
-            to_search = [('application_id', '=', r.id)]
-            access_tokens = oat.search(to_search)
-            if access_tokens:
-                access_token = access_tokens[0]
-                r.last_connection = access_token.user_id.login_date
+            r.last_connection = False
+            try:
+                oat = self.env['oauth.access_token']
+                to_search = [('application_id', '=', r.id)]
+                access_tokens = oat.search(to_search, order='id DESC', limit=1)
+                if access_tokens:
+                    access_token = access_tokens[0]
+                    if access_token.user_id:
+                        # login_date peut ne pas exister dans Odoo 18, utiliser login si disponible
+                        login_date = getattr(access_token.user_id, 'login_date', None)
+                        if login_date:
+                            r.last_connection = str(login_date)
+                        else:
+                            # Fallback sur le create_date du token si login_date n'existe pas
+                            r.last_connection = str(access_token.create_date) if hasattr(access_token, 'create_date') else False
+            except Exception:
+                # En cas d'erreur, laisser last_connection à False
+                r.last_connection = False
 
 
 class SaasPortalDatabase(models.Model):

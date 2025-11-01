@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="assets_frontend_v18" inherit_id="web.assets_frontend" name="saas demo assets">
+    <!-- Template temporairement désactivé - website.assets_frontend n'existe pas dans Odoo 18 -->
+    <!-- Le CSS peut être inclus directement dans les templates si nécessaire -->
+    <!--
+    <template id="assets_frontend_v18" inherit_id="website.assets_frontend" name="saas demo assets">
         <xpath expr="//link[last()]" position="after">
         <link rel="stylesheet" href="/saas_portal_demo/static/src/css/module_shop.css" t-ignore="true" />
         </xpath>
         </template>
+    -->
+    <!-- Template temporairement désactivé - structure de website_sale.product a changé dans Odoo 18 -->
+    <!--
     <template id="demo_addons" inherit_id="website_sale.product">
         <xpath expr="//div[@class='row'][2]" position="after">
         <div class="row" style="padding-top:20px;">
@@ -100,6 +106,9 @@
         </t>
         </xpath>
         </template>
+    -->
+    <!-- Templates temporairement désactivés - structure de website_sale a changé dans Odoo 18 -->
+    <!--
     <template id="hide_odoo_version_attribute_li" inherit_id="website_sale.variants">
         <xpath expr="//li[@t-if='len(variant_id.value_ids) &gt; 1']" position="attributes">
         <attribute name="t-if">len(variant_id.value_ids) &gt; 1 and variant_id.attribute_id.name != 'Odoo Version'</attribute>
@@ -119,4 +128,5 @@
         <attribute name="t-if">len(product.product_variant_ids.mapped('variant_plan_id'))==0</attribute>
         </xpath>
         </template>
+    -->
 </odoo>

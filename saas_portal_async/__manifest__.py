@@ -7,7 +7,7 @@
     'license': 'GPL-3',
     'category': 'SaaS',
     'depends': ['base', 'saas_portal'],
-    'installable': False,
+    'installable': True,
     'application': False,
     'data': ['views/wizard.xml'],
     'sequence': 10,

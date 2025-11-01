@@ -23,7 +23,7 @@ class res_users(models.Model):
     _inherit = 'res.users'
 
     def _auth_oauth_rpc(self, endpoint, access_token, local_host=None, local_port=None):
-        params = werkzeug.url_encode({'access_token': access_token})
+        params = urllib.parse.urlencode({'access_token': access_token})
         host = None
         try:
             host = re.match(".*//([^/]*)/", endpoint).group(1)

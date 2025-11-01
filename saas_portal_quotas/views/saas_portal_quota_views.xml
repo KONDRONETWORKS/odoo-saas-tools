@@ -5,7 +5,7 @@
         <field name="name">saas_portal.quota_usage.tree</field>
         <field name="model">saas_portal.quota_usage</field>
         <field name="arch" type="xml">
-            <tree string="Quota Usage" default_order="timestamp desc">
+            <list string="Quota Usage" default_order="timestamp desc">
                 <field name="client_id"/>
                 <field name="quota_type"/>
                 <field name="current_usage"/>
@@ -17,7 +17,7 @@
                     decoration-danger="status in ('alert', 'blocked')"/>
                 <field name="alert_sent"/>
                 <field name="timestamp"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -66,7 +66,7 @@
     <record id="action_quota_usage" model="ir.actions.act_window">
         <field name="name">Quota Usage</field>
         <field name="res_model">saas_portal.quota_usage</field>
-        <field name="view_mode">tree,graph,form</field>
+        <field name="view_mode">list,graph,form</field>
         <field name="context">{'search_default_group_by_quota_type': 1}</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">

@@ -18,11 +18,53 @@ class SaasPortalConfigWizard(models.TransientModel):
     def set_values(self):
         super(SaasPortalConfigWizard, self).set_values()
         ICPSudo = self.env['ir.config_parameter'].sudo()
+        old_domain = ICPSudo.get_param("saas_portal.base_saas_domain", "")
         ICPSudo.set_param("saas_portal.base_saas_domain", self.base_saas_domain)
         ICPSudo.set_param("saas_portal.page_for_maximumdb", self.page_for_maximumdb)
         ICPSudo.set_param("saas_portal.page_for_maximumtrialdb", self.page_for_maximumtrialdb)
         ICPSudo.set_param("saas_portal.page_for_nonfree_subdomains", self.page_for_nonfree_subdomains)
         ICPSudo.set_param("saas_portal.expiration_notify_in_advance", self.expiration_notify_in_advance)
+        
+        # Update OAuth provider endpoints if domain changed
+        if self.base_saas_domain and self.base_saas_domain != old_domain:
+            self._update_oauth_providers(self.base_saas_domain)
+    
+    def _update_oauth_providers(self, domain):
+        """Update OAuth provider endpoints with the new domain"""
+        # Determine scheme and host
+        if domain == 'localhost' or domain.startswith('127.0.0.1') or domain.startswith('localhost'):
+            scheme = 'http'
+            host = 'localhost:8069'  # Use localhost with port for local dev
+        elif '.' in domain:
+            # Full domain like odoo.com
+            scheme = 'https' if not domain.startswith('localhost') else 'http'
+            host = domain
+        else:
+            # Simple domain like 'odoo' - use localhost for local dev
+            scheme = 'http'
+            host = 'localhost:8069'
+        
+        # Update saas_client OAuth provider if exists
+        try:
+            provider = self.env.ref('saas_client.saas_oauth_provider', raise_if_not_found=False)
+            if provider:
+                provider.sudo().write({
+                    'auth_endpoint': f'{scheme}://{host}/oauth2/auth',
+                    'validation_endpoint': f'{scheme}://{host}/oauth2/tokeninfo',
+                })
+        except Exception:
+            pass
+        
+        # Update saas_server OAuth provider if exists
+        try:
+            provider = self.env.ref('saas_server.saas_oauth_provider', raise_if_not_found=False)
+            if provider:
+                provider.sudo().write({
+                    'auth_endpoint': f'{scheme}://{host}/oauth2/auth',
+                    'validation_endpoint': f'{scheme}://{host}/oauth2/tokeninfo',
+                })
+        except Exception:
+            pass
 
     @api.model
     def get_values(self):

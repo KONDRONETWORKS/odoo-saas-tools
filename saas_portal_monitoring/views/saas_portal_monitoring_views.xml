@@ -5,7 +5,7 @@
         <field name="name">saas_portal.monitoring.tree</field>
         <field name="model">saas_portal.monitoring</field>
         <field name="arch" type="xml">
-            <tree string="Monitoring Metrics" default_order="timestamp desc">
+            <list string="Monitoring Metrics" default_order="timestamp desc">
                 <field name="client_id"/>
                 <field name="metric_type"/>
                 <field name="value"/>
@@ -16,7 +16,7 @@
                 <field name="threshold_warning"/>
                 <field name="threshold_critical"/>
                 <field name="timestamp"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -81,7 +81,7 @@
     <record id="action_monitoring_metrics" model="ir.actions.act_window">
         <field name="name">Monitoring Metrics</field>
         <field name="res_model">saas_portal.monitoring</field>
-        <field name="view_mode">tree,graph,pivot,form</field>
+        <field name="view_mode">list,graph,pivot,form</field>
         <field name="context">{'search_default_group_by_metric_type': 1}</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">

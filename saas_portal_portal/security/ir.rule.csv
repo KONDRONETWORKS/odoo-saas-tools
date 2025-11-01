@@ -1,0 +1,3 @@
+id,name,model_id:id,domain_force,groups
+rule_saas_client_portal,saas_portal.client.portal.rule,saas_portal.model_saas_portal_client,"[('partner_id', '=', user.partner_id.id)]",portal.group_portal
+rule_saas_client_user,saas_portal.client.user.rule,saas_portal.model_saas_portal_client,"[('partner_id', '=', user.partner_id.id)]",base.group_user

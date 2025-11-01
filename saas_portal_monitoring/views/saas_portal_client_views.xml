@@ -61,7 +61,7 @@
                     
                     <group string="Metrics History">
                         <field name="monitoring_metrics_ids" nolabel="1">
-                            <tree>
+                            <list>
                                 <field name="metric_type"/>
                                 <field name="value"/>
                                 <field name="status" widget="badge"
@@ -69,7 +69,7 @@
                                     decoration-warning="status == 'warning'"
                                     decoration-danger="status in ('critical', 'down')"/>
                                 <field name="timestamp"/>
-                            </tree>
+                            </list>
                         </field>
                     </group>
                 </page>

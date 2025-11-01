@@ -37,7 +37,7 @@
                     
                     <group string="Quota Usage History">
                         <field name="quota_usage_ids" nolabel="1">
-                            <tree>
+                            <list>
                                 <field name="quota_type"/>
                                 <field name="current_usage"/>
                                 <field name="limit"/>
@@ -47,7 +47,7 @@
                                     decoration-warning="status == 'warning'"
                                     decoration-danger="status in ('alert', 'blocked')"/>
                                 <field name="timestamp"/>
-                            </tree>
+                            </list>
                         </field>
                     </group>
                 </page>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Template temporairement désactivé - structure de portal.portal_layout a changé dans Odoo 18 -->
+    <!--
     <template id="portal_my_home_menu_demo" name="Portal layout : demo menu entries" inherit_id="portal.portal_layout" priority="25">
         <xpath expr="//ol[contains(@class,'o_portal_submenu')]" position="inside">
         <li>
@@ -7,6 +9,7 @@
         </li>
         </xpath>
         </template>
+    -->
     <template id="portal_my_home_demo" name="Portal My Home : demo entries" inherit_id="portal.portal_my_home" priority="25">
         <xpath expr="//div[contains(@class,'o_portal_my_home')]" position="inside">
         <h3 class="page-header">
