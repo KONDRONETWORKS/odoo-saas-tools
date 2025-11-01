@@ -143,7 +143,7 @@ class SaasPortalClient(models.Model):
             'name': f'Monitoring Metrics - {self.name}',
             'type': 'ir.actions.act_window',
             'res_model': 'saas_portal.monitoring',
-            'view_mode': 'tree,graph,form',
+            'view_mode': 'list,graph,form',
             'domain': [('client_id', '=', self.id)],
             'context': {'default_client_id': self.id},
         }
