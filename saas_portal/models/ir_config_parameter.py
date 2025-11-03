@@ -44,16 +44,16 @@ class IrConfigParameter(models.Model):
             validation_endpoint = f'{scheme}://{host}/oauth2/tokeninfo'
             
             for provider_xmlid in ['saas_client.saas_oauth_provider', 'saas_server.saas_oauth_provider']:
-            try:
+                try:
                     provider = self.env.ref(provider_xmlid, raise_if_not_found=False)
-                if provider and ('odoo.local' in (provider.auth_endpoint or '') or 
-                                provider.auth_endpoint != auth_endpoint):
-                    provider.sudo().write({
-                        'auth_endpoint': auth_endpoint,
-                        'validation_endpoint': validation_endpoint,
-                    })
+                    if provider and ('odoo.local' in (provider.auth_endpoint or '') or 
+                                    provider.auth_endpoint != auth_endpoint):
+                        provider.sudo().write({
+                            'auth_endpoint': auth_endpoint,
+                            'validation_endpoint': validation_endpoint,
+                        })
                         _logger.info("Updated %s OAuth provider endpoints to %s", provider_xmlid, auth_endpoint)
-            except Exception as e:
+                except Exception as e:
                     _logger.debug("Could not update %s OAuth provider: %s", provider_xmlid, e)
         except Exception as e:
             _logger.error("Error auto-updating OAuth endpoints: %s", e)

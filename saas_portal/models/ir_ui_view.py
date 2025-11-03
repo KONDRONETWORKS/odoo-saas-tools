@@ -32,8 +32,21 @@ class IrUiView(models.Model):
         
         try:
             return super()._get_view(view_id=view_id, view_type=view_type, **options)
-        except (ValueError, AttributeError, TypeError) as e:
+        except Exception as e:
+            from odoo.exceptions import UserError
             error_str = str(e).lower()
+            
+            # Handle "tree view not found" errors - retry with 'list'
+            if isinstance(e, UserError) and 'tree' in error_str and ('vue' in error_str or 'view' in error_str):
+                if view_type == 'tree':
+                    _logger.warning("_get_view: tree view not found, retrying with 'list': %s", e)
+                    try:
+                        return super()._get_view(view_id=view_id, view_type='list', **options)
+                    except Exception as list_error:
+                        _logger.error("_get_view: error with 'list' view: %s", list_error)
+                        raise
+            
+            # Handle singleton and other errors
             if 'singleton' in error_str or 'list' in error_str or 'invalid' in error_str:
                 _logger.warning("_get_view: error detected: %s, retrying with view_id=False", e)
                 try:

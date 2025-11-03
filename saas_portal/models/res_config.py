@@ -58,15 +58,15 @@ class SaasPortalConfigWizard(models.TransientModel):
         validation_endpoint = f'{scheme}://{host}/oauth2/tokeninfo'
         
         for provider_xmlid in ['saas_client.saas_oauth_provider', 'saas_server.saas_oauth_provider']:
-        try:
+            try:
                 provider = self.env.ref(provider_xmlid, raise_if_not_found=False)
-            if provider:
-                provider.sudo().write({
+                if provider:
+                    provider.sudo().write({
                         'auth_endpoint': auth_endpoint,
                         'validation_endpoint': validation_endpoint,
-                })
-        except Exception:
-            pass
+                    })
+            except Exception:
+                pass
 
     @api.model
     def get_values(self):
