@@ -28,8 +28,8 @@
         <field name="model">saas_portal.client</field>
         <field name="priority">4</field>
         <field name="arch" type="xml">
-            <list string="Clients" decoration-danger="expired" create="false" delete="false"
-                edit="false">
+            <list string="Clients" decoration-danger="expired" create="true" delete="false"
+                edit="true">
                 <field name="name" />
                 <field name="plan_id" />
                 <field name="state" />

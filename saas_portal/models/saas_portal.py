@@ -13,6 +13,7 @@ import logging
 from datetime import datetime, timedelta
 
 from odoo import api, exceptions, fields, models
+from odoo.exceptions import UserError
 from odoo.tools.translate import _
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
@@ -115,7 +116,26 @@ class SaasPortalServer(models.Model):
         self.ensure_one()
         scheme = scheme or self.local_request_scheme or self.request_scheme
         host = self.local_host or self.host
-        port = port or self.local_port or self.request_port
+        
+        # Convert port to integer if it's a string
+        if port is None:
+            port = self.local_port or self.request_port
+        if isinstance(port, str):
+            try:
+                port = int(port)
+            except (ValueError, TypeError):
+                port = self.request_port or 8069
+        
+        # Ensure port is an integer
+        if not isinstance(port, int):
+            port = self.request_port or 8069
+        
+        # Debug logging
+        _logger.warning(
+            "Request server: host=%s, port=%s (type=%s), local_port=%s (type=%s), request_port=%s (type=%s)",
+            host, port, type(port), self.local_port, type(self.local_port), self.request_port, type(self.request_port)
+        )
+        
         params = self._request_params(**kwargs)
         access_token = self.oauth_application_id.sudo()._get_access_token(create=True)
         params.update({
@@ -125,6 +145,7 @@ class SaasPortalServer(models.Model):
         })
         url = '{scheme}://{host}:{port}{path}'.format(
             scheme=scheme, host=host, port=port, path=path)
+        _logger.debug("Request URL: %s", url)
         req = requests.Request('GET', url, data=params, headers={'host': self.host})
         req_kwargs = {'verify': self.verify_ssl}
         return req.prepare(), req_kwargs
@@ -160,7 +181,7 @@ class SaasPortalServer(models.Model):
             res = requests.Session().send(req, **req_kwargs)
 
             if not res.ok:
-                raise exceptions.Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
+                raise UserError(_('Reason: %s \n Message: %s') % (res.reason, res.content))
             try:
                 data = simplejson.loads(res.text)
             except Exception as e:
@@ -400,7 +421,7 @@ class SaasPortalPlan(models.Model):
         )
         res = requests.Session().send(req, **req_kwargs)
         if res.status_code != 200:
-            raise exceptions.Warning(_('Error on request: %s\nReason: %s \n Message: %s') % (
+            raise UserError(_('Error on request: %s\nReason: %s \n Message: %s') % (
                 req.url, res.reason, res.content))
         data = simplejson.loads(res.text)
         params = {
@@ -432,7 +453,7 @@ class SaasPortalPlan(models.Model):
         self.ensure_one()
         if not self.dbname_template:
             if raise_error:
-                raise exceptions.Warning(_('Template for db name is not configured'))
+                raise UserError(_('Template for db name is not configured'))
             return ''
         sequence = self.env['ir.sequence'].get('saas_portal.plan')
         return self.dbname_template.replace('%i', sequence)
@@ -445,6 +466,12 @@ class SaasPortalPlan(models.Model):
         """Create template database from plan."""
         self.ensure_one()
         server = self.server_id or self.env['saas_portal.server'].get_saas_server()
+        
+        if not server:
+            raise UserError(_(
+                'No SaaS server configured. '
+                'Please configure a server in SaaS > Servers or create templates manually.'
+            ))
 
         state = {
             'd': self.template_id.name,
@@ -459,10 +486,24 @@ class SaasPortalPlan(models.Model):
 
         req, req_kwargs = server._request_server(
             path='/saas_server/new_database', state=state, client_id=client_id)
-        res = requests.Session().send(req, **req_kwargs)
+        
+        try:
+            res = requests.Session().send(req, **req_kwargs)
+        except requests.exceptions.ConnectionError as e:
+            # Give a helpful error message
+            error_msg = _(
+                'Cannot connect to SaaS server at %s:%s.\n\n'
+                'This is normal in development if you don\'t have a separate SaaS server.\n\n'
+                'Solutions:\n'
+                '1. Create templates manually: SaaS > Databases > Create\n'
+                '2. Configure a SaaS server: SaaS > Servers\n'
+                '3. Install a separate SaaS server for production\n\n'
+                'Error: %s'
+            ) % (server.local_host or server.host, server.local_port or server.request_port or 8069, str(e))
+            raise UserError(error_msg)
 
         if not res.ok:
-            raise exceptions.Warning(_('Error on request: %s\nReason: %s \n Message: %s') %
+            raise UserError(_('Error on request: %s\nReason: %s \n Message: %s') %
                           (req.url, res.reason, res.content))
         try:
             data = simplejson.loads(res.text)
@@ -601,13 +642,13 @@ class SaasPortalDatabase(models.Model):
         res = requests.Session().send(req, **req_kwargs)
         _logger.info('backup database: %s', res.text)
         if not res.ok:
-            raise exceptions.Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
+            raise UserError(_('Reason: %s \n Message: %s') % (res.reason, res.content))
         data = simplejson.loads(res.text)
         if not isinstance(data[0], dict):
-            raise exceptions.Warning(data)
+            raise UserError(str(data))
         if data[0]['status'] != 'success':
             warning = data[0].get('message', _('Could not backup database; please check your logs'))
-            raise exceptions.Warning(warning)
+            raise UserError(warning)
         return True
 
     def action_sync_server(self):
@@ -910,7 +951,7 @@ class SaasPortalClient(models.Model):
         res = requests.Session().send(req, **req_kwargs)
 
         if not res.ok:
-            raise exceptions.Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
+            raise UserError(_('Reason: %s \n Message: %s') % (res.reason, res.content))
         try:
             data = simplejson.loads(res.text)
         except Exception as e:

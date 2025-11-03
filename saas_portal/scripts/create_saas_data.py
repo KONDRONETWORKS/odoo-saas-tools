@@ -44,7 +44,7 @@ server_vals = {
     'local_request_scheme': 'http',
     'request_port': 8069,
     'local_host': 'localhost',
-    'local_port': '8069',
+    'local_port': '8069',  # Port local pour les requêtes serveur-à-serveur
     'verify_ssl': False,
     'active': True,
     'sequence': 1,

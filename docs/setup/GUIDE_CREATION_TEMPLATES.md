@@ -1,15 +1,12 @@
-# Guide de création des templates SaaS
-
-## 📋 Vue d'ensemble
-
-Ce guide vous explique comment créer les templates de bases de données nécessaires pour votre système SaaS.
+# Guide : Créer des templates de bases de données manuellement
 
 ## 🎯 Objectif
 
-Créer 3 templates de bases de données :
-1. `template-basic`
-2. `template-standard`
-3. `template-premium`
+Créer des templates de bases de données **sans serveur SaaS séparé** pour le développement.
+
+## ✅ Pourquoi créer manuellement ?
+
+Dans un environnement de développement, vous n'avez pas besoin d'un serveur SaaS séparé. Vous pouvez créer les templates directement depuis l'interface Odoo.
 
 ## 📝 Étapes détaillées
 
@@ -64,19 +61,19 @@ Créer 3 templates de bases de données :
    - L'état est bien `Template`
    - Le serveur est bien `saas-server-001`
 
-### Étape 7 : Relancer le script de création
+### Étape 7 : Utiliser les templates dans un plan
 
-Une fois les templates créés, relancez le script pour créer le plan et le client :
-
-```powershell
-docker compose -f config/docker-compose.windows.yml exec -T odoo python3 /mnt/extra-addons/saas_portal/scripts/create_saas_data.py
-```
+1. Allez dans **SaaS > Plans**
+2. Créez ou modifiez un plan
+3. Sélectionnez un template dans le champ **"Template"**
+4. Enregistrez
 
 ## ⚠️ Notes importantes
 
-- Les templates doivent avoir l'état `Template` pour être utilisables dans les plans
+- **Les templates créés manuellement sont pour le développement uniquement**
+- Pour créer de vraies bases de données clients, vous aurez besoin d'un serveur SaaS séparé
+- Les templates avec l'état `Template` peuvent être utilisés dans les plans
 - Assurez-vous que le serveur `saas-server-001` existe avant de créer les templates
-- Si vous rencontrez des erreurs de permissions, vérifiez que vous êtes connecté en tant qu'administrateur
 
 ## 🔍 Dépannage
 
@@ -92,32 +89,25 @@ docker compose -f config/docker-compose.windows.yml exec -T odoo python3 /mnt/ex
 2. Vérifiez que vous avez les permissions d'administration
 3. Consultez les logs Odoo pour plus de détails
 
-### Le script ne trouve pas les templates
+### Le bouton "Create template DB" ne fonctionne pas
 
-1. Vérifiez que les templates ont bien l'état `Template`
-2. Vérifiez que les templates sont liés au serveur `saas-server-001`
-3. Relancez le script après vérification
+C'est normal ! Ce bouton nécessite un serveur SaaS séparé. Utilisez la méthode manuelle décrite ci-dessus pour créer les templates.
 
 ## ✅ Checklist de vérification
 
-Avant de relancer le script, vérifiez que :
+Avant d'utiliser les templates :
 
 - [ ] Au moins un template existe avec l'état `Template`
 - [ ] Le template est lié au serveur `saas-server-001`
 - [ ] Le serveur `saas-server-001` existe et est actif
-- [ ] Vous êtes connecté en tant qu'administrateur
+- [ ] Les templates sont visibles dans SaaS > Plans > Template
 
 ## 🎉 Prochaines étapes
 
-Une fois les templates créés et le script relancé, vous aurez :
+Une fois les templates créés :
 
-- ✅ 1 Serveur SaaS configuré
-- ✅ 3 Templates de bases de données
-- ✅ 1 Plan SaaS "Plan Standard"
-- ✅ 1 Client de test "client-test-001"
+1. Créez un plan SaaS
+2. Sélectionnez un template dans le plan
+3. Le plan sera prêt à créer des clients
 
-Vous pourrez alors :
-- Accéder aux plans : SaaS > Plans
-- Accéder aux clients : SaaS > Clients
-- Créer de nouveaux clients depuis les plans
-
+**Note** : Pour créer de vraies instances client, vous aurez besoin d'un serveur SaaS séparé avec le module `saas_server` installé.

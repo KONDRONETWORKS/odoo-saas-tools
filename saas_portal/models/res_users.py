@@ -10,8 +10,8 @@ class ResUsers(models.Model):
 
     support_team_id = fields.Many2one(
         'saas_portal.support_team',
-        'Support Team',
-        help='Support team for SaaS')
+                                      'Support Team',
+                                      help='Support team for SaaS')
 
     @api.model_create_multi
     def create(self, vals_list):
