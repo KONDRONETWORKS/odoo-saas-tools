@@ -1,0 +1,34 @@
+# .gitignore pour infrastructure Terraform
+
+# Fichiers Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+!terraform.tfvars.example
+.terraform/
+.terraform.lock.hcl
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Exclusions
+*_override.tf
+*_override.tf.json
+override.tf
+override.tf.json
+*_override.tfvars
+
+# CLI configuration
+.terraformrc
+terraform.rc
+
+# Outputs sensibles
+terraform-outputs.json
+*.pem
+*.key
+
+# Backups
+*.backup
+*.bak
+

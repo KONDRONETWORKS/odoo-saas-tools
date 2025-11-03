@@ -11,13 +11,12 @@
                     <h2>Sysadmin Mailgun Settings</h2>
                     <div class="row mt16 o_settings_container">
                         <div class="col-12 col-lg-12 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="saas_mailgun_api_key" password="True" style="width: 100%; max-width: 1000px;"/>
-                            </div>
+                            <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
-                                <label for="saas_mailgun_api_key"/>
-                                <div class="text-muted">
-                                    Mailgun API Key.
+                                <label for="saas_mailgun_api_key" string="Mailgun API Key"/>
+                                <div class="text-muted mb-2">Your Mailgun API key for email service integration. This key is used to authenticate with Mailgun's API for sending emails.</div>
+                                <div class="content-group mt16">
+                                    <field name="saas_mailgun_api_key" password="True" placeholder="key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
                                 </div>
                             </div>
                         </div>

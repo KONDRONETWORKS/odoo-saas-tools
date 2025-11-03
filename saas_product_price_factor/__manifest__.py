@@ -33,6 +33,7 @@ Use Cases:
     ],
     'installable': True,
     'application': False,
+    'sequence': 10,
     'auto_install': False,
 }
 

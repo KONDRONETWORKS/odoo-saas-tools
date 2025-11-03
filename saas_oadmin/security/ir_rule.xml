@@ -1,0 +1,2 @@
+id,name,model_id:id,groups
+rule_saas_audit_admin,saas.audit admin,model_saas_audit,group_saas_oadmin

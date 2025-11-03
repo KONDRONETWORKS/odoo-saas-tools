@@ -10,73 +10,67 @@
                 <h3>Rotate Backup Settings</h3>
                 <div class="row mt16 o_settings_container">
                     <div class="col-12 col-lg-12 o_setting_box">
-                        <div class="o_setting_left_pane">
-                            <field name="backup_rotate_unlimited" widget="boolean_toggle"/>
-                        </div>
+                        <div class="o_setting_left_pane"/>
                         <div class="o_setting_right_pane">
-                            <label for="backup_rotate_unlimited"/>
-                            <div class="text-muted">
-                                Enable unlimited backups (disable rotation)
+                            <label for="backup_rotate_unlimited" string="Enable Unlimited Backups"/>
+                            <div class="text-muted mb-2">Enable unlimited backups to disable rotation. When enabled, all backups will be kept without any automatic deletion.</div>
+                            <div class="content-group mt16">
+                                <field name="backup_rotate_unlimited" widget="boolean_toggle"/>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-12 o_setting_box">
-                        <div class="o_setting_left_pane">
-                            <field name="backup_rotate_yearly" placeholder="2" invisible="backup_rotate_unlimited"  style="width: 100%; max-width: 1000px;"/>
-                        </div>
+                        <div class="o_setting_left_pane"/>
                         <div class="o_setting_right_pane">
-                            <label for="backup_rotate_yearly"/>
-                            <div class="text-muted">
-                                Set the number of yearly backups to preserve during rotation.
+                            <label for="backup_rotate_yearly" string="Number of Yearly Backups"/>
+                            <div class="text-muted mb-2">Set the number of yearly backups to preserve during rotation. Older yearly backups will be automatically deleted.</div>
+                            <div class="content-group mt16">
+                                <field name="backup_rotate_yearly" placeholder="2" invisible="backup_rotate_unlimited"/>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-12 o_setting_box">
-                        <div class="o_setting_left_pane">
-                            <field name="backup_rotate_monthly" placeholder="12" invisible="backup_rotate_unlimited"  style="width: 100%; max-width: 1000px;"/>
-                        </div>
+                        <div class="o_setting_left_pane"/>
                         <div class="o_setting_right_pane">
-                            <label for="backup_rotate_monthly"/>
-                            <div class="text-muted">
-                                Set the number of monthly backups to preserve during rotation.
+                            <label for="backup_rotate_monthly" string="Number of Monthly Backups"/>
+                            <div class="text-muted mb-2">Set the number of monthly backups to preserve during rotation. Older monthly backups will be automatically deleted.</div>
+                            <div class="content-group mt16">
+                                <field name="backup_rotate_monthly" placeholder="12" invisible="backup_rotate_unlimited"/>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-12 o_setting_box">
-                        <div class="o_setting_left_pane">
-                            <field name="backup_rotate_weekly" placeholder="4" invisible="backup_rotate_unlimited"  style="width: 100%; max-width: 1000px;"/>
-                        </div>
+                        <div class="o_setting_left_pane"/>
                         <div class="o_setting_right_pane">
-                            <label for="backup_rotate_weekly"/>
-                            <div class="text-muted">
-                                Set the number of weekly backups to preserve during rotation.
+                            <label for="backup_rotate_weekly" string="Number of Weekly Backups"/>
+                            <div class="text-muted mb-2">Set the number of weekly backups to preserve during rotation. Older weekly backups will be automatically deleted.</div>
+                            <div class="content-group mt16">
+                                <field name="backup_rotate_weekly" placeholder="4" invisible="backup_rotate_unlimited"/>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-12 o_setting_box">
-                        <div class="o_setting_left_pane">
-                            <field name="backup_rotate_daily" placeholder="7" invisible="backup_rotate_unlimited"  style="width: 100%; max-width: 1000px;"/>
-                        </div>
+                        <div class="o_setting_left_pane"/>
                         <div class="o_setting_right_pane">
-                            <label for="backup_rotate_daily"/>
-                            <div class="text-muted">
-                                Set the number of daily backups to preserve during rotation.
+                            <label for="backup_rotate_daily" string="Number of Daily Backups"/>
+                            <div class="text-muted mb-2">Set the number of daily backups to preserve during rotation. Older daily backups will be automatically deleted.</div>
+                            <div class="content-group mt16">
+                                <field name="backup_rotate_daily" placeholder="7" invisible="backup_rotate_unlimited"/>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-12 o_setting_box">
-                        <div class="o_setting_left_pane">
-                            <field name="backup_rotate_hourly" placeholder="24" invisible="backup_rotate_unlimited"  style="width: 100%; max-width: 1000px;"/>
-                        </div>
+                        <div class="o_setting_left_pane"/>
                         <div class="o_setting_right_pane">
-                            <label for="backup_rotate_hourly"/>
-                            <div class="text-muted">
-                                Set the number of hourly backups to preserve during rotation.
+                            <label for="backup_rotate_hourly" string="Number of Hourly Backups"/>
+                            <div class="text-muted mb-2">Set the number of hourly backups to preserve during rotation. Older hourly backups will be automatically deleted.</div>
+                            <div class="content-group mt16">
+                                <field name="backup_rotate_hourly" placeholder="24" invisible="backup_rotate_unlimited"/>
                             </div>
                         </div>
                     </div>
-        </div>
-        </xpath>
+                </div>
+            </xpath>
             </field>
         </record>
 </odoo>

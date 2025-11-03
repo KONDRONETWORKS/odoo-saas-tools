@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Rôle Admin SaaS -->
+    <record id="data_role_saas_admin" model="saas.role">
+        <field name="name">SaaS Administrator</field>
+        <field name="code">saas_admin</field>
+        <field name="description">Administrateur complet du système SaaS avec tous les droits</field>
+        <field name="active" eval="True"/>
+    </record>
+    
+    <!-- Rôle Manager SaaS -->
+    <record id="data_role_saas_manager" model="saas.role">
+        <field name="name">SaaS Manager</field>
+        <field name="code">saas_manager</field>
+        <field name="description">Gestionnaire de clients et instances SaaS</field>
+        <field name="active" eval="True"/>
+    </record>
+    
+    <!-- Rôle Support SaaS -->
+    <record id="data_role_saas_support" model="saas.role">
+        <field name="name">SaaS Support</field>
+        <field name="code">saas_support</field>
+        <field name="description">Support technique et client</field>
+        <field name="active" eval="True"/>
+    </record>
+    
+    <!-- Permissions pour Admin -->
+    <record id="data_perm_client_full" model="saas.permission">
+        <field name="name">Full Client Management</field>
+        <field name="code">perm_client_full</field>
+        <field name="permission_type">model</field>
+        <field name="resource_id">saas.oclient</field>
+        <field name="description">Gestion complète des clients</field>
+        <field name="role_ids" eval="[(6, 0, [ref('data_role_saas_admin')])]"/>
+    </record>
+    
+    <record id="data_perm_server_full" model="saas.permission">
+        <field name="name">Full Server Management</field>
+        <field name="code">perm_server_full</field>
+        <field name="permission_type">model</field>
+        <field name="resource_id">saas.oserver</field>
+        <field name="description">Gestion complète des serveurs</field>
+        <field name="role_ids" eval="[(6, 0, [ref('data_role_saas_admin')])]"/>
+    </record>
+    
+    <!-- Permissions pour Manager -->
+    <record id="data_perm_client_read" model="saas.permission">
+        <field name="name">Client Read & Write</field>
+        <field name="code">perm_client_rw</field>
+        <field name="permission_type">model</field>
+        <field name="resource_id">saas.oclient</field>
+        <field name="description">Lecture et écriture sur clients</field>
+        <field name="role_ids" eval="[(6, 0, [ref('data_role_saas_manager')])]"/>
+    </record>
+    
+    <!-- Permissions pour Support -->
+    <record id="data_perm_audit_read" model="saas.permission">
+        <field name="name">Audit Read Only</field>
+        <field name="code">perm_audit_read</field>
+        <field name="permission_type">model</field>
+        <field name="resource_id">saas.audit</field>
+        <field name="description">Lecture seule sur audit trail</field>
+        <field name="role_ids" eval="[(6, 0, [ref('data_role_saas_support')])]"/>
+    </record>
+</odoo>

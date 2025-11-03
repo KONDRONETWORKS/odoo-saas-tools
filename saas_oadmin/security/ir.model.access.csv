@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_saas_role,saas.role,model_saas_role,group_saas_oadmin,1,1,1,1
+access_saas_role_manager,saas.role,model_saas_role,group_saas_omanager,1,1,1,0
+access_saas_permission,saas.permission,model_saas_permission,group_saas_oadmin,1,1,1,1
+access_saas_audit,saas.audit,model_saas_audit,group_saas_oadmin,1,0,0,0
+access_saas_audit_support,saas.audit,model_saas_audit,group_saas_osupport,1,0,0,0
+

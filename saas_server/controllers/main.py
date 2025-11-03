@@ -25,9 +25,14 @@ except ImportError:
         env = os.environ.copy()
         # Configuration basique pour PostgreSQL
         return env
-from odoo.tools.translate import _
-from odoo.http import request
-from odoo.service.db import closing, db_connect, restore_db, dump_db
+from odoo.addons.saas_base.exceptions import (
+    MaximumDBException,
+    MaximumTrialDBException,
+    DatabaseCreationException,
+    ServerConnectionException,
+)
+from odoo.addons.saas_base.debugging import DebugContext
+from odoo.addons.saas_base.user_error_handler import log_error_with_context, AuthenticationError
 try:
     from odoo.addons.auth_oauth.controllers.main import fragment_to_query_string
 except ImportError:
@@ -40,13 +45,78 @@ _logger = logging.getLogger(__name__)
 
 
 def webservice(f):
+    """
+    Decorator amélioré pour gérer les erreurs avec messages user-friendly
+    """
     @functools.wraps(f)
     def wrap(*args, **kw):
+        debug_ctx = DebugContext(
+            operation=f.__name__,
+            user_id=request.session.uid if hasattr(request, 'session') else None,
+        )
+        
         try:
             return f(*args, **kw)
+        except MaximumDBException as e:
+            log_error_with_context(e, debug_ctx)
+            return http.Response(
+                response=simplejson.dumps({
+                    'error': True,
+                    'error_code': 'MAX_DB_REACHED',
+                    'message': e.user_message,
+                }),
+                headers=[('Content-Type', 'application/json')],
+                status=400
+            )
+        except MaximumTrialDBException as e:
+            log_error_with_context(e, debug_ctx)
+            return http.Response(
+                response=simplejson.dumps({
+                    'error': True,
+                    'error_code': 'MAX_TRIAL_DB_REACHED',
+                    'message': e.user_message,
+                }),
+                headers=[('Content-Type', 'application/json')],
+                status=400
+            )
+        except DatabaseCreationException as e:
+            log_error_with_context(e, debug_ctx)
+            return http.Response(
+                response=simplejson.dumps({
+                    'error': True,
+                    'error_code': 'DB_CREATION_ERROR',
+                    'message': e.user_message,
+                    'details': e.details,
+                }),
+                headers=[('Content-Type', 'application/json')],
+                status=500
+            )
+        except ServerConnectionException as e:
+            log_error_with_context(e, debug_ctx)
+            return http.Response(
+                response=simplejson.dumps({
+                    'error': True,
+                    'error_code': 'SERVER_CONNECTION_ERROR',
+                    'message': e.user_message,
+                }),
+                headers=[('Content-Type', 'application/json')],
+                status=503
+            )
         except Exception as e:
-            _logger.exception(str(e))
-            return http.Response(response=str(e), status=500)
+            log_error_with_context(e, debug_ctx)
+            # Message générique pour les erreurs inattendues
+            return http.Response(
+                response=simplejson.dumps({
+                    'error': True,
+                    'error_code': 'INTERNAL_ERROR',
+                    'message': _(
+                        "Une erreur s'est produite lors du traitement de votre demande. "
+                        "Notre équipe a été notifiée. Veuillez réessayer dans quelques instants."
+                    ),
+                }),
+                headers=[('Content-Type', 'application/json')],
+                status=500
+            )
     return wrap
 
 
@@ -67,7 +137,7 @@ class SaasServer(http.Controller):
         template_db = state.get('db_template')
         disable_mail_server = state.get('disable_mail_server', False)
         demo = state.get('demo')
-        lang = state.get('lang', 'en_US')
+        lang = state.get('lang', 'fr_FR')
         tz = state.get('tz')
         addons = state.get('addons', [])
         is_template_db = state.get('is_template_db')
@@ -76,11 +146,16 @@ class SaasServer(http.Controller):
 
         client_id = post['client_id']
         saas_oauth_provider = request.env.ref('saas_server.saas_oauth_provider').sudo()
-        saas_portal_user = request.env['res.users'].sudo()._auth_oauth_rpc(saas_oauth_provider.validation_endpoint, access_token, local_host=saas_oauth_provider.local_host, local_port=saas_oauth_provider.local_port)
+        saas_portal_user = request.env['res.users'].sudo()._auth_oauth_rpc(
+            saas_oauth_provider.validation_endpoint, 
+            access_token, 
+            local_host=saas_oauth_provider.local_host, 
+            local_port=saas_oauth_provider.local_port
+        )
         if saas_portal_user.get('user_id') != 1:
-            raise Exception('auth error')
+            raise AuthenticationError("Invalid OAuth authentication")
         if saas_portal_user.get("error"):
-            raise Exception(saas_portal_user['error'])
+            raise AuthenticationError(f"OAuth error: {saas_portal_user['error']}")
 
         client_data = {
             'name': new_db,
@@ -152,11 +227,16 @@ class SaasServer(http.Controller):
         access_token = post['access_token']
         saas_oauth_provider = request.env.ref('saas_server.saas_oauth_provider').sudo()
 
-        saas_portal_user = request.env['res.users'].sudo()._auth_oauth_rpc(saas_oauth_provider.validation_endpoint, access_token, local_host=saas_oauth_provider.local_host, local_port=saas_oauth_provider.local_port)
+        saas_portal_user = request.env['res.users'].sudo()._auth_oauth_rpc(
+            saas_oauth_provider.validation_endpoint, 
+            access_token, 
+            local_host=saas_oauth_provider.local_host, 
+            local_port=saas_oauth_provider.local_port
+        )
         if saas_portal_user.get('user_id') != 1:
-            raise Exception('auth error')
+            raise AuthenticationError("Invalid OAuth authentication")
         if saas_portal_user.get("error"):
-            raise Exception(saas_portal_user['error'])
+            raise AuthenticationError(f"OAuth error: {saas_portal_user['error']}")
 
         client_id = post.get('client_id')
         client = request.env['saas_server.client'].sudo().search([('client_id', '=', client_id)])
@@ -175,11 +255,16 @@ class SaasServer(http.Controller):
         saas_oauth_provider = request.env.ref('saas_server.saas_oauth_provider').sudo()
 
         access_token = post['access_token']
-        user_data = request.env['res.users'].sudo()._auth_oauth_rpc(saas_oauth_provider.validation_endpoint, access_token, local_host=saas_oauth_provider.local_host, local_port=saas_oauth_provider.local_port)
+        user_data = request.env['res.users'].sudo()._auth_oauth_rpc(
+            saas_oauth_provider.validation_endpoint, 
+            access_token, 
+            local_host=saas_oauth_provider.local_host, 
+            local_port=saas_oauth_provider.local_port
+        )
         if user_data.get('user_id') != 1:
-            raise Exception('auth error')
+            raise AuthenticationError("Invalid OAuth authentication")
         if user_data.get("error"):
-            raise Exception(user_data['error'])
+            raise AuthenticationError(f"OAuth error: {user_data['error']}")
 
         client = request.env['saas_server.client'].sudo().search([('client_id', '=', client_id)])
         client.rename_database(new_dbname)
@@ -196,11 +281,16 @@ class SaasServer(http.Controller):
         access_token = post['access_token']
         saas_oauth_provider = request.env.ref('saas_server.saas_oauth_provider').sudo()
 
-        user_data = request.env['res.users'].sudo()._auth_oauth_rpc(saas_oauth_provider.validation_endpoint, access_token, local_host=saas_oauth_provider.local_host, local_port=saas_oauth_provider.local_port)
+        user_data = request.env['res.users'].sudo()._auth_oauth_rpc(
+            saas_oauth_provider.validation_endpoint, 
+            access_token, 
+            local_host=saas_oauth_provider.local_host, 
+            local_port=saas_oauth_provider.local_port
+        )
         if user_data.get('user_id') != 1:
-            raise Exception('auth error')
+            raise AuthenticationError("Invalid OAuth authentication")
         if user_data.get("error"):
-            raise Exception(user_data['error'])
+            raise AuthenticationError(f"OAuth error: {user_data['error']}")
 
         client = request.env['saas_server.client'].sudo().search([('client_id', '=', client_id)])
         if not client:

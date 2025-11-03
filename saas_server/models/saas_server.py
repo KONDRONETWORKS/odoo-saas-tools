@@ -44,7 +44,7 @@ class SaasServerClient(models.Model):
          'client_id should be unique!'),
     ]
 
-    def create_database(self, template_db=None, demo=False, lang='en_US'):
+    def create_database(self, template_db=None, demo=False, lang='fr_FR'):
         self.ensure_one()
         new_db = self.name
         res = {}

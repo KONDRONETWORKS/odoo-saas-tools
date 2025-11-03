@@ -12,13 +12,12 @@
                     <h2>Domain</h2>
                     <div class="row mt16 o_settings_container">
                         <div class="col-12 col-lg-12 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="base_saas_domain" placeholder="odoo.com"  style="width: 100%; max-width: 1000px;"/>
-                            </div>
+                            <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
-                                <label for="base_saas_domain" />
-                                <div class="text-muted">
-                                    Set base domain name for your saas env.
+                                <label for="base_saas_domain" string="Base SaaS Domain"/>
+                                <div class="text-muted mb-2">Set base domain name for your SaaS environment. For example: odoo.com</div>
+                                <div class="content-group mt16">
+                                    <field name="base_saas_domain" placeholder="odoo.com"/>
                                 </div>
                             </div>
                         </div>
@@ -26,35 +25,32 @@
                     <h2>Error pages</h2>
                     <div class="row mt16 o_settings_container">
                         <div class="col-12 col-lg-12 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="page_for_maximumdb"  style="width: 100%; max-width: 1000px;"/>
-                            </div>
+                            <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
-                                <label for="page_for_maximumdb" />
-                                <div class="text-muted">
-                                    Redirection url for maximum non-trial databases limit exception.
+                                <label for="page_for_maximumdb" string="Maximum Databases Error Page"/>
+                                <div class="text-muted mb-2">Redirection URL for maximum non-trial databases limit exception.</div>
+                                <div class="content-group mt16">
+                                    <field name="page_for_maximumdb"/>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-12 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="page_for_maximumtrialdb"  style="width: 100%; max-width: 1000px;"/>
-                            </div>
+                            <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
-                                <label for="page_for_maximumtrialdb" />
-                                <div class="text-muted">
-                                    Redirection url for maximum trial databases limit exception.
+                                <label for="page_for_maximumtrialdb" string="Maximum Trial Databases Error Page"/>
+                                <div class="text-muted mb-2">Redirection URL for maximum trial databases limit exception.</div>
+                                <div class="content-group mt16">
+                                    <field name="page_for_maximumtrialdb"/>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-12 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="page_for_nonfree_subdomains"  style="width: 100%; max-width: 1000px;"/>
-                            </div>
+                            <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
-                                <label for="page_for_nonfree_subdomains" />
-                                <div class="text-muted">
-                                    Redirection url from /page/start when subdomains is not free and not paid.
+                                <label for="page_for_nonfree_subdomains" string="Non-Free Subdomains Error Page"/>
+                                <div class="text-muted mb-2">Redirection URL from /page/start when subdomains is not free and not paid.</div>
+                                <div class="content-group mt16">
+                                    <field name="page_for_nonfree_subdomains"/>
                                 </div>
                             </div>
                         </div>
@@ -62,13 +58,12 @@
                     <h2>Notifications</h2>
                     <div class="row mt16 o_settings_container">
                         <div class="col-12 col-lg-12 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="expiration_notify_in_advance"  style="width: 100%; max-width: 1000px;"/>
-                            </div>
+                            <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
-                                <label for="expiration_notify_in_advance" />
-                                <div class="text-muted">
-                                    Notify partners when less then defined number of days left before expiration.
+                                <label for="expiration_notify_in_advance" string="Expiration Notification (Days)"/>
+                                <div class="text-muted mb-2">Notify partners when less than the defined number of days left before expiration.</div>
+                                <div class="content-group mt16">
+                                    <field name="expiration_notify_in_advance" placeholder="7"/>
                                 </div>
                             </div>
                         </div>
@@ -76,24 +71,22 @@
                     <h2>Features</h2>
                     <div class="row mt16 o_settings_container">
                         <div class="col-xs-12 col-md-6 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="module_saas_portal_sale_online" />
-                            </div>
+                            <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
-                                <label for="module_saas_portal_sale_online" />
-                                <div class="text-muted">
-                                    Use saas_portal_sale_online module
+                                <label for="module_saas_portal_sale_online" string="SaaS Portal Sale Online"/>
+                                <div class="text-muted mb-2">Enable the saas_portal_sale_online module for online sales functionality.</div>
+                                <div class="content-group mt16">
+                                    <field name="module_saas_portal_sale_online" widget="boolean_toggle"/>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-6 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="module_saas_server_backup_rotate" />
-                            </div>
+                            <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
-                                <label for="module_saas_server_backup_rotate" />
-                                <div class="text-muted">
-                                    Use saas_server_backup_rotate module
+                                <label for="module_saas_server_backup_rotate" string="SaaS Server Backup Rotate"/>
+                                <div class="text-muted mb-2">Enable the saas_server_backup_rotate module for automatic backup rotation.</div>
+                                <div class="content-group mt16">
+                                    <field name="module_saas_server_backup_rotate" widget="boolean_toggle"/>
                                 </div>
                             </div>
                         </div>

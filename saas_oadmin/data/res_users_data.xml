@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Configuration utilisateur admin -->
+    <record id="base.user_root" model="res.users">
+        <field name="can_create_instances" eval="True"/>
+        <field name="can_delete_instances" eval="True"/>
+        <field name="max_instances_allowed" eval="0"/>
+    </record>
+</odoo>

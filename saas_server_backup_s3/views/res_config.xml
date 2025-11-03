@@ -1,49 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="res_config_settings_view_form_inherited_backup_ftp" model="ir.ui.view">
-            <field name="name">res.config.settings.view.form.inherit.backup_s3</field>
-            <field name="model">res.config.settings</field>
-            <field name="priority" eval="20" />
-            <field name="inherit_id" ref="base.res_config_settings_view_form" />
-            <field name="arch" type="xml">
+        <field name="name">res.config.settings.view.form.inherit.backup_s3</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="20" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
             <xpath expr="//div[@data-key='saas_server']" position="inside">
-                <h3>AWS S3 Access</h3>
+                <h3>AWS S3 Backup Settings</h3>
                 <div class="row mt16 o_settings_container">
                     <div class="col-12 col-lg-12 o_setting_box">
-                        <div class="o_setting_left_pane">
-                            <field name="saas_s3_aws_accessid" style="width: 100%; max-width: 1000px;"/>
-                        </div>
+                        <div class="o_setting_left_pane"/>
                         <div class="o_setting_right_pane">
-                            <label for="saas_s3_aws_accessid"/>
-                            <div class="text-muted">
-                                AWS Access ID.
+                            <label for="saas_s3_aws_accessid" string="AWS Access ID"/>
+                            <div class="text-muted mb-2">Your AWS Access Key ID for S3 authentication. This is the public part of your AWS credentials.</div>
+                            <div class="content-group mt16">
+                                <field name="saas_s3_aws_accessid" placeholder="AKIAIOSFODNN7EXAMPLE"/>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-12 o_setting_box">
-                        <div class="o_setting_left_pane">
-                            <field name="saas_s3_aws_accesskey" password="True" style="width: 100%; max-width: 1000px;"/>
-                        </div>
+                        <div class="o_setting_left_pane"/>
                         <div class="o_setting_right_pane">
-                            <label for="saas_s3_aws_accesskey"/>
-                            <div class="text-muted">
-                                AWS Secret Key.
+                            <label for="saas_s3_aws_accesskey" string="AWS Secret Key"/>
+                            <div class="text-muted mb-2">Your AWS Secret Access Key for S3 authentication. This is the private part of your AWS credentials. Keep it secure.</div>
+                            <div class="content-group mt16">
+                                <field name="saas_s3_aws_accesskey" password="True"/>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-12 o_setting_box">
-                        <div class="o_setting_left_pane">
-                            <field name="saas_s3_aws_bucket" style="width: 100%; max-width: 1000px;"/>
-                        </div>
+                        <div class="o_setting_left_pane"/>
                         <div class="o_setting_right_pane">
-                            <label for="saas_s3_aws_bucket"/>
-                            <div class="text-muted">
-                                S3 Bucket.
+                            <label for="saas_s3_aws_bucket" string="S3 Bucket Name"/>
+                            <div class="text-muted mb-2">The name of the S3 bucket where backups will be stored. The bucket must already exist in your AWS account.</div>
+                            <div class="content-group mt16">
+                                <field name="saas_s3_aws_bucket" placeholder="my-odoo-backups"/>
                             </div>
                         </div>
                     </div>
                 </div>
             </xpath>
-            </field>
-        </record>
+        </field>
+    </record>
 </odoo>

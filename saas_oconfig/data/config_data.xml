@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="data_template_odoo18" model="saas.otemplate">
+        <field name="name">Odoo 18.0 Standard</field>
+        <field name="code">odoo18_standard</field>
+        <field name="odoo_version">18.0</field>
+        <field name="is_active" eval="True"/>
+    </record>
+</odoo>

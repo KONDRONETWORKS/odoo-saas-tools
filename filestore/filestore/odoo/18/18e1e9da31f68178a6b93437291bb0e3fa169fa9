@@ -1,0 +1,18 @@
+
+
+/* /mail/static/tests/mail_test_helpers.scss */
+
+.o-mail-Discuss-asTabContainer {
+  height: 100%;
+  width: 100%;
+  display: -webkit-box; display: -webkit-flex; display: flex;
+  -webkit-box-orient: vertical; -webkit-box-direction: normal; -webkit-flex-direction: column; flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.o-mail-Discuss-asTabContainer .o_action_manager {
+  height: 100%;
+}
+/*# sourceMappingURL=/web/assets/8d8e5bc/web.assets_unit_tests.css.map */

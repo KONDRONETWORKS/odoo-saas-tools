@@ -36,7 +36,7 @@ Credits
 
 Contributors
 ------------
-* Ivan Yelizariev <yelizariev@it-projects.info>
+* Cheick Oumar Tidiane Traore <yelizariev@it-projects.info>
 
 Sponsors
 --------

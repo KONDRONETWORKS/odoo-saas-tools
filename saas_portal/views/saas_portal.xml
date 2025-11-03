@@ -128,6 +128,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">saas_portal.client</field>
         <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_clients_tree"/>
         <field name="search_view_id" ref="view_saas_portal_client_filter" />
         <field name="context">{'search_default_current': 1}</field>
     </record>
@@ -199,13 +200,16 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">saas_portal.server</field>
         <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_server_tree"/>
     </record>
     <menuitem action="saas_portal.action_server" id="menu_server" parent="saas_portal.menu_saas"
         sequence="20" />
-    <record id="view_plans_tree" model="ir.ui.view">
-        <field name="name">saas_portal.plans.tree</field>
+    <!-- Vue list pour Odoo 18 - IMPORTANT: Odoo 18 n'utilise plus 'tree', seulement 'list' -->
+    <record id="view_plans_list" model="ir.ui.view">
+        <field name="name">saas_portal.plans.list</field>
         <field name="model">saas_portal.plan</field>
-        <field name="priority">4</field>
+        <field name="priority">1</field>
+        <field name="type">list</field>
         <field name="arch" type="xml">
             <list string="Plans">
                 <field name="sequence" invisible="1" />
@@ -287,6 +291,8 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">saas_portal.plan</field>
         <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_plans_list"/>
+        <field name="context">{}</field>
     </record>
     <menuitem action="action_plans" id="menu_plans" parent="saas_portal.menu_saas" sequence="30" />
     <record id="action_database_form" model="ir.ui.view">
@@ -411,14 +417,20 @@
     <menuitem action="saas_portal_support_teams" id="menu_saas_portal_support_teams"
         parent="menu_saas" sequence="100" />
     <menuitem id="menu_saas_tech" parent="menu_base_saas" name="Technical Records" sequence="2" />
-    <record id="view_databases_tree" model="ir.ui.view">
-        <field name="name">saas_portal.databases.tree</field>
+    <!-- Vue list pour Odoo 18 - IMPORTANT: Odoo 18 n'utilise plus 'tree', seulement 'list' -->
+    <record id="view_databases_list" model="ir.ui.view">
+        <field name="name">saas_portal.databases.list</field>
         <field name="model">saas_portal.database</field>
+        <field name="priority">1</field>
+        <field name="type">list</field>
+        <field name="active" eval="True"/>
         <field name="arch" type="xml">
-            <list string="Plans" create="false" edit="false" delete="false">
-                <field name="name" />
+            <list string="Databases" create="false" edit="false" delete="false">
+                <field name="name" string="Database Name" />
                 <field name="state" />
-                <field name="client_id" />
+                <field name="server_id" string="Server" />
+                <field name="host" />
+                <field name="client_id" string="Client ID" />
             </list>
         </field>
     </record>
@@ -426,15 +438,25 @@
         <field name="name">saas_portal.databases.form</field>
         <field name="model">saas_portal.database</field>
         <field name="arch" type="xml">
-            <form string="plans" create="false" edit="false" delete="false">
+            <form string="Database" create="false" edit="false" delete="false">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,template,pending,deleted" readonly="1" />
+                </header>
                 <sheet>
                     <group>
-                        <field name="name" />
-                        <field name="state" readonly="1" />
-                        <field name="client_id" readonly="1" />
-                        <field name="server_id" readonly="1" />
+                        <group string="Database Information">
+                            <field name="name" string="Database Name" />
+                            <field name="state" readonly="1" />
+                            <field name="host" readonly="1" />
+                            <field name="public_url" readonly="1" widget="url" />
+                        </group>
+                        <group string="Server &amp; Client">
+                            <field name="server_id" readonly="1" />
+                            <field name="client_id" readonly="1" />
+                        </group>
                     </group>
                 </sheet>
+                <chatter />
             </form>
         </field>
     </record>
@@ -444,17 +466,48 @@
         <field name="arch" type="xml">
             <search string="Search Databases">
                 <field name="name" string="Database Name" />
-                <filter string="Templates" name="template" domain="[('state', '=','template')]" />
+                <field name="host" string="Host" />
+                <field name="server_id" string="Server" />
+                <filter string="Templates" name="template" domain="[('state', '=', 'template')]" />
+                <filter string="Active" name="active" domain="[('state', '=', 'open')]" />
+                <filter string="Pending" name="pending" domain="[('state', '=', 'pending')]" />
+                <filter string="Deleted" name="deleted" domain="[('state', '=', 'deleted')]" />
+                <separator />
+                <filter string="Group by Server" name="group_by_server" context="{'group_by': 'server_id'}" />
+                <filter string="Group by State" name="group_by_state" context="{'group_by': 'state'}" />
             </search>
         </field>
     </record>
+    <!-- Action pour toutes les bases de données -->
+    <record id="action_databases" model="ir.actions.act_window">
+        <field name="name">Databases</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">saas_portal.database</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_databases_list"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucune base de données
+            </p>
+            <p>
+                Les bases de données SaaS sont créées automatiquement lorsque des clients s'abonnent à un plan.
+            </p>
+        </field>
+    </record>
+    <!-- Action pour les templates uniquement -->
     <record id="action_templates" model="ir.actions.act_window">
         <field name="name">Templates</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">saas_portal.database</field>
         <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_databases_list"/>
         <field name="context">{'search_default_template': 1}</field>
+        <field name="domain">[('state', '=', 'template')]</field>
     </record>
+    <!-- Menu Databases dans le menu SaaS principal -->
+    <menuitem action="action_databases" id="menu_databases" parent="menu_saas" sequence="25" />
+    <!-- Menu Templates dans le menu technique (conservé pour compatibilité) -->
     <menuitem action="action_templates" id="menu_templates" parent="menu_saas_tech" sequence="40"
         groups="base.group_no_one" />
     <record id="oauth_application_tree" model="ir.ui.view">

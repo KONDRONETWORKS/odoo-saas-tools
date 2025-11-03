@@ -5,7 +5,7 @@
             <field name="model">saas_portal.create_client</field>
             <field name="inherit_id" ref="saas_portal.saas_portal_create_client_view_form" />
             <field name="arch" type="xml">
-        <xpath expr="//field[@name='support_team_id']" position="after">
+        <xpath expr="//field[@name='trial']" position="after">
             <field name="async_creation" />
         </xpath>
             </field>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Serveur de production principal -->
+    <record id="data_server_prod_1" model="saas.oserver">
+        <field name="name">Production Server 1</field>
+        <field name="host">server-prod-1.example.com</field>
+        <field name="port" eval="8069"/>
+        <field name="scheme">https</field>
+        <field name="oauth_enabled" eval="True"/>
+        <field name="max_instances" eval="100"/>
+        <field name="state">active</field>
+    </record>
+    
+    <!-- Serveur de staging -->
+    <record id="data_server_staging" model="saas.oserver">
+        <field name="name">Staging Server</field>
+        <field name="host">server-staging.example.com</field>
+        <field name="port" eval="8069"/>
+        <field name="scheme">https</field>
+        <field name="oauth_enabled" eval="True"/>
+        <field name="max_instances" eval="20"/>
+        <field name="state">active</field>
+    </record>
+</odoo>

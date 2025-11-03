@@ -33,7 +33,7 @@ The example of __openerp__.py file of ``reminder_base``:
  {
     'name': "Reminders and Agenda (technical core)",
     'version': '1.0.4',
-    'author': 'IT-Projects LLC, Ivan Yelizariev',
+    'author': 'IT-Projects LLC, Cheick Oumar Tidiane Traore',
     'license': 'GPL-3',
     'category': 'Reminders and Agenda',
     'website': 'https://twitter.com/yelizariev',

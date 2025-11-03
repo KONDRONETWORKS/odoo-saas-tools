@@ -32,7 +32,7 @@ Ce module gère le portail central de contrôle SaaS. Il permet de créer et gé
 
 **Utilisé par:**
 - saas_portal_start (page d'inscription)
-- saas_portal_portal (espace client)
+- saas_portal_client_web (espace client)
 - saas_portal_signup (processus d'inscription)
 - Tous les modules Portal
 

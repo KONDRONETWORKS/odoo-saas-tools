@@ -1,165 +1,100 @@
-# Byte-compiled / optimized / DLL files
+# Fichiers à ignorer pour un projet propre
+
+# Logs
+*.log
+*.log.*
+logs/
+.logs/
+
+# Fichiers temporaires
+*.tmp
+*.bak
+*.swp
+*~
+.DS_Store
+
+# Scripts de migration temporaires (déplacés dans scripts/legacy)
+# Gardés pour référence mais ignorés par défaut
+scripts/legacy/
+tests/legacy/
+docs/temp/
+
+# Fichiers de configuration personnels
+odoo.conf.local
+odoo.conf.*.local
+
+# Fichiers de test temporaires
+test_*.py
+*_test.py
+!**/tests/**/*_test.py
+
+# Fichiers de solution temporaires
+SOLUTION_*.md
+TEST_*.md
+
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-.python-version
-
-# pipenv
-Pipfile.lock
-
-# PEP 582
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
 env/
 venv/
 ENV/
-env.bak/
-venv.bak/
+build/
+dist/
+*.egg-info/
 
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# Odoo specific
-*.pyc
-*.pyo
-*.log
-filestore/
-sessions/
-addons/
-*.db
-*.sql
-*.sql.gz
-*.dump
-*.backup
-*.bak
-*.orig
-*.rej
-*.swp
-*.swo
-*~
-
-# IDE
+# IDEs
 .vscode/
 .idea/
-*.sublime-project
-*.sublime-workspace
+*.sublime-*
 
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
 
 # Docker
-.dockerignore
+docker-compose.override.yml
 
-# Backup files
-*.backup
-*.bak
-*.old
+# Fichiers spécifiques du projet
+check_plan_views.py
+fix_plan_view*.py
+fix_plan_view*.sh
+force_*.py
+recreate_*.py
+create_tree_view_compat.py
+test_*.py
+test_*.xml
+update_saas_portal.sh
+test-unitaire.txt
+
+# Documentation temporaire
+SOLUTION_*.md
+TEST_*.md
+
+# Fichiers de configuration développement
+odoo.conf
+odoo.conf.prod
+monitoring.yml
+oca_dependencies.txt
+
+# Fichiers système
+saas.log
+odoo.log
+saas.py
+odoo-server
+
+# Keep important files
+!README.md
+!requirements.txt
+!requirements-dev.txt
+!LICENSE
+!Dockerfile
+!docker-compose.yml
+!docker-compose.prod.yml
+!pyproject.toml
+!pytest.ini
+!check_modules.py

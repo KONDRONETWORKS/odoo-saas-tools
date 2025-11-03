@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vues clients -->
+    <record id="view_saas_client_list" model="ir.ui.view">
+        <field name="name">saas.oclient.list</field>
+        <field name="model">saas.oclient</field>
+        <field name="arch" type="xml">
+            <list string="Clients">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="plan_id"/>
+                <field name="billing_status"/>
+                <field name="instance_count"/>
+                <field name="total_users"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_saas_client_form" model="ir.ui.view">
+        <field name="name">saas.oclient.form</field>
+        <field name="model">saas.oclient</field>
+        <field name="arch" type="xml">
+            <form string="Client">
+                <header>
+                    <button name="action_view_instances" type="object" string="View Instances"/>
+                    <button name="create_instance" type="object" string="Create Instance"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="plan_id"/>
+                        </group>
+                        <group>
+                            <field name="billing_status"/>
+                            <field name="trial"/>
+                            <field name="expiration_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="instance_ids">
+                            <list>
+                                <field name="name"/>
+                                <field name="subdomain"/>
+                                <field name="state"/>
+                                <field name="user_count"/>
+                                <field name="storage_gb"/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_saas_client" model="ir.actions.act_window">
+        <field name="name">SaaS Clients</field>
+        <field name="res_model">saas.oclient</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <!-- Vues instances -->
+    <record id="view_saas_instance_list" model="ir.ui.view">
+        <field name="name">saas.oinstance.list</field>
+        <field name="model">saas.oinstance</field>
+        <field name="arch" type="xml">
+            <list string="Instances">
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="subdomain"/>
+                <field name="state"/>
+                <field name="user_count"/>
+                <field name="storage_gb"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="action_saas_instance" model="ir.actions.act_window">
+        <field name="name">SaaS Instances</field>
+        <field name="res_model">saas.oinstance</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <!-- Vues plans -->
+    <record id="view_saas_plan_list" model="ir.ui.view">
+        <field name="name">saas.oplan.list</field>
+        <field name="model">saas.oplan</field>
+        <field name="arch" type="xml">
+            <list string="Plans">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="price_monthly"/>
+                <field name="client_count"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="action_saas_plan" model="ir.actions.act_window">
+        <field name="name">SaaS Plans</field>
+        <field name="res_model">saas.oplan</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -65,6 +65,13 @@ class SaasPortalServer(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        # Créer les OAuth applications manuellement pour chaque enregistrement
+        for vals in vals_list:
+            # Si oauth_application_id n'est pas fourni, créer une OAuth app
+            if 'oauth_application_id' not in vals or not vals.get('oauth_application_id'):
+                oauth_app = self.env['oauth.application'].sudo().create({})
+                vals['oauth_application_id'] = oauth_app.id
+        
         records = super(SaasPortalServer, self).create(vals_list)
         for record in records:
             record.oauth_application_id._get_access_token(create=True)
@@ -174,6 +181,29 @@ class SaasPortalServer(models.Model):
 class SaasPortalPlan(models.Model):
     _name = 'saas_portal.plan'
     _description = 'SaaS Portal Plan'
+    
+    def _register_hook(self):
+        """Hook appelé lors du chargement du modèle pour garantir la présence de la vue list"""
+        super()._register_hook()
+        # S'assurer que la vue list existe (Odoo 18 n'utilise plus 'tree')
+        self.env['ir.ui.view'].sudo().search([
+            ('model', '=', 'saas_portal.plan'),
+            ('type', '=', 'list'),
+            ('name', '=', 'saas_portal.plans.list')
+        ]) or self.env['ir.ui.view'].sudo().create({
+            'name': 'saas_portal.plans.list',
+            'model': 'saas_portal.plan',
+            'type': 'list',
+            'priority': 1,
+            'active': True,
+            'arch': '''<?xml version="1.0"?>
+<list string="Plans">
+    <field name="sequence" invisible="1"/>
+    <field name="name"/>
+    <field name="template_id"/>
+    <field name="state"/>
+</list>'''
+        })
 
     name = fields.Char('Plan', required=True)
     summary = fields.Char('Summary')
@@ -200,7 +230,7 @@ class SaasPortalPlan(models.Model):
     def _default_tz(self):
         return self.env.user.tz
 
-    lang = fields.Selection([('en_US', 'English'), ('fr_FR', 'French'), ('es_ES', 'Spanish'), ('de_DE', 'German')], 'Language', default=_get_default_lang)
+    lang = fields.Selection([('fr_FR', 'English'), ('fr_FR', 'French'), ('es_ES', 'Spanish'), ('de_DE', 'German')], 'Language', default=_get_default_lang)
     tz = fields.Selection(selection=_tz_get, string='TimeZone', default=_default_tz)
     sequence = fields.Integer('Sequence')
     state = fields.Selection(
@@ -535,6 +565,17 @@ class SaasPortalDatabase(models.Model):
             if (scheme == 'http' and port != 80) or (scheme == 'https' and port != 443):
                 public_url = public_url + ':' + str(port)
             record.public_url = public_url + '/'
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Créer les OAuth applications manuellement pour chaque enregistrement
+        for vals in vals_list:
+            # Si oauth_application_id n'est pas fourni, créer une OAuth app
+            if 'oauth_application_id' not in vals or not vals.get('oauth_application_id'):
+                oauth_app = self.env['oauth.application'].sudo().create({})
+                vals['oauth_application_id'] = oauth_app.id
+        
+        return super(SaasPortalDatabase, self).create(vals_list)
 
     def _backup(self):
         '''

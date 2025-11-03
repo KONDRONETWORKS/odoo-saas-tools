@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_saas_client_portal" model="ir.rule">
+        <field name="name">saas_portal.client.portal.rule</field>
+        <field name="model_id" ref="saas_portal.model_saas_portal_client"/>
+        <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
+    <record id="rule_saas_client_user" model="ir.rule">
+        <field name="name">saas_portal.client.user.rule</field>
+        <field name="model_id" ref="saas_portal.model_saas_portal_client"/>
+        <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+</odoo>
+
+
+
+
+

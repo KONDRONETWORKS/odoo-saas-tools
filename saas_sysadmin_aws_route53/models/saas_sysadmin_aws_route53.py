@@ -23,6 +23,7 @@ def _get_route53_conn(env):
 
 class SaasRoute53Zone(models.Model):
     _name = 'saas_sysadmin.route53.zone'
+    _description = 'SaaS Route53 Zone'
 
     name = fields.Char('Domain Name', required=True)
     create_zone = fields.Boolean('Create Zone', help="True if you want zone to be created for you. Leave unchecked if zone has already been created manually")

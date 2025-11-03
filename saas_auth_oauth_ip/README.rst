@@ -33,7 +33,7 @@ urllib2.Request(url, headers={'host': host})
 - Complément de oauth_provider
 
 **Credits:**
-- Ivan Yelizariev <yelizariev@it-projects.info>
+- Cheick Oumar Tidiane Traore <yelizariev@it-projects.info>
 - IT-Projects LLC / ITExperts4Africa <https://www.itexperts4africa.com>
 
 **Documentation:**

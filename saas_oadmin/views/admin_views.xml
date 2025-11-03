@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vues pour les rôles -->
+    <record id="view_saas_role_list" model="ir.ui.view">
+        <field name="name">saas.role.list</field>
+        <field name="model">saas.role</field>
+        <field name="arch" type="xml">
+            <list string="Roles">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="user_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_saas_role_form" model="ir.ui.view">
+        <field name="name">saas.role.form</field>
+        <field name="model">saas.role</field>
+        <field name="arch" type="xml">
+            <form string="Role">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <notebook>
+                        <page string="Permissions">
+                            <field name="permission_ids"/>
+                        </page>
+                        <page string="Users">
+                            <field name="user_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_saas_role" model="ir.actions.act_window">
+        <field name="name">SaaS Roles</field>
+        <field name="res_model">saas.role</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <!-- Vues pour les permissions -->
+    <record id="view_saas_permission_list" model="ir.ui.view">
+        <field name="name">saas.permission.list</field>
+        <field name="model">saas.permission</field>
+        <field name="arch" type="xml">
+            <list string="Permissions">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="permission_type"/>
+                <field name="resource_id"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="action_saas_permission" model="ir.actions.act_window">
+        <field name="name">SaaS Permissions</field>
+        <field name="res_model">saas.permission</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <!-- Vues pour l'audit -->
+    <record id="view_saas_audit_list" model="ir.ui.view">
+        <field name="name">saas.audit.list</field>
+        <field name="model">saas.audit</field>
+        <field name="arch" type="xml">
+            <list string="Audit Trail">
+                <field name="timestamp"/>
+                <field name="action"/>
+                <field name="model"/>
+                <field name="user_id"/>
+                <field name="is_security_event" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="action_saas_audit" model="ir.actions.act_window">
+        <field name="name">SaaS Audit</field>
+        <field name="res_model">saas.audit</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

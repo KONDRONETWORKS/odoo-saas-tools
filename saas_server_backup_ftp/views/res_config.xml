@@ -14,10 +14,8 @@
                         <div class="o_setting_right_pane">
                             <label for="sftp_server" string="SFTP Server Address"/>
                             <div class="text-muted mb-2">IP address of your remote server. For example 192.168.0.1</div>
-                            <div class="content-group">
-                                <div class="row mt16">
-                                    <field name="sftp_server" placeholder="192.168.0.1" style="width: 100%; max-width: none;"/>
-                                </div>
+                            <div class="content-group mt16">
+                                <field name="sftp_server" placeholder="192.168.0.1"/>
                             </div>
                         </div>
                     </div>
@@ -26,10 +24,8 @@
                         <div class="o_setting_right_pane">
                             <label for="sftp_username" string="Username on SFTP Server"/>
                             <div class="text-muted mb-2">The username where the SFTP connection should be made with. This is the user on the external server.</div>
-                            <div class="content-group">
-                                <div class="row mt16">
-                                    <field name="sftp_username" placeholder="username" style="width: 100%; max-width: none;"/>
-                                </div>
+                            <div class="content-group mt16">
+                                <field name="sftp_username" placeholder="username"/>
                             </div>
                         </div>
                     </div>
@@ -38,10 +34,8 @@
                         <div class="o_setting_right_pane">
                             <label for="sftp_password" string="Password User SFTP Server"/>
                             <div class="text-muted mb-2">The password from the user where the SFTP connection should be made with. This is the password from the user on the external server.</div>
-                            <div class="content-group">
-                                <div class="row mt16">
-                                    <field name="sftp_password" password="True" style="width: 100%; max-width: none;"/>
-                                </div>
+                            <div class="content-group mt16">
+                                <field name="sftp_password" password="True"/>
                             </div>
                         </div>
                     </div>
@@ -50,10 +44,8 @@
                         <div class="o_setting_right_pane">
                             <label for="sftp_path" string="Path external server"/>
                             <div class="text-muted mb-2">The location to the folder where the dumps should be written to. For example /odoo/backups/.<br />Files will then be written to /odoo/backups/ on your remote server.</div>
-                            <div class="content-group">
-                                <div class="row mt16">
-                                    <field name="sftp_path" placeholder="/odoo/backups/" style="width: 100%; max-width: none;"/>
-                                </div>
+                            <div class="content-group mt16">
+                                <field name="sftp_path" placeholder="/odoo/backups/"/>
                             </div>
                         </div>
                     </div>
@@ -62,10 +54,8 @@
                         <div class="o_setting_right_pane">
                             <label for="sftp_public_key" string="SFTP-Server public key"/>
                             <div class="text-muted mb-2">SFTP-Server public key</div>
-                            <div class="content-group">
-                                <div class="row mt16">
-                                    <field name="sftp_public_key" style="width: 100%; max-width: none;"/>
-                                </div>
+                            <div class="content-group mt16">
+                                <field name="sftp_public_key"/>
                             </div>
                         </div>
                     </div>
@@ -74,10 +64,8 @@
                         <div class="o_setting_right_pane">
                             <label for="rsa_key_path" string="Path to RSA key on Odoo server"/>
                             <div class="text-muted mb-2">The location of the folder with rsa key on Odoo server.</div>
-                            <div class="content-group">
-                                <div class="row mt16">
-                                    <field name="rsa_key_path" placeholder="/opt/odoo/.ssh/id_rsa" style="width: 100%; max-width: none;"/>
-                                </div>
+                            <div class="content-group mt16">
+                                <field name="rsa_key_path" placeholder="/opt/odoo/.ssh/id_rsa"/>
                             </div>
                         </div>
                     </div>
@@ -86,10 +74,8 @@
                         <div class="o_setting_right_pane">
                             <label for="rsa_key_passphrase" string="Passphrase for RSA key"/>
                             <div class="text-muted mb-2">Passphrase for RSA key</div>
-                            <div class="content-group">
-                                <div class="row mt16">
-                                    <field name="rsa_key_passphrase" password="True" style="width: 100%; max-width: none;"/>
-                                </div>
+                            <div class="content-group mt16">
+                                <field name="rsa_key_passphrase" password="True"/>
                             </div>
                         </div>
                     </div>

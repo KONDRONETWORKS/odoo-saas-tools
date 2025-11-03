@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem name="SaaS Optimized" id="menu_saas_obase"/>
+    <menuitem name="Configuration" id="menu_saas_config" parent="menu_saas_obase"/>
+    
+    <!-- Templates -->
+    <record id="view_saas_template_list" model="ir.ui.view">
+        <field name="name">saas.otemplate.list</field>
+        <field name="model">saas.otemplate</field>
+        <field name="arch" type="xml">
+            <list string="Templates">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="odoo_version"/>
+                <field name="is_active"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="action_saas_template" model="ir.actions.act_window">
+        <field name="name">Templates</field>
+        <field name="res_model">saas.otemplate</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <menuitem action="action_saas_template" id="menu_saas_template" parent="menu_saas_config"/>
+</odoo>

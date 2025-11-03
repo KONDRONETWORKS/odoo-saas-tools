@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Configuration des groupes et utilisateurs admin -->
+    <record id="group_saas_oadmin" model="res.groups">
+        <field name="name">SaaS Optimized Administrator</field>
+        <field name="comment">Accès complet à toutes les fonctionnalités SaaS</field>
+        <field name="users" eval="[(4, ref('base.user_root'))]" />
+    </record>
+    
+    <record id="group_saas_omanager" model="res.groups">
+        <field name="name">SaaS Optimized Manager</field>
+        <field name="comment">Gestion des clients et instances</field>
+    </record>
+    
+    <record id="group_saas_osupport" model="res.groups">
+        <field name="name">SaaS Optimized Support</field>
+        <field name="comment">Support technique et client</field>
+    </record>
+    
+    <!-- Configuration utilisateur admin -->
+    <record id="base.user_root" model="res.users">
+        <field name="groups_id" eval="[(4, ref('group_saas_oadmin'))]" />
+    </record>
+</odoo>

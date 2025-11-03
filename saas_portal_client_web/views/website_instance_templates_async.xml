@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_frontend" inherit_id="web.assets_frontend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/saas_portal_client_web/static/src/js/instances.js"/>
+        </xpath>
+    </template>
+    
+    <template id="portal_my_instances" inherit_id="saas_portal_client_web.portal_my_instances">
+        <xpath expr="//div[@t-if='instances']" position="replace">
+            <div t-if="instances" class="panel panel-default saas-instances-container">
+                <div class="table-responsive">
+                    <table class="table table-hover o_portal_my_doc_table">
+                        <thead>
+                            <tr class="active">
+                                <th>Name</th>
+                                <th>Plan</th>
+                                <th>Valid Until</th>
+                                <th />
+                            </tr>
+                        </thead>
+                        <tbody class="instances-list">
+                            <t t-foreach="instances" t-as="instance">
+                                <tr t-attf-class="#{instance.expired and 'text-danger' or ''}">
+                                    <td>
+                                        <a t-attf-href="/my/domain/#{instance.id}?#{keep_query()}">
+                                            <t t-esc="instance.name" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span t-field="instance.plan_id.name" />
+                                    </td>
+                                    <td>
+                                        <span t-field="instance.expiration_datetime" />
+                                    </td>
+                                    <td>
+                                        <t t-if="instance.expired">
+                                            <span class="badge badge-danger">
+                                                <i class="fa fa-fw fa-clock-o" /> Expired</span>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div t-if="pager" class="instances-pager text-center">
+                    <t t-call="portal.pager" />
+                </div>
+                
+                <!-- Bouton Load More (optionnel) -->
+                <div class="load-more-container text-center" style="margin-top: 20px;">
+                    <button class="btn btn-primary load-more">
+                        <i class="fa fa-arrow-down"></i> Charger plus
+                    </button>
+                </div>
+                
+                <!-- Bouton Reload -->
+                <div class="text-center" style="margin-top: 10px;">
+                    <button class="btn btn-default reload-instances">
+                        <i class="fa fa-refresh"></i> Actualiser
+                    </button>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

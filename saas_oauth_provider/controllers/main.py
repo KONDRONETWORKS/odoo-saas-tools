@@ -59,8 +59,10 @@ class OAuth2(http.Controller):
         return uri, http_method, body, headers
 
     def _response_from_error(self, e):
-        _logger.info("\n%s", traceback.format_exc())
-        return 'Error (TODO)'
+        _logger.error("OAuth error: %s\n%s", str(e), traceback.format_exc())
+        # Retourner un message d'erreur approprié pour OAuth
+        error_message = getattr(e, 'description', str(e))
+        return f'OAuth Error: {error_message}'
 
     def _response(self, headers, body, status=200):
         try:

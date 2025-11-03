@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue tree/list pour les erreurs -->
+    <record id="view_error_log_tree" model="ir.ui.view">
+        <field name="name">saas.error.log.tree</field>
+        <field name="model">saas.error.log</field>
+        <field name="priority">1</field>
+        <field name="type">tree</field>
+        <field name="active" eval="True"/>
+        <field name="arch" type="xml">
+            <list string="Error Logs" decoration-danger="severity == 'critical'" 
+                  decoration-warning="severity == 'high'" 
+                  decoration-info="state == 'resolved'"
+                  create="false">
+                <field name="name" string="Error ID" />
+                <field name="create_date" string="Date" />
+                <field name="operation" />
+                <field name="error_type" />
+                <field name="severity" widget="badge" 
+                       decoration-danger="severity == 'critical'"
+                       decoration-warning="severity == 'high'"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'resolved'"
+                       decoration-muted="state == 'ignored'"/>
+                <field name="user_id" />
+                <field name="database" />
+                <field name="occurrence_count" />
+                <button name="action_create_ticket" string="Create Ticket" type="object"
+                        icon="fa-ticket" class="btn-primary"
+                        invisible="ticket_id or state == 'resolved'"/>
+                <button name="action_resolve" string="Resolve" type="object"
+                        icon="fa-check" class="btn-success"
+                        invisible="state == 'resolved'"/>
+                <button name="action_ignore" string="Ignore" type="object"
+                        icon="fa-times" class="btn-secondary"
+                        invisible="state == 'ignored'"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Vue list pour Odoo 18 -->
+    <record id="view_error_log_list" model="ir.ui.view">
+        <field name="name">saas.error.log.list</field>
+        <field name="model">saas.error.log</field>
+        <field name="priority">2</field>
+        <field name="type">list</field>
+        <field name="active" eval="True"/>
+        <field name="arch" type="xml">
+            <list string="Error Logs" decoration-danger="severity == 'critical'" 
+                  decoration-warning="severity == 'high'" 
+                  decoration-info="state == 'resolved'"
+                  create="false">
+                <field name="name" string="Error ID" />
+                <field name="create_date" string="Date" />
+                <field name="operation" />
+                <field name="error_type" />
+                <field name="severity" widget="badge" />
+                <field name="state" widget="badge"/>
+                <field name="user_id" />
+                <field name="database" />
+                <field name="occurrence_count" />
+            </list>
+        </field>
+    </record>
+    
+    <!-- Vue form pour les détails d'erreur -->
+    <record id="view_error_log_form" model="ir.ui.view">
+        <field name="name">saas.error.log.form</field>
+        <field name="model">saas.error.log</field>
+        <field name="arch" type="xml">
+            <form string="Error Log Details" create="false">
+                <header>
+                    <button name="action_create_ticket" string="Create Ticket" type="object"
+                            icon="fa-ticket" class="oe_highlight"
+                            invisible="ticket_id or state == 'resolved'"/>
+                    <button name="action_resolve" string="Mark as Resolved" type="object"
+                            icon="fa-check" class="btn-success"
+                            invisible="state == 'resolved'"/>
+                    <button name="action_ignore" string="Ignore" type="object"
+                            icon="fa-times" class="btn-secondary"
+                            invisible="state == 'ignored'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,investigating,resolved,ignored"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Error Information">
+                            <field name="error_type" />
+                            <field name="operation" />
+                            <field name="severity" widget="badge" />
+                            <field name="create_date" />
+                            <field name="occurrence_count" />
+                            <field name="first_occurrence" />
+                            <field name="last_occurrence" />
+                        </group>
+                        <group string="Context">
+                            <field name="user_id" />
+                            <field name="partner_id" />
+                            <field name="database" />
+                            <field name="plan_id" />
+                            <field name="server_id" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Error Message">
+                            <field name="error_message" widget="text"/>
+                        </page>
+                        <page string="Traceback">
+                            <field name="traceback" widget="text" options="{'readonly': True}"/>
+                        </page>
+                        <page string="Context Data" invisible="not context_data">
+                            <field name="context_data" widget="text" options="{'readonly': True}"/>
+                        </page>
+                        <page string="Request Info" invisible="not request_url">
+                            <group>
+                                <field name="request_url" />
+                                <field name="request_method" />
+                                <field name="request_params" widget="text" />
+                            </group>
+                        </page>
+                        <page string="Resolution" invisible="state != 'resolved'">
+                            <group>
+                                <field name="resolution" widget="text"/>
+                                <field name="resolved_by" />
+                                <field name="resolved_date" />
+                            </group>
+                        </page>
+                        <page string="Ticket" invisible="not ticket_id">
+                            <group>
+                                <field name="ticket_id" />
+                                <field name="ticket_url" widget="url"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Vue de recherche -->
+    <record id="view_error_log_search" model="ir.ui.view">
+        <field name="name">saas.error.log.search</field>
+        <field name="model">saas.error.log</field>
+        <field name="arch" type="xml">
+            <search string="Search Error Logs">
+                <field name="name" string="Error ID"/>
+                <field name="operation"/>
+                <field name="error_type"/>
+                <field name="error_message"/>
+                <field name="database"/>
+                <field name="user_id"/>
+                <separator/>
+                <filter string="New Errors" name="new" domain="[('state', '=', 'new')]"/>
+                <filter string="Investigating" name="investigating" domain="[('state', '=', 'investigating')]"/>
+                <filter string="Resolved" name="resolved" domain="[('state', '=', 'resolved')]"/>
+                <filter string="Critical" name="critical" domain="[('severity', '=', 'critical')]"/>
+                <filter string="High" name="high" domain="[('severity', '=', 'high')]"/>
+                <separator/>
+                <filter string="Group by State" name="group_by_state" context="{'group_by': 'state'}"/>
+                <filter string="Group by Error Type" name="group_by_error_type" context="{'group_by': 'error_type'}"/>
+                <filter string="Group by Severity" name="group_by_severity" context="{'group_by': 'severity'}"/>
+                <filter string="Group by Operation" name="group_by_operation" context="{'group_by': 'operation'}"/>
+            </search>
+        </field>
+    </record>
+    
+    <!-- Action pour lister les erreurs -->
+    <record id="action_error_log" model="ir.actions.act_window">
+        <field name="name">Error Logs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">saas.error.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_error_log_tree"/>
+        <field name="context">{'search_default_new': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucune erreur enregistrée
+            </p>
+            <p>
+                Les erreurs SaaS seront automatiquement enregistrées ici pour faciliter le debugging.
+            </p>
+        </field>
+    </record>
+    
+    <!-- Menu dans le menu technique -->
+    <menuitem action="action_error_log" id="menu_error_log" 
+              parent="base.menu_administration"
+              sequence="100"
+              groups="base.group_system"/>
+    
+    <!-- Menu dans le menu SaaS (si vous voulez l'accès direct) -->
+    <menuitem action="action_error_log" id="menu_saas_error_log" 
+              parent="saas_portal.menu_base_saas"
+              sequence="200"
+              groups="base.group_system"/>
+</odoo>

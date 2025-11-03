@@ -20,7 +20,7 @@
         ('client_id_uniq',
          'unique (client_id)',
          'client_id should be unique!'),
-    ]    def create_database(self, template_db=None, demo=False, lang='en_US'):
+    ]    def create_database(self, template_db=None, demo=False, lang='fr_FR'):
 ```
 
 **Après:**
@@ -31,7 +31,7 @@
          'client_id should be unique!'),
     ]
 
-    def create_database(self, template_db=None, demo=False, lang='en_US'):
+    def create_database(self, template_db=None, demo=False, lang='fr_FR'):
 ```
 
 ---
@@ -92,7 +92,7 @@ Toutes les méthodes suivantes avaient le même problème (manque de retour à l
 ```bash
 SyntaxError: invalid syntax
 File "/Users/apple/KONDRO/odoo-sass/odoo-saas-tools/saas_server/models/saas_server.py", line 44
-    ]    def create_database(self, template_db=None, demo=False, lang='en_US'):
+    ]    def create_database(self, template_db=None, demo=False, lang='fr_FR'):
          ^^^
 ```
 

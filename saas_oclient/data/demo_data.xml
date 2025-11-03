@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template Odoo 18.0 Standard -->
+    <record id="data_template_odoo18" model="saas.otemplate">
+        <field name="name">Odoo 18.0 Standard</field>
+        <field name="code">odoo18_standard</field>
+        <field name="odoo_version">18.0</field>
+        <field name="is_active" eval="True"/>
+    </record>
+    
+    <!-- Plan Starter -->
+    <record id="data_plan_starter" model="saas.oplan">
+        <field name="name">Starter Plan</field>
+        <field name="code">starter</field>
+        <field name="price_monthly" eval="29.0"/>
+        <field name="price_yearly" eval="290.0"/>
+        <field name="max_instances" eval="1"/>
+        <field name="max_users" eval="5"/>
+        <field name="max_storage_gb" eval="10"/>
+        <field name="trial_days" eval="14"/>
+        <field name="allow_trial" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    
+    <!-- Plan Business -->
+    <record id="data_plan_business" model="saas.oplan">
+        <field name="name">Business Plan</field>
+        <field name="code">business</field>
+        <field name="price_monthly" eval="99.0"/>
+        <field name="price_yearly" eval="990.0"/>
+        <field name="max_instances" eval="5"/>
+        <field name="max_users" eval="50"/>
+        <field name="max_storage_gb" eval="100"/>
+        <field name="trial_days" eval="30"/>
+        <field name="allow_trial" eval="True"/>
+        <field name="active" eval="True"/>
+    </record>
+    
+    <!-- Plan Enterprise -->
+    <record id="data_plan_enterprise" model="saas.oplan">
+        <field name="name">Enterprise Plan</field>
+        <field name="code">enterprise</field>
+        <field name="price_monthly" eval="299.0"/>
+        <field name="price_yearly" eval="2990.0"/>
+        <field name="max_instances" eval="999"/>
+        <field name="max_users" eval="999"/>
+        <field name="max_storage_gb" eval="1000"/>
+        <field name="trial_days" eval="0"/>
+        <field name="allow_trial" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>
