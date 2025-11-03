@@ -1,0 +1,104 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: saas-postgres
+    environment:
+      POSTGRES_DB: odoo
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - saas-network
+    restart: unless-stopped
+
+  odoo:
+    image: odoo:18
+    container_name: saas-odoo
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - HOST=postgres
+      - USER=odoo
+      - PASSWORD=odoo
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    volumes:
+      # Monter les modules SaaS (chemins depuis la racine du projet)
+      - ../saas_base:/mnt/extra-addons/saas_base
+      - ../saas_portal:/mnt/extra-addons/saas_portal
+      - ../saas_server:/mnt/extra-addons/saas_server
+      - ../saas_client:/mnt/extra-addons/saas_client
+      - ../saas_portal_portal:/mnt/extra-addons/saas_portal_portal
+      - ../saas_portal_start:/mnt/extra-addons/saas_portal_start
+      - ../saas_portal_signup:/mnt/extra-addons/saas_portal_signup
+      - ../saas_portal_templates:/mnt/extra-addons/saas_portal_templates
+      - ../saas_oauth_provider:/mnt/extra-addons/saas_oauth_provider
+      - ../saas_auth_oauth_ip:/mnt/extra-addons/saas_auth_oauth_ip
+      - ../saas_auth_oauth_check_client_id:/mnt/extra-addons/saas_auth_oauth_check_client_id
+      - ../saas_sysadmin:/mnt/extra-addons/saas_sysadmin
+      - ../saas_utils:/mnt/extra-addons/saas_utils
+      - ../saas_portal_quotas:/mnt/extra-addons/saas_portal_quotas
+      - ../saas_portal_sale:/mnt/extra-addons/saas_portal_sale
+      - ../saas_portal_sale_online:/mnt/extra-addons/saas_portal_sale_online
+      - ../saas_portal_sale_subscription:/mnt/extra-addons/saas_portal_sale_subscription
+      - ../saas_portal_subscription:/mnt/extra-addons/saas_portal_subscription
+      - ../saas_portal_async:/mnt/extra-addons/saas_portal_async
+      - ../saas_portal_backup:/mnt/extra-addons/saas_portal_backup
+      - ../saas_portal_demo:/mnt/extra-addons/saas_portal_demo
+      - ../saas_portal_monitoring:/mnt/extra-addons/saas_portal_monitoring
+      - ../saas_portal_tagging:/mnt/extra-addons/saas_portal_tagging
+      - ../saas_server_autodelete:/mnt/extra-addons/saas_server_autodelete
+      - ../saas_server_backup_ftp:/mnt/extra-addons/saas_server_backup_ftp
+      - ../saas_server_backup_s3:/mnt/extra-addons/saas_server_backup_s3
+      - ../saas_server_backup_rotate:/mnt/extra-addons/saas_server_backup_rotate
+      - ../saas_server_backup_rotate_s3:/mnt/extra-addons/saas_server_backup_rotate_s3
+      - ../saas_server_demo:/mnt/extra-addons/saas_server_demo
+      - ../saas_sysadmin_aws:/mnt/extra-addons/saas_sysadmin_aws
+      - ../saas_sysadmin_aws_route53:/mnt/extra-addons/saas_sysadmin_aws_route53
+      - ../saas_sysadmin_mailgun:/mnt/extra-addons/saas_sysadmin_mailgun
+      - ../saas_sysadmin_route53:/mnt/extra-addons/saas_sysadmin_route53
+      - ../saas_product_price_factor:/mnt/extra-addons/saas_product_price_factor
+      - ../website_sale_require_login:/mnt/extra-addons/website_sale_require_login
+      # Filestore pour les données
+      - ../filestore:/var/lib/odoo
+    command: >
+      odoo
+      --db_host=postgres
+      --db_user=odoo
+      --db_password=odoo
+      --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+      --data-dir=/var/lib/odoo
+      --xmlrpc-port=8069
+      --gevent-port=8072
+      --workers=0
+      --max-cron-threads=0
+      --without-demo=all
+      --db-filter=.*
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8069 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+    networks:
+      - saas-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  saas-network:
+    driver: bridge
+

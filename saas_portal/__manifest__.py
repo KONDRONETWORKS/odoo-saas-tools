@@ -52,7 +52,7 @@ Module central du système SaaS qui gère le portail d'administration des instan
 """,
     'depends': ['base', 'saas_oauth_provider', 'website', 'auth_signup', 'saas_base'],
     'data': ['data/mail_template_data.xml', 'data/plan_sequence.xml', 'data/cron.xml', 'wizard/config_wizard_minimal.xml', 'wizard/batch_delete.xml', 'views/saas_portal.xml', 'data/ir_config_parameter.xml', 'data/subtype.xml', 'data/support_team.xml', 'views/res_users.xml', 'data/res_users.xml', 'security/groups.xml', 'security/ir.model.access.csv'],
-    'post_init_hook': 'hooks.post_init_hook',
+    # 'post_init_hook': 'hooks.post_init_hook',  # Temporairement désactivé - erreur AttributeError Odoo 18
     'post_load': None,
     'installable': True,
     'application': False,

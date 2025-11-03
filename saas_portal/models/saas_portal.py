@@ -1,28 +1,36 @@
+"""
+SaaS Portal Models
+==================
+
+Modèles principaux pour la gestion du portail SaaS.
+"""
 import simplejson
 import werkzeug
+import werkzeug.urls
 import requests
 import random
+import logging
 from datetime import datetime, timedelta
 
 from odoo import api, exceptions, fields, models
-# scan_languages n'existe plus dans Odoo 18.0
 from odoo.tools.translate import _
-# _tz_get n'existe plus dans Odoo 18.0 - utiliser une alternative
-def _tz_get(env):
-    """Get timezone list for Odoo 18.0 compatibility"""
-    import pytz
-    return [(tz, tz) for tz in pytz.all_timezones]
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from odoo.addons.saas_base.exceptions import MaximumTrialDBException
 from odoo.addons.saas_base.exceptions import MaximumDBException
 from werkzeug.exceptions import Forbidden
 
-import logging
 _logger = logging.getLogger(__name__)
 
 
+def _tz_get(env):
+    """Get timezone list for Odoo 18.0 compatibility."""
+    import pytz
+    return [(tz, tz) for tz in pytz.all_timezones]
+
+
 def _compute_host(self):
+    """Compute host name for server/database."""
     base_saas_domain = self.env['ir.config_parameter'].sudo().get_param('saas_portal.base_saas_domain')
     for r in self:
         host = r.name
@@ -32,10 +40,10 @@ def _compute_host(self):
 
 
 class SaasPortalServer(models.Model):
+    """SaaS Server - Représente un serveur SaaS."""
     _name = 'saas_portal.server'
     _description = 'SaaS Server'
     _rec_name = 'name'
-
     _inherit = ['mail.thread']
     _inherits = {'oauth.application': 'oauth_application_id'}
 
@@ -47,38 +55,36 @@ class SaasPortalServer(models.Model):
     request_scheme = fields.Selection(
         [('http', 'http'), ('https', 'https')], 'Scheme', default='http', required=True)
     verify_ssl = fields.Boolean(
-        'Verify SSL', default=True, help="verify SSL certificates for server-side HTTPS requests, just like a web browser")
+        'Verify SSL', default=True,
+        help="verify SSL certificates for server-side HTTPS requests, just like a web browser")
     request_port = fields.Integer('Request Port', default=80)
-    client_ids = fields.One2many(
-        'saas_portal.client', 'server_id', string='Clients')
-    local_host = fields.Char(
-        'Local host', help='local host or ip address of server for server-side requests')
-    local_port = fields.Char(
-        'Local port', help='local tcp port of server for server-side requests')
+    client_ids = fields.One2many('saas_portal.client', 'server_id', string='Clients')
+    local_host = fields.Char('Local host', help='local host or ip address of server for server-side requests')
+    local_port = fields.Char('Local port', help='local tcp port of server for server-side requests')
     local_request_scheme = fields.Selection(
         [('http', 'http'), ('https', 'https')], 'Scheme', default='http', required=True)
     host = fields.Char('Host', compute=_compute_host)
     odoo_version = fields.Char('Odoo version', readonly=True)
     password = fields.Char()
-    clients_host_template = fields.Char('Template for clients host names',
-                                        help='The possible dynamic parts of the host names are: {dbname}, {base_saas_domain}, {base_saas_domain_1}')
+    clients_host_template = fields.Char(
+        'Template for clients host names',
+        help='The possible dynamic parts of the host names are: {dbname}, {base_saas_domain}, {base_saas_domain_1}')
 
     @api.model_create_multi
     def create(self, vals_list):
-        # Créer les OAuth applications manuellement pour chaque enregistrement
+        """Override create to automatically create OAuth application if needed."""
         for vals in vals_list:
-            # Si oauth_application_id n'est pas fourni, créer une OAuth app
             if 'oauth_application_id' not in vals or not vals.get('oauth_application_id'):
                 oauth_app = self.env['oauth.application'].sudo().create({})
                 vals['oauth_application_id'] = oauth_app.id
-        
-        records = super(SaasPortalServer, self).create(vals_list)
+
+        records = super().create(vals_list)
         for record in records:
             record.oauth_application_id._get_access_token(create=True)
         return records
 
-    def _request_params(self, path='/web', scheme=None,
-                        port=None, state=None, scope=None, client_id=None):
+    def _request_params(self, path='/web', scheme=None, port=None, state=None, scope=None, client_id=None):
+        """Build request parameters for OAuth requests."""
         self.ensure_one()
         if not state:
             state = {}
@@ -98,12 +104,14 @@ class SaasPortalServer(models.Model):
         return params
 
     def _request(self, **kwargs):
+        """Generate OAuth authorization URL."""
         self.ensure_one()
         params = self._request_params(**kwargs)
         url = '/oauth2/auth?%s' % werkzeug.urls.url_encode(params)
         return url
 
     def _request_server(self, path=None, scheme=None, port=None, **kwargs):
+        """Prepare server-side request with OAuth token."""
         self.ensure_one()
         scheme = scheme or self.local_request_scheme or self.request_scheme
         host = self.local_host or self.host
@@ -117,12 +125,12 @@ class SaasPortalServer(models.Model):
         })
         url = '{scheme}://{host}:{port}{path}'.format(
             scheme=scheme, host=host, port=port, path=path)
-        req = requests.Request('GET', url, data=params,
-                               headers={'host': self.host})
+        req = requests.Request('GET', url, data=params, headers={'host': self.host})
         req_kwargs = {'verify': self.verify_ssl}
         return req.prepare(), req_kwargs
 
     def action_redirect_to_server(self):
+        """Action to redirect to server web interface."""
         r = self[0]
         url = '{scheme}://{saas_server}:{port}{path}'.format(
             scheme=r.request_scheme, saas_server=r.host, port=r.request_port, path='/web')
@@ -135,12 +143,12 @@ class SaasPortalServer(models.Model):
 
     @api.model
     def action_sync_server_all(self):
-        p_client = self.env['saas_portal.client']
-
+        """Sync all servers and monitor storage."""
         self.search([]).action_sync_server()
-        p_client.search([]).storage_usage_monitoring()
+        self.env['saas_portal.client'].search([]).storage_usage_monitoring()
 
     def action_sync_server(self, updating_client_ID=None):
+        """Synchronize server with remote SaaS server."""
         for server in self:
             state = {
                 'd': server.name,
@@ -152,17 +160,21 @@ class SaasPortalServer(models.Model):
             res = requests.Session().send(req, **req_kwargs)
 
             if not res.ok:
-                raise Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
+                raise exceptions.Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
             try:
                 data = simplejson.loads(res.text)
             except Exception as e:
-                _logger.error('Error on parsing response: %s\n%s' % ([req.url, req.headers, req.body], res.text))
+                _logger.error('Error on parsing response: %s\n%s', [req.url, req.headers, req.body], res.text)
                 raise
             for r in data:
                 r['server_id'] = server.id
-                client = server.env['saas_portal.client'].with_context(active_test=False).search([('client_id', '=', r.get('client_id'))])
+                client = server.env['saas_portal.client'].with_context(active_test=False).search([
+                    ('client_id', '=', r.get('client_id'))
+                ])
                 if not client:
-                    database = server.env['saas_portal.database'].search([('client_id', '=', r.get('client_id'))])
+                    database = server.env['saas_portal.database'].search([
+                        ('client_id', '=', r.get('client_id'))
+                    ])
                     if database:
                         database.write(r)
                         continue
@@ -173,153 +185,152 @@ class SaasPortalServer(models.Model):
 
     @api.model
     def get_saas_server(self):
-        p_server = self.env['saas_portal.server']
-        saas_server_list = p_server.sudo().search([])
+        """Get a random active SaaS server."""
+        saas_server_list = self.sudo().search([('active', '=', True)])
+        if not saas_server_list:
+            return self.browse()
         return saas_server_list[random.randint(0, len(saas_server_list) - 1)]
 
 
 class SaasPortalPlan(models.Model):
+    """SaaS Plan - Définit un plan d'abonnement SaaS."""
     _name = 'saas_portal.plan'
     _description = 'SaaS Portal Plan'
-    
+    _order = 'sequence'
+
     def _register_hook(self):
-        """Hook appelé lors du chargement du modèle pour garantir la présence de la vue list"""
+        """Ensure list view exists for Odoo 18 compatibility."""
         super()._register_hook()
-        # S'assurer que la vue list existe (Odoo 18 n'utilise plus 'tree')
-        self.env['ir.ui.view'].sudo().search([
+        view = self.env['ir.ui.view'].sudo().search([
             ('model', '=', 'saas_portal.plan'),
             ('type', '=', 'list'),
             ('name', '=', 'saas_portal.plans.list')
-        ]) or self.env['ir.ui.view'].sudo().create({
-            'name': 'saas_portal.plans.list',
-            'model': 'saas_portal.plan',
-            'type': 'list',
-            'priority': 1,
-            'active': True,
-            'arch': '''<?xml version="1.0"?>
+        ], limit=1)
+        if not view:
+            self.env['ir.ui.view'].sudo().create({
+                'name': 'saas_portal.plans.list',
+                'model': 'saas_portal.plan',
+                'type': 'list',
+                'priority': 1,
+                'active': True,
+                'arch': '''<?xml version="1.0"?>
 <list string="Plans">
     <field name="sequence" invisible="1"/>
     <field name="name"/>
     <field name="template_id"/>
     <field name="state"/>
 </list>'''
-        })
+            })
 
     name = fields.Char('Plan', required=True)
     summary = fields.Char('Summary')
-    template_id = fields.Many2one(
-        'saas_portal.database', 'Template', ondelete='restrict')
+    template_id = fields.Many2one('saas_portal.database', 'Template', ondelete='restrict')
     demo = fields.Boolean('Install Demo Data')
     maximum_allowed_dbs_per_partner = fields.Integer(
+        'Maximum Allowed DBs per Partner',
         help='maximum allowed non-trial databases per customer', required=True, default=0)
     maximum_allowed_trial_dbs_per_partner = fields.Integer(
+        'Maximum Allowed Trial DBs per Partner',
         help='maximum allowed trial databases per customer', required=True, default=0)
-
-    max_users = fields.Char('Initial Max users',
-                            default='0', help='leave 0 for no limit')
-    total_storage_limit = fields.Integer(
-        'Total storage limit (MB)', help='leave 0 for no limit')
-    block_on_expiration = fields.Boolean(
-        'Block clients on expiration', default=False)
-    block_on_storage_exceed = fields.Boolean(
-        'Block clients on storage exceed', default=False)
+    max_users = fields.Char('Initial Max users', default='0', help='leave 0 for no limit')
+    total_storage_limit = fields.Integer('Total storage limit (MB)', help='leave 0 for no limit')
+    block_on_expiration = fields.Boolean('Block clients on expiration', default=False)
+    block_on_storage_exceed = fields.Boolean('Block clients on storage exceed', default=False)
 
     def _get_default_lang(self):
+        """Get default language from user preferences."""
         return self.env.user.lang
 
     def _default_tz(self):
+        """Get default timezone from user preferences."""
         return self.env.user.tz
 
-    lang = fields.Selection([('fr_FR', 'English'), ('fr_FR', 'French'), ('es_ES', 'Spanish'), ('de_DE', 'German')], 'Language', default=_get_default_lang)
+    lang = fields.Selection([
+        ('en_US', 'English'),
+        ('fr_FR', 'French'),
+        ('es_ES', 'Spanish'),
+        ('de_DE', 'German')
+    ], 'Language', default=_get_default_lang)
     tz = fields.Selection(selection=_tz_get, string='TimeZone', default=_default_tz)
     sequence = fields.Integer('Sequence')
     state = fields.Selection(
         [('draft', 'Draft'), ('confirmed', 'Confirmed')],
         'State', compute='_compute_get_state', store=True)
-    expiration = fields.Integer(
-        'Expiration (hours)', help='time to delete database. Use for demo')
-    _order = 'sequence'
-    grace_period = fields.Integer(
-        'Grace period (days)', help='initial days before expiration')
-
+    expiration = fields.Integer('Expiration (hours)', help='time to delete database. Use for demo')
+    grace_period = fields.Integer('Grace period (days)', help='initial days before expiration')
     dbname_template = fields.Char(
         'DB Names',
-        help='Used for generating client database domain name. Use %i for numbering. Ignore if you use manually created db names'
-    )
+        help='Used for generating client database domain name. Use %i for numbering. Ignore if you use manually created db names')
     server_id = fields.Many2one(
         'saas_portal.server',
         string='SaaS Server',
         ondelete='restrict',
-        help='User this saas server or choose random'
-    )
-
+        help='Use this saas server or choose random')
     website_description = fields.Html('Website description')
     logo = fields.Binary('Logo')
-
     on_create = fields.Selection([
         ('login', 'Log into just created instance'),
     ], string="Workflow on create", default='login')
-    on_create_email_template = fields.Many2one('mail.template',
-                                               default=lambda self: self.env.ref('saas_portal.email_template_create_saas'))
+    on_create_email_template = fields.Many2one(
+        'mail.template',
+        default=lambda self: self.env.ref('saas_portal.email_template_create_saas', raise_if_not_found=False))
 
     @api.depends('template_id.state')
     def _compute_get_state(self):
+        """Compute plan state based on template state."""
         for plan in self:
-            if plan.template_id.state == 'template':
-                plan.state = 'confirmed'
-            else:
-                plan.state = 'draft'
+            plan.state = 'confirmed' if plan.template_id.state == 'template' else 'draft'
 
     def _new_database_vals(self, vals):
+        """Add plan-specific values to database creation values."""
         self.ensure_one()
-        vals['max_users'] = vals.get('max_users', self.max_users)
-        vals['total_storage_limit'] = vals.get('total_storage_limit', self.total_storage_limit)
-        vals['block_on_expiration'] = vals.get('block_on_expiration', self.block_on_expiration)
-        vals['block_on_storage_exceed'] = vals.get('block_on_storage_exceed', self.block_on_storage_exceed)
+        vals.setdefault('max_users', self.max_users)
+        vals.setdefault('total_storage_limit', self.total_storage_limit)
+        vals.setdefault('block_on_expiration', self.block_on_expiration)
+        vals.setdefault('block_on_storage_exceed', self.block_on_storage_exceed)
         return vals
 
     def _prepare_owner_user_data(self, user_id):
         """
-        Prepare the dict of values to update owner user data in client instalnce. This method may be
-        overridden to implement custom values (making sure to call super() to establish
-        a clean extension chain).
+        Prepare the dict of values to update owner user data in client instance.
+        This method may be overridden to implement custom values.
         """
         self.ensure_one()
         owner_user = self.env['res.users'].browse(user_id) or self.env.user
-        owner_user_data = {
+        return {
             'user_id': owner_user.id,
             'login': owner_user.login,
             'name': owner_user.name,
             'email': owner_user.email,
             'password_crypt': owner_user.password_crypt,
         }
-        return owner_user_data
 
     def _get_expiration(self, trial):
+        """Calculate expiration datetime based on trial status."""
         self.ensure_one()
-        trial_hours = trial and self.expiration
-        initial_expiration_datetime = datetime.now()
-        trial_expiration_datetime = (initial_expiration_datetime + timedelta(hours=trial_hours)).strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-        return trial and trial_expiration_datetime or initial_expiration_datetime.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+        if trial and self.expiration:
+            expiration_dt = datetime.now() + timedelta(hours=self.expiration)
+            return expiration_dt.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+        return datetime.now().strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
     def create_new_database(self, **kwargs):
+        """Public method to create new database."""
         return self._create_new_database(**kwargs)
 
-    def _create_new_database(self, dbname=None, client_id=None,
-                             partner_id=None, user_id=None, notify_user=True,
-                             trial=False, support_team_id=None, async_mode=None):
+    def _create_new_database(self, dbname=None, client_id=None, partner_id=None,
+                             user_id=None, notify_user=True, trial=False,
+                             support_team_id=None, async_mode=None):
+        """Create a new client database."""
         self.ensure_one()
         p_client = self.env['saas_portal.client']
         p_server = self.env['saas_portal.server']
-        server = self.server_id
-        if not server:
-            server = p_server.get_saas_server()
+        server = self.server_id or p_server.get_saas_server()
 
-        # server.action_sync_server()
         if not partner_id and user_id:
             user = self.env['res.users'].browse(user_id)
             partner_id = user.partner_id.id
 
+        # Check database limits
         if not trial and self.maximum_allowed_dbs_per_partner != 0:
             db_count = p_client.search_count([
                 ('partner_id', '=', partner_id),
@@ -328,8 +339,9 @@ class SaasPortalPlan(models.Model):
                 ('trial', '=', False)
             ])
             if db_count >= self.maximum_allowed_dbs_per_partner:
-                raise MaximumDBException("Limit of databases for this plan is %(maximum)s reached" % {
-                    'maximum': self.maximum_allowed_dbs_per_partner})
+                raise MaximumDBException(
+                    "Limit of databases for this plan is %(maximum)s reached" % {
+                        'maximum': self.maximum_allowed_dbs_per_partner})
 
         if trial and self.maximum_allowed_trial_dbs_per_partner != 0:
             trial_db_count = p_client.search_count([
@@ -339,8 +351,9 @@ class SaasPortalPlan(models.Model):
                 ('trial', '=', True)
             ])
             if trial_db_count >= self.maximum_allowed_trial_dbs_per_partner:
-                raise MaximumTrialDBException("Limit of trial databases for this plan is %(maximum)s reached" % {
-                    'maximum': self.maximum_allowed_trial_dbs_per_partner})
+                raise MaximumTrialDBException(
+                    "Limit of trial databases for this plan is %(maximum)s reached" % {
+                        'maximum': self.maximum_allowed_trial_dbs_per_partner})
 
         client_expiration = self._get_expiration(trial)
         vals = {
@@ -377,17 +390,17 @@ class SaasPortalPlan(models.Model):
             't': client.trial,
         }
         if self.template_id:
-            state.update({'db_template': self.template_id.name})
-        scope = ['userinfo', 'force_login', 'trial', 'skiptheuse']
+            state['db_template'] = self.template_id.name
+
         req, req_kwargs = server._request_server(
             path='/saas_server/new_database',
             state=state,
             client_id=client_id,
-            scope=scope,
+            scope=['userinfo', 'force_login', 'trial', 'skiptheuse'],
         )
         res = requests.Session().send(req, **req_kwargs)
         if res.status_code != 200:
-            raise Warning(_('Error on request: %s\nReason: %s \n Message: %s') % (
+            raise exceptions.Warning(_('Error on request: %s\nReason: %s \n Message: %s') % (
                 req.url, res.reason, res.content))
         data = simplejson.loads(res.text)
         params = {
@@ -397,7 +410,7 @@ class SaasPortalPlan(models.Model):
         url = '{url}?{params}'.format(url=data.get('url'), params=werkzeug.urls.url_encode(params))
         auth_url = url
 
-        # send email if there is mail template record
+        # Send email notification if template exists
         template = self.on_create_email_template
         if template and notify_user:
             user = self.env['res.users'].browse(user_id)
@@ -405,8 +418,6 @@ class SaasPortalPlan(models.Model):
                 template.id, composition_mode='comment')
 
         client.send_params_to_client_db()
-        # TODO make async call of action_sync_server here
-        # client.server_id.action_sync_server()
         client.sync_client()
 
         return {
@@ -417,6 +428,7 @@ class SaasPortalPlan(models.Model):
         }
 
     def generate_dbname(self, raise_error=True):
+        """Generate database name from template."""
         self.ensure_one()
         if not self.dbname_template:
             if raise_error:
@@ -426,17 +438,14 @@ class SaasPortalPlan(models.Model):
         return self.dbname_template.replace('%i', sequence)
 
     def create_template_button(self):
+        """Button action to create template."""
         return self.create_template()
 
     def create_template(self, addons=None):
+        """Create template database from plan."""
         self.ensure_one()
-        p_server = self.env['saas_portal.server']
-        
-        # Obtenir le serveur (aléatoire si server_id n'est pas défini)
-        server = self.server_id
-        if not server:
-            server = p_server.get_saas_server()
-        
+        server = self.server_id or self.env['saas_portal.server'].get_saas_server()
+
         state = {
             'd': self.template_id.name,
             'demo': self.demo and 1 or 0,
@@ -453,12 +462,12 @@ class SaasPortalPlan(models.Model):
         res = requests.Session().send(req, **req_kwargs)
 
         if not res.ok:
-            raise Warning(_('Error on request: %s\nReason: %s \n Message: %s') %
+            raise exceptions.Warning(_('Error on request: %s\nReason: %s \n Message: %s') %
                           (req.url, res.reason, res.content))
         try:
             data = simplejson.loads(res.text)
         except Exception as e:
-            _logger.error(_('Error on parsing response: %s\n%s') % ([req.url, req.headers, req.body], res.text))
+            _logger.error('Error on parsing response: %s\n%s', [req.url, req.headers, req.body], res.text)
             raise
 
         self.template_id.password = data.get('superuser_password')
@@ -466,23 +475,28 @@ class SaasPortalPlan(models.Model):
         return data
 
     def action_sync_server(self):
-        for r in self:
-            r.server_id.action_sync_server()
+        """Sync server for this plan."""
+        for plan in self:
+            if plan.server_id:
+                plan.server_id.action_sync_server()
         return True
 
     def edit_template(self):
+        """Edit template database."""
         return self[0].template_id.edit_database()
 
     def upgrade_template(self):
+        """Show upgrade wizard for template."""
         return self[0].template_id.show_upgrade_wizard()
 
     def delete_template(self):
+        """Delete template database."""
         self.ensure_one()
-        res = self.template_id.delete_database_server()
-        return res
+        return self.template_id.delete_database_server()
 
 
 class OauthApplication(models.Model):
+    """Extended OAuth Application model."""
     _inherit = 'oauth.application'
 
     client_id = fields.Char('Database UUID')
@@ -496,35 +510,30 @@ class OauthApplication(models.Model):
         'saas_portal.database', 'oauth_application_id',
         string='Template Database')
     client_db_ids = fields.One2many(
-        'saas_portal.client', 'oauth_application_id', string='Client Database'
-    )
+        'saas_portal.client', 'oauth_application_id', string='Client Database')
 
     def _compute_get_last_connection(self):
+        """Compute last connection date from access tokens."""
         for r in self:
             r.last_connection = False
             try:
-                oat = self.env['oauth.access_token']
-                to_search = [('application_id', '=', r.id)]
-                access_tokens = oat.search(to_search, order='id DESC', limit=1)
-                if access_tokens:
-                    access_token = access_tokens[0]
-                    if access_token.user_id:
-                        # login_date peut ne pas exister dans Odoo 18, utiliser login si disponible
-                        login_date = getattr(access_token.user_id, 'login_date', None)
-                        if login_date:
-                            r.last_connection = str(login_date)
-                        else:
-                            # Fallback sur le create_date du token si login_date n'existe pas
-                            r.last_connection = str(access_token.create_date) if hasattr(access_token, 'create_date') else False
+                access_token = self.env['oauth.access_token'].search([
+                    ('application_id', '=', r.id)
+                ], order='id DESC', limit=1)
+                if access_token and access_token.user_id:
+                    login_date = getattr(access_token.user_id, 'login_date', None)
+                    if login_date:
+                        r.last_connection = str(login_date)
+                    elif hasattr(access_token, 'create_date'):
+                        r.last_connection = str(access_token.create_date)
             except Exception:
-                # En cas d'erreur, laisser last_connection à False
-                r.last_connection = False
+                pass
 
 
 class SaasPortalDatabase(models.Model):
+    """SaaS Portal Database model."""
     _name = 'saas_portal.database'
     _description = 'SaaS Portal Database'
-
     _inherits = {'oauth.application': 'oauth_application_id'}
 
     name = fields.Char('Database name', readonly=False)
@@ -535,29 +544,34 @@ class SaasPortalDatabase(models.Model):
         'saas_portal.server', ondelete='restrict',
         string='Server', readonly=True)
     state = fields.Selection(
-        [('draft', 'New'), ('open', 'In Progress'), ('cancelled', 'Cancelled'), ('pending', 'Pending'),
-         ('deleted', 'Deleted'), ('template', 'Template')],
+        [('draft', 'New'), ('open', 'In Progress'), ('cancelled', 'Cancelled'),
+         ('pending', 'Pending'), ('deleted', 'Deleted'), ('template', 'Template')],
         'State', default='draft')
     host = fields.Char('Host', compute='_compute_host')
     public_url = fields.Char(compute='_compute_public_url')
     password = fields.Char()
 
     def _compute_host(self):
+        """Compute host name based on template or default."""
         base_saas_domain = self.env['ir.config_parameter'].sudo().get_param('saas_portal.base_saas_domain')
-        base_saas_domain_1 = '.'.join(base_saas_domain.rsplit('.', 2)[-2:])
+        base_saas_domain_1 = '.'.join(base_saas_domain.rsplit('.', 2)[-2:]) if base_saas_domain else ''
         name_dict = {
-            'base_saas_domain': base_saas_domain,
+            'base_saas_domain': base_saas_domain or '',
             'base_saas_domain_1': base_saas_domain_1,
         }
         for record in self:
-            if record.server_id.clients_host_template:
-                name_dict.update({'dbname': record.name})
+            if record.server_id and record.server_id.clients_host_template:
+                name_dict['dbname'] = record.name
                 record.host = record.server_id.clients_host_template.format(**name_dict)
             else:
-                _compute_host(self)
+                _compute_host(record)
 
     def _compute_public_url(self):
+        """Compute public URL for database."""
         for record in self:
+            if not record.server_id:
+                record.public_url = ''
+                continue
             scheme = record.server_id.request_scheme
             host = record.host
             port = record.server_id.request_port
@@ -568,46 +582,43 @@ class SaasPortalDatabase(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        # Créer les OAuth applications manuellement pour chaque enregistrement
+        """Override create to automatically create OAuth application if needed."""
         for vals in vals_list:
-            # Si oauth_application_id n'est pas fourni, créer une OAuth app
             if 'oauth_application_id' not in vals or not vals.get('oauth_application_id'):
                 oauth_app = self.env['oauth.application'].sudo().create({})
                 vals['oauth_application_id'] = oauth_app.id
-        
-        return super(SaasPortalDatabase, self).create(vals_list)
+        return super().create(vals_list)
 
     def _backup(self):
-        '''
-        call to backup database
-        '''
+        """Call remote server to backup database."""
         self.ensure_one()
-
         state = {
             'd': self.name,
             'client_id': self.client_id,
         }
-
         req, req_kwargs = self.server_id._request_server(
             path='/saas_server/backup_database', state=state, client_id=self.client_id)
         res = requests.Session().send(req, **req_kwargs)
         _logger.info('backup database: %s', res.text)
         if not res.ok:
-            raise Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
+            raise exceptions.Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
         data = simplejson.loads(res.text)
         if not isinstance(data[0], dict):
-            raise Warning(data)
+            raise exceptions.Warning(data)
         if data[0]['status'] != 'success':
             warning = data[0].get('message', _('Could not backup database; please check your logs'))
-            raise Warning(warning)
+            raise exceptions.Warning(warning)
         return True
 
     def action_sync_server(self):
+        """Sync server for this database."""
         for record in self:
-            record.server_id.action_sync_server()
+            if record.server_id:
+                record.server_id.action_sync_server()
 
     @api.model
     def _proceed_url(self, url):
+        """Return action to proceed to URL."""
         return {
             'type': 'ir.actions.act_url',
             'target': 'new',
@@ -616,6 +627,7 @@ class SaasPortalDatabase(models.Model):
         }
 
     def _request_url(self, path):
+        """Build request URL for database operation."""
         r = self[0]
         state = {
             'd': r.name,
@@ -627,19 +639,22 @@ class SaasPortalDatabase(models.Model):
         return url
 
     def _request(self, path):
+        """Return action to request path."""
         url = self._request_url(path)
         return self._proceed_url(url)
 
     def edit_database(self):
-        """Obsolete. Use saas_portal.edit_database widget instead"""
+        """Obsolete. Use saas_portal.edit_database widget instead."""
         for database_obj in self:
             return database_obj._request('/saas_server/edit_database')
 
     def delete_database(self):
+        """Delete database via remote request."""
         for database_obj in self:
             return database_obj._request('/saas_server/delete_database')
 
     def upgrade(self, payload=None):
+        """Upgrade database with payload."""
         config_obj = self.env['saas.config']
         res = []
         if payload is not None:
@@ -648,10 +663,12 @@ class SaasPortalDatabase(models.Model):
         return res
 
     def delete_database_server(self, **kwargs):
+        """Delete database on server."""
         self.ensure_one()
         return self._delete_database_server(**kwargs)
 
     def _delete_database_server(self, force_delete=False):
+        """Internal method to delete database on server."""
         for database in self:
             state = {
                 'd': database.name,
@@ -668,10 +685,10 @@ class SaasPortalDatabase(models.Model):
                 database.state = 'deleted'
 
     def show_upgrade_wizard(self):
+        """Show upgrade wizard for database."""
         obj = self[0]
         return {
             'type': 'ir.actions.act_window',
-            'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'saas.config',
             'target': 'new',
@@ -683,57 +700,50 @@ class SaasPortalDatabase(models.Model):
 
 
 class SaasPortalClient(models.Model):
+    """SaaS Portal Client - Représente un client SaaS."""
     _name = 'saas_portal.client'
     _description = 'Client'
     _rec_name = 'name'
-
     _inherit = ['mail.thread', 'saas_portal.database', 'saas_base.client']
 
     name = fields.Char(required=True)
-    partner_id = fields.Many2one(
-        'res.partner', string='Partner', readonly=True)
-    plan_id = fields.Many2one('saas_portal.plan', string='Plan',
-                              ondelete='set null', readonly=True)
+    partner_id = fields.Many2one('res.partner', string='Partner', readonly=True)
+    plan_id = fields.Many2one('saas_portal.plan', string='Plan', ondelete='set null', readonly=True)
     expiration_datetime = fields.Datetime(string="Expiration")
     expired = fields.Boolean('Expired', readonly=True)
-    user_id = fields.Many2one(
-        'res.users', default=lambda self: self.env.user, string='Salesperson')
+    user_id = fields.Many2one('res.users', default=lambda self: self.env.user, string='Salesperson')
     notification_sent = fields.Boolean(
-        default=False, readonly=True, help='notification about oncoming expiration has sent')
-    support_team_id = fields.Many2one(
-        'saas_portal.support_team', 'Support Team')
-    active = fields.Boolean(
-        default=True, compute='_compute_active', store=True)
-    block_on_expiration = fields.Boolean(
-        'Block clients on expiration', default=False)
-    block_on_storage_exceed = fields.Boolean(
-        'Block clients on storage exceed', default=False)
-    storage_exceed = fields.Boolean(
-        'Storage limit has been exceed', default=False)
+        default=False, readonly=True,
+        help='notification about oncoming expiration has sent')
+    support_team_id = fields.Many2one('saas_portal.support_team', 'Support Team')
+    active = fields.Boolean(default=True, compute='_compute_active', store=True)
+    block_on_expiration = fields.Boolean('Block clients on expiration', default=False)
+    block_on_storage_exceed = fields.Boolean('Block clients on storage exceed', default=False)
+    storage_exceed = fields.Boolean('Storage limit has been exceed', default=False)
     trial_hours = fields.Integer(
         'Initial period for trial (hours)',
-        help='Subsription initial period in hours for trials',
-        readonly=True
-    )
+        help='Subscription initial period in hours for trials',
+        readonly=True)
+    visible_addons = fields.Char(
+        'Visible addons',
+        help='Comma separated addons, what are visible in Apps page')
 
-    visible_addons = fields.Char('Visible addons',
-                                 help='Comma separated addons, what are visible in Apps page')
-
-    # TODO: use new api for tracking
+    # TODO: Migrate to new tracking API when available
     _track = {
         'expired': {
-            'saas_portal.mt_expired':
-                lambda self, cr, uid, obj, ctx=None: obj.expired
+            'saas_portal.mt_expired': lambda self, cr, uid, obj, ctx=None: obj.expired
         }
     }
 
     @api.depends('state')
     def _compute_active(self):
+        """Compute active state based on database state."""
         for record in self:
             record.active = record.state != 'deleted'
 
     @api.model
     def _cron_suspend_expired_clients(self):
+        """Cron job to suspend expired clients."""
         payload = {
             'params': [{'key': 'saas_client.suspended', 'value': '1', 'hidden': True}],
         }
@@ -747,40 +757,36 @@ class SaasPortalClient(models.Model):
             if record.trial or record.block_on_expiration:
                 template = self.env.ref('saas_portal.email_template_has_expired_notify')
                 record.message_post_with_template(template.id, composition_mode='comment')
-
                 record.upgrade(payload)
-                # if upgraded without exceptions then change the state
                 record.state = 'pending'
 
     @api.model
     def _cron_notify_expired_clients(self):
-        notification_delta = int(self.env['ir.config_parameter'].sudo().get_param('saas_portal.expiration_notify_in_advance', '0'))
+        """Cron job to notify clients about upcoming expiration."""
+        notification_delta = int(self.env['ir.config_parameter'].sudo().get_param(
+            'saas_portal.expiration_notify_in_advance', '0'))
         if notification_delta > 0:
+            expiration_date = (datetime.now() + timedelta(days=notification_delta)).strftime(
+                DEFAULT_SERVER_DATETIME_FORMAT)
             records = self.search([
-                ('expiration_datetime', '<=', (datetime.now() + timedelta(days=notification_delta)).strftime(DEFAULT_SERVER_DATETIME_FORMAT)),
+                ('expiration_datetime', '<=', expiration_date),
                 ('notification_sent', '=', False)
             ])
             records.write({'notification_sent': True})
+            template = self.env.ref('saas_portal.email_template_expiration_notify')
             for record in records:
-                template = self.env.ref('saas_portal.email_template_expiration_notify')
                 record.with_context(days=notification_delta).message_post_with_template(
-                    template.id, composition_mode='comment'
-                )
+                    template.id, composition_mode='comment')
 
     def unlink(self):
+        """Override unlink to clean up OAuth tokens."""
         for obj in self:
-            to_search1 = [('application_id', '=', obj.id)]
-            tokens = self.env['oauth.access_token'].search(to_search1)
+            tokens = self.env['oauth.access_token'].search([('application_id', '=', obj.id)])
             tokens.unlink()
-            # TODO: it seems we don't need stuff below
-            # to_search2 = [('database', '=', obj.name)]
-            # user_ids = user_model.search(to_search2)
-            # if user_ids:
-            #    user_model.unlink(user_ids)
-            # odoo.service.db.exp_drop(obj.name)
-        return super(SaasPortalClient, self).unlink()
+        return super().unlink()
 
     def write(self, values):
+        """Override write to sync parameters to client database."""
         payload_params = []
         if 'expiration_datetime' in values:
             payload_params.append({
@@ -788,24 +794,20 @@ class SaasPortalClient(models.Model):
                 'value': values['expiration_datetime'],
                 'hidden': True,
             })
-
         if 'visible_addons' in values:
             payload_params.append({
                 'key': 'saas_client.visible_modules',
                 'value': values['visible_addons'],
                 'hidden': False,
             })
-
         for record in self:
-            record.upgrade({"params": payload_params})
-
-        result = super(SaasPortalClient, self).write(values)
-
-        return result
+            if payload_params:
+                record.upgrade({"params": payload_params})
+        return super().write(values)
 
     def rename_database(self, new_dbname):
+        """Rename database on remote server."""
         self.ensure_one()
-        # TODO async
         state = {
             'd': self.name,
             'client_id': self.client_id,
@@ -814,20 +816,23 @@ class SaasPortalClient(models.Model):
         req, req_kwargs = self.server_id._request_server(
             path='/saas_server/rename_database', state=state, client_id=self.client_id)
         res = requests.Session().send(req, **req_kwargs)
-        _logger.info('delete database: %s', res.text)
+        _logger.info('rename database: %s', res.text)
         if res.status_code != 500:
             self.name = new_dbname
 
     def sync_client(self):
+        """Synchronize client with server."""
         self.ensure_one()
         self.server_id.action_sync_server(updating_client_ID=self.client_id)
 
     def check_partner_access(self, partner_id):
+        """Check if partner has access to this client."""
         for record in self:
             if record.partner_id.id != partner_id:
                 raise Forbidden
 
     def duplicate_database(self, dbname=None, partner_id=None, expiration=None, target_server=None):
+        """Duplicate database to new client."""
         self.ensure_one()
         p_client = self.env['saas_portal.client']
         p_server = self.env['saas_portal.server']
@@ -836,14 +841,13 @@ class SaasPortalClient(models.Model):
             [('partner_id', '=', partner_id)], limit=1) or self.env.user
 
         if target_server and self.server_id != target_server:
-            # TODO: заранее продублировать там базу, если сервер отличается от базы клиенского
             req, req_kwargs = self.server_id._request_server(
                 path='/saas_server/dump_database_prepare',
                 client_id=self.client_id,
             )
             origin_res = requests.Session().send(req, **req_kwargs)
             if not origin_res.ok:
-                raise Warning(_('Reason: %s \n Message: %s') % (origin_res.reason, origin_res.content))
+                raise exceptions.Warning(_('Reason: %s \n Message: %s') % (origin_res.reason, origin_res.content))
 
             req, req_kwargs = target_server._request_server(
                 path='/saas_server/restore_database',
@@ -859,14 +863,12 @@ class SaasPortalClient(models.Model):
 
             target_res = requests.Session().send(req, **req_kwargs)
             if not target_res.ok:
-                raise Warning(_('Reason: %s \n Message: %s') % (target_res.reason, target_res.content))
+                raise exceptions.Warning(_('Reason: %s \n Message: %s') % (target_res.reason, target_res.content))
 
             server = target_server
             db_template = target_res.text
         else:
-            server = self.server_id
-            if not server:
-                server = p_server.get_saas_server()
+            server = self.server_id or p_server.get_saas_server()
             db_template = self.name
 
         server.action_sync_server()
@@ -902,27 +904,24 @@ class SaasPortalClient(models.Model):
             'disable_mail_server': True,
         }
 
-        scope = ['userinfo', 'force_login', 'trial', 'skiptheuse']
-
         req, req_kwargs = server._request_server(
             path='/saas_server/new_database',
-            state=state, client_id=client_id, scope=scope
-        )
+            state=state, client_id=client_id, scope=['userinfo', 'force_login', 'trial', 'skiptheuse'])
         res = requests.Session().send(req, **req_kwargs)
 
         if not res.ok:
-            raise Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
+            raise exceptions.Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
         try:
             data = simplejson.loads(res.text)
         except Exception as e:
-            _logger.error('Error on parsing response: %s\n%s' % ([req.url, req.headers, req.body], res.text))
+            _logger.error('Error on parsing response: %s\n%s', [req.url, req.headers, req.body], res.text)
             raise
 
-        data.update({'id': client.id})
-
+        data['id'] = client.id
         return data
 
     def get_upgrade_database_payload(self):
+        """Get payload for database upgrade."""
         self.ensure_one()
         return {
             'params': [{
@@ -933,6 +932,7 @@ class SaasPortalClient(models.Model):
         }
 
     def send_params_to_client_db(self):
+        """Send parameters to client database."""
         for record in self:
             payload = {
                 'params': [
@@ -944,12 +944,14 @@ class SaasPortalClient(models.Model):
             self.env['saas.config'].do_upgrade_database(payload, record)
 
     def send_expiration_info_to_partner(self):
+        """Send expiration information to partner."""
         for record in self:
             if record.expiration_datetime:
                 template = self.env.ref('saas_portal.email_template_expiration_datetime_updated')
                 record.message_post_with_template(template.id, composition_mode='comment')
 
     def storage_usage_monitoring(self):
+        """Monitor storage usage and suspend if needed."""
         payload = {
             'params': [{'key': 'saas_client.suspended', 'value': '1', 'hidden': True}],
         }
@@ -958,7 +960,6 @@ class SaasPortalClient(models.Model):
                 r.write({'storage_exceed': True})
                 template = self.env.ref('saas_portal.email_template_storage_exceed')
                 r.message_post_with_template(template.id, composition_mode='comment')
-
                 if r.block_on_storage_exceed:
                     self.env['saas.config'].do_upgrade_database(payload, r)
             if (not r.total_storage_limit or r.total_storage_limit >= r.file_storage + r.db_storage) and r.storage_exceed:
@@ -966,9 +967,8 @@ class SaasPortalClient(models.Model):
 
 
 class SaasPortalSupportTeams(models.Model):
+    """SaaS Portal Support Team model."""
     _name = 'saas_portal.support_team'
     _description = 'SaaS Portal Support Team'
-
     _inherit = ['mail.thread']
-
     name = fields.Char('Team name')

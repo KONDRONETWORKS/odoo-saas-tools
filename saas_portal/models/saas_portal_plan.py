@@ -1,6 +1,6 @@
 """
-Surcharge de saas_portal.plan pour mapper 'tree' → 'list' (Odoo 18)
-Solution simple et directe
+Override saas_portal.plan.get_views to map 'tree' → 'list' (Odoo 18 compatibility).
+Minimal approach: only clean the result, don't modify the logic.
 """
 from odoo import models, api
 import logging
@@ -9,78 +9,73 @@ _logger = logging.getLogger(__name__)
 
 
 class SaasPortalPlan(models.Model):
+    """Extended saas_portal.plan model."""
     _inherit = 'saas_portal.plan'
     
     @api.model
     def get_views(self, views=None, options=None):
         """
-        Normalise les formats de views et mappe 'tree' → 'list'
+        Minimal override: just clean the result to map 'tree' → 'list'.
+        Let parent handle all the logic.
         """
-        # Vérifier que views est bien une liste/tuple
-        if views is not None and not isinstance(views, (list, tuple)):
-            _logger.warning(f"get_views: views n'est pas une liste/tuple: {type(views)}")
-            views = None
+        # Call parent first - don't modify anything
+        try:
+            result = super().get_views(views=views, options=options)
+        except Exception as e:
+            _logger.error("get_views: error calling super().get_views: %s", e, exc_info=True)
+            # Return minimal valid structure only if parent fails
+            return {
+                'fields': {},
+                'views': {},
+                'models': {},
+            }
         
-        # Normaliser les views
-        if views:
-            normalized_views = []
-            for item in views:
-                if isinstance(item, (list, tuple)) and len(item) >= 2:
-                    first, second = item[0], item[1]
-                    
-                    # Détecter le format: (id, type) ou (type, id)
-                    if isinstance(first, (int, bool)) or first is False:
-                        if isinstance(second, str):
-                            view_id, view_type = first, second  # Format: (id, type)
-                        else:
-                            continue  # Format invalide
-                    elif isinstance(first, str):
-                        view_type, view_id = first, second  # Format: (type, id)
-                    else:
-                        continue  # Format invalide
-                    
-                    # Vérifier que view_type est une chaîne
-                    if not isinstance(view_type, str):
-                        continue
-                    
-                    # CORRECTION CRITIQUE : Si view_id est une chaîne, le remplacer par False
-                    if isinstance(view_id, str):
-                        _logger.warning(f"get_views: view_id est une chaîne '{view_id}', remplacement par False")
-                        view_id = False
-                    
-                    # Protection supplémentaire : si view_id est "list" ou "tree", le remplacer
-                    if view_id in ('list', 'tree'):
-                        _logger.warning(f"get_views: view_id est '{view_id}' (chaîne), remplacement par False")
-                        view_id = False
-                    
-                    # Vérifier que view_id est valide (int, bool, False ou None uniquement)
-                    if view_id is not None and not isinstance(view_id, (int, bool)) and view_id is not False:
-                        _logger.warning(f"get_views: view_id invalide: {view_id} (type: {type(view_id)}), remplacement par False")
-                        view_id = False
-                    
-                    # Mapper 'tree' → 'list'
-                    if view_type == 'tree':
-                        view_type = 'list'
-                    
-                    # Format attendu par Odoo: (type, id)
-                    # S'assurer que view_id n'est jamais une chaîne
-                    if isinstance(view_id, str):
-                        view_id = False
-                    
-                    normalized_views.append((view_type, view_id))
-            
-            views = normalized_views if normalized_views else None
+        # Only modify result if it's valid
+        if not result:
+            _logger.warning("get_views: result is empty, returning minimal structure")
+            return {
+                'fields': {},
+                'views': {},
+                'models': {},
+            }
         
-        # Appeler la méthode parente directement sans recherche récursive
-        result = super().get_views(views=views, options=options)
+        if not isinstance(result, dict):
+            _logger.error("get_views: result is not a dict: %s", type(result))
+            return {
+                'fields': {},
+                'views': {},
+                'models': {},
+            }
         
-        # Nettoyer le résultat : supprimer 'tree' si présent
-        if result and 'views' in result:
+        # Ensure required keys exist (defensive)
+        if 'fields' not in result:
+            result['fields'] = {}
+        if 'views' not in result:
+            result['views'] = {}
+        if 'models' not in result:
+            result['models'] = {}
+        
+        # Ensure values are dicts (defensive)
+        if result.get('fields') is None:
+            result['fields'] = {}
+        if result.get('views') is None:
+            result['views'] = {}
+        if result.get('models') is None:
+            result['models'] = {}
+        
+        if not isinstance(result.get('fields'), dict):
+            result['fields'] = {}
+        if not isinstance(result.get('views'), dict):
+            result['views'] = {}
+        if not isinstance(result.get('models'), dict):
+            result['models'] = {}
+        
+        # ONLY clean 'tree' → 'list' mapping, nothing else
+        if isinstance(result.get('views'), dict):
             views_dict = result['views']
+            if 'tree' in views_dict and 'list' not in views_dict:
+                views_dict['list'] = views_dict['tree']
             if 'tree' in views_dict:
-                if 'list' not in views_dict:
-                    views_dict['list'] = views_dict['tree']
                 del views_dict['tree']
         
         return result
-

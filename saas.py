@@ -9,12 +9,20 @@ import configparser as ConfigParser
 import argparse
 import contextlib
 import datetime
-import fcntl
+try:
+    import fcntl
+except ImportError:
+    # fcntl is not available on Windows
+    fcntl = None
 import re
 import os
 import psycopg2
 import requests
-import resource
+try:
+    import resource
+except ImportError:
+    # resource is not available on Windows
+    resource = None
 import signal
 import subprocess
 import time
@@ -24,9 +32,17 @@ import xmlrpc.client
 
 def log(*args):
     ts = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+    message = ('saas.py >>> ' + ', '.join([str(a) for a in args]))
     print('')
     print(ts)
-    print(('saas.py >>> ' + ', '.join([str(a) for a in args])))
+    print(message)
+    # Écrire aussi dans un fichier log si possible
+    try:
+        log_file = os.path.join(os.getcwd(), 'saas.log')
+        with open(log_file, 'a', encoding='utf-8') as f:
+            f.write(f"{ts} {message}\n")
+    except:
+        pass  # Ignorer les erreurs d'écriture de log
 
 # ----------------------------------------------------------
 # Options
@@ -69,7 +85,7 @@ settings_group.add_argument('--install-modules', dest='install_modules', help='C
 #settings_group.add_argument('--db_user', dest='db_user', help='database user name')
 settings_group.add_argument('-s', '--simulate', dest='simulate', action='store_true', help='Don\'t make actual changes. Just show what script is going to do.')
 settings_group.add_argument('--drop-databases', dest='drop_databases', help='Drop existed databases before creating portal or server', action='store_true', default=False)
-settings_group.add_argument('--db-lang', dest='db_lang', help='DB language', default='fr_FR')
+settings_group.add_argument('--db-lang', dest='db_lang', help='DB language', default='en_US')
 
 portal_group = parser.add_argument_group('Portal creation')
 portal_group.add_argument('--portal-create', dest='portal_create', help='Create SaaS Portal database', action='store_true')
@@ -178,8 +194,19 @@ def main():
     if port_is_open:
         log('Port is used. Probably, odoo is already running. Let\'s try to use it. It it will fail, you need either stop odoo or pass another port to saas.py via --xmlrpc-port arg')
     else:
-        cmd = get_cmd()
-        pid = spawn_cmd(cmd)
+        if args.get('use_existed_odoo'):
+            log('Using existing Odoo instance (--use-existed-odoo). Waiting for port 8069...')
+            log('If Odoo is in Docker, make sure it is running: docker compose -f config/docker-compose.windows.yml ps')
+        else:
+            try:
+                cmd = get_cmd()
+                pid = spawn_cmd(cmd)
+            except FileNotFoundError as e:
+                log('ERROR: Cannot start Odoo:', str(e))
+                log('Suggestion: Use Docker or install Odoo')
+                if os.name == 'nt':
+                    log('Windows: Install Docker Desktop and run: docker compose -f config/docker-compose.windows.yml up -d')
+                return
     try:
         port_is_open or wait_net_service('127.0.0.1', int(xmlrpc_port), 30)
 
@@ -535,8 +562,37 @@ def pgadmin_cursor():
 # OS Tools
 # ----------------------------------------------------------
 def get_cmd(dbname='', workers=3, run_cron=False):
+    odoo_script = args.get('odoo_script')
+    
+    # Vérifier si odoo_script existe (sauf si on utilise --use-existed-odoo)
+    if not args.get('use_existed_odoo') and odoo_script:
+        if not os.path.exists(odoo_script):
+            # Essayer des chemins alternatifs sur Windows
+            if os.name == 'nt':
+                # Chercher dans des emplacements Windows communs
+                possible_paths = [
+                    os.path.join(os.path.expanduser('~'), 'odoo', 'odoo-bin'),
+                    os.path.join('C:\\', 'odoo', 'odoo-bin'),
+                    os.path.join('C:\\', 'Program Files', 'Odoo', 'odoo-bin'),
+                ]
+                for path in possible_paths:
+                    if os.path.exists(path):
+                        odoo_script = path
+                        log('Found Odoo at', path)
+                        break
+                else:
+                    error_msg = (
+                        f"Odoo script not found: {odoo_script}\n"
+                        f"Please either:\n"
+                        f"  1. Install Odoo and specify path with --odoo-script\n"
+                        f"  2. Use Docker with --use-existed-odoo option\n"
+                        f"  3. Install Docker and run: docker compose -f config/docker-compose.windows.yml up -d"
+                    )
+                    log('ERROR:', error_msg)
+                    raise FileNotFoundError(error_msg)
+    
     cmd = [
-        args.get('odoo_script'),
+        odoo_script if odoo_script else 'odoo',  # Fallback si dans PATH
         "--xmlrpc-port=%s" % xmlrpc_port,
         "--gevent-port=%s" % longpolling_port,
         "--database=%s" % dbname,
@@ -584,22 +640,30 @@ def spawn_cmd(cmd, cpu_limit=None, shell=False):
         return
 
     def preexec_fn():
-        os.setsid()
-        if cpu_limit:
-            # set soft cpulimit
-            soft, hard = resource.getrlimit(resource.RLIMIT_CPU)
-            r = resource.getrusage(resource.RUSAGE_SELF)
-            cpu_time = r.ru_utime + r.ru_stime
-            resource.setrlimit(resource.RLIMIT_CPU, (cpu_time + cpu_limit, hard))
-        # close parent files
-        os.closerange(3, os.sysconf("SC_OPEN_MAX"))
+        # Unix-specific functions - skip on Windows
+        if os.name != 'nt':
+            try:
+                os.setsid()
+            except AttributeError:
+                pass
+            if cpu_limit and resource:
+                # set soft cpulimit
+                soft, hard = resource.getrlimit(resource.RLIMIT_CPU)
+                r = resource.getrusage(resource.RUSAGE_SELF)
+                cpu_time = r.ru_utime + r.ru_stime
+                resource.setrlimit(resource.RLIMIT_CPU, (cpu_time + cpu_limit, hard))
+            # close parent files
+            try:
+                os.closerange(3, os.sysconf("SC_OPEN_MAX"))
+            except (AttributeError, OSError):
+                pass
         # lock(lock_path)
     # out=open(log_path,"w")
     # _logger.debug("spawn: %s stdout: %s", ' '.join(cmd), log_path)
     p = subprocess.Popen(cmd,
                          # stdout=out,
                          # stderr=out,
-                         preexec_fn=preexec_fn,
+                         preexec_fn=preexec_fn if os.name != 'nt' else None,
                          shell=shell)
     log('Spawn pid: %s' % p.pid)
     return p.pid

@@ -3,7 +3,6 @@
     <record id="base.user_root" model="res.users">
         <field name="support_team_id" ref="saas_portal.main_support_team" />
         <field name="groups_id" eval="[(4, ref('base.group_user')), 
-                                        (4, ref('base.group_system')), 
-                                        (4, ref('base.group_admin'))]" />
+                                        (4, ref('base.group_system'))]" />
     </record>
 </odoo>

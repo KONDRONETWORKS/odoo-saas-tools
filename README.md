@@ -365,13 +365,18 @@ python3 saas.py --portal-create --server-create --plan-create --run
 
 ### Installation avec Docker
 
-```bash
-# Démarrer avec Docker Compose
-docker-compose up -d
+```powershell
+# 1. Démarrer Docker Compose
+docker compose -f config/docker-compose.windows.yml up -d
 
-# Ou construire l'image
-docker build -t odoo-saas-tools:18.0 .
+# 2. Activer l'environnement virtuel
+.\venv\Scripts\Activate.ps1
+
+# 3. Lancer saas.py
+python saas.py --portal-create --server-create --plan-create --use-existed-odoo --odoo-config=config/odoo.conf
 ```
+
+Voir `docs/setup/DEMARRAGE_RAPIDE.md` pour plus de détails.
 
 ## ⚙️ Configuration
 

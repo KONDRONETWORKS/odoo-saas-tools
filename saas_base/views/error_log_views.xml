@@ -5,7 +5,7 @@
         <field name="name">saas.error.log.tree</field>
         <field name="model">saas.error.log</field>
         <field name="priority">1</field>
-        <field name="type">tree</field>
+        <field name="type">list</field>
         <field name="active" eval="True"/>
         <field name="arch" type="xml">
             <list string="Error Logs" decoration-danger="severity == 'critical'" 
@@ -173,7 +173,7 @@
         <field name="name">Error Logs</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">saas.error.log</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="view_id" ref="view_error_log_tree"/>
         <field name="context">{'search_default_new': 1}</field>
         <field name="help" type="html">
@@ -193,8 +193,9 @@
               groups="base.group_system"/>
     
     <!-- Menu dans le menu SaaS (si vous voulez l'accès direct) -->
-    <menuitem action="action_error_log" id="menu_saas_error_log" 
+    <!-- Commenté car saas_portal.menu_base_saas n'existe pas encore lors de l'installation -->
+    <!-- <menuitem action="action_error_log" id="menu_saas_error_log" 
               parent="saas_portal.menu_base_saas"
               sequence="200"
-              groups="base.group_system"/>
+              groups="base.group_system"/> -->
 </odoo>

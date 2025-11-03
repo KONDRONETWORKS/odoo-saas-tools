@@ -76,7 +76,15 @@ class OauthAccessToken(models.Model):
 
     def is_expired(self):
         self.ensure_one()
-        return datetime.now() > datetime.strptime(self.expires, DEFAULT_SERVER_DATETIME_FORMAT)
+        # Gérer le cas où expires est déjà un datetime ou une chaîne
+        if isinstance(self.expires, datetime):
+            expires_dt = self.expires
+        elif isinstance(self.expires, str):
+            expires_dt = datetime.strptime(self.expires, DEFAULT_SERVER_DATETIME_FORMAT)
+        else:
+            # Si expires est None ou un type inattendu, considérer comme expiré
+            return True
+        return datetime.now() > expires_dt
 
     def _allow_scopes(self, scopes):
         self.ensure_one()
