@@ -1,0 +1,94 @@
+name: CD - Déploiement AWS EC2
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environnement'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  AWS_REGION: us-east-1
+  EC2_INSTANCE_ID: ${{ secrets.AWS_EC2_INSTANCE_ID }}
+
+jobs:
+  deploy:
+    name: Déploiement sur EC2
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'production' }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AWS_SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.AWS_EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to EC2
+        env:
+          EC2_HOST: ${{ secrets.AWS_EC2_HOST }}
+          EC2_USER: ${{ secrets.AWS_EC2_USER }}
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ env.EC2_USER }}@${{ env.EC2_HOST }} << 'EOF'
+            set -e
+            echo "🚀 Déploiement Odoo SaaS Tools"
+            
+            # Variables
+            PROJECT_DIR="/opt/odoo-saas-tools"
+            cd $PROJECT_DIR
+            
+            # Backup
+            echo "📦 Sauvegarde..."
+            sudo -u odoo pg_dump odoo > backup_$(date +%Y%m%d_%H%M%S).sql
+            
+            # Pull latest code
+            echo "📥 Mise à jour du code..."
+            git fetch origin
+            git checkout main
+            git pull origin main
+            
+            # Install dependencies
+            echo "📦 Installation des dépendances..."
+            source venv/bin/activate
+            pip install -r requirements.txt
+            
+            # Run migrations if needed
+            echo "🔄 Migration..."
+            python3 saas.py --check-migrations || true
+            
+            # Restart services
+            echo "🔄 Redémarrage des services..."
+            sudo systemctl restart odoo-saas || true
+            sudo systemctl restart postgresql || true
+            
+            # Health check
+            echo "🏥 Vérification de santé..."
+            sleep 10
+            curl -f http://localhost:8069/web/health || exit 1
+            
+            echo "✅ Déploiement terminé!"
+          EOF
+
+      - name: Health Check
+        run: |
+          sleep 30
+          curl -f ${{ secrets.AWS_APP_URL }}/web/health || exit 1
+

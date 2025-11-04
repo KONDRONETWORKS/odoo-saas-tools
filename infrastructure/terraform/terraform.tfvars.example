@@ -1,41 +1,41 @@
-# terraform.tfvars.example
+# Exemple de fichier terraform.tfvars
 # Copiez ce fichier vers terraform.tfvars et remplissez les valeurs
 
-aws_region = "eu-west-1"
-project_name = "odoo-saas"
-domain_name = "saas.votre-domaine.com"
-environment = "production"
+# Configuration de base
+aws_region       = "us-east-1"
+project_name     = "odoo-saas-tools"
+environment      = "production" # ou "staging"
 
-# Instance EC2
-instance_type = "t3.xlarge"  # t3.medium pour dev, t3.xlarge pour prod
+# Domaine
+domain_name      = "saas.votredomaine.com"
 
-# RDS PostgreSQL
-db_instance_class = "db.t3.medium"  # db.t3.micro pour dev, db.t3.medium+ pour prod
+# Infrastructure
+instance_type    = "t3.xlarge"
+db_instance_class = "db.t3.medium"
 db_allocated_storage = 100
 
-# Clé SSH AWS
-key_pair_name = "votre-cle-ssh"
-
-# Sécurité SSH (⚠️ Restreindre en production)
-allowed_ssh_cidr = "0.0.0.0/0"  # Changez pour votre IP: "123.45.67.89/32"
+# Clé SSH
+key_pair_name    = "votre-key-pair-aws"
 
 # Auto Scaling
-min_instances = 2
-max_instances = 10
+min_instances    = 2
+max_instances    = 10
 desired_capacity = 2
 
-# Backups
-enable_backup = true
+# Backup
+enable_backup    = true
 backup_retention_days = 7
 enable_multi_az = true
 
 # Logs
 log_retention_days = 30
 
+# Sécurité SSH (recommandé: votre IP uniquement)
+allowed_ssh_cidr = "0.0.0.0/0" # À restreindre en production
+
 # Tags additionnels
 tags = {
   Owner       = "DevOps"
-  Department  = "IT"
-  CostCenter  = "SaaS"
+  Environment = "production"
+  Project     = "OdooSaaS"
 }
-
