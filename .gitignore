@@ -9,6 +9,8 @@ logs/
 # Fichiers temporaires
 *.tmp
 *.bak
+*.backup
+*.old
 *.swp
 *~
 .DS_Store

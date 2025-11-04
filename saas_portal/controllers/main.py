@@ -2,6 +2,7 @@ from urllib.parse import urlencode
 from ast import literal_eval
 import odoo
 from odoo import exceptions
+from odoo.exceptions import UserError
 from odoo.tools.translate import _
 from odoo import http
 from odoo.http import request
@@ -92,7 +93,7 @@ class SaasPortal(http.Controller):
             if plans:
                 return plans[0]
             else:
-                raise exceptions.Warning(_('There is no plan configured'))
+                raise UserError(_('There is no plan configured'))
         return plan_obj.sudo().browse(plan_id)
 
     def exists_database(self, dbname):

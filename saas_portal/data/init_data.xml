@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 
+        Données d'initialisation pour saas_portal
+        Ces templates et plans seront créés automatiquement lors de l'installation du module
+        pour guider les utilisateurs dans leur configuration SaaS
+    -->
+    
+    <!-- ========================================
+         SERVEUR SAAS PAR DÉFAUT
+         ======================================== -->
+    <!-- Note: Le serveur sera créé via un hook post_init car il nécessite une OAuth app -->
+    
+    <!-- ========================================
+         TEMPLATE 1: Odoo Standard (Base)
+         ======================================== -->
+    <record id="data_template_odoo_standard" model="saas_portal.database">
+        <field name="name">template-odoo-standard</field>
+        <field name="state">draft</field>
+        <!-- server_id sera assigné via le hook post_init -->
+        <!-- oauth_application_id sera créé automatiquement par le modèle -->
+    </record>
+    
+    <!-- ========================================
+         TEMPLATE 2: Odoo avec Démo (Demo)
+         ======================================== -->
+    <record id="data_template_odoo_demo" model="saas_portal.database">
+        <field name="name">template-odoo-demo</field>
+        <field name="state">draft</field>
+    </record>
+    
+    <!-- ========================================
+         PLAN 1: Plan Starter (Gratuit/Test)
+         ======================================== -->
+    <record id="data_plan_starter" model="saas_portal.plan">
+        <field name="name">Plan Starter</field>
+        <field name="summary">Plan gratuit pour tester et découvrir Odoo</field>
+        <field name="template_id" ref="data_template_odoo_standard"/>
+        <field name="demo" eval="False"/>
+        <field name="maximum_allowed_dbs_per_partner" eval="1"/>
+        <field name="maximum_allowed_trial_dbs_per_partner" eval="1"/>
+        <field name="max_users">5</field>
+        <field name="total_storage_limit" eval="1000"/>
+        <field name="block_on_expiration" eval="True"/>
+        <field name="block_on_storage_exceed" eval="False"/>
+        <field name="lang">fr_FR</field>
+        <field name="tz">Europe/Paris</field>
+        <field name="sequence" eval="1"/>
+        <field name="expiration" eval="0"/>
+        <field name="grace_period" eval="7"/>
+        <field name="dbname_template">%i</field>
+        <field name="on_create">login</field>
+        <field name="website_description">&lt;p&gt;Plan idéal pour découvrir Odoo et tester ses fonctionnalités.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Jusqu'à 5 utilisateurs&lt;/li&gt;
+&lt;li&gt;1 Go de stockage&lt;/li&gt;
+&lt;li&gt;Accès aux modules de base&lt;/li&gt;
+&lt;li&gt;Support communautaire&lt;/li&gt;
+&lt;/ul&gt;</field>
+    </record>
+    
+    <!-- ========================================
+         PLAN 2: Plan Business (Standard)
+         ======================================== -->
+    <record id="data_plan_business" model="saas_portal.plan">
+        <field name="name">Plan Business</field>
+        <field name="summary">Plan standard pour les petites et moyennes entreprises</field>
+        <field name="template_id" ref="data_template_odoo_standard"/>
+        <field name="demo" eval="False"/>
+        <field name="maximum_allowed_dbs_per_partner" eval="5"/>
+        <field name="maximum_allowed_trial_dbs_per_partner" eval="2"/>
+        <field name="max_users">50</field>
+        <field name="total_storage_limit" eval="10000"/>
+        <field name="block_on_expiration" eval="False"/>
+        <field name="block_on_storage_exceed" eval="True"/>
+        <field name="lang">fr_FR</field>
+        <field name="tz">Europe/Paris</field>
+        <field name="sequence" eval="2"/>
+        <field name="expiration" eval="0"/>
+        <field name="grace_period" eval="30"/>
+        <field name="dbname_template">%i</field>
+        <field name="on_create">login</field>
+        <field name="website_description">&lt;p&gt;Plan parfait pour faire évoluer votre entreprise avec Odoo.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Jusqu'à 50 utilisateurs&lt;/li&gt;
+&lt;li&gt;10 Go de stockage&lt;/li&gt;
+&lt;li&gt;Tous les modules disponibles&lt;/li&gt;
+&lt;li&gt;Support prioritaire&lt;/li&gt;
+&lt;li&gt;Sauvegardes quotidiennes&lt;/li&gt;
+&lt;/ul&gt;</field>
+    </record>
+    
+    <!-- ========================================
+         PLAN 3: Plan Demo (Avec données de démonstration)
+         ======================================== -->
+    <record id="data_plan_demo" model="saas_portal.plan">
+        <field name="name">Plan Demo</field>
+        <field name="summary">Plan de démonstration avec données d'exemple</field>
+        <field name="template_id" ref="data_template_odoo_demo"/>
+        <field name="demo" eval="True"/>
+        <field name="maximum_allowed_dbs_per_partner" eval="1"/>
+        <field name="maximum_allowed_trial_dbs_per_partner" eval="1"/>
+        <field name="max_users">10</field>
+        <field name="total_storage_limit" eval="5000"/>
+        <field name="block_on_expiration" eval="True"/>
+        <field name="block_on_storage_exceed" eval="False"/>
+        <field name="lang">fr_FR</field>
+        <field name="tz">Europe/Paris</field>
+        <field name="sequence" eval="3"/>
+        <field name="expiration" eval="48"/>
+        <field name="grace_period" eval="0"/>
+        <field name="dbname_template">demo-%i</field>
+        <field name="on_create">login</field>
+        <field name="website_description">&lt;p&gt;Plan de démonstration pour tester Odoo avec des données d'exemple.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Données de démonstration pré-chargées&lt;/li&gt;
+&lt;li&gt;Jusqu'à 10 utilisateurs&lt;/li&gt;
+&lt;li&gt;5 Go de stockage&lt;/li&gt;
+&lt;li&gt;Expiration automatique après 48h&lt;/li&gt;
+&lt;li&gt;Idéal pour présenter Odoo à vos clients&lt;/li&gt;
+&lt;/ul&gt;</field>
+    </record>
+</odoo>

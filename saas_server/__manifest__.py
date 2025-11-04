@@ -50,7 +50,7 @@ Ce module transforme un serveur Odoo en "SaaS Server" capable de créer et gére
 **Installation:**
 Ce module doit être installé sur chaque serveur distant qui hébergera les instances client.
 """,
-    'depends': ['base', 'auth_oauth', 'saas_auth_oauth_ip', 'saas_base', 'website', 'saas_portal'],
+    'depends': ['base', 'auth_oauth', 'saas_auth_oauth_ip', 'saas_base', 'website'],
     'data': ['views/saas_server.xml', 'views/res_config_settings_views.xml', 'data/auth_oauth_data.xml', 'data/ir_config_parameter.xml'],
     'installable': True,
     'application': False,

@@ -2,58 +2,119 @@
 Hooks pour post-init et post-upgrade du module saas_portal
 """
 from odoo import SUPERUSER_ID, api
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 def post_init_hook(cr, registry):
     """Hook appelé après l'installation du module"""
     env = api.Environment(cr, SUPERUSER_ID, {})
+    
+    # 1. S'assurer que la vue list existe
     _ensure_plan_list_view(env)
-
-
-def post_upgrade_hook(cr, registry):
-    """Hook appelé après la mise à jour du module"""
-    env = api.Environment(cr, SUPERUSER_ID, {})
-    _ensure_plan_list_view(env)
+    
+    # 2. Créer un serveur par défaut si aucun n'existe
+    _ensure_default_server(env)
+    
+    # 3. Lier les templates au serveur par défaut
+    _link_templates_to_server(env)
+    
+    _logger.info("✅ post_init_hook terminé avec succès")
 
 
 def _ensure_plan_list_view(env):
-    """Force la création de la vue list pour saas_portal.plan (Odoo 18 utilise 'list' au lieu de 'tree')"""
-    # Chercher la vue list existante
-    view_list = env['ir.ui.view'].search([
+    """S'assurer que la vue list existe pour Odoo 18"""
+    view = env['ir.ui.view'].sudo().search([
         ('model', '=', 'saas_portal.plan'),
         ('type', '=', 'list'),
         ('name', '=', 'saas_portal.plans.list')
     ], limit=1)
-    
-    arch_content = '''<?xml version="1.0"?>
+    if not view:
+        env['ir.ui.view'].sudo().create({
+            'name': 'saas_portal.plans.list',
+            'model': 'saas_portal.plan',
+            'type': 'list',
+            'priority': 1,
+            'active': True,
+            'arch': '''<?xml version="1.0"?>
 <list string="Plans">
     <field name="sequence" invisible="1"/>
     <field name="name"/>
     <field name="template_id"/>
     <field name="state"/>
 </list>'''
-    
-    # Si la vue n'existe pas, la créer
-    if not view_list:
-        env['ir.ui.view'].create({
-            'name': 'saas_portal.plans.list',
-            'model': 'saas_portal.plan',
-            'type': 'list',
-            'priority': 1,
-            'active': True,
-            'arch': arch_content
         })
-        return True
+
+
+def _ensure_default_server(env):
+    """Créer un serveur par défaut si aucun n'existe"""
+    server_obj = env['saas_portal.server']
     
-    # Vérifier que la vue est active et a la bonne priorité
-    if not view_list.active or view_list.priority != 1:
-        view_list.write({
+    # Chercher un serveur existant
+    existing_server = server_obj.sudo().search([], limit=1)
+    
+    if existing_server:
+        _logger.info(f"✅ Serveur existant trouvé: {existing_server.name} (ID: {existing_server.id})")
+        return existing_server
+    
+    # Créer un serveur par défaut
+    try:
+        # L'application OAuth sera créée automatiquement par le modèle
+        default_server = server_obj.sudo().create({
+            'name': 'server-default',
+            'request_scheme': 'http',
+            'local_request_scheme': 'http',
+            'request_port': 8069,
+            'local_host': 'localhost',
+            'local_port': '8069',
+            'verify_ssl': False,
             'active': True,
-            'priority': 1
+            'sequence': 1,
         })
-        # Mettre à jour l'architecture si nécessaire
-        if '<list' not in str(view_list.arch_db):
-            view_list.write({'arch': arch_content})
+        _logger.info(f"✅ Serveur par défaut créé: {default_server.name} (ID: {default_server.id})")
+        return default_server
+    except Exception as e:
+        _logger.error(f"❌ Erreur lors de la création du serveur par défaut: {e}")
+        return None
+
+
+def _link_templates_to_server(env):
+    """Lier les templates au serveur par défaut"""
+    server_obj = env['saas_portal.server']
+    template_obj = env['saas_portal.database']
+    plan_obj = env['saas_portal.plan']
     
-    return False
+    # Récupérer le serveur par défaut (ou le créer)
+    server = _ensure_default_server(env)
+    if not server:
+        _logger.warning("⚠️  Aucun serveur disponible pour lier les templates")
+        return
+    
+    # Trouver tous les templates sans serveur
+    templates_without_server = template_obj.sudo().search([
+        ('server_id', '=', False)
+    ])
+    
+    if templates_without_server:
+        templates_without_server.write({'server_id': server.id})
+        _logger.info(f"✅ {len(templates_without_server)} template(s) lié(s) au serveur {server.name}")
+    
+    # Trouver tous les plans sans serveur qui ont un template
+    plans_without_server = plan_obj.sudo().search([
+        ('server_id', '=', False),
+        ('template_id', '!=', False)
+    ])
+    
+    if plans_without_server:
+        plans_without_server.write({'server_id': server.id})
+        _logger.info(f"✅ {len(plans_without_server)} plan(s) lié(s) au serveur {server.name}")
+
+
+def post_upgrade_hook(cr, registry):
+    """Hook appelé après la mise à jour du module"""
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    _ensure_plan_list_view(env)
+    _link_templates_to_server(env)
+    _logger.info("✅ post_upgrade_hook terminé avec succès")
 

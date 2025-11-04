@@ -9,6 +9,7 @@ from odoo.service import db
 from odoo.tools.translate import _
 from odoo.addons.saas_base.tools import get_size
 from odoo import api, models, fields, SUPERUSER_ID, exceptions
+from odoo.exceptions import UserError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 import logging
@@ -416,7 +417,7 @@ class SaasServerClient(models.Model):
         '''
         backup transport agents should override this
         '''
-        raise exceptions.Warning(
+        raise UserError(
             _('''Transport agent has not been configured. You need either
               install one of saas_server_backup_* or remove
               saas_portal_backup'''))

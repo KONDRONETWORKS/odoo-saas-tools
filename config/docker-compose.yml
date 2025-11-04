@@ -1,8 +1,15 @@
 version: '3.8'
 
+# 🚀 Configuration Docker Compose - Démarrage Rapide
+# Usage: docker-compose up -d
+# 
+# Cette configuration est optimisée pour un démarrage rapide avec auto-setup.
+# Elle utilise le Dockerfile local et lance automatiquement saas.py.
+
 services:
   postgres:
     image: postgres:15
+    container_name: saas-postgres
     environment:
       POSTGRES_DB: odoo
       POSTGRES_USER: odoo
@@ -10,27 +17,61 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"  # Port 5433 pour éviter conflit avec PostgreSQL local
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - saas-network
+    restart: unless-stopped
 
   odoo:
-    build: .
+    build:
+      context: ..
+      dockerfile: config/Dockerfile
+    container_name: saas-odoo
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       - HOST=postgres
       - USER=odoo
       - PASSWORD=odoo
+      - DB_HOST=postgres
+      - DB_USER=odoo
+      - DB_PASSWORD=odoo
+      - DB_PORT=5432
     ports:
-      - "8069:8069"
+      - "8069:8069"   # XML-RPC
+      - "8072:8072"   # Longpolling
     volumes:
-      - ./addons:/opt/odoo/addons
-      - ./filestore:/opt/odoo/filestore
+      # Modules SaaS (montage depuis la racine)
+      - ../saas_base:/opt/odoo/saas_base
+      - ../saas_portal:/opt/odoo/saas_portal
+      - ../saas_server:/opt/odoo/saas_server
+      - ../saas_client:/opt/odoo/saas_client
+      # Configuration
+      - ../odoo.conf:/opt/odoo/odoo.conf:ro
+      # Filestore
+      - ../filestore:/opt/odoo/filestore
     command: >
       python3 saas.py
       --portal-create
       --server-create
       --plan-create
       --run
+      --odoo-config=/opt/odoo/odoo.conf
+      --master-password=admin
+    networks:
+      - saas-network
+    restart: unless-stopped
 
 volumes:
   postgres_data:
+    driver: local
+
+networks:
+  saas-network:
+    driver: bridge

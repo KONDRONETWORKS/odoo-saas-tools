@@ -15,13 +15,27 @@ _LIVRABLES/
 ├── DOCUMENTATION_COMPLETE_SAAS.md     ← Documentation complète système
 ├── FONCTIONNEMENT_SAAS.md             ← Guide fonctionnement
 ├── README_RST_UPDATES.md              ← Résumé updates README.rst
-└── scripts_migration/                 ← Dossier scripts migration
-    ├── README.md                       ← Index scripts
-    ├── migration_odoo11_to_18.py      ← Script principal
-    ├── fix_*.py                        ← Scripts de correction
-    ├── clean_*.py                      ← Scripts de nettoyage
-    ├── remove_*.py                     ← Scripts de suppression
-    └── validate_*.py                   ← Scripts de validation
+├── documentation/                     ← Documentation consolidée (39 fichiers)
+│   ├── ACCES_FINAL.md
+│   ├── ETAT_APPLICATION.md
+│   ├── RESUME_CONFIGURATION.md
+│   ├── RESUME_FINAL.md
+│   ├── STATUS_SAAS.md
+│   ├── NETTOYAGE_REORGANISATION.md   ← Nouveau: Rapport de nettoyage
+│   └── ... (autres fichiers)
+├── archive/                           ← Fichiers archivés
+│   ├── temp/
+│   ├── old_corrections/
+│   └── old_resumes/
+├── scripts_migration/                 ← Dossier scripts migration
+│   ├── README.md                       ← Index scripts
+│   ├── migration_odoo11_to_18.py      ← Script principal
+│   ├── fix_*.py                        ← Scripts de correction
+│   ├── clean_*.py                      ← Scripts de nettoyage
+│   ├── remove_*.py                     ← Scripts de suppression
+│   └── validate_*.py                   ← Scripts de validation
+└── scripts/                           ← Scripts utilitaires
+    └── cleanup_project.py              ← Script de nettoyage
 ```
 
 ## 📚 Documentation Disponible
@@ -134,11 +148,12 @@ Résultats des tests effectués.
 ## 🗂️ Fichiers par Catégorie
 
 ### 📋 Documentation Principale
-- ✅ `RESUME_FINAL.md` ⭐ **NOUVEAU** - Résumé complet migration
+- ✅ `RESUME_FINAL.md` ⭐ - Résumé complet migration (dans `documentation/`)
 - ✅ `README.md` - Vue d'ensemble projet
 - ✅ `DEMARRAGE_PROJET.md` - Guide démarrage
 - ✅ `DOCUMENTATION_COMPLETE_SAAS.md` - Documentation complète
 - ✅ `FONCTIONNEMENT_SAAS.md` - Guide fonctionnement
+- ✅ `documentation/NETTOYAGE_REORGANISATION.md` ⭐ **NOUVEAU** - Rapport de nettoyage (4 nov 2025)
 
 ### 🔄 Migration
 - ✅ `MIGRATION_18.md` - Documentation migration

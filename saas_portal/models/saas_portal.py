@@ -15,6 +15,7 @@ from datetime import datetime, timedelta
 from odoo import api, exceptions, fields, models
 from odoo.tools.translate import _
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.exceptions import UserError
 
 from odoo.addons.saas_base.exceptions import MaximumTrialDBException
 from odoo.addons.saas_base.exceptions import MaximumDBException
@@ -114,8 +115,17 @@ class SaasPortalServer(models.Model):
         """Prepare server-side request with OAuth token."""
         self.ensure_one()
         scheme = scheme or self.local_request_scheme or self.request_scheme
-        host = self.local_host or self.host
-        port = port or self.local_port or self.request_port
+        # Pour les requêtes serveur-side, toujours utiliser local_host/local_port si disponibles
+        # Sinon fallback sur localhost:8069 pour le développement local
+        if self.local_host:
+            host = self.local_host
+        elif self.name and '.' not in self.name:
+            # En développement local, utiliser localhost si le nom est simple
+            host = 'localhost'
+        else:
+            host = self.host or 'localhost'
+        
+        port = port or self.local_port or str(self.request_port) or '8069'
         params = self._request_params(**kwargs)
         access_token = self.oauth_application_id.sudo()._get_access_token(create=True)
         params.update({
@@ -125,7 +135,10 @@ class SaasPortalServer(models.Model):
         })
         url = '{scheme}://{host}:{port}{path}'.format(
             scheme=scheme, host=host, port=port, path=path)
-        req = requests.Request('GET', url, data=params, headers={'host': self.host})
+        # Utiliser le host réel pour l'en-tête, pas le host calculé qui peut être un domaine non résolu
+        # En développement local, utiliser 'localhost' pour l'en-tête Host
+        header_host = self.local_host or host or 'localhost'
+        req = requests.Request('GET', url, data=params, headers={'host': header_host})
         req_kwargs = {'verify': self.verify_ssl}
         return req.prepare(), req_kwargs
 
@@ -160,7 +173,7 @@ class SaasPortalServer(models.Model):
             res = requests.Session().send(req, **req_kwargs)
 
             if not res.ok:
-                raise exceptions.Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
+                raise UserError(_('Reason: %s \n Message: %s') % (res.reason, res.content))
             try:
                 data = simplejson.loads(res.text)
             except Exception as e:
@@ -400,7 +413,7 @@ class SaasPortalPlan(models.Model):
         )
         res = requests.Session().send(req, **req_kwargs)
         if res.status_code != 200:
-            raise exceptions.Warning(_('Error on request: %s\nReason: %s \n Message: %s') % (
+            raise UserError(_('Error on request: %s\nReason: %s \n Message: %s') % (
                 req.url, res.reason, res.content))
         data = simplejson.loads(res.text)
         params = {
@@ -432,7 +445,7 @@ class SaasPortalPlan(models.Model):
         self.ensure_one()
         if not self.dbname_template:
             if raise_error:
-                raise exceptions.Warning(_('Template for db name is not configured'))
+                raise UserError(_('Template for db name is not configured'))
             return ''
         sequence = self.env['ir.sequence'].get('saas_portal.plan')
         return self.dbname_template.replace('%i', sequence)
@@ -444,25 +457,74 @@ class SaasPortalPlan(models.Model):
     def create_template(self, addons=None):
         """Create template database from plan."""
         self.ensure_one()
-        server = self.server_id or self.env['saas_portal.server'].get_saas_server()
-
+        
+        # Vérifier que le plan a un serveur ou en obtenir un
+        if not self.server_id:
+            self.server_id = self.env['saas_portal.server'].get_saas_server()
+        
+        if not self.server_id:
+            raise UserError(_('No server available. Please configure a server for this plan.'))
+        
+        # Si le template n'existe pas, le créer automatiquement
+        if not self.template_id:
+            # Générer un nom de template basé sur le nom du plan
+            template_name = f"template-{self.name.lower().replace(' ', '-')}"
+            
+            # Créer l'application OAuth pour le template
+            oauth_app = self.env['oauth.application'].sudo().create({})
+            
+            # Créer le template en état draft
+            template = self.env['saas_portal.database'].sudo().create({
+                'name': template_name,
+                'oauth_application_id': oauth_app.id,
+                'server_id': self.server_id.id,
+                'state': 'draft',
+            })
+            
+            # Lier le template au plan
+            self.template_id = template.id
+        
+        # Vérifier que le template a un nom
+        if not self.template_id.name:
+            raise UserError(_('Template database name is required. Please set a name for the template.'))
+        
+        # Générer un client_id si nécessaire (nécessaire pour la requête OAuth)
+        if not self.template_id.client_id:
+            # Le client_id sera généré automatiquement par l'OAuth application
+            # Mais nous devons nous assurer que l'application OAuth a un client_id
+            if not self.template_id.oauth_application_id.client_id:
+                # Le client_id est généré automatiquement lors de la création de l'OAuth app
+                # Mais vérifions qu'il existe
+                pass
+        
+        # Utiliser le client_id de l'application OAuth
+        client_id = self.template_id.oauth_application_id.client_id or self.template_id.client_id
+        
+        # Préparer l'état pour la requête
         state = {
             'd': self.template_id.name,
             'demo': self.demo and 1 or 0,
             'addons': addons or [],
-            'lang': self.lang,
-            'tz': self.tz,
+            'lang': self.lang or 'fr_FR',
+            'tz': self.tz or 'UTC',
             'is_template_db': 1,
         }
-        client_id = self.template_id.client_id
-        self.template_id.server_id = server
-
-        req, req_kwargs = server._request_server(
-            path='/saas_server/new_database', state=state, client_id=client_id)
+        
+        # Assigner le serveur au template s'il n'est pas déjà assigné
+        if not self.template_id.server_id:
+            self.template_id.server_id = self.server_id
+        
+        # Faire la requête au serveur pour créer la base de données
+        req, req_kwargs = self.server_id._request_server(
+            path='/saas_server/new_database', 
+            state=state, 
+            client_id=client_id
+        )
+        
         res = requests.Session().send(req, **req_kwargs)
 
         if not res.ok:
-            raise exceptions.Warning(_('Error on request: %s\nReason: %s \n Message: %s') %
+            raise UserError(_('Error on request: %s\nReason: %s \n Message: %s') %
                           (req.url, res.reason, res.content))
         try:
             data = simplejson.loads(res.text)
@@ -470,8 +532,10 @@ class SaasPortalPlan(models.Model):
             _logger.error('Error on parsing response: %s\n%s', [req.url, req.headers, req.body], res.text)
             raise
 
+        # Mettre à jour le template avec les informations retournées
         self.template_id.password = data.get('superuser_password')
-        self.template_id.state = data.get('state')
+        self.template_id.state = data.get('state', 'template')
+        
         return data
 
     def action_sync_server(self):
@@ -601,13 +665,13 @@ class SaasPortalDatabase(models.Model):
         res = requests.Session().send(req, **req_kwargs)
         _logger.info('backup database: %s', res.text)
         if not res.ok:
-            raise exceptions.Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
+            raise UserError(_('Reason: %s \n Message: %s') % (res.reason, res.content))
         data = simplejson.loads(res.text)
         if not isinstance(data[0], dict):
-            raise exceptions.Warning(data)
+            raise UserError(data)
         if data[0]['status'] != 'success':
             warning = data[0].get('message', _('Could not backup database; please check your logs'))
-            raise exceptions.Warning(warning)
+            raise UserError(warning)
         return True
 
     def action_sync_server(self):
@@ -847,7 +911,7 @@ class SaasPortalClient(models.Model):
             )
             origin_res = requests.Session().send(req, **req_kwargs)
             if not origin_res.ok:
-                raise exceptions.Warning(_('Reason: %s \n Message: %s') % (origin_res.reason, origin_res.content))
+                raise UserError(_('Reason: %s \n Message: %s') % (origin_res.reason, origin_res.content))
 
             req, req_kwargs = target_server._request_server(
                 path='/saas_server/restore_database',
@@ -863,7 +927,7 @@ class SaasPortalClient(models.Model):
 
             target_res = requests.Session().send(req, **req_kwargs)
             if not target_res.ok:
-                raise exceptions.Warning(_('Reason: %s \n Message: %s') % (target_res.reason, target_res.content))
+                raise UserError(_('Reason: %s \n Message: %s') % (target_res.reason, target_res.content))
 
             server = target_server
             db_template = target_res.text
@@ -910,7 +974,7 @@ class SaasPortalClient(models.Model):
         res = requests.Session().send(req, **req_kwargs)
 
         if not res.ok:
-            raise exceptions.Warning(_('Reason: %s \n Message: %s') % (res.reason, res.content))
+            raise UserError(_('Reason: %s \n Message: %s') % (res.reason, res.content))
         try:
             data = simplejson.loads(res.text)
         except Exception as e:

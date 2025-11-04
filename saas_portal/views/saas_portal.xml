@@ -226,7 +226,7 @@
             <form string="plans">
                 <header>
                     <button string="Create template DB" name="create_template_button" type="object"
-                        invisible="state not in ['draft']" icon="fa-play" class="oe_highlight" />
+                        invisible="state == 'confirmed'" icon="fa-play" class="oe_highlight" />
                     <button string="Log in to template DB" name="%(action_edit_database)d"
                         type="action" invisible="state != 'confirmed'" icon="fa-edit"
                         class="oe_highlight" />

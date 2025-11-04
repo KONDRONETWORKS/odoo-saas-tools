@@ -1,0 +1,78 @@
+version: '3.8'
+
+# 🛠️ Configuration Docker Compose - Développement avec Hot Reload
+# Usage: docker-compose -f config/docker-compose.dev.yml up
+# 
+# Cette configuration est optimisée pour le développement avec rechargement automatique.
+# Tous les modules sont montés en volume pour permettre les modifications en temps réel.
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: saas-postgres-dev
+    environment:
+      POSTGRES_DB: odoo
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - saas-dev
+    restart: unless-stopped
+
+  odoo:
+    image: odoo:18
+    container_name: saas-odoo-dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - HOST=postgres
+      - USER=odoo
+      - PASSWORD=odoo
+      - DB_HOST=postgres
+      - DB_USER=odoo
+      - DB_PASSWORD=odoo
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    volumes:
+      # Tous les modules SaaS montés pour développement
+      - ../:/mnt/extra-addons
+      - ../odoo.conf:/etc/odoo/odoo.conf:ro
+      - ../filestore:/var/lib/odoo/filestore
+    command: >
+      odoo
+      --config=/etc/odoo/odoo.conf
+      --db_host=postgres
+      --db_user=odoo
+      --db_password=odoo
+      --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+      --data-dir=/var/lib/odoo
+      --xmlrpc-port=8069
+      --gevent-port=8072
+      --workers=0
+      --max-cron-threads=0
+      --without-demo=all
+      --db-filter=.*
+      --dev=all
+      --log-level=debug
+    networks:
+      - saas-dev
+    restart: unless-stopped
+
+volumes:
+  postgres_data_dev:
+    driver: local
+
+networks:
+  saas-dev:
+    driver: bridge
+

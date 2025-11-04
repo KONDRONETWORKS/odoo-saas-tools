@@ -1,4 +1,4 @@
-import requests
+import requests as http_requests
 import functools
 import uuid
 import datetime
@@ -10,7 +10,9 @@ from subprocess import Popen, PIPE, DEVNULL
 
 from odoo import api, SUPERUSER_ID
 from odoo import http
+from odoo.http import request
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.tools.translate import _
 try:
     from odoo.tools import exec_pg_command_pipe, exec_pg_environ
 except ImportError:
@@ -25,20 +27,12 @@ except ImportError:
         env = os.environ.copy()
         # Configuration basique pour PostgreSQL
         return env
-from odoo.addons.saas_base.exceptions import (
-    MaximumDBException,
-    MaximumTrialDBException,
-    DatabaseCreationException,
-    ServerConnectionException,
-)
-from odoo.addons.saas_base.debugging import DebugContext
-from odoo.addons.saas_base.user_error_handler import log_error_with_context, AuthenticationError
-try:
-    from odoo.addons.auth_oauth.controllers.main import fragment_to_query_string
-except ImportError:
-    # Fallback for Odoo 18
-    def fragment_to_query_string(f):
-        return f
+
+from odoo.addons.saas_base.user_error_handler import AuthenticationError
+
+def fragment_to_query_string(f):
+    """Compatibility decorator for Odoo 18."""
+    return f
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -46,85 +40,20 @@ _logger = logging.getLogger(__name__)
 
 def webservice(f):
     """
-    Decorator amélioré pour gérer les erreurs avec messages user-friendly
+    Decorator de compatibilité pour les webservices.
     """
-    @functools.wraps(f)
-    def wrap(*args, **kw):
-        debug_ctx = DebugContext(
-            operation=f.__name__,
-            user_id=request.session.uid if hasattr(request, 'session') else None,
-        )
-        
-        try:
-            return f(*args, **kw)
-        except MaximumDBException as e:
-            log_error_with_context(e, debug_ctx)
-            return http.Response(
-                response=simplejson.dumps({
-                    'error': True,
-                    'error_code': 'MAX_DB_REACHED',
-                    'message': e.user_message,
-                }),
-                headers=[('Content-Type', 'application/json')],
-                status=400
-            )
-        except MaximumTrialDBException as e:
-            log_error_with_context(e, debug_ctx)
-            return http.Response(
-                response=simplejson.dumps({
-                    'error': True,
-                    'error_code': 'MAX_TRIAL_DB_REACHED',
-                    'message': e.user_message,
-                }),
-                headers=[('Content-Type', 'application/json')],
-                status=400
-            )
-        except DatabaseCreationException as e:
-            log_error_with_context(e, debug_ctx)
-            return http.Response(
-                response=simplejson.dumps({
-                    'error': True,
-                    'error_code': 'DB_CREATION_ERROR',
-                    'message': e.user_message,
-                    'details': e.details,
-                }),
-                headers=[('Content-Type', 'application/json')],
-                status=500
-            )
-        except ServerConnectionException as e:
-            log_error_with_context(e, debug_ctx)
-            return http.Response(
-                response=simplejson.dumps({
-                    'error': True,
-                    'error_code': 'SERVER_CONNECTION_ERROR',
-                    'message': e.user_message,
-                }),
-                headers=[('Content-Type', 'application/json')],
-                status=503
-            )
-        except Exception as e:
-            log_error_with_context(e, debug_ctx)
-            # Message générique pour les erreurs inattendues
-            return http.Response(
-                response=simplejson.dumps({
-                    'error': True,
-                    'error_code': 'INTERNAL_ERROR',
-                    'message': _(
-                        "Une erreur s'est produite lors du traitement de votre demande. "
-                        "Notre équipe a été notifiée. Veuillez réessayer dans quelques instants."
-                    ),
-                }),
-                headers=[('Content-Type', 'application/json')],
-                status=500
-            )
-    return wrap
+    return f
 
 
 class SaasServer(http.Controller):
 
-    @http.route(['/saas_server/new_database'], type='http', website=True, auth='public')
-    @fragment_to_query_string
-    @webservice
+    @http.route(['/saas_server/test'], type='http', auth='public', methods=['GET'], csrf=False)
+    def test_route(self, **kw):
+        """Route de test pour vérifier que le contrôleur fonctionne."""
+        _logger.info('Test route called')
+        return http.Response('OK - saas_server controller is working', status=200)
+
+    @http.route(['/saas_server/new_database'], type='http', website=True, auth='public', methods=['GET', 'POST'], csrf=False)
     def new_database(self, **post):
         _logger.info('new_database post: %s', post)
         state = simplejson.loads(post.get('state'))
@@ -496,7 +425,7 @@ class SaasServer(http.Controller):
         if user_data.get("error"):
             raise Exception(user_data['error'])
 
-        res = requests.get(origin_uri, stream=True)
+        res = http_requests.get(origin_uri, stream=True)
         res.raise_for_status()
 
         db_name = "restored_" + datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
