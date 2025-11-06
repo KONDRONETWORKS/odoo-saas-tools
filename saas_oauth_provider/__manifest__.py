@@ -1,5 +1,5 @@
 {
-    'name': 'OAuth2 provider',
+    'name': 'SaaS OAuth2 Provider',
     'version': '18.0.1.0.0',
     'author': 'Cheick Oumar Tidiane Traore',
     'license': 'LGPL-3',

@@ -7,9 +7,9 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-def post_init_hook(cr, registry):
+def post_init_hook(env):
     """Hook appelé après l'installation du module"""
-    env = api.Environment(cr, SUPERUSER_ID, {})
+    # Dans Odoo 18, le hook reçoit directement l'environnement
     
     # 1. S'assurer que la vue list existe
     _ensure_plan_list_view(env)
@@ -19,6 +19,9 @@ def post_init_hook(cr, registry):
     
     # 3. Lier les templates au serveur par défaut
     _link_templates_to_server(env)
+    
+    # 4. Installer automatiquement saas_portal_start si disponible
+    _install_portal_start_module(env)
     
     _logger.info("✅ post_init_hook terminé avec succès")
 
@@ -111,10 +114,40 @@ def _link_templates_to_server(env):
         _logger.info(f"✅ {len(plans_without_server)} plan(s) lié(s) au serveur {server.name}")
 
 
-def post_upgrade_hook(cr, registry):
+def _install_portal_start_module(env):
+    """Installer automatiquement saas_portal_start si disponible"""
+    module_obj = env['ir.module.module']
+    
+    # Chercher le module saas_portal_start
+    portal_start = module_obj.sudo().search([
+        ('name', '=', 'saas_portal_start'),
+        ('state', 'in', ['uninstalled', 'to install'])
+    ], limit=1)
+    
+    if portal_start:
+        try:
+            portal_start.button_immediate_install()
+            _logger.info("✅ Module saas_portal_start installé automatiquement")
+        except Exception as e:
+            _logger.warning(f"⚠️  Impossible d'installer saas_portal_start automatiquement: {e}")
+            _logger.info("💡 Vous pouvez l'installer manuellement depuis Apps > SaaS Portal - /page/start")
+    else:
+        # Vérifier si déjà installé
+        installed = module_obj.sudo().search([
+            ('name', '=', 'saas_portal_start'),
+            ('state', '=', 'installed')
+        ], limit=1)
+        if installed:
+            _logger.info("✅ Module saas_portal_start déjà installé")
+        else:
+            _logger.info("ℹ️  Module saas_portal_start non trouvé. Installation manuelle requise.")
+
+
+def post_upgrade_hook(env):
     """Hook appelé après la mise à jour du module"""
-    env = api.Environment(cr, SUPERUSER_ID, {})
+    # Dans Odoo 18, le hook reçoit directement l'environnement
     _ensure_plan_list_view(env)
     _link_templates_to_server(env)
+    _install_portal_start_module(env)
     _logger.info("✅ post_upgrade_hook terminé avec succès")
 

@@ -67,7 +67,7 @@ Module central du système SaaS qui gère le portail d'administration des instan
         'security/groups.xml',
         'security/ir.model.access.csv'
     ],
-    'post_init_hook': 'hooks.post_init_hook',
+    'post_init_hook': 'post_init_hook',
     'post_load': None,
     'installable': True,
     'application': False,

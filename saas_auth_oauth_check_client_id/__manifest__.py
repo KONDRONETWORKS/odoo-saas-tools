@@ -1,5 +1,5 @@
 {
-    'name': 'auth_oauth - check client_id',
+    'name': 'SaaS Auth OAuth - Check Client ID',
     'version': '18.0.1.0.0',
     'author': 'Cheick Oumar Tidiane Traore',
     'license': 'LGPL-3',

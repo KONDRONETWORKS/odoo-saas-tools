@@ -14,6 +14,9 @@ WORKDIR /opt/odoo
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Installer simplejson explicitement (requis pour saas_oauth_provider)
+RUN pip install --no-cache-dir simplejson>=3.19.0
+
 # Copier le code source
 COPY . .
 

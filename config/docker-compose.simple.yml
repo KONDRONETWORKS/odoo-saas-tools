@@ -1,6 +1,5 @@
-version: '3.8'
-
 # 🏗️ Configuration Docker Compose - Développement Complet
+# Note: 'version' est obsolète dans Docker Compose v2+
 # Usage: docker-compose -f config/docker-compose.simple.yml up -d
 # 
 # Cette configuration est optimisée pour le développement avec tous les modules montés individuellement.
@@ -50,6 +49,12 @@ services:
       - DB_PORT=5432
       # Configuration Odoo
       - ODOO_RC=/etc/odoo/odoo.conf
+    # Installer les dépendances Python au démarrage
+    entrypoint: >
+      bash -c "
+      pip install --break-system-packages 'oauthlib>=3.2.0' 'simplejson>=3.19.0' 2>/dev/null || true &&
+      /entrypoint.sh odoo
+      "
     ports:
       - "8069:8069"   # XML-RPC
       - "8072:8072"   # Longpolling
@@ -128,7 +133,7 @@ services:
       # ============================================
       # Configuration et Données
       # ============================================
-      - ../odoo.conf:/etc/odoo/odoo.conf:ro
+      - ../odoo.conf.docker:/etc/odoo/odoo.conf:ro
       - ../filestore:/var/lib/odoo/filestore
       - odoo_logs:/var/log/odoo
     command: >

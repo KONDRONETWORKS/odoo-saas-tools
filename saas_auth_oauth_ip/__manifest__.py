@@ -1,5 +1,5 @@
 {
-    'name': 'Local IP for OAuth requests',
+    'name': 'SaaS Local IP for OAuth requests',
     'summary': 'Permet la validation des tokens OAuth via requêtes sur le réseau local',
     'category': 'SaaS',
     'images': [],

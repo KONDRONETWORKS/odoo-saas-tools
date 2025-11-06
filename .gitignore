@@ -5,6 +5,8 @@
 *.log.*
 logs/
 .logs/
+saas.log
+odoo.log
 
 # Fichiers temporaires
 *.tmp
