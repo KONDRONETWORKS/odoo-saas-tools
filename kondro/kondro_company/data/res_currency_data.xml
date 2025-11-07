@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- S'assurer que la devise XOF est active -->
+        <record id="base.XOF" model="res.currency">
+            <field name="active" eval="True"/>
+            <field name="name">XOF</field>
+            <field name="symbol">CFA</field>
+        </record>
+    </data>
+</odoo>

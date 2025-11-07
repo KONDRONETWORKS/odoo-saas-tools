@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Principal KONDRO -->
+    <menuitem id="menu_kondro_root"
+              name="KONDRO"
+              sequence="10"
+              web_icon="kondro_core,static/description/icon.png"/>
+
+    <!-- Menu CRM -->
+    <menuitem id="menu_kondro_crm"
+              name="CRM"
+              parent="menu_kondro_root"
+              sequence="10"/>
+
+    <menuitem id="menu_kondro_crm_dashboard"
+              name="Dashboard"
+              parent="menu_kondro_crm"
+              action="action_kondro_crm_dashboard"
+              sequence="1"/>
+
+    <menuitem id="menu_kondro_dashboard"
+              name="Tableau de Bord"
+              parent="menu_kondro_crm"
+              action="action_kondro_dashboard"
+              sequence="5"/>
+
+    <menuitem id="menu_kondro_projects"
+              name="Projets"
+              parent="menu_kondro_crm"
+              action="action_kondro_project"
+              sequence="20"/>
+
+    <menuitem id="menu_kondro_commercial_dossiers"
+              name="Dossiers Commerciaux"
+              parent="menu_kondro_crm"
+              action="action_kondro_commercial_dossier"
+              sequence="30"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_kondro_config"
+              name="Configuration"
+              parent="menu_kondro_root"
+              sequence="90"/>
+</odoo>

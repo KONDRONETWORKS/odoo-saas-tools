@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue du tableau de bord KONDRO -->
+        <record id="view_kondro_dashboard" model="ir.ui.view">
+            <field name="name">kondro.dashboard</field>
+            <field name="model">kondro.dashboard.data</field>
+            <field name="arch" type="xml">
+                <form string="Tableau de Bord KONDRO" create="false" edit="false">
+                    <sheet>
+                        <div class="kondro-dashboard">
+                            <!-- En-tête -->
+                            <div class="dashboard-header">
+                                <h1>🏢 Tableau de Bord KONDRO Networks</h1>
+                                <p>Vue d'ensemble des activités et performances</p>
+                            </div>
+                            
+                            <!-- Métriques principales -->
+                            <div class="dashboard-metrics">
+                                <div class="metric-card">
+                                    <h3>Projets KONDRO</h3>
+                                    <div class="metric-value" id="projects-total">0</div>
+                                    <div class="metric-detail">
+                                        <span class="in-progress" id="projects-in-progress">0</span> en cours
+                                        <span class="completed" id="projects-completed">0</span> terminés
+                                    </div>
+                                </div>
+                                
+                                <div class="metric-card">
+                                    <h3>Trésorerie</h3>
+                                    <div class="metric-value" id="treasury-balance">0 XOF</div>
+                                    <div class="metric-detail">
+                                        <span class="income" id="treasury-income">0 XOF</span> entrées
+                                        <span class="expense" id="treasury-expense">0 XOF</span> sorties
+                                    </div>
+                                </div>
+                                
+                                <div class="metric-card">
+                                    <h3>Dossiers Commerciaux</h3>
+                                    <div class="metric-value" id="commercial-total">0</div>
+                                    <div class="metric-detail">
+                                        <span class="active" id="commercial-active">0</span> actifs
+                                        <span class="won" id="commercial-won">0</span> gagnés
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Graphiques et détails -->
+                            <div class="dashboard-charts">
+                                <div class="chart-section">
+                                    <h3>Progression des Projets</h3>
+                                    <div class="progress-bars">
+                                        <div class="progress-item">
+                                            <div class="o_form_label">Projets KONDRO</div>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" id="projects-progress" style="width: 0%"></div>
+                                            </div>
+                                            <span id="projects-progress-text">0%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="chart-section">
+                                    <h3>Dépenses Internes</h3>
+                                    <div class="expense-stats">
+                                        <div class="expense-item">
+                                            <span class="label">Total des demandes:</span>
+                                            <span class="value" id="expense-total">0</span>
+                                        </div>
+                                        <div class="expense-item">
+                                            <span class="label">En attente:</span>
+                                            <span class="value pending" id="expense-pending">0</span>
+                                        </div>
+                                        <div class="expense-item">
+                                            <span class="label">Approuvées:</span>
+                                            <span class="value approved" id="expense-approved">0</span>
+                                        </div>
+                                        <div class="expense-item">
+                                            <span class="label">Montant total:</span>
+                                            <span class="value amount" id="expense-amount">0 XOF</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Actions rapides -->
+                            <div class="dashboard-actions">
+                                <h3>Actions Rapides</h3>
+                                <div class="action-buttons">
+                                    <button class="btn btn-primary" onclick="window.location.href='/web#action=kondro_core.action_kondro_project'">
+                                        📊 Projets KONDRO
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="window.location.href='/web#action=kondro_core.action_kondro_commercial_dossier'">
+                                        📋 Dossiers Commerciaux
+                                    </button>
+                                    <button class="btn btn-success" onclick="window.location.href='/web#action=kondro_finance.action_kondro_treasury_movement'">
+                                        💰 Trésorerie
+                                    </button>
+                                    <button class="btn btn-info" onclick="window.location.href='/web#action=kondro_finance.action_kondro_expense_request'">
+                                        💳 Dépenses
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action du tableau de bord -->
+        <record id="action_kondro_dashboard" model="ir.actions.act_window">
+            <field name="name">Tableau de Bord KONDRO</field>
+            <field name="res_model">kondro.dashboard.data</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_kondro_dashboard"/>
+            <field name="target">current</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Tableau de bord KONDRO Networks
+                </p>
+                <p>
+                    Vue d'ensemble des activités et performances de l'entreprise.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

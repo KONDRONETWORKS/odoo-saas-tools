@@ -33,6 +33,7 @@ class SaasRole(models.Model):
     )
     
     user_count = fields.Integer(string='User Count', compute='_compute_user_count')
+    active = fields.Boolean(string='Active', default=True)
     description = fields.Text(string='Description')
     
     _sql_constraints = [

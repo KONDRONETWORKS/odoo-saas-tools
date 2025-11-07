@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Séquence pour les dossiers commerciaux -->
+        <record id="seq_kondro_commercial_dossier" model="ir.sequence">
+            <field name="name">Numéro Dossier Commercial</field>
+            <field name="code">kondro.commercial.dossier</field>
+            <field name="prefix">DOS-</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
+    </data>
+</odoo>

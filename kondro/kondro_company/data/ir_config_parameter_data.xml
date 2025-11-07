@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Paramètres de configuration KONDRONETWORKS -->
+        <record id="kondro_company_timezone" model="ir.config_parameter">
+            <field name="key">kondro.company.timezone</field>
+            <field name="value">Africa/Abidjan</field>
+        </record>
+        
+        <record id="kondro_company_country" model="ir.config_parameter">
+            <field name="key">kondro.company.country</field>
+            <field name="value">CI</field>
+        </record>
+        
+        <record id="kondro_company_currency" model="ir.config_parameter">
+            <field name="key">kondro.company.currency</field>
+            <field name="value">XOF</field>
+        </record>
+        
+        <record id="kondro_company_lang" model="ir.config_parameter">
+            <field name="key">kondro.company.lang</field>
+            <field name="value">fr_FR</field>
+        </record>
+    </data>
+</odoo>

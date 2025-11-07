@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Configuration de l'entreprise KONDRONETWORKS -->
+        <record id="res_company_kondronetworks" model="res.company">
+            <field name="name">KONDRONETWORKS</field>
+            <field name="country_id" ref="base.ci"/>
+            <field name="currency_id" ref="base.XOF"/>
+            <field name="phone">+225 XX XX XX XX XX</field>
+            <field name="email">contact@kondronetworks.com</field>
+            <field name="website">https://www.kondronetworks.com</field>
+            <field name="vat">CIXXXXXXXXX</field>
+            <field name="street">Abidjan, Côte d'Ivoire</field>
+            <field name="city">Abidjan</field>
+            <field name="zip">01 BP</field>
+        </record>
+    </data>
+</odoo>

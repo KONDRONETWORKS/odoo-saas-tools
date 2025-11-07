@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue formulaire serveur avec zone OVH -->
+    <record model="ir.ui.view" id="view_server_form_ovh_zone">
+        <field name="name">saas_portal.server.form.ovh.zone</field>
+        <field name="model">saas_portal.server</field>
+        <field name="inherit_id" ref="saas_portal.view_server_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='local_host']" position="after">
+                <field name="ovh_zone_id" 
+                       placeholder="Sélectionnez une zone DNS OVH"
+                       options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vue liste zones OVH -->
+    <record model="ir.ui.view" id="view_ovh_zone_tree">
+        <field name="name">saas_sysadmin.ovh.zone.tree</field>
+        <field name="model">saas_sysadmin.ovh.zone</field>
+        <field name="arch" type="xml">
+            <tree string="Zones DNS OVH">
+                <field name="name"/>
+                <field name="zone_name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue formulaire zone OVH -->
+    <record model="ir.ui.view" id="view_ovh_zone_form">
+        <field name="name">saas_sysadmin.ovh.zone.form</field>
+        <field name="model">saas_sysadmin.ovh.zone</field>
+        <field name="arch" type="xml">
+            <form string="Zone DNS OVH">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="zone_name" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour zones OVH -->
+    <record model="ir.actions.act_window" id="action_ovh_zone">
+        <field name="name">Zones DNS OVH</field>
+        <field name="res_model">saas_sysadmin.ovh.zone</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer une zone DNS OVH
+            </p>
+            <p>
+                Configurez les zones DNS OVH qui seront utilisées pour créer automatiquement
+                les enregistrements DNS lors de la création d'instances client.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_ovh_zone"
+              name="Zones DNS OVH"
+              parent="saas_portal.menu_saas_portal_config"
+              action="action_ovh_zone"
+              sequence="50"/>
+</odoo>

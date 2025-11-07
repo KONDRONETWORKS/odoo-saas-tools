@@ -40,7 +40,7 @@ Module de gestion des clients et instances SaaS optimisé.
 - Rapports personnalisés
 - Dashboard client
 """,
-    'depends': ['saas_ocore', 'saas_oadmin'],
+    'depends': ['saas_ocore', 'saas_oadmin', 'saas_oconfig'],
     'data': [
         'security/ir.model.access.csv',
         'views/client_views.xml',

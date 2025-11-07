@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Séquence pour les dépenses -->
+        <record id="seq_kondro_expense_request" model="ir.sequence">
+            <field name="name">Numéro Demande de Dépense</field>
+            <field name="code">kondro.expense.request</field>
+            <field name="prefix">DEP-</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
+        
+        <!-- Séquence pour les mouvements entrées -->
+        <record id="seq_kondro_treasury_movement_in" model="ir.sequence">
+            <field name="name">Mouvement Trésorerie Entrée</field>
+            <field name="code">kondro.treasury.movement.in</field>
+            <field name="prefix">ENT-</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
+        
+        <!-- Séquence pour les mouvements sorties -->
+        <record id="seq_kondro_treasury_movement_out" model="ir.sequence">
+            <field name="name">Mouvement Trésorerie Sortie</field>
+            <field name="code">kondro.treasury.movement.out</field>
+            <field name="prefix">SOR-</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
+    </data>
+</odoo>

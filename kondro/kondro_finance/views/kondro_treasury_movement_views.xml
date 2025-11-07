@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Liste des Mouvements -->
+    <record id="view_kondro_treasury_movement_tree" model="ir.ui.view">
+        <field name="name">kondro.treasury.movement.tree</field>
+        <field name="model">kondro.treasury.movement</field>
+        <field name="arch" type="xml">
+            <tree string="Mouvements de Trésorerie" decoration-success="movement_type == 'in'" decoration-danger="movement_type == 'out'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="account_id"/>
+                <field name="movement_type"/>
+                <field name="amount" sum="Total"/>
+                <field name="payment_method"/>
+                <field name="partner_id"/>
+                <field name="reference"/>
+                <field name="project_id"/>
+                <field name="expense_request_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire des Mouvements -->
+    <record id="view_kondro_treasury_movement_form" model="ir.ui.view">
+        <field name="name">kondro.treasury.movement.form</field>
+        <field name="model">kondro.treasury.movement</field>
+        <field name="arch" type="xml">
+            <form string="Mouvement de Trésorerie">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="account_id" options="{'no_create': True}"/>
+                            <field name="movement_type"/>
+                            <field name="date"/>
+                            <field name="amount"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="payment_method"/>
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="reference"/>
+                            <field name="project_id" options="{'no_create': True}"/>
+                            <field name="expense_request_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="comment" placeholder="Commentaire..."/>
+                    </group>
+                    <notebook>
+                        <page string="Pièces Justificatives">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour les Mouvements -->
+    <record id="action_kondro_treasury_movement" model="ir.actions.act_window">
+        <field name="name">Mouvements de Trésorerie</field>
+        <field name="res_model">kondro.treasury.movement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'default_movement_type': 'out'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Enregistrer un nouveau mouvement
+            </p>
+        </field>
+    </record>
+</odoo>

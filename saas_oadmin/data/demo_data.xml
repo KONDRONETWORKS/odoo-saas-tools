@@ -45,7 +45,7 @@
     
     <!-- Permissions pour Manager -->
     <record id="data_perm_client_read" model="saas.permission">
-        <field name="name">Client Read & Write</field>
+        <field name="name">Client Read &amp; Write</field>
         <field name="code">perm_client_rw</field>
         <field name="permission_type">model</field>
         <field name="resource_id">saas.oclient</field>

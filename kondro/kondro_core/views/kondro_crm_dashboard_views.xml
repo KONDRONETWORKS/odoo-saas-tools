@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dashboard CRM Principal -->
+    <record id="view_kondro_crm_dashboard" model="ir.ui.view">
+        <field name="name">kondro.crm.dashboard</field>
+        <field name="model">kondro.project</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard CRM KONDRO">
+                <sheet>
+                    <div class="oe_dashboard">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Projets Actifs</h5>
+                                        <h2 class="text-primary" id="active_projects_count">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Budget Total</h5>
+                                        <h2 class="text-success" id="total_budget">0 XOF</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Montant Engagé</h5>
+                                        <h2 class="text-warning" id="total_engaged">0 XOF</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Marge Totale</h5>
+                                        <h2 class="text-info" id="total_margin">0 XOF</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Vue d'Ensemble des Projets</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <field name="id" invisible="1"/>
+                                        <p>Le dashboard sera alimenté par JavaScript pour afficher les statistiques en temps réel.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action Dashboard CRM -->
+    <record id="action_kondro_crm_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard CRM KONDRO</field>
+        <field name="res_model">kondro.project</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_kondro_crm_dashboard"/>
+        <field name="target">current</field>
+    </record>
+</odoo>

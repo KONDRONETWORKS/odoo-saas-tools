@@ -1,5 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_saas_client,saas.oclient,model_saas_client,group_saas_omanager,1,1,1,0
-access_saas_instance,saas.oinstance,model_saas_instance,group_saas_omanager,1,1,1,1
-access_saas_plan,saas.oplan,model_saas_plan,group_saas_oadmin,1,1,1,1
-
+access_saas_oclient,saas.oclient,model_saas_oclient,saas_oadmin.group_saas_omanager,1,1,1,0
+access_saas_oinstance,saas.oinstance,model_saas_oinstance,saas_oadmin.group_saas_omanager,1,1,1,1
+access_saas_oplan,saas.oplan,model_saas_oplan,saas_oadmin.group_saas_oadmin,1,1,1,1

@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_kondro_treasury_account_user,kondro.treasury.account.user,model_kondro_treasury_account,base.group_user,1,0,0,0
+access_kondro_treasury_account_manager,kondro.treasury.account.manager,model_kondro_treasury_account,base.group_user,1,1,1,1
+access_kondro_treasury_movement_user,kondro.treasury.movement.user,model_kondro_treasury_movement,base.group_user,1,1,1,0
+access_kondro_treasury_movement_manager,kondro.treasury.movement.manager,model_kondro_treasury_movement,base.group_user,1,1,1,1
+access_kondro_expense_request_user,kondro.expense.request.user,model_kondro_expense_request,base.group_user,1,1,1,0
+access_kondro_expense_request_manager,kondro.expense.request.manager,model_kondro_expense_request,base.group_user,1,1,1,1
+

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Liste des Comptes -->
+    <record id="view_kondro_treasury_account_tree" model="ir.ui.view">
+        <field name="name">kondro.treasury.account.tree</field>
+        <field name="model">kondro.treasury.account</field>
+        <field name="arch" type="xml">
+            <tree string="Comptes de Trésorerie">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="account_type"/>
+                <field name="initial_balance" sum="Total"/>
+                <field name="current_balance" sum="Total"/>
+                <field name="movement_count"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire des Comptes -->
+    <record id="view_kondro_treasury_account_form" model="ir.ui.view">
+        <field name="name">kondro.treasury.account.form</field>
+        <field name="model">kondro.treasury.account</field>
+        <field name="arch" type="xml">
+            <form string="Compte de Trésorerie">
+                <header>
+                    <button name="action_view_movements" string="Mouvements" type="object" class="oe_highlight" attrs="{'invisible': [('movement_count', '=', 0)]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_movements" type="object" class="oe_stat_button" icon="fa-list" attrs="{'invisible': [('movement_count', '=', 0)]}">
+                            <field name="movement_count" widget="statinfo" string="Mouvements"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="account_type"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="initial_balance"/>
+                            <field name="current_balance" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="account_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour les Comptes -->
+    <record id="action_kondro_treasury_account" model="ir.actions.act_window">
+        <field name="name">Comptes de Trésorerie</field>
+        <field name="res_model">kondro.treasury.account</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau compte de trésorerie
+            </p>
+        </field>
+    </record>
+</odoo>

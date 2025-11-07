@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- S'assurer que la Côte d'Ivoire est configurée -->
+        <record id="base.ci" model="res.country">
+            <field name="name">Côte d'Ivoire</field>
+            <field name="code">CI</field>
+            <field name="currency_id" ref="base.XOF"/>
+        </record>
+    </data>
+</odoo>

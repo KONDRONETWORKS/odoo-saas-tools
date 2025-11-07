@@ -1,4 +1,7 @@
 # 🏢 Odoo SaaS Tools - Plateforme SaaS Complète (MAJ 2024)
+```bash
+docker compose -f config/docker-compose.simple.yml restart odoo
+```
 
 [![Build Status](http://runbot.it-projects.info/runbot/badge/flat/odoo-saas-tools/18.0.svg)](http://runbot.it-projects.info/demo/odoo-saas-tools/18.0)
 [![Version](https://img.shields.io/badge/version-18.0.2.1.0-blue.svg)](https://github.com/KONDRONETWORKS/odoo-saas-tools)

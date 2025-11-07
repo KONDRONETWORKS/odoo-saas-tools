@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_kondro_project_user,kondro.project.user,model_kondro_project,base.group_user,1,1,1,0
+access_kondro_project_manager,kondro.project.manager,model_kondro_project,base.group_user,1,1,1,1
+access_kondro_dossier_user,kondro.commercial.dossier.user,model_kondro_commercial_dossier,base.group_user,1,1,1,0
+access_kondro_dossier_manager,kondro.commercial.dossier.manager,model_kondro_commercial_dossier,base.group_user,1,1,1,1
+access_kondro_dashboard_data,kondro.dashboard.data,model_kondro_dashboard_data,base.group_user,1,0,0,0
+

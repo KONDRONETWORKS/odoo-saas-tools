@@ -17,6 +17,7 @@ class SaasOptimizedTemplate(models.Model):
     _description = 'SaaS Template'
     _inherit = 'saas.base'
     
+    name = fields.Char(string='Template Name', required=True)
     code = fields.Char(string='Template Code', required=True, unique=True)
     odoo_version = fields.Char(string='Odoo Version', required=True)
     modules_to_install = fields.Text(string='Modules to Install', help='Comma-separated list')

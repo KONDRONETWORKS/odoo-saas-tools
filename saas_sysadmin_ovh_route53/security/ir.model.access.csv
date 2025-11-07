@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ovh_zone_user,saas_sysadmin.ovh.zone.user,model_saas_sysadmin_ovh_zone,base.group_user,1,1,1,0
+access_ovh_zone_manager,saas_sysadmin.ovh.zone.manager,model_saas_sysadmin_ovh_zone,base.group_system,1,1,1,1
+

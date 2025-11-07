@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Finance -->
+    <menuitem id="menu_kondro_finance"
+              name="Finance"
+              parent="menu_kondro_root"
+              sequence="20"/>
+
+    <!-- Trésorerie -->
+    <menuitem id="menu_kondro_treasury"
+              name="Trésorerie"
+              parent="menu_kondro_finance"
+              sequence="10"/>
+
+    <menuitem id="menu_kondro_treasury_accounts"
+              name="Comptes"
+              parent="menu_kondro_treasury"
+              action="action_kondro_treasury_account"
+              sequence="10"/>
+
+    <menuitem id="menu_kondro_treasury_movements"
+              name="Mouvements"
+              parent="menu_kondro_treasury"
+              action="action_kondro_treasury_movement"
+              sequence="20"/>
+
+    <!-- Dépenses -->
+    <menuitem id="menu_kondro_expenses"
+              name="Dépenses"
+              parent="menu_kondro_finance"
+              action="action_kondro_expense_request"
+              sequence="20"/>
+</odoo>
