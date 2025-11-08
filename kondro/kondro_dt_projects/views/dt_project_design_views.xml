@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_kondro_dt_project_design_tree" model="ir.ui.view">
+            <field name="name">kondro.dt.project.design.tree</field>
+            <field name="model">kondro.dt.project.design</field>
+            <field name="arch" type="xml">
+                <tree string="Documents techniques">
+                    <field name="name"/>
+                    <field name="project_id" optional="hide"/>
+                    <field name="design_type"/>
+                    <field name="version"/>
+                    <field name="owner_id"/>
+                    <field name="validated"/>
+                    <field name="validation_date" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_project_design_form" model="ir.ui.view">
+            <field name="name">kondro.dt.project.design.form</field>
+            <field name="model">kondro.dt.project.design</field>
+            <field name="arch" type="xml">
+                <form string="Document technique">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="project_id"/>
+                                <field name="design_type"/>
+                                <field name="version"/>
+                                <field name="owner_id"/>
+                            </group>
+                            <group>
+                                <field name="attachment_id"/>
+                                <field name="url_link" placeholder="https://..."/>
+                                <field name="validated"/>
+                                <field name="validation_date" attrs="{'invisible': [('validated', '=', False)]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="description" colspan="2" placeholder="Notes fonctionnelles ou techniques..."/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_open_attachment" type="object" string="Télécharger" class="btn-primary" attrs="{'invisible': [('attachment_id', '=', False)]}"/>
+                        <button string="Fermer" special="cancel" class="btn-secondary"/>
+                    </footer>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_kondro_dt_project_design" model="ir.actions.act_window">
+            <field name="name">Documents techniques</field>
+            <field name="res_model">kondro.dt.project.design</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

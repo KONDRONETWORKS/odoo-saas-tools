@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+dt_project_milestone_user,kondro.dt.project.milestone.user,model_kondro_dt_project_milestone,kondro_dt_hub.group_kondro_dt_user,1,0,0,0
+dt_project_milestone_manager,kondro.dt.project.milestone.manager,model_kondro_dt_project_milestone,kondro_dt_hub.group_kondro_dt_manager,1,1,1,0
+dt_project_milestone_admin,kondro.dt.project.milestone.admin,model_kondro_dt_project_milestone,kondro_dt_hub.group_kondro_dt_admin,1,1,1,1
+dt_project_risk_user,kondro.dt.project.risk.user,model_kondro_dt_project_risk,kondro_dt_hub.group_kondro_dt_user,1,0,0,0
+dt_project_risk_manager,kondro.dt.project.risk.manager,model_kondro_dt_project_risk,kondro_dt_hub.group_kondro_dt_manager,1,1,1,0
+dt_project_risk_admin,kondro.dt.project.risk.admin,model_kondro_dt_project_risk,kondro_dt_hub.group_kondro_dt_admin,1,1,1,1
+dt_project_design_user,kondro.dt.project.design.user,model_kondro_dt_project_design,kondro_dt_hub.group_kondro_dt_user,1,0,0,0
+dt_project_design_manager,kondro.dt.project.design.manager,model_kondro_dt_project_design,kondro_dt_hub.group_kondro_dt_manager,1,1,1,0
+dt_project_design_admin,kondro.dt.project.design.admin,model_kondro_dt_project_design,kondro_dt_hub.group_kondro_dt_admin,1,1,1,1

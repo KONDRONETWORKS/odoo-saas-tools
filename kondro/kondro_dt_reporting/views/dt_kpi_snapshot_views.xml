@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_kondro_dt_kpi_snapshot_tree" model="ir.ui.view">
+            <field name="name">kondro.dt.kpi.snapshot.tree</field>
+            <field name="model">kondro.dt.kpi.snapshot</field>
+            <field name="arch" type="xml">
+                <tree string="Relevés KPI" decoration-success="delta_value &gt;= 0" decoration-danger="delta_value &lt; 0">
+                    <field name="period_end"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="value"/>
+                    <field name="delta_value" optional="show"/>
+                    <field name="delta_percent" optional="show"/>
+                    <field name="target_value" optional="show"/>
+                    <field name="unit_label" optional="hide"/>
+                    <field name="periodicity" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_kpi_snapshot_form" model="ir.ui.view">
+            <field name="name">kondro.dt.kpi.snapshot.form</field>
+            <field name="model">kondro.dt.kpi.snapshot</field>
+            <field name="arch" type="xml">
+                <form string="Relevé KPI">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="config_id" readonly="1"/>
+                                <field name="periodicity" readonly="1"/>
+                                <field name="period_start" readonly="1"/>
+                                <field name="period_end" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="value" readonly="1"/>
+                                <field name="delta_value" readonly="1"/>
+                                <field name="delta_percent" readonly="1"/>
+                                <field name="target_value" readonly="1"/>
+                                <field name="unit_label" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="notes" placeholder="Commentaire analyste..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_kpi_snapshot_graph" model="ir.ui.view">
+            <field name="name">kondro.dt.kpi.snapshot.graph</field>
+            <field name="model">kondro.dt.kpi.snapshot</field>
+            <field name="arch" type="xml">
+                <graph string="Evolution KPI" stacked="False" disable_linking="True">
+                    <field name="period_end" type="row"/>
+                    <field name="value" type="measure"/>
+                    <field name="code" type="col"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_kpi_snapshot_pivot" model="ir.ui.view">
+            <field name="name">kondro.dt.kpi.snapshot.pivot</field>
+            <field name="model">kondro.dt.kpi.snapshot</field>
+            <field name="arch" type="xml">
+                <pivot string="Pivot KPI">
+                    <field name="period_end" type="row" interval="month"/>
+                    <field name="config_id" type="col"/>
+                    <field name="value" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+    </data>
+</odoo>

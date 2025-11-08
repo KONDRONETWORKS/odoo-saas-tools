@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+dt_matrix_user,kondro.dt.workflow.matrix.user,model_kondro_dt_workflow_matrix,kondro_dt_hub.group_kondro_dt_user,1,0,0,0
+dt_matrix_manager,kondro.dt.workflow.matrix.manager,model_kondro_dt_workflow_matrix,kondro_dt_hub.group_kondro_dt_manager,1,1,1,0
+dt_matrix_admin,kondro.dt.workflow.matrix.admin,model_kondro_dt_workflow_matrix,kondro_dt_hub.group_kondro_dt_admin,1,1,1,1
+dt_matrix_line_manager,kondro.dt.workflow.matrix.line.manager,model_kondro_dt_workflow_matrix_line,kondro_dt_hub.group_kondro_dt_manager,1,1,1,0
+dt_matrix_line_admin,kondro.dt.workflow.matrix.line.admin,model_kondro_dt_workflow_matrix_line,kondro_dt_hub.group_kondro_dt_admin,1,1,1,1

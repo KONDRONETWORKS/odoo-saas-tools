@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_kondro_dt_metric" model="ir.actions.act_window">
+            <field name="name">Hub Directeur Technique</field>
+            <field name="res_model">kondro.dt.metric</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <h3>Aucun indicateur pour le moment</h3>
+                <p>Créez vos indicateurs clés ou laissez les données par défaut pour suivre l’activité.</p>
+            </field>
+        </record>
+
+        <menuitem id="menu_kondro_dt_root"
+                  name="Directeur Technique"
+                  parent="kondro_core.menu_kondro_root"
+                  groups="kondro_dt_hub.group_kondro_dt_user"
+                  sequence="40"/>
+
+        <menuitem id="menu_kondro_dt_dashboard"
+                  name="Hub Directeur Technique"
+                  parent="menu_kondro_dt_root"
+                  action="action_kondro_dt_metric"
+                  groups="kondro_dt_hub.group_kondro_dt_user"
+                  sequence="5"/>
+    </data>
+</odoo>

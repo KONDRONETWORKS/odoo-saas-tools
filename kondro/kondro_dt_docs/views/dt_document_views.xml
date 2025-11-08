@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_kondro_dt_document_tree" model="ir.ui.view">
+            <field name="name">kondro.dt.document.tree</field>
+            <field name="model">kondro.dt.document</field>
+            <field name="arch" type="xml">
+                <tree string="Documents DT" decoration-info="state == 'in_review'" decoration-success="state == 'approved'" decoration-muted="state == 'archived'">
+                    <field name="reference"/>
+                    <field name="name"/>
+                    <field name="version"/>
+                    <field name="category_id"/>
+                    <field name="project_id" optional="show"/>
+                    <field name="dossier_id" optional="show"/>
+                    <field name="state"/>
+                    <field name="owner_id" optional="show"/>
+                    <field name="reviewer_id" optional="hide"/>
+                    <field name="approver_id" optional="hide"/>
+                    <field name="approval_date" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_document_kanban" model="ir.ui.view">
+            <field name="name">kondro.dt.document.kanban</field>
+            <field name="model">kondro.dt.document</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" class="o_kanban_dashboard">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card oe_kanban_global_click" t-att-class="'bg-light0 o_kanban_color_' + (record.color.raw_value or '0')">
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <strong><field name="name"/></strong>
+                                        <span class="text-muted" t-if="record.reference.value">(<t t-esc="record.reference.value"/>)</span>
+                                    </div>
+                                    <span class="badge" t-esc="record.category_id.value"/>
+                                </div>
+                                <div class="o_kanban_card_content">
+                                    <div class="text-muted">
+                                        <field name="project_id" attrs="{'invisible': [('project_id', '=', False)]}"/>
+                                        <field name="dossier_id" attrs="{'invisible': [('dossier_id', '=', False)]}"/>
+                                    </div>
+                                    <div class="mt-1">
+                                        <i class="fa fa-user"/> <field name="owner_id"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_card_footer">
+                                    <button type="object" name="action_open_attachment" class="btn btn-sm btn-primary" attrs="{'invisible': [('attachment_id', '=', False)]}">
+                                        <i class="fa fa-download"/> Télécharger
+                                    </button>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_document_form" model="ir.ui.view">
+            <field name="name">kondro.dt.document.form</field>
+            <field name="model">kondro.dt.document</field>
+            <field name="arch" type="xml">
+                <form string="Document DT">
+                    <header>
+                        <button name="action_submit_review" type="object" string="Soumettre" states="draft" class="oe_highlight"/>
+                        <button name="action_approve" type="object" string="Valider" states="draft,in_review" groups="kondro_dt_hub.group_kondro_dt_manager"/>
+                        <button name="action_archive" type="object" string="Archiver" states="approved,in_review" groups="kondro_dt_hub.group_kondro_dt_manager"/>
+                        <button name="action_reset_draft" type="object" string="Réouvrir" states="approved,archived" groups="kondro_dt_hub.group_kondro_dt_manager"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,in_review,approved,archived"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_open_attachment" type="object" class="oe_stat_button" icon="fa-download" attrs="{'invisible': [('attachment_id', '=', False)]}">
+                                <span class="o_stat_text">Télécharger</span>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="reference" readonly="1"/>
+                                <field name="name"/>
+                                <field name="version"/>
+                                <field name="category_id"/>
+                                <field name="tag_ids" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="owner_id"/>
+                                <field name="reviewer_id"/>
+                                <field name="approver_id"/>
+                                <field name="review_deadline"/>
+                                <field name="next_revision_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="project_id"/>
+                                <field name="dossier_id"/>
+                                <field name="design_id"/>
+                                <field name="expense_id"/>
+                            </group>
+                            <group>
+                                <field name="attachment_id"/>
+                                <field name="attachment_ids" widget="many2many_binary"/>
+                                <field name="url_link"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description" placeholder="Résumé, notes techniques, checklists..."/>
+                            </page>
+                            <page string="Historique">
+                                <field name="message_ids" widget="mail_thread" options="{'expand': True}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_document_search" model="ir.ui.view">
+            <field name="name">kondro.dt.document.search</field>
+            <field name="model">kondro.dt.document</field>
+            <field name="arch" type="xml">
+                <search string="Recherche documents DT">
+                    <field name="name"/>
+                    <field name="reference"/>
+                    <field name="project_id"/>
+                    <field name="dossier_id"/>
+                    <field name="category_id"/>
+                    <field name="state"/>
+                    <filter name="filter_my_documents" string="Mes documents" domain="['|', ('owner_id', '=', uid), ('reviewer_id', '=', uid)]"/>
+                    <group expand="0" string="Statut">
+                        <filter string="Brouillons" name="draft" domain="[('state', '=', 'draft')]"/>
+                        <filter string="Revue" name="in_review" domain="[('state', '=', 'in_review')]"/>
+                        <filter string="Validés" name="approved" domain="[('state', '=', 'approved')]"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

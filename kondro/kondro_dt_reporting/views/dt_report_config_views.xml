@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_kondro_dt_report_config_tree" model="ir.ui.view">
+            <field name="name">kondro.dt.report.config.tree</field>
+            <field name="model">kondro.dt.report.config</field>
+            <field name="arch" type="xml">
+                <tree string="Configurations KPI">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="model_id"/>
+                    <field name="aggregator"/>
+                    <field name="measure_field_id" optional="show"/>
+                    <field name="periodicity"/>
+                    <field name="last_value"/>
+                    <field name="last_delta" optional="show"/>
+                    <field name="last_delta_percent" optional="show"/>
+                    <field name="target_value" optional="show"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_report_config_form" model="ir.ui.view">
+            <field name="name">kondro.dt.report.config.form</field>
+            <field name="model">kondro.dt.report.config</field>
+            <field name="arch" type="xml">
+                <form string="KPI DT">
+                    <header>
+                        <button name="action_compute_snapshot" type="object" string="Actualiser" class="oe_highlight"/>
+                        <field name="active"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_compute_snapshot" type="object" class="oe_stat_button" icon="fa-refresh">
+                                <span class="o_stat_text">Recalculer</span>
+                            </button>
+                            <button type="action" name="%(action_kondro_dt_reporting_kpi)d" class="oe_stat_button" icon="fa-line-chart">
+                                <span class="o_stat_text">KPIs</span>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="sequence"/>
+                                <field name="model_id"/>
+                                <field name="domain" placeholder="[('status','=','in_progress')]"/>
+                            </group>
+                            <group>
+                                <field name="aggregator"/>
+                                <field name="measure_field_id" attrs="{'required': [('aggregator', 'in', ['sum', 'avg'])]}"/>
+                                <field name="date_field_id"/>
+                                <field name="periodicity"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="target_value"/>
+                                <field name="currency_id" attrs="{'invisible': [('aggregator', '=', 'count')]}"/>
+                                <field name="unit_label"/>
+                            </group>
+                            <group>
+                                <field name="last_snapshot_id" readonly="1"/>
+                                <field name="last_value" readonly="1"/>
+                                <field name="last_delta" readonly="1"/>
+                                <field name="last_delta_percent" readonly="1"/>
+                            </group>
+                        </group>
+                        <group col="1">
+                            <field name="description"/>
+                        </group>
+                        <notebook>
+                            <page string="Tableaux">
+                                <field name="report_board_ids" widget="many2many_tags"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

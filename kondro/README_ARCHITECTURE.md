@@ -96,6 +96,29 @@ Brouillon → Soumise → Validée → Approuvée → Planifiée → Payée → 
 
 ---
 
+## 🧭 Suite Directeur Technique (DT Hub)
+
+| Module | Rôle | Points clés |
+|--------|------|-------------|
+| `kondro_dt_hub` | Tableau de bord DT | Indicateurs consolidés (projets, trésorerie, dépenses), notifications ciblées |
+| `kondro_dt_projects` | Orchestration projets techniques | Jalons HLD/LLD, risques, artefacts, phase technique & intégration dépenses |
+| `kondro_dt_workflow` | Matrices RACI & validations | Matrices par processus, assignation R/A/C/I, escalades et validations techniques |
+| `kondro_dt_docs` | Bibliothèque documentaire | Gestion HLD/LLD, versions, approbation, liens projets/dossiers/dépenses |
+| `kondro_dt_reporting` | KPI & exports BI | Config KPI, snapshots historisés, tableaux DT, export CSV pour Power BI/Excel |
+
+### Flux DT simplifié
+```
+Projets/Dossiers → Documents & Jalons → Matrices RACI → KPI & Reporting
+```
+
+### Intégrations clés
+- Les projets et dossiers exposent des onglets « Technique » / « Docs DT » / « Workflow DT ».
+- Les dépenses commerciales utilisent les matrices DT pour la validation technique.
+- Les documents validés alimentent le reporting via les indicateurs configurés.
+- Les tableaux `kondro_dt_reporting` sont accessibles depuis le hub pour DG/Daf/RH.
+
+---
+
 ## 📐 Structure des Données
 
 ### Projet Unifié (`kondro.project`)
@@ -164,6 +187,7 @@ Brouillon → Soumise → Validée → Approuvée → Planifiée → Payée → 
 2. ✅ Créer `kondro_finance`
 3. ✅ Fusionner `kondro_dashboard` dans `kondro_core`
 4. ✅ Fusionner `kondro_crm_override` dans `kondro_core`
+5. ✅ Déployer la suite Directeur Technique (`kondro_dt_*`)
 5. ⏳ Créer les scripts de migration
 6. ⏳ Tester les workflows complets
 7. ⏳ Documenter la migration

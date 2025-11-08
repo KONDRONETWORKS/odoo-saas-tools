@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_kondro_dt_metric_tree" model="ir.ui.view">
+            <field name="name">kondro.dt.metric.tree</field>
+            <field name="model">kondro.dt.metric</field>
+            <field name="arch" type="xml">
+                <tree string="Indicateurs Directeur Technique">
+                    <field name="name"/>
+                    <field name="metric_type"/>
+                    <field name="value_float" widget="monetary" attrs="{'invisible': [('metric_type', '!=', 'currency')]}"/>
+                    <field name="value_float" attrs="{'invisible': [('metric_type', '=', 'currency')]}" string="Valeur"/>
+                    <field name="value_text" optional="show"/>
+                    <field name="last_evaluation" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_metric_form" model="ir.ui.view">
+            <field name="name">kondro.dt.metric.form</field>
+            <field name="model">kondro.dt.metric</field>
+            <field name="arch" type="xml">
+                <form string="Indicateur Directeur Technique">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="technical_name" readonly="1" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="sequence"/>
+                            <field name="metric_type"/>
+                            <field name="currency_id" attrs="{'invisible': [('metric_type', '!=', 'currency')]}"/>
+                        </group>
+                        <group string="Valeurs calculées">
+                            <field name="value_float" readonly="1"/>
+                            <field name="value_text" readonly="1"/>
+                            <field name="trend" readonly="1"/>
+                            <field name="last_evaluation" readonly="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Notes">
+                                <field name="message_ids" widget="mail_thread" options="{'display_log_button': True}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_metric_kanban" model="ir.ui.view">
+            <field name="name">kondro.dt.metric.kanban</field>
+            <field name="model">kondro.dt.metric</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <kanban default_group_by="metric_type" class="o_kanban_dashboard">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </div>
+                                <div class="o_kanban_primary_bottom">
+                                    <t t-if="record.metric_type.raw_value == 'currency'">
+                                        <span class="o_stat_value">
+                                            <t t-esc="record.value_float.value"/>
+                                            <span t-if="record.currency_id" t-esc="record.currency_id.display_name" class="o_stat_text"/>
+                                        </span>
+                                    </t>
+                                    <t t-elif="record.metric_type.raw_value == 'text'">
+                                        <span class="o_stat_text" t-esc="record.value_text.value"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="o_stat_value" t-esc="record.value_float.value"/>
+                                    </t>
+                                </div>
+                                <div class="o_kanban_primary_bottom">
+                                    <span class="o_stat_text">
+                                        <t t-if="record.last_evaluation.value">
+                                            <t t-esc="record.last_evaluation.value"/>
+                                        </t>
+                                    </span>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_metric_search" model="ir.ui.view">
+            <field name="name">kondro.dt.metric.search</field>
+            <field name="model">kondro.dt.metric</field>
+            <field name="arch" type="xml">
+                <search string="Recherche Indicateurs DT">
+                    <field name="name"/>
+                    <field name="metric_type"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

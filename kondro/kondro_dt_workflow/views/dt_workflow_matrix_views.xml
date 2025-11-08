@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_kondro_dt_workflow_matrix_tree" model="ir.ui.view">
+            <field name="name">kondro.dt.workflow.matrix.tree</field>
+            <field name="model">kondro.dt.workflow.matrix</field>
+            <field name="arch" type="xml">
+                <tree string="Matrices RACI">
+                    <field name="name"/>
+                    <field name="process_type"/>
+                    <field name="project_id" optional="hide"/>
+                    <field name="department_id" optional="show"/>
+                    <field name="escalation_user_id" optional="show"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_kondro_dt_workflow_matrix_form" model="ir.ui.view">
+            <field name="name">kondro.dt.workflow.matrix.form</field>
+            <field name="model">kondro.dt.workflow.matrix</field>
+            <field name="arch" type="xml">
+                <form string="Matrice RACI">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_open_lines" type="object" class="oe_stat_button" icon="fa-users">
+                                <span class="o_stat_text">Participants</span>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="process_type"/>
+                                <field name="project_id"/>
+                                <field name="department_id"/>
+                            </group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="escalation_user_id"/>
+                                <field name="sla_hours"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="description" colspan="2"/>
+                        </group>
+                        <notebook>
+                            <page string="Participants">
+                                <field name="line_ids" context="{'default_matrix_id': active_id}" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="role_type"/>
+                                        <field name="user_id"/>
+                                        <field name="group_id"/>
+                                        <field name="notes"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_kondro_dt_workflow_matrix" model="ir.actions.act_window">
+            <field name="name">Matrices RACI DT</field>
+            <field name="res_model">kondro.dt.workflow.matrix</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_kondro_dt_workflow" name="Workflow" parent="kondro_dt_hub.menu_kondro_dt_root" sequence="15" groups="kondro_dt_hub.group_kondro_dt_manager"/>
+
+        <menuitem id="menu_kondro_dt_workflow_matrix" name="Matrices RACI" parent="menu_kondro_dt_workflow" action="action_kondro_dt_workflow_matrix" groups="kondro_dt_hub.group_kondro_dt_manager" sequence="10"/>
+    </data>
+</odoo>

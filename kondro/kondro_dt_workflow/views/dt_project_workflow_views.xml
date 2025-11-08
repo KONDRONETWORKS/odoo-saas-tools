@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_kondro_project_form_dt_workflow" model="ir.ui.view">
+            <field name="name">kondro.project.form.dt.workflow</field>
+            <field name="model">kondro.project</field>
+            <field name="inherit_id" ref="kondro_dt_projects.view_kondro_project_form_dt"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_open_dt_matrix" type="object" class="oe_stat_button" icon="fa-sitemap" groups="kondro_dt_hub.group_kondro_dt_manager" attrs="{'invisible': [('dt_matrix_id', '=', False)]}">
+                        <field name="dt_matrix_id" widget="statinfo" string="Matrice DT"/>
+                    </button>
+                </xpath>
+                <xpath expr="//page[@string='Technique']" position="after">
+                    <page string="Workflow DT" groups="kondro_dt_hub.group_kondro_dt_manager">
+                        <group>
+                            <group>
+                                <field name="dt_matrix_id"/>
+                                <field name="dt_escalation_user_id"/>
+                            </group>
+                            <group>
+                                <field name="dt_workflow_note" placeholder="Notes relatives au workflow ou escalades..."/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_kondro_commercial_dossier_form_dt_workflow" model="ir.ui.view">
+            <field name="name">kondro.commercial.dossier.form.dt.workflow</field>
+            <field name="model">kondro.commercial.dossier</field>
+            <field name="inherit_id" ref="kondro_core.view_kondro_commercial_dossier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_open_dt_matrix" type="object" class="oe_stat_button" icon="fa-sitemap" groups="kondro_dt_hub.group_kondro_dt_manager" attrs="{'invisible': [('dt_matrix_id', '=', False)]}">
+                        <field name="dt_matrix_id" widget="statinfo" string="Matrice DT"/>
+                    </button>
+                </xpath>
+                <xpath expr="//sheet/group[2]" position="after">
+                    <group string="Workflow DT" groups="kondro_dt_hub.group_kondro_dt_manager">
+                        <group>
+                            <field name="dt_matrix_id"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

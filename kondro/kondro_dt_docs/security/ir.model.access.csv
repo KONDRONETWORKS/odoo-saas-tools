@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+dt_document_user,kondro.dt.document.user,model_kondro_dt_document,kondro_dt_hub.group_kondro_dt_user,1,0,0,0
+dt_document_manager,kondro.dt.document.manager,model_kondro_dt_document,kondro_dt_hub.group_kondro_dt_manager,1,1,1,0
+dt_document_admin,kondro.dt.document.admin,model_kondro_dt_document,kondro_dt_hub.group_kondro_dt_admin,1,1,1,1
+dt_document_category_manager,kondro.dt.document.category.manager,model_kondro_dt_document_category,kondro_dt_hub.group_kondro_dt_manager,1,1,1,0
+dt_document_category_admin,kondro.dt.document.category.admin,model_kondro_dt_document_category,kondro_dt_hub.group_kondro_dt_admin,1,1,1,1
+dt_document_tag_manager,kondro.dt.document.tag.manager,model_kondro_dt_document_tag,kondro_dt_hub.group_kondro_dt_manager,1,1,1,0
+dt_document_tag_admin,kondro.dt.document.tag.admin,model_kondro_dt_document_tag,kondro_dt_hub.group_kondro_dt_admin,1,1,1,1

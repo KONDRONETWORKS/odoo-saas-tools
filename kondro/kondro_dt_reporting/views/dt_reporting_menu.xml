@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_kondro_dt_reporting_kpi" model="ir.actions.act_window">
+            <field name="name">KPIs DT</field>
+            <field name="res_model">kondro.dt.kpi.snapshot</field>
+            <field name="view_mode">graph,tree,pivot</field>
+            <field name="context">{"search_default_group_by_config_id": 1}</field>
+        </record>
+
+        <record id="action_kondro_dt_reporting_config" model="ir.actions.act_window">
+            <field name="name">Configurations KPI</field>
+            <field name="res_model">kondro.dt.report.config</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_kondro_dt_reporting_board" model="ir.actions.act_window">
+            <field name="name">Tableaux DT</field>
+            <field name="res_model">kondro.dt.reporting.board</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+        <menuitem id="menu_kondro_dt_reporting_root"
+                  name="Reporting"
+                  parent="kondro_dt_hub.menu_kondro_dt_root"
+                  groups="kondro_dt_hub.group_kondro_dt_user"
+                  sequence="50"/>
+
+        <menuitem id="menu_kondro_dt_reporting_kpi"
+                  name="KPIs"
+                  parent="menu_kondro_dt_reporting_root"
+                  action="action_kondro_dt_reporting_kpi"
+                  groups="kondro_dt_hub.group_kondro_dt_user"
+                  sequence="5"/>
+
+        <menuitem id="menu_kondro_dt_reporting_board"
+                  name="Tableaux"
+                  parent="menu_kondro_dt_reporting_root"
+                  action="action_kondro_dt_reporting_board"
+                  groups="kondro_dt_hub.group_kondro_dt_manager"
+                  sequence="10"/>
+
+        <menuitem id="menu_kondro_dt_reporting_config"
+                  name="Configurations"
+                  parent="menu_kondro_dt_reporting_root"
+                  action="action_kondro_dt_reporting_config"
+                  groups="kondro_dt_hub.group_kondro_dt_manager"
+                  sequence="20"/>
+
+        <record id="action_kondro_dt_reporting_export" model="ir.actions.act_window">
+            <field name="name">Export KPIs</field>
+            <field name="res_model">kondro.dt.reporting.export.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_kondro_dt_reporting_export"
+                  name="Export"
+                  parent="menu_kondro_dt_reporting_root"
+                  action="action_kondro_dt_reporting_export"
+                  groups="kondro_dt_hub.group_kondro_dt_manager"
+                  sequence="30"/>
+    </data>
+</odoo>

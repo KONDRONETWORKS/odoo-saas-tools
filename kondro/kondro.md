@@ -166,3 +166,42 @@ Création dossier → Ajout dépenses → Validation → Planification → Paiem
 - Interface intuitive et simple d’utilisation, adaptée à une assistante et un comptable
 - Traçabilité complète des flux financiers et suivi en temps réel des dépenses et soldes
 - Architecture évolutive pour intégration future avec d’autres outils internes (Odoo, CRM, etc.)
+
+---
+
+## 9. Intégration Directeur Technique
+
+Pour accompagner le Directeur Technique dans ses responsabilités et structurer la collaboration inter-services, les fonctionnalités ci-dessous seront intégrées dans l’écosystème Kondro.
+
+### 9.1 Module pivot `kondro_dt_hub`
+- Tableau de bord centralisant indicateurs de trésorerie, projets et alertes.
+- Vue calendrier des jalons techniques et points de validation.
+- Notifications ciblées (chefs de projet, DG, RH/Finance) et mentions @.
+
+### 9.2 Orchestration des projets (`kondro_dt_projects`)
+- Complément du dossier commercial : suivi HLD/LLD, matrice des risques, comité technique.
+- Traçabilité des décisions et documents techniques liés à chaque jalon.
+- Intégration bidirectionnelle avec les dépenses projets (workflow de validation).
+
+### 9.3 Workflow transverse (`kondro_dt_workflow`)
+- Matrices RACI par processus (dépense interne, dépense commerciale, change request).
+- Escalades automatiques en cas de blocage, rappels calendaires, checklist de pré-validation.
+- Journal d’activité consolidé par dossier et par acteur.
+
+### 9.4 Bibliothèque documentaire (`kondro_dt_docs`)
+- Référentiel des templates kick-off, HLD/LLD, PV, scripts et procédures.
+- Versioning et gestion des droits (lecture/édition/validation) selon le rôle.
+- Lien automatique entre document et projet/dépense.
+
+### 9.5 Reporting décisionnel (`kondro_dt_reporting`)
+- Rapports consolidés pour DG, RH, Finance : budget vs consommé, capacité équipes, backlog d’actions.
+- Exports (PDF/XLSX) et partage planifié par e-mail.
+- Indicateurs temps réel sur les risques et la conformité documentaire.
+
+### 9.6 Schéma d’intégration
+1. **Harmonisation des modèles** : extension des dossiers commerciaux, dépenses, et rôles existants pour intégrer les données DT.
+2. **Migration/paramétrage** : création des menus, groupes de sécurité, tableaux de bord par défaut.
+3. **Phase pilote** : activation sur un projet, collecte de feedback, ajustement des workflows.
+4. **Généralisation** : déploiement sur l’ensemble des projets et intégration dans les routines de gouvernance.
+
+Ces modules peuvent être fusionnés au sein de `kondro_core` ou déployés progressivement en modules complémentaires selon la stratégie de simplification adoptée.

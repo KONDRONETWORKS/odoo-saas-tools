@@ -67,6 +67,7 @@ python3.11 saas.py --all
 | **Ventes**       | `saas_portal_sale*`, `saas_portal_sale_online`, `saas_portal_sale_subscription`, `saas_portal_subscription` | Paiements Stripe, Paypal   |
 | **Backup**       | `saas_server_backup_ftp`, `saas_server_backup_s3`, `saas_server_backup_minio`, `saas_server_backup_rotate`, `saas_portal_backup_ui` | Minio/Blob S3 natif        |
 | **Infra/Outils** | `saas_sysadmin`, `saas_utils`, `saas_portal_tagging`, `saas_portal_async`, `saas_server_autodelete`, `saas_portal_signup_custom` | Monitoring Prometheus, slack |
+| **Directeur Technique** | `kondro_dt_hub`, `kondro_dt_projects`, `kondro_dt_workflow`, `kondro_dt_docs`, `kondro_dt_reporting` | Gouvernance DT, RACI, docs, KPI BI |
 | **Templates**    | `saas_portal_templates`, `saas_portal_start`, `saas_portal_signup`, `saas_portal_demo` | Nouvel import/export plans |
 
 ---

@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+dt_report_config_user,kondro.dt.report.config.user,model_kondro_dt_report_config,kondro_dt_hub.group_kondro_dt_user,1,0,0,0
+dt_report_config_manager,kondro.dt.report.config.manager,model_kondro_dt_report_config,kondro_dt_hub.group_kondro_dt_manager,1,1,1,0
+dt_report_config_admin,kondro.dt.report.config.admin,model_kondro_dt_report_config,kondro_dt_hub.group_kondro_dt_admin,1,1,1,1
+dt_kpi_snapshot_user,kondro.dt.kpi.snapshot.user,model_kondro_dt_kpi_snapshot,kondro_dt_hub.group_kondro_dt_user,1,0,0,0
+dt_kpi_snapshot_manager,kondro.dt.kpi.snapshot.manager,model_kondro_dt_kpi_snapshot,kondro_dt_hub.group_kondro_dt_manager,1,1,1,0
+dt_kpi_snapshot_admin,kondro.dt.kpi.snapshot.admin,model_kondro_dt_kpi_snapshot,kondro_dt_hub.group_kondro_dt_admin,1,1,1,1
+dt_reporting_board_manager,kondro.dt.reporting.board.manager,model_kondro_dt_reporting_board,kondro_dt_hub.group_kondro_dt_manager,1,1,1,0
+dt_reporting_board_admin,kondro.dt.reporting.board.admin,model_kondro_dt_reporting_board,kondro_dt_hub.group_kondro_dt_admin,1,1,1,1

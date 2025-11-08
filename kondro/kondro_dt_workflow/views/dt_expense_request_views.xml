@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_kondro_expense_request_form_dt" model="ir.ui.view">
+            <field name="name">kondro.expense.request.form.dt</field>
+            <field name="model">kondro.expense.request</field>
+            <field name="inherit_id" ref="kondro_finance.view_kondro_expense_request_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_dt_validate" string="Valider Tech." type="object" groups="kondro_dt_hub.group_kondro_dt_user" class="oe_highlight" attrs="{'invisible': [('dt_validation_state', '!=', 'pending')]}"/>
+                    <button name="action_dt_request_changes" string="Retour Tech." type="object" groups="kondro_dt_hub.group_kondro_dt_manager" attrs="{'invisible': [('dt_validation_state', '=', 'changes')]}"/>
+                    <field name="dt_validation_state" invisible="1"/>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_dt_validate" type="object" icon="fa-check" class="oe_stat_button" groups="kondro_dt_hub.group_kondro_dt_user" attrs="{'invisible': [('dt_validation_state', '!=', 'pending')]}">
+                        <span class="o_stat_text">Valider Tech.</span>
+                    </button>
+                    <button name="action_open_dt_matrix" type="object" class="oe_stat_button" icon="fa-sitemap" groups="kondro_dt_hub.group_kondro_dt_manager" attrs="{'invisible': [('dt_matrix_id', '=', False)]}">
+                        <field name="dt_matrix_id" widget="statinfo" string="Matrice"/>
+                    </button>
+                </xpath>
+                <xpath expr="//group[field[@name='description']]" position="after">
+                    <group string="Workflow DT" groups="kondro_dt_hub.group_kondro_dt_user">
+                        <group>
+                            <field name="dt_matrix_id"/>
+                            <field name="dt_responsible_id"/>
+                            <field name="dt_accountable_id"/>
+                        </group>
+                        <group>
+                            <field name="dt_consulted_ids" widget="many2many_tags"/>
+                            <field name="dt_informed_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//page[@string='Validation']/group" position="inside">
+                    <group string="Technique" groups="kondro_dt_hub.group_kondro_dt_user">
+                        <group>
+                            <field name="dt_validation_user_id" readonly="1"/>
+                            <field name="dt_validation_date" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="dt_requires_validation" readonly="1"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
