@@ -80,7 +80,6 @@ sudo -u $ODOO_USER $PROJECT_DIR/venv/bin/pip install -r $PROJECT_DIR/requirement
         boto3 \
         oauthlib \
         requests \
-        simplejson
 }
 
 # Configuration Odoo

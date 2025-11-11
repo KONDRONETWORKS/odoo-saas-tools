@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_kondro_core" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.kondro.core</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.view_res_config_settings"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='settings']" position="inside">
+                <div class="app_settings_block" data-string="Tableau de bord secteur" string="Tableau de bord secteur" name="kondro_dashboard_settings">
+                    <h2>Tableau de bord secteur</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left">
+                                <span class="fa fa-sliders"/>
+                            </div>
+                            <div class="o_setting_right">
+                                <label for="dashboard_title"/>
+                                <div class="text-muted">
+                                    Personnalisez les libellés visibles par les clients.
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_title" placeholder="Tableau de bord"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_subtitle" placeholder="Vue d'ensemble des activités"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left">
+                                <span class="fa fa-money"/>
+                            </div>
+                            <div class="o_setting_right">
+                                <label for="dashboard_currency_code"/>
+                                <div class="text-muted">
+                                    Format des montants affichés dans le dashboard.
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_currency_code" placeholder="XOF"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_currency_locale" placeholder="fr_FR"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="mt16">Actions rapides</h3>
+                    <div class="row mt8 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left">
+                                <span class="fa fa-folder-open"/>
+                            </div>
+                            <div class="o_setting_right">
+                                <label for="dashboard_project_action_id"/>
+                                <div class="text-muted">
+                                    Action et libellé de la tuile "Projets".
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_project_action_id" options="{'no_open': True}"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_project_label" placeholder="Projets"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_project_icon" placeholder="📊"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left">
+                                <span class="fa fa-briefcase"/>
+                            </div>
+                            <div class="o_setting_right">
+                                <label for="dashboard_commercial_action_id"/>
+                                <div class="text-muted">
+                                    Action et libellé de la tuile "Dossiers".
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_commercial_action_id" options="{'no_open': True}"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_commercial_label" placeholder="Dossiers Commerciaux"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_commercial_icon" placeholder="📋"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left">
+                                <span class="fa fa-line-chart"/>
+                            </div>
+                            <div class="o_setting_right">
+                                <label for="dashboard_treasury_action_id"/>
+                                <div class="text-muted">
+                                    Action et libellé de la tuile "Trésorerie".
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_treasury_action_id" options="{'no_open': True}"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_treasury_label" placeholder="Trésorerie"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_treasury_icon" placeholder="💰"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left">
+                                <span class="fa fa-credit-card"/>
+                            </div>
+                            <div class="o_setting_right">
+                                <label for="dashboard_expense_action_id"/>
+                                <div class="text-muted">
+                                    Action et libellé de la tuile "Dépenses".
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_expense_action_id" options="{'no_open': True}"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_expense_label" placeholder="Dépenses"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="dashboard_expense_icon" placeholder="💳"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

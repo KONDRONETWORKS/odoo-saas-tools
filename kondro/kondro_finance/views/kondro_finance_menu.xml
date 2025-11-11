@@ -3,7 +3,7 @@
     <!-- Menu Finance -->
     <menuitem id="menu_kondro_finance"
               name="Finance"
-              parent="menu_kondro_root"
+              parent="kondro_core.menu_kondro_root"
               sequence="20"/>
 
     <!-- Trésorerie -->

@@ -40,7 +40,7 @@ Module de gestion des serveurs et création de bases de données optimisé.
 - Rate limiting
 - Logs
 """,
-    'depends': ['saas_ocore', 'auth_oauth'],
+    'depends': ['saas_ocore', 'saas_oadmin', 'auth_oauth'],
     'data': [
         'security/ir.model.access.csv',
         'views/server_views.xml',

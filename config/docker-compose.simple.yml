@@ -52,7 +52,7 @@ services:
     # Installer les dépendances Python au démarrage
     entrypoint: >
       bash -c "
-      pip install --break-system-packages 'oauthlib>=3.2.0' 'simplejson>=3.19.0' 2>/dev/null || true &&
+      pip install --break-system-packages 'oauthlib>=3.2.0' 2>/dev/null || true &&
       /entrypoint.sh odoo
       "
     ports:
@@ -139,6 +139,11 @@ services:
       - ../kondro/kondro_company:/mnt/extra-addons/kondro_company
       - ../kondro/kondro_core:/mnt/extra-addons/kondro_core
       - ../kondro/kondro_finance:/mnt/extra-addons/kondro_finance
+      - ../kondro/kondro_dt_hub:/mnt/extra-addons/kondro_dt_hub
+      - ../kondro/kondro_dt_projects:/mnt/extra-addons/kondro_dt_projects
+      - ../kondro/kondro_dt_workflow:/mnt/extra-addons/kondro_dt_workflow
+      - ../kondro/kondro_dt_docs:/mnt/extra-addons/kondro_dt_docs
+      - ../kondro/kondro_dt_reporting:/mnt/extra-addons/kondro_dt_reporting
       
       # ============================================
       # Configuration et Données
@@ -176,6 +181,63 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
+
+  odoo-queue:
+    image: odoo:18
+    container_name: saas-odoo-queue-dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - HOST=postgres
+      - USER=odoo
+      - PASSWORD=odoo
+      - DB_HOST=postgres
+      - DB_USER=odoo
+      - DB_PASSWORD=odoo
+      - DB_PORT=5432
+      - ODOO_RC=/etc/odoo/odoo.conf
+    entrypoint: >
+      bash -c "
+      pip install --break-system-packages 'oauthlib>=3.2.0' 2>/dev/null || true &&
+      /entrypoint.sh odoo
+      "
+    volumes:
+      - ../saas_base:/mnt/extra-addons/saas_base
+      - ../saas_portal:/mnt/extra-addons/saas_portal
+      - ../saas_server:/mnt/extra-addons/saas_server
+      - ../saas_client:/mnt/extra-addons/saas_client
+      - ../saas_portal_async:/mnt/extra-addons/saas_portal_async
+      - ../saas_utils:/mnt/extra-addons/saas_utils
+      - ../saas_portal_monitoring:/mnt/extra-addons/saas_portal_monitoring
+      - ../saas_portal_quotas:/mnt/extra-addons/saas_portal_quotas
+      - ../saas_portal_backup:/mnt/extra-addons/saas_portal_backup
+      - ../saas_portal_tagging:/mnt/extra-addons/saas_portal_tagging
+      - ../saas_product_price_factor:/mnt/extra-addons/saas_product_price_factor
+      - ../saas_oadmin:/mnt/extra-addons/saas_oadmin
+      - ../saas_portal_cache:/mnt/extra-addons/saas_portal_cache
+      - ../odoo.conf.docker:/etc/odoo/odoo.conf:ro
+      - ../filestore:/var/lib/odoo/filestore
+      - odoo_logs:/var/log/odoo
+    command: >
+      odoo
+      --config=/etc/odoo/odoo.conf
+      --db_host=postgres
+      --db_user=odoo
+      --db_password=odoo
+      --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+      --data-dir=/var/lib/odoo
+      --xmlrpc-port=8071
+      --longpolling-port=8073
+      --workers=1
+      --max-cron-threads=0
+      --limit-memory-soft=671088640
+      --limit-memory-hard=805306368
+      --queue-job-channels=root:2
+      --load=web,queue_job
+    networks:
+      - saas-network-dev
+    restart: unless-stopped
 
 volumes:
   postgres_data_dev:

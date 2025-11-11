@@ -38,10 +38,12 @@ Module de monitoring complet pour le système SaaS.
         'saas_portal',
         'base_automation',
         'mail',
+        'queue_job',
     ],
     'data': [
         'security/ir.model.access.csv',
         'data/monitoring_cron.xml',
+        'data/ir_config_parameter.xml',
         'data/base_automation.xml',
         'views/saas_portal_monitoring_views.xml',
         'views/saas_portal_client_views.xml',

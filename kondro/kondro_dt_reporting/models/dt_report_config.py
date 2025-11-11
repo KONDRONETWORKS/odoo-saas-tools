@@ -17,7 +17,7 @@ class KondroDtReportConfig(models.Model):
     description = fields.Text()
     active = fields.Boolean(default=True)
 
-    model_id = fields.Many2one("ir.model", string="Modèle", required=True, ondelete="restrict", tracking=True)
+    model_id = fields.Many2one("ir.model", string="Modèle", required=True, ondelete="cascade", tracking=True)
     model_name = fields.Char(related="model_id.model", store=True)
 
     domain = fields.Text(string="Domaine", help="Expression domaine, par ex: [('status', '=', 'in_progress')]", tracking=True)

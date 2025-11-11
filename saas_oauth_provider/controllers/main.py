@@ -1,5 +1,5 @@
 import logging
-import simplejson
+from odoo.tools import json
 import traceback
 from ..validators import server
 from urllib.parse import urlparse, urlunparse, urlencode as urllib_urlencode, quote as urllib_quote
@@ -124,7 +124,7 @@ class OAuth2(http.Controller):
         is_valid, req = self._server.verify_request(uri, http_method, body,
                                                     headers)
         headers = None
-        body = simplejson.dumps({'user_id': req.user.id,
+        body = json.dumps({'user_id': req.user.id,
                                  'client_id': req.client.client_id,
                                  'email': req.user.email,
                                  'name': req.user.name})

@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_saas_server,saas.oserver,model_saas_server,group_saas_oadmin,1,1,1,1
-access_saas_database,saas.odatabase,model_saas_database,group_saas_oadmin,1,1,1,1
-access_saas_backup,saas.obackup,model_saas_backup,group_saas_oadmin,1,1,1,1
+access_saas_server,saas.oserver,model_saas_oserver,saas_oadmin.group_saas_oadmin,1,1,1,1
+access_saas_database,saas.odatabase,model_saas_odatabase,saas_oadmin.group_saas_oadmin,1,1,1,1
+access_saas_backup,saas.obackup,model_saas_obackup,saas_oadmin.group_saas_oadmin,1,1,1,1
 

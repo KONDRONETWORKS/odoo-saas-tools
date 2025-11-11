@@ -55,17 +55,17 @@
         <field name="name">kondro.expense.request.tree</field>
         <field name="model">kondro.expense.request</field>
         <field name="arch" type="xml">
-            <tree string="Demandes de Dépense">
+            <list string="Demandes de Dépense">
                 <field name="name"/>
                 <field name="expense_type"/>
                 <field name="state"/>
-                <field name="department_id" attrs="{'invisible': [('expense_type', '!=', 'internal')]}"/>
-                <field name="project_id" attrs="{'invisible': [('expense_type', '!=', 'commercial')]}"/>
+                <field name="department_id"/>
+                <field name="project_id"/>
                 <field name="estimated_amount" sum="Total"/>
                 <field name="paid_amount" sum="Total"/>
                 <field name="planned_payment_date"/>
                 <field name="payment_date"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -76,17 +76,17 @@
         <field name="arch" type="xml">
             <form string="Demande de Dépense">
                 <header>
-                    <button name="action_submit" string="Soumettre" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
-                    <button name="action_validate" string="Valider" type="object" attrs="{'invisible': [('state', '!=', 'submitted')]}"/>
-                    <button name="action_approve" string="Approuver" type="object" attrs="{'invisible': [('state', '!=', 'validated')]}"/>
-                    <button name="action_plan" string="Planifier" type="object" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
-                    <button name="action_pay" string="Payer" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'planned')]}"/>
-                    <button name="action_close" string="Clôturer" type="object" attrs="{'invisible': [('state', '!=', 'paid')]}"/>
+                    <button name="action_submit" string="Soumettre" type="object" class="oe_highlight"/>
+                    <button name="action_validate" string="Valider" type="object"/>
+                    <button name="action_approve" string="Approuver" type="object"/>
+                    <button name="action_plan" string="Planifier" type="object"/>
+                    <button name="action_pay" string="Payer" type="object" class="oe_highlight"/>
+                    <button name="action_close" string="Clôturer" type="object"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,submitted,validated,approved,planned,paid,closed"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_treasury_movements" type="object" class="oe_stat_button" icon="fa-money" attrs="{'invisible': [('treasury_movement_count', '=', 0)]}">
+                        <button name="action_view_treasury_movements" type="object" class="oe_stat_button" icon="fa-money">
                             <field name="treasury_movement_count" widget="statinfo" string="Mouvements"/>
                         </button>
                     </div>
@@ -94,8 +94,8 @@
                         <group>
                             <field name="name"/>
                             <field name="expense_type"/>
-                            <field name="department_id" attrs="{'required': [('expense_type', '=', 'internal')], 'invisible': [('expense_type', '!=', 'internal')]}"/>
-                            <field name="project_id" attrs="{'required': [('expense_type', '=', 'commercial')], 'invisible': [('expense_type', '!=', 'commercial')]}"/>
+                            <field name="department_id"/>
+                            <field name="project_id"/>
                         </group>
                         <group>
                             <field name="estimated_amount"/>
@@ -111,8 +111,8 @@
                         </group>
                         <group>
                             <field name="planned_payment_date"/>
-                            <field name="payment_account_id" attrs="{'invisible': [('state', 'not in', ['approved', 'planned', 'paid'])]}"/>
-                            <field name="payment_method" attrs="{'invisible': [('state', 'not in', ['approved', 'planned', 'paid'])]}"/>
+                            <field name="payment_account_id"/>
+                            <field name="payment_method"/>
                             <field name="payment_date" readonly="1"/>
                         </group>
                     </group>

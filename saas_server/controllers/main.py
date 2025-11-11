@@ -4,7 +4,7 @@ import uuid
 import datetime
 import werkzeug.utils
 from werkzeug import Response as BaseResponse
-import simplejson
+from odoo.tools import json
 import tempfile
 from subprocess import Popen, PIPE, DEVNULL
 
@@ -56,7 +56,7 @@ class SaasServer(http.Controller):
     @http.route(['/saas_server/new_database'], type='http', website=True, auth='public', methods=['GET', 'POST'], csrf=False)
     def new_database(self, **post):
         _logger.info('new_database post: %s', post)
-        state = simplejson.loads(post.get('state'))
+        state = json.loads(post.get('state'))
         owner_user = state.get('owner_user')
         new_db = state.get('d')
         host = state.get('h')
@@ -113,7 +113,7 @@ class SaasServer(http.Controller):
                 'state': client.state,
                 'client_id': client.client_id
             })
-            return simplejson.dumps(res)
+            return json.dumps(res)
 
         with client.registry().cursor() as cr:
             client_env = api.Environment(cr, SUPERUSER_ID, request.context)
@@ -121,9 +121,9 @@ class SaasServer(http.Controller):
             action_id = client_env.ref(action).id
 
         url = '{public_url}saas_client/new_database'.format(public_url=public_url)
-        return simplejson.dumps({
+        return json.dumps({
             'url': url,
-            'state': simplejson.dumps({
+            'state': json.dumps({
                 'd': new_db,
                 'p': oauth_provider_id,
                 'a': action_id
@@ -136,12 +136,12 @@ class SaasServer(http.Controller):
     def edit_database(self, **post):
         _logger.info('edit_database post: %s', post)
 
-        state = simplejson.loads(post.get('state'))
+        state = json.loads(post.get('state'))
         public_url = state.get('public_url')
 
         params = {
             'access_token': post['access_token'],
-            'state': simplejson.dumps(state),
+            'state': json.dumps(state),
         }
         url = '{public_url}saas_client/edit_database?{params}'
         url = url.format(public_url=public_url, params=werkzeug.urls.url_encode(params))
@@ -151,7 +151,7 @@ class SaasServer(http.Controller):
     @fragment_to_query_string
     @webservice
     def upgrade_database(self, **post):
-        state = simplejson.loads(post.get('state'))
+        state = json.loads(post.get('state'))
         data = state.get('data')
         access_token = post['access_token']
         saas_oauth_provider = request.env.ref('saas_server.saas_oauth_provider').sudo()
@@ -171,14 +171,14 @@ class SaasServer(http.Controller):
         client = request.env['saas_server.client'].sudo().search([('client_id', '=', client_id)])
 
         result = client.upgrade_database(data=data)
-        return simplejson.dumps({client.name: result})
+        return json.dumps({client.name: result})
 
     @http.route(['/saas_server/rename_database'], type='http', website=True, auth='public')
     @fragment_to_query_string
     @webservice
     def rename_database(self, **post):
         _logger.info('delete_database post: %s', post)
-        state = simplejson.loads(post.get('state'))
+        state = json.loads(post.get('state'))
         client_id = state.get('client_id')
         new_dbname = state.get('new_dbname')
         saas_oauth_provider = request.env.ref('saas_server.saas_oauth_provider').sudo()
@@ -204,7 +204,7 @@ class SaasServer(http.Controller):
     def delete_database(self, **post):
         _logger.info('delete_database post: %s', post)
 
-        state = simplejson.loads(post.get('state'))
+        state = json.loads(post.get('state'))
         client_id = state.get('client_id')
         db = state.get('d')
         access_token = post['access_token']
@@ -236,7 +236,7 @@ class SaasServer(http.Controller):
             state['p'] = request.env.ref('saas_server.saas_oauth_provider').sudo().id
         state['r'] = url
         state['d'] = request.db
-        params['state'] = simplejson.dumps(state)
+        params['state'] = json.dumps(state)
         # FIXME: server doesn't have auth data for admin (server is created manually currently)
         # return werkzeug.utils.redirect('/auth_oauth/signin?%s' % werkzeug.url_encode(params))
         return werkzeug.utils.redirect('/web')
@@ -305,7 +305,7 @@ class SaasServer(http.Controller):
     def stats(self, **post):
         _logger.info('sync_server post: %s', post)
 
-        state = simplejson.loads(post.get('state'))
+        state = json.loads(post.get('state'))
         updating_client_ID = state.get('updating_client_ID')
         access_token = post['access_token']
         saas_oauth_provider = request.env.ref('saas_server.saas_oauth_provider').sudo()
@@ -330,7 +330,7 @@ class SaasServer(http.Controller):
                 'db_storage': client.db_storage,
                 'total_storage_limit': client.total_storage_limit,
             })
-        return simplejson.dumps(res)
+        return json.dumps(res)
 
     def _get_message(self, dbuuid):
         message = False
@@ -348,7 +348,7 @@ class SaasServer(http.Controller):
     def backup_database(self, **post):
         _logger.info('backup_database post: %s', post)
 
-        state = simplejson.loads(post.get('state'))
+        state = json.loads(post.get('state'))
         client_id = state.get('client_id')
         access_token = post['access_token']
         saas_oauth_provider = request.env.ref('saas_server.saas_oauth_provider').sudo()
@@ -362,7 +362,7 @@ class SaasServer(http.Controller):
             raise Exception('Client not found')
         client = client[0]
         result = client.backup_database()
-        return simplejson.dumps(result)
+        return json.dumps(result)
 
     dump_database_tokens = {}
 
@@ -415,7 +415,7 @@ class SaasServer(http.Controller):
     @fragment_to_query_string
     @webservice
     def restore_database(self, **post):
-        state = simplejson.loads(post.get('state'))
+        state = json.loads(post.get('state'))
 
         origin_uri = state['origin_uri']
         access_token = post['access_token']

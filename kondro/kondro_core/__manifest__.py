@@ -48,7 +48,6 @@ Module central offrant une vue CRM complète et unifiée pour tous les projets e
         'sale',
         'project',
         'kondro_company',
-        'kondro_finance',
     ],
     'data': [
         'security/kondro_core_security.xml',
@@ -58,8 +57,8 @@ Module central offrant une vue CRM complète et unifiée pour tous les projets e
         'views/kondro_commercial_dossier_views.xml',
         'views/kondro_crm_dashboard_views.xml',
         'views/kondro_dashboard_views.xml',
-        'views/crm_override_views.xml',
         'views/kondro_menu.xml',
+        'views/res_config_settings.xml',
     ],
     'assets': {
         'web.assets_backend': [
@@ -67,6 +66,7 @@ Module central offrant une vue CRM complète et unifiée pour tous les projets e
             'kondro_core/static/src/css/dashboard.css',
             'kondro_core/static/src/js/crm_dashboard.js',
             'kondro_core/static/src/js/dashboard.js',
+            'kondro_core/static/src/xml/dashboard_templates.xml',
         ],
     },
     'installable': True,

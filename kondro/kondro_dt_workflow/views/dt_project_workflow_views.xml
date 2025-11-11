@@ -7,11 +7,11 @@
             <field name="inherit_id" ref="kondro_dt_projects.view_kondro_project_form_dt"/>
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='button_box']" position="inside">
-                    <button name="action_open_dt_matrix" type="object" class="oe_stat_button" icon="fa-sitemap" groups="kondro_dt_hub.group_kondro_dt_manager" attrs="{'invisible': [('dt_matrix_id', '=', False)]}">
+                    <button name="action_open_dt_matrix" type="object" class="oe_stat_button" icon="fa-sitemap" groups="kondro_dt_hub.group_kondro_dt_manager">
                         <field name="dt_matrix_id" widget="statinfo" string="Matrice DT"/>
                     </button>
                 </xpath>
-                <xpath expr="//page[@string='Technique']" position="after">
+                <xpath expr="//page[@name='dt_technique_page']" position="after">
                     <page string="Workflow DT" groups="kondro_dt_hub.group_kondro_dt_manager">
                         <group>
                             <group>
@@ -33,7 +33,7 @@
             <field name="inherit_id" ref="kondro_core.view_kondro_commercial_dossier_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='button_box']" position="inside">
-                    <button name="action_open_dt_matrix" type="object" class="oe_stat_button" icon="fa-sitemap" groups="kondro_dt_hub.group_kondro_dt_manager" attrs="{'invisible': [('dt_matrix_id', '=', False)]}">
+                    <button name="action_open_dt_matrix" type="object" class="oe_stat_button" icon="fa-sitemap" groups="kondro_dt_hub.group_kondro_dt_manager">
                         <field name="dt_matrix_id" widget="statinfo" string="Matrice DT"/>
                     </button>
                 </xpath>

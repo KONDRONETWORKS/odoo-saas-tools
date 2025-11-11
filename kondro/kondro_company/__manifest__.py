@@ -34,7 +34,6 @@ Module de configuration spécifique pour KONDRONETWORKS en Côte d'Ivoire.
         'base_setup',
     ],
     'data': [
-        'data/res_company_data.xml',
         'data/res_currency_data.xml',
         'data/res_country_data.xml',
         'data/res_lang_data.xml',

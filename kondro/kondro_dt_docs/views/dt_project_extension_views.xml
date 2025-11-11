@@ -11,16 +11,16 @@
                         <field name="dt_document_count" widget="statinfo" string="Docs"/>
                     </button>
                 </xpath>
-                <xpath expr="//page[@string='Technique']" position="after">
+                <xpath expr="//page[@name='dt_technique_page']" position="after">
                     <page string="Docs DT" groups="kondro_dt_hub.group_kondro_dt_user">
-                        <field name="dt_document_ids" context="{'default_project_id': active_id}" nolabel="1">
-                            <tree editable="bottom">
+                        <field name="dt_document_ids" context="{'default_project_id': id}" nolabel="1">
+                            <list editable="bottom">
                                 <field name="reference" readonly="1"/>
                                 <field name="name"/>
                                 <field name="version"/>
                                 <field name="category_id"/>
                                 <field name="state" readonly="1"/>
-                            </tree>
+                            </list>
                         </field>
                     </page>
                 </xpath>

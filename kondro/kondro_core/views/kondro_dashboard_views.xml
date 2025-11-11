@@ -109,12 +109,9 @@
         </record>
 
         <!-- Action du tableau de bord -->
-        <record id="action_kondro_dashboard" model="ir.actions.act_window">
+        <record id="action_kondro_dashboard" model="ir.actions.client">
             <field name="name">Tableau de Bord KONDRO</field>
-            <field name="res_model">kondro.dashboard.data</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_kondro_dashboard"/>
-            <field name="target">current</field>
+            <field name="tag">kondro_core.dashboard</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Tableau de bord KONDRO Networks

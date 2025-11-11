@@ -5,12 +5,12 @@
             <field name="name">kondro.dt.document.category.tree</field>
             <field name="model">kondro.dt.document.category</field>
             <field name="arch" type="xml">
-                <tree string="Catégories de documents">
+                <list string="Catégories de documents">
                     <field name="name"/>
                     <field name="sequence"/>
                     <field name="document_count" string="Documents"/>
                     <field name="active"/>
-                </tree>
+                </list>
             </field>
         </record>
 

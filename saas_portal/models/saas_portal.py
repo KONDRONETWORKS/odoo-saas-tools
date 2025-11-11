@@ -4,7 +4,7 @@ SaaS Portal Models
 
 Modèles principaux pour la gestion du portail SaaS.
 """
-import simplejson
+from odoo.tools import json
 import werkzeug
 import werkzeug.urls
 import requests
@@ -24,6 +24,41 @@ from werkzeug.exceptions import Forbidden
 _logger = logging.getLogger(__name__)
 
 
+def _normalize_domain(domain):
+    """Return (host, port) tuple extracted from a domain string."""
+    if not domain:
+        return '', None
+
+    domain = domain.strip()
+    # Remove scheme if provided (e.g. http://localhost:8069)
+    if '://' in domain:
+        domain = domain.split('://', 1)[1]
+    # Remove path or query parts if any
+    if '/' in domain:
+        domain = domain.split('/', 1)[0]
+
+    # IPv6 literals are enclosed in brackets. Keep them intact.
+    if domain.startswith('['):
+        closing = domain.find(']')
+        if closing != -1:
+            host_part = domain[:closing + 1]
+            remainder = domain[closing + 1:]
+            port_part = None
+            if remainder.startswith(':'):
+                candidate = remainder[1:]
+                if candidate.isdigit():
+                    port_part = candidate
+            return host_part, port_part
+        return domain, None
+
+    if ':' in domain:
+        host_part, candidate = domain.rsplit(':', 1)
+        if candidate.isdigit():
+            return host_part, candidate
+
+    return domain, None
+
+
 def _tz_get(env):
     """Get timezone list for Odoo 18.0 compatibility."""
     import pytz
@@ -33,10 +68,11 @@ def _tz_get(env):
 def _compute_host(self):
     """Compute host name for server/database."""
     base_saas_domain = self.env['ir.config_parameter'].sudo().get_param('saas_portal.base_saas_domain')
+    normalized_domain, _normalized_port = _normalize_domain(base_saas_domain)
     for r in self:
         host = r.name
-        if base_saas_domain and '.' not in r.name:
-            host = '%s.%s' % (r.name, base_saas_domain)
+        if normalized_domain and '.' not in r.name:
+            host = '%s.%s' % (r.name, normalized_domain)
         r.host = host
 
 
@@ -96,7 +132,7 @@ class SaasPortalServer(models.Model):
         client_id = client_id or self.env['oauth.application'].generate_client_id()
         params = {
             'scope': scope,
-            'state': simplejson.dumps(state),
+            'state': json.dumps(state),
             'redirect_uri': '{scheme}://{saas_server}:{port}{path}'.format(
                 scheme=scheme, port=port, saas_server=self.host, path=path),
             'response_type': 'token',
@@ -175,7 +211,7 @@ class SaasPortalServer(models.Model):
             if not res.ok:
                 raise UserError(_('Reason: %s \n Message: %s') % (res.reason, res.content))
             try:
-                data = simplejson.loads(res.text)
+                data = json.loads(res.text)
             except Exception as e:
                 _logger.error('Error on parsing response: %s\n%s', [req.url, req.headers, req.body], res.text)
                 raise
@@ -415,7 +451,7 @@ class SaasPortalPlan(models.Model):
         if res.status_code != 200:
             raise UserError(_('Error on request: %s\nReason: %s \n Message: %s') % (
                 req.url, res.reason, res.content))
-        data = simplejson.loads(res.text)
+        data = json.loads(res.text)
         params = {
             'state': data.get('state'),
             'access_token': client.oauth_application_id._get_access_token(user_id, create=True),
@@ -527,7 +563,7 @@ class SaasPortalPlan(models.Model):
             raise UserError(_('Error on request: %s\nReason: %s \n Message: %s') %
                           (req.url, res.reason, res.content))
         try:
-            data = simplejson.loads(res.text)
+            data = json.loads(res.text)
         except Exception as e:
             _logger.error('Error on parsing response: %s\n%s', [req.url, req.headers, req.body], res.text)
             raise
@@ -599,6 +635,7 @@ class SaasPortalDatabase(models.Model):
     _name = 'saas_portal.database'
     _description = 'SaaS Portal Database'
     _inherits = {'oauth.application': 'oauth_application_id'}
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char('Database name', readonly=False)
     oauth_application_id = fields.Many2one(
@@ -618,9 +655,10 @@ class SaasPortalDatabase(models.Model):
     def _compute_host(self):
         """Compute host name based on template or default."""
         base_saas_domain = self.env['ir.config_parameter'].sudo().get_param('saas_portal.base_saas_domain')
-        base_saas_domain_1 = '.'.join(base_saas_domain.rsplit('.', 2)[-2:]) if base_saas_domain else ''
+        normalized_domain, _normalized_port = _normalize_domain(base_saas_domain)
+        base_saas_domain_1 = '.'.join(normalized_domain.rsplit('.', 2)[-2:]) if normalized_domain else ''
         name_dict = {
-            'base_saas_domain': base_saas_domain or '',
+            'base_saas_domain': normalized_domain or '',
             'base_saas_domain_1': base_saas_domain_1,
         }
         for record in self:
@@ -666,7 +704,7 @@ class SaasPortalDatabase(models.Model):
         _logger.info('backup database: %s', res.text)
         if not res.ok:
             raise UserError(_('Reason: %s \n Message: %s') % (res.reason, res.content))
-        data = simplejson.loads(res.text)
+        data = json.loads(res.text)
         if not isinstance(data[0], dict):
             raise UserError(data)
         if data[0]['status'] != 'success':
@@ -768,7 +806,7 @@ class SaasPortalClient(models.Model):
     _name = 'saas_portal.client'
     _description = 'Client'
     _rec_name = 'name'
-    _inherit = ['mail.thread', 'saas_portal.database', 'saas_base.client']
+    _inherit = ['saas_portal.database', 'saas_base.client']
 
     name = fields.Char(required=True)
     partner_id = fields.Many2one('res.partner', string='Partner', readonly=True)
@@ -976,7 +1014,7 @@ class SaasPortalClient(models.Model):
         if not res.ok:
             raise UserError(_('Reason: %s \n Message: %s') % (res.reason, res.content))
         try:
-            data = simplejson.loads(res.text)
+            data = json.loads(res.text)
         except Exception as e:
             _logger.error('Error on parsing response: %s\n%s', [req.url, req.headers, req.body], res.text)
             raise

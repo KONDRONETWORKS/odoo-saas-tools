@@ -8,7 +8,7 @@ from odoo import http
 from odoo.http import request
 from odoo.addons.saas_base.exceptions import MaximumDBException, MaximumTrialDBException
 import werkzeug
-import simplejson
+from odoo.tools import json
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -107,4 +107,4 @@ class SaasPortal(http.Controller):
         if arg0:
             arg0 = literal_eval(arg0)
         messages = []
-        return simplejson.dumps({'messages': messages})
+        return json.dumps({'messages': messages})

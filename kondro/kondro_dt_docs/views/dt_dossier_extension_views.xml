@@ -13,14 +13,14 @@
                 </xpath>
                 <xpath expr="//notebook" position="inside">
                     <page string="Docs DT" groups="kondro_dt_hub.group_kondro_dt_user">
-                        <field name="dt_document_ids" context="{'default_dossier_id': active_id}" nolabel="1">
-                            <tree editable="bottom">
+                        <field name="dt_document_ids" context="{'default_dossier_id': id}" nolabel="1">
+                            <list editable="bottom">
                                 <field name="reference" readonly="1"/>
                                 <field name="name"/>
                                 <field name="version"/>
                                 <field name="project_id"/>
                                 <field name="state" readonly="1"/>
-                            </tree>
+                            </list>
                         </field>
                     </page>
                 </xpath>

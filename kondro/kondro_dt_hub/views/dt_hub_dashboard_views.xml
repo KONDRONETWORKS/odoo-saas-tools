@@ -5,14 +5,14 @@
             <field name="name">kondro.dt.metric.tree</field>
             <field name="model">kondro.dt.metric</field>
             <field name="arch" type="xml">
-                <tree string="Indicateurs Directeur Technique">
+                <list string="Indicateurs Directeur Technique">
                     <field name="name"/>
                     <field name="metric_type"/>
-                    <field name="value_float" widget="monetary" attrs="{'invisible': [('metric_type', '!=', 'currency')]}"/>
-                    <field name="value_float" attrs="{'invisible': [('metric_type', '=', 'currency')]}" string="Valeur"/>
+                    <field name="value_float" widget="monetary"/>
+                    <field name="value_float" string="Valeur"/>
                     <field name="value_text" optional="show"/>
                     <field name="last_evaluation" optional="hide"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -24,10 +24,10 @@
                     <sheet>
                         <group>
                             <field name="name"/>
-                            <field name="technical_name" readonly="1" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="technical_name" readonly="1"/>
                             <field name="sequence"/>
                             <field name="metric_type"/>
-                            <field name="currency_id" attrs="{'invisible': [('metric_type', '!=', 'currency')]}"/>
+                            <field name="currency_id"/>
                         </group>
                         <group string="Valeurs calculées">
                             <field name="value_float" readonly="1"/>

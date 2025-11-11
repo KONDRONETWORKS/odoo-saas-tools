@@ -48,7 +48,6 @@ class KondroExpenseRequest(models.Model):
         'kondro.project',
         string='Projet',
         tracking=True,
-        domain="[('expense_type', '=', 'commercial')]",
         help="Projet pour les dépenses commerciales"
     )
     

@@ -3,7 +3,7 @@ Module Mailgun pour saas_portal - chargé uniquement si saas_portal est disponib
 Ce fichier ne sera chargé que si le module saas_portal est installé.
 """
 from odoo import models, fields, api
-import simplejson
+from odoo.tools import json
 from . import mailgun
 
 import logging
@@ -91,7 +91,7 @@ class SaasPortalPlan(models.Model):
             mailgun_res = client_obj._create_domain_on_mailgun()
             client_obj._create_route_on_mailgun()
 
-            new_domain_info = simplejson.loads(mailgun_res.text)
+            new_domain_info = json.loads(mailgun_res.text)
             client_obj._domain_verification_and_dns_route53(new_domain_info)
         except Exception as e:
             _logger.exception("Error during mailgun domain creation", exc_info=True)

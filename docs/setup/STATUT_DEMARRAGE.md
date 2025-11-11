@@ -11,7 +11,6 @@
 - ✅ psycopg2-binary (2.9.11)
 - ✅ oauthlib (3.3.1)
 - ✅ requests (2.32.5)
-- ✅ simplejson (3.20.2)
 - ✅ Et toutes les dépendances transitives
 
 ### 3. Adaptations Windows

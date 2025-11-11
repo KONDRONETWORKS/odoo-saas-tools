@@ -1,7 +1,7 @@
 import werkzeug
 from odoo import http
 from odoo.http import request
-import simplejson
+from odoo.tools import json
 from odoo.addons.auth_oauth.controllers.main import OAuthLogin as Home
 
 
@@ -11,10 +11,10 @@ class SaasClient(http.Controller):
                  '/saas_client/edit_database'], type='http', auth='none')
     def new_database(self, **post):
         params = post.copy()
-        state = simplejson.loads(post.get('state'))
+        state = json.loads(post.get('state'))
         if not state.get('p'):
             state['p'] = request.env.ref('saas_client.saas_oauth_provider').id
-        params['state'] = simplejson.dumps(state)
+        params['state'] = json.dumps(state)
         return werkzeug.utils.redirect('/auth_oauth/signin?%s' % werkzeug.urls.url_encode(params))
 
 

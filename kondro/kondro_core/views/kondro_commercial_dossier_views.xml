@@ -60,7 +60,7 @@
         <field name="name">kondro.commercial.dossier.tree</field>
         <field name="model">kondro.commercial.dossier</field>
         <field name="arch" type="xml">
-            <tree string="Dossiers Commerciaux">
+            <list string="Dossiers Commerciaux">
                 <field name="name"/>
                 <field name="client_id"/>
                 <field name="state"/>
@@ -71,7 +71,7 @@
                 <field name="paid_amount" sum="Total Payé"/>
                 <field name="margin" sum="Total Marge"/>
                 <field name="project_count"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -82,16 +82,16 @@
         <field name="arch" type="xml">
             <form string="Dossier Commercial">
                 <header>
-                    <button name="action_view_projects" string="Projets" type="object" class="oe_highlight" attrs="{'invisible': [('project_count', '=', 0)]}"/>
-                    <button name="action_view_documents" string="Documents" type="object" attrs="{'invisible': [('document_count', '=', 0)]}"/>
+                    <button name="action_view_projects" string="Projets" type="object" class="oe_highlight"/>
+                    <button name="action_view_documents" string="Documents" type="object"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,proposal,won,in_progress,delivered,closed"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_projects" type="object" class="oe_stat_button" icon="fa-tasks" attrs="{'invisible': [('project_count', '=', 0)]}">
+                        <button name="action_view_projects" type="object" class="oe_stat_button" icon="fa-tasks">
                             <field name="project_count" widget="statinfo" string="Projets"/>
                         </button>
-                        <button name="action_view_documents" type="object" class="oe_stat_button" icon="fa-file" attrs="{'invisible': [('document_count', '=', 0)]}">
+                        <button name="action_view_documents" type="object" class="oe_stat_button" icon="fa-file">
                             <field name="document_count" widget="statinfo" string="Documents"/>
                         </button>
                     </div>

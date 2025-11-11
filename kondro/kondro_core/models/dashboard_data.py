@@ -1,12 +1,106 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 
-class DashboardData(models.Model):
-    """Données du Tableau de Bord KONDRO (fusionné depuis kondro_dashboard)"""
+class DashboardData(models.AbstractModel):
+    """Données du Tableau de Bord génériques"""
     _name = 'kondro.dashboard.data'
-    _description = 'Données du Tableau de Bord KONDRO'
-    _auto = False
+    _description = 'Données du Tableau de Bord'
+
+    def _get_config_parameter(self, key, default=None):
+        ICP = self.env['ir.config_parameter'].sudo()
+        value = ICP.get_param(key)
+        if value is None or value == '':
+            return default
+        return value
+
+    def _get_branding_payload(self):
+        company = self.env.company
+        default_title = company.display_name or _('Tableau de bord')
+        title = self._get_config_parameter('kondro_core.dashboard_title', default_title)
+        subtitle = self._get_config_parameter(
+            'kondro_core.dashboard_subtitle', _('Vue d\'ensemble des activités')
+        )
+        currency = company.currency_id or self.env.company.currency_id
+        currency_code = self._get_config_parameter(
+            'kondro_core.dashboard_currency_code', currency and currency.name or 'XOF'
+        )
+        currency_locale = self._get_config_parameter(
+            'kondro_core.dashboard_currency_locale', self.env.user.lang or 'fr_FR'
+        )
+        return {
+            'title': title,
+            'subtitle': subtitle,
+            'company_name': company.display_name,
+            'currency_code': currency_code,
+            'currency_locale': currency_locale,
+        }
+
+    def _get_action_payload(
+        self, action_param, label_param, icon_param, default_xmlid, default_label, default_icon, default_style
+    ):
+        ICP = self.env['ir.config_parameter'].sudo()
+        action_id_str = ICP.get_param(action_param)
+        action = None
+        if action_id_str:
+            try:
+                action = self.env['ir.actions.actions'].browse(int(action_id_str))
+                if not action or not action.exists():
+                    action = None
+            except ValueError:
+                action = None
+        if not action and default_xmlid:
+            action = self.env.ref(default_xmlid, raise_if_not_found=False)
+
+        label = ICP.get_param(label_param) or default_label
+        icon = ICP.get_param(icon_param) or default_icon
+
+        return {
+            'label': label,
+            'icon': icon,
+            'style': default_style,
+            'action_id': action.id if action else False,
+        }
+
+    def _get_quick_actions_payload(self):
+        return [
+            self._get_action_payload(
+                'kondro_core.dashboard_project_action_id',
+                'kondro_core.dashboard_project_label',
+                'kondro_core.dashboard_project_icon',
+                'kondro_core.action_kondro_project',
+                _('Projets'),
+                '📊',
+                'primary',
+            ),
+            self._get_action_payload(
+                'kondro_core.dashboard_commercial_action_id',
+                'kondro_core.dashboard_commercial_label',
+                'kondro_core.dashboard_commercial_icon',
+                'kondro_core.action_kondro_commercial_dossier',
+                _('Dossiers Commerciaux'),
+                '📋',
+                'secondary',
+            ),
+            self._get_action_payload(
+                'kondro_core.dashboard_treasury_action_id',
+                'kondro_core.dashboard_treasury_label',
+                'kondro_core.dashboard_treasury_icon',
+                'kondro_finance.action_kondro_treasury_movement',
+                _('Trésorerie'),
+                '💰',
+                'success',
+            ),
+            self._get_action_payload(
+                'kondro_core.dashboard_expense_action_id',
+                'kondro_core.dashboard_expense_label',
+                'kondro_core.dashboard_expense_icon',
+                'kondro_finance.action_kondro_expense_request',
+                _('Dépenses'),
+                '💳',
+                'info',
+            ),
+        ]
 
     @api.model
     def get_projects_stats(self):
@@ -84,6 +178,8 @@ class DashboardData(models.Model):
             'projects': self.get_projects_stats(),
             'treasury': self.get_treasury_stats(),
             'commercial': self.get_commercial_stats(),
-            'expenses': self.get_expenses_stats()
+            'expenses': self.get_expenses_stats(),
+            'branding': self._get_branding_payload(),
+            'quick_actions': self._get_quick_actions_payload(),
         }
 

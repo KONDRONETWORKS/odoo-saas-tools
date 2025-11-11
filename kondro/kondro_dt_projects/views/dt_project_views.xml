@@ -22,21 +22,21 @@
                     <field name="technical_stage" widget="statusbar" statusbar_visible="definition,design,implementation,validation,handover" groups="kondro_dt_hub.group_kondro_dt_user"/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
-                    <page string="Technique" groups="kondro_dt_hub.group_kondro_dt_user">
+                    <page name="dt_technique_page" string="Technique" groups="kondro_dt_hub.group_kondro_dt_user">
                         <group>
                             <group>
                                 <field name="deadline_date"/>
                                 <field name="technical_summary" placeholder="Résumé des décisions techniques..."/>
                             </group>
                             <group col="1">
-                                <field name="milestone_ids" context="{'default_project_id': active_id}" nolabel="1">
-                                    <tree editable="bottom">
+                                <field name="milestone_ids" context="{'default_project_id': id}" nolabel="1">
+                                    <list editable="bottom">
                                         <field name="name"/>
                                         <field name="state"/>
                                         <field name="target_date"/>
                                         <field name="owner_id"/>
                                         <field name="blocking"/>
-                                    </tree>
+                                    </list>
                                 </field>
                             </group>
                         </group>
@@ -51,7 +51,7 @@
             <field name="model">kondro.project</field>
             <field name="inherit_id" ref="kondro_core.view_kondro_project_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="//tree" position="inside">
+                <xpath expr="//list" position="inside">
                     <field name="technical_stage"/>
                     <field name="deadline_date"/>
                 </xpath>

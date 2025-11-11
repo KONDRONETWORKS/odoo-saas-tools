@@ -5,7 +5,7 @@
             <field name="name">kondro.dt.document.tree</field>
             <field name="model">kondro.dt.document</field>
             <field name="arch" type="xml">
-                <tree string="Documents DT" decoration-info="state == 'in_review'" decoration-success="state == 'approved'" decoration-muted="state == 'archived'">
+                <list string="Documents DT" decoration-info="state == 'in_review'" decoration-success="state == 'approved'" decoration-muted="state == 'archived'">
                     <field name="reference"/>
                     <field name="name"/>
                     <field name="version"/>
@@ -17,7 +17,7 @@
                     <field name="reviewer_id" optional="hide"/>
                     <field name="approver_id" optional="hide"/>
                     <field name="approval_date" optional="hide"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -38,15 +38,15 @@
                                 </div>
                                 <div class="o_kanban_card_content">
                                     <div class="text-muted">
-                                        <field name="project_id" attrs="{'invisible': [('project_id', '=', False)]}"/>
-                                        <field name="dossier_id" attrs="{'invisible': [('dossier_id', '=', False)]}"/>
+                                        <field name="project_id"/>
+                                        <field name="dossier_id"/>
                                     </div>
                                     <div class="mt-1">
-                                        <i class="fa fa-user"/> <field name="owner_id"/>
+                                        <i class="fa fa-user" title="Auteur"/> <field name="owner_id"/>
                                     </div>
                                 </div>
                                 <div class="o_kanban_card_footer">
-                                    <button type="object" name="action_open_attachment" class="btn btn-sm btn-primary" attrs="{'invisible': [('attachment_id', '=', False)]}">
+                                    <button type="object" name="action_open_attachment" class="btn btn-sm btn-primary">
                                         <i class="fa fa-download"/> Télécharger
                                     </button>
                                 </div>
@@ -63,15 +63,15 @@
             <field name="arch" type="xml">
                 <form string="Document DT">
                     <header>
-                        <button name="action_submit_review" type="object" string="Soumettre" states="draft" class="oe_highlight"/>
-                        <button name="action_approve" type="object" string="Valider" states="draft,in_review" groups="kondro_dt_hub.group_kondro_dt_manager"/>
-                        <button name="action_archive" type="object" string="Archiver" states="approved,in_review" groups="kondro_dt_hub.group_kondro_dt_manager"/>
-                        <button name="action_reset_draft" type="object" string="Réouvrir" states="approved,archived" groups="kondro_dt_hub.group_kondro_dt_manager"/>
+                        <button name="action_submit_review" type="object" string="Soumettre" class="oe_highlight"/>
+                        <button name="action_approve" type="object" string="Valider" groups="kondro_dt_hub.group_kondro_dt_manager"/>
+                        <button name="action_archive" type="object" string="Archiver" groups="kondro_dt_hub.group_kondro_dt_manager"/>
+                        <button name="action_reset_draft" type="object" string="Réouvrir" groups="kondro_dt_hub.group_kondro_dt_manager"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,in_review,approved,archived"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="action_open_attachment" type="object" class="oe_stat_button" icon="fa-download" attrs="{'invisible': [('attachment_id', '=', False)]}">
+                            <button name="action_open_attachment" type="object" class="oe_stat_button" icon="fa-download">
                                 <span class="o_stat_text">Télécharger</span>
                             </button>
                         </div>

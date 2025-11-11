@@ -18,7 +18,7 @@ source .venv/bin/activate
 
 # Vérifier les dépendances
 echo "📦 Vérification des dépendances..."
-python -c "import psycopg2, requests, simplejson" || {
+python -c "import psycopg2, requests" || {
     echo "❌ Dépendances manquantes. Installation..."
     pip install -r requirements.txt
 }

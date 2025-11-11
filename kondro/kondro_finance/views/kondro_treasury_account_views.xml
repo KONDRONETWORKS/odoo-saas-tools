@@ -5,7 +5,7 @@
         <field name="name">kondro.treasury.account.tree</field>
         <field name="model">kondro.treasury.account</field>
         <field name="arch" type="xml">
-            <tree string="Comptes de Trésorerie">
+            <list string="Comptes de Trésorerie">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="account_type"/>
@@ -13,7 +13,7 @@
                 <field name="current_balance" sum="Total"/>
                 <field name="movement_count"/>
                 <field name="active"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -24,11 +24,11 @@
         <field name="arch" type="xml">
             <form string="Compte de Trésorerie">
                 <header>
-                    <button name="action_view_movements" string="Mouvements" type="object" class="oe_highlight" attrs="{'invisible': [('movement_count', '=', 0)]}"/>
+                    <button name="action_view_movements" string="Mouvements" type="object" class="oe_highlight"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_movements" type="object" class="oe_stat_button" icon="fa-list" attrs="{'invisible': [('movement_count', '=', 0)]}">
+                        <button name="action_view_movements" type="object" class="oe_stat_button" icon="fa-list">
                             <field name="movement_count" widget="statinfo" string="Mouvements"/>
                         </button>
                     </div>

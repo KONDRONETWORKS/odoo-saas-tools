@@ -21,7 +21,6 @@ python3 check_compatibility.py
   - rotate_backups_s3 >= 0.3.0
   - pysftp >= 0.2.9
   - oauthlib >= 3.2.0
-  - simplejson >= 3.19.0
   - psycopg2-binary >= 2.9.0
   - requests >= 2.31.0
 - ✅ Modules Odoo correctement configurés

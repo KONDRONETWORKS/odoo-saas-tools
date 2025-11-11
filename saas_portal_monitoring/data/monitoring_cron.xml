@@ -23,4 +23,28 @@
         <field name="state">code</field>
         <field name="code">model.clean_old_metrics(days=30)</field>
     </record>
+
+    <!-- Cron job to collect queue metrics -->
+    <record id="ir_cron_collect_queue_metrics" model="ir.cron">
+        <field name="name">Collect Queue Metrics</field>
+        <field eval="True" name="active"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+        <field name="model_id" ref="saas_portal_monitoring.model_saas_portal_queue_metric"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_collect_queue_metrics()</field>
+    </record>
+
+    <!-- Cron job to clean old queue metrics -->
+    <record id="ir_cron_clean_queue_metrics" model="ir.cron">
+        <field name="name">Clean Old Queue Metrics</field>
+        <field eval="True" name="active"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="model_id" ref="saas_portal_monitoring.model_saas_portal_queue_metric"/>
+        <field name="state">code</field>
+        <field name="code">model.clean_old_queue_metrics(days=7)</field>
+    </record>
 </odoo>

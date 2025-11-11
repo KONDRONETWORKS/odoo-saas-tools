@@ -5,100 +5,132 @@ import { registry } from "@web/core/registry";
 
 class KondroDashboard extends Component {
     static template = "kondro_dashboard.DashboardView";
-    
+
     setup() {
-        this.dashboardData = useState({});
-        this.loading = useState(true);
-        
+        this.state = useState({
+            loading: true,
+            branding: {
+                title: '',
+                subtitle: '',
+                company_name: '',
+                currency_code: 'XOF',
+                currency_locale: 'fr-FR',
+            },
+            quickActions: [],
+            projects: { total: 0, in_progress: 0, completed: 0 },
+            treasury: { balance: 0, total_income: 0, total_expense: 0 },
+            commercial: { total_dossiers: 0, active_dossiers: 0, won_dossiers: 0 },
+            expenses: { total_requests: 0, pending: 0, approved: 0, total_amount: 0 },
+        });
+
         onMounted(() => {
             this.loadDashboardData();
         });
     }
-    
+
     async loadDashboardData() {
         try {
-            this.loading = true;
-            
-            // Charger les données du tableau de bord
+            this.state.loading = true;
+
             const data = await this.env.services.rpc({
                 model: 'kondro.dashboard.data',
                 method: 'get_overall_stats',
                 args: []
             });
-            
-            this.dashboardData = data;
-            this.updateDashboard();
-            
+
+            this._applyData(data || {});
         } catch (error) {
             console.error('Erreur lors du chargement des données:', error);
         } finally {
-            this.loading = false;
+            this.state.loading = false;
         }
     }
-    
-    updateDashboard() {
-        // Mettre à jour les métriques Projets (unifiés)
-        this.updateElement('projects-total', this.dashboardData.projects?.total || 0);
-        this.updateElement('projects-in-progress', this.dashboardData.projects?.in_progress || 0);
-        this.updateElement('projects-completed', this.dashboardData.projects?.completed || 0);
-        
-        // Mettre à jour la trésorerie
-        this.updateElement('treasury-balance', this.formatCurrency(this.dashboardData.treasury?.balance || 0));
-        this.updateElement('treasury-income', this.formatCurrency(this.dashboardData.treasury?.total_income || 0));
-        this.updateElement('treasury-expense', this.formatCurrency(this.dashboardData.treasury?.total_expense || 0));
-        
-        // Mettre à jour les dossiers commerciaux
-        this.updateElement('commercial-total', this.dashboardData.commercial?.total_dossiers || 0);
-        this.updateElement('commercial-active', this.dashboardData.commercial?.active_dossiers || 0);
-        this.updateElement('commercial-won', this.dashboardData.commercial?.won_dossiers || 0);
-        
-        // Mettre à jour les dépenses
-        this.updateElement('expense-total', this.dashboardData.expenses?.total_requests || 0);
-        this.updateElement('expense-pending', this.dashboardData.expenses?.pending || 0);
-        this.updateElement('expense-approved', this.dashboardData.expenses?.approved || 0);
-        this.updateElement('expense-amount', this.formatCurrency(this.dashboardData.expenses?.total_amount || 0));
-        
-        // Mettre à jour la barre de progression (projets unifiés)
-        this.updateProgressBar('projects-progress', 'projects-progress-text', this.calculateProgress(this.dashboardData.projects));
+
+    _applyData(data) {
+        const normalised = {
+            projects: {
+                total: data.projects?.total || 0,
+                in_progress: data.projects?.in_progress || 0,
+                completed: data.projects?.completed || 0,
+            },
+            treasury: {
+                balance: data.treasury?.balance || 0,
+                total_income: data.treasury?.total_income || 0,
+                total_expense: data.treasury?.total_expense || 0,
+            },
+            commercial: {
+                total_dossiers: data.commercial?.total_dossiers || 0,
+                active_dossiers: data.commercial?.active_dossiers || 0,
+                won_dossiers: data.commercial?.won_dossiers || 0,
+            },
+            expenses: {
+                total_requests: data.expenses?.total_requests || 0,
+                pending: data.expenses?.pending || 0,
+                approved: data.expenses?.approved || 0,
+                total_amount: data.expenses?.total_amount || 0,
+            },
+            branding: {
+                title: data.branding?.title || data.branding?.company_name || this.env.company?.name || '',
+                subtitle: data.branding?.subtitle || '',
+                company_name: data.branding?.company_name || '',
+                currency_code: data.branding?.currency_code || 'XOF',
+                currency_locale: data.branding?.currency_locale || (this.env.user?.lang ?? 'fr-FR'),
+            },
+            quickActions: Array.isArray(data.quick_actions) ? data.quick_actions : [],
+        };
+
+        Object.assign(this.state, normalised);
     }
-    
-    updateElement(id, value) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.textContent = value;
+
+    get projectsProgress() {
+        const { total, completed, in_progress } = this.state.projects;
+        if (!total) {
+            return 0;
         }
+        return (completed / total) * 100 + (in_progress / total) * 50;
     }
-    
-    updateProgressBar(barId, textId, percentage) {
-        const bar = document.getElementById(barId);
-        const text = document.getElementById(textId);
-        
-        if (bar && text) {
-            bar.style.width = `${percentage}%`;
-            text.textContent = `${Math.round(percentage)}%`;
+
+    openAction(action) {
+        if (!action || !action.action_id) {
+            return;
         }
+        this.env.services.action.doAction(action.action_id);
     }
-    
+
     calculateProgress(projectData) {
         if (!projectData || projectData.total === 0) return 0;
-        
+
         const completed = projectData.completed || 0;
         const inProgress = projectData.in_progress || 0;
-        
-        // Calculer le pourcentage basé sur les projets terminés et en cours
+
         return (completed / projectData.total) * 100 + (inProgress / projectData.total) * 50;
     }
-    
+
     formatCurrency(amount) {
-        return new Intl.NumberFormat('fr-FR', {
+        const locale = this.state.branding.currency_locale || 'fr-FR';
+        const currency = this.state.branding.currency_code || 'XOF';
+        let formatter;
+        try {
+            formatter = new Intl.NumberFormat(locale, {
             style: 'currency',
-            currency: 'XOF',
-            minimumFractionDigits: 0
-        }).format(amount);
+            currency,
+            minimumFractionDigits: 0,
+        });
+        } catch (error) {
+            formatter = new Intl.NumberFormat('fr-FR', {
+                style: 'currency',
+                currency: 'XOF',
+                minimumFractionDigits: 0,
+            });
+        }
+        return formatter.format(amount || 0);
+    }
+
+    get formattedProjectsProgress() {
+        return Math.round(this.projectsProgress);
     }
 }
 
-// Enregistrer le composant
-registry.category("views").add("kondro_core.dashboard", KondroDashboard);
+registry.category("actions").add("kondro_core.dashboard", KondroDashboard);
 
 export { KondroDashboard };

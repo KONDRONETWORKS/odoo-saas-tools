@@ -62,7 +62,6 @@ docker compose -f config/docker-compose.windows.yml ps
   - `boto3` (1.40.64)
   - `psycopg2-binary`
   - `requests`
-  - `simplejson`
 
 ---
 

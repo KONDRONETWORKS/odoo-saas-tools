@@ -100,4 +100,56 @@
         parent="saas_portal.menu_saas"
         action="action_monitoring_metrics"
         sequence="50"/>
+
+    <!-- Queue Metrics List View -->
+    <record id="view_queue_metrics_tree" model="ir.ui.view">
+        <field name="name">saas_portal.queue.metric.tree</field>
+        <field name="model">saas_portal.queue.metric</field>
+        <field name="arch" type="xml">
+            <list string="Queue Metrics" default_order="timestamp desc">
+                <field name="timestamp"/>
+                <field name="channel"/>
+                <field name="pending_count"/>
+                <field name="started_count"/>
+                <field name="failed_count" decoration-danger="failed_count &gt; 0"/>
+                <field name="oldest_pending_minutes" decoration-warning="oldest_pending_minutes &gt;= 10"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Queue Metrics Graph View -->
+    <record id="view_queue_metrics_graph" model="ir.ui.view">
+        <field name="name">saas_portal.queue.metric.graph</field>
+        <field name="model">saas_portal.queue.metric</field>
+        <field name="arch" type="xml">
+            <graph string="Queue Metrics" type="line">
+                <field name="timestamp" type="row"/>
+                <field name="pending_count" type="measure"/>
+                <field name="failed_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Queue Metrics Action -->
+    <record id="action_queue_metrics" model="ir.actions.act_window">
+        <field name="name">Queue Metrics</field>
+        <field name="res_model">saas_portal.queue.metric</field>
+        <field name="view_mode">list,graph</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Les métriques de queue sont collectées automatiquement via le cron dédié.
+            </p>
+            <p>
+                Surveillez ici le volume de jobs en attente et en erreur pour anticiper les
+                saturations ou incidents sur le worker.
+            </p>
+        </field>
+    </record>
+
+    <!-- Queue Metrics Menu -->
+    <menuitem id="menu_queue_metrics"
+        name="Queue Metrics"
+        parent="menu_monitoring_metrics"
+        action="action_queue_metrics"
+        sequence="10"/>
 </odoo>

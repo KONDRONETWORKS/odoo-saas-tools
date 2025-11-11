@@ -5,14 +5,14 @@
             <field name="name">kondro.dt.workflow.matrix.tree</field>
             <field name="model">kondro.dt.workflow.matrix</field>
             <field name="arch" type="xml">
-                <tree string="Matrices RACI">
+                <list string="Matrices RACI">
                     <field name="name"/>
                     <field name="process_type"/>
                     <field name="project_id" optional="hide"/>
                     <field name="department_id" optional="show"/>
                     <field name="escalation_user_id" optional="show"/>
                     <field name="active"/>
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -46,13 +46,13 @@
                         </group>
                         <notebook>
                             <page string="Participants">
-                                <field name="line_ids" context="{'default_matrix_id': active_id}" nolabel="1">
-                                    <tree editable="bottom">
+                                <field name="line_ids" context="{'default_matrix_id': id}" nolabel="1">
+                                    <list editable="bottom">
                                         <field name="role_type"/>
                                         <field name="user_id"/>
                                         <field name="group_id"/>
                                         <field name="notes"/>
-                                    </tree>
+                                    </list>
                                 </field>
                             </page>
                         </notebook>

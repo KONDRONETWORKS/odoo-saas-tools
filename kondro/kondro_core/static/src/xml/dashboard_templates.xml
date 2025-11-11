@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="kondro_dashboard.DashboardView">
+        <div class="kondro-dashboard">
+            <t t-if="state.loading">
+                <div class="o_view_nocontent_smiling_face mt32">
+                    Chargement des indicateurs...
+                </div>
+            </t>
+            <t t-else="">
+            <div class="dashboard-header">
+                <h1>
+                    <t t-esc="state.branding.title or state.branding.company_name or 'Tableau de bord'"/>
+                </h1>
+                <p t-esc="state.branding.subtitle or ''"/>
+            </div>
+
+            <div class="dashboard-metrics">
+                <div class="metric-card">
+                    <h3>Projets KONDRO</h3>
+                    <div class="metric-value" t-esc="state.projects.total"/>
+                    <div class="metric-detail">
+                        <span class="in-progress" t-esc="state.projects.in_progress"/> en cours
+                        <span class="completed" t-esc="state.projects.completed"/> terminés
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Trésorerie</h3>
+                    <div class="metric-value" t-esc="formatCurrency(state.treasury.balance)"/>
+                    <div class="metric-detail">
+                        <span class="income" t-esc="formatCurrency(state.treasury.total_income)"/> entrées
+                        <span class="expense" t-esc="formatCurrency(state.treasury.total_expense)"/> sorties
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Dossiers Commerciaux</h3>
+                    <div class="metric-value" t-esc="state.commercial.total_dossiers"/>
+                    <div class="metric-detail">
+                        <span class="active" t-esc="state.commercial.active_dossiers"/> actifs
+                        <span class="won" t-esc="state.commercial.won_dossiers"/> gagnés
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-charts">
+                <div class="chart-section">
+                    <h3>Progression des Projets</h3>
+                    <div class="progress-bars">
+                        <div class="progress-item">
+                            <div class="o_form_label">Projets KONDRO</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill"
+                                     t-att-style="'width: %s%%' % projectsProgress"/>
+                            </div>
+                            <span t-esc="formattedProjectsProgress"/>%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-section">
+                    <h3>Dépenses Internes</h3>
+                    <div class="expense-stats">
+                        <div class="expense-item">
+                            <span class="label">Total des demandes:</span>
+                            <span class="value" t-esc="state.expenses.total_requests"/>
+                        </div>
+                        <div class="expense-item">
+                            <span class="label">En attente:</span>
+                            <span class="value pending" t-esc="state.expenses.pending"/>
+                        </div>
+                        <div class="expense-item">
+                            <span class="label">Approuvées:</span>
+                            <span class="value approved" t-esc="state.expenses.approved"/>
+                        </div>
+                        <div class="expense-item">
+                            <span class="label">Montant total:</span>
+                            <span class="value amount" t-esc="formatCurrency(state.expenses.total_amount)"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-actions">
+                <h3>Actions Rapides</h3>
+                <div class="action-buttons">
+                    <t t-foreach="state.quickActions" t-as="action" t-index="idx" t-key="action.action_id or idx">
+                        <button t-attf-class="btn btn-{action.style or 'primary'}"
+                                t-on-click="() => this.openAction(action)"
+                                t-att-disabled="action.action_id ? false : true">
+                            <span t-if="action.icon" t-esc="action.icon"/> <t t-esc="action.label"/>
+                        </button>
+                    </t>
+                </div>
+            </div>
+            </t>
+        </div>
+    </t>
+</templates>

@@ -46,7 +46,7 @@ Module ajoutant des paramètres spécifiques pour les modules de démonstration 
 - Flexibilité dans la configuration
 """,
     'depends': ['saas_server'],
-    'external_dependencies': {'python': ['simplejson'], 'bin': ['git']},
+    'external_dependencies': {'python': [], 'bin': ['git']},
     'data': ['views/saas_server_demo.xml'],
     'qweb': [],
     'demo': [],

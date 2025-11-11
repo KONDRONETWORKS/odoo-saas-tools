@@ -5,7 +5,7 @@
             <field name="name">kondro.dt.kpi.snapshot.tree</field>
             <field name="model">kondro.dt.kpi.snapshot</field>
             <field name="arch" type="xml">
-                <tree string="Relevés KPI" decoration-success="delta_value &gt;= 0" decoration-danger="delta_value &lt; 0">
+                <list string="Relevés KPI" decoration-success="delta_value &gt;= 0" decoration-danger="delta_value &lt; 0">
                     <field name="period_end"/>
                     <field name="code"/>
                     <field name="name"/>
@@ -15,7 +15,7 @@
                     <field name="target_value" optional="show"/>
                     <field name="unit_label" optional="hide"/>
                     <field name="periodicity" optional="hide"/>
-                </tree>
+                </list>
             </field>
         </record>
 

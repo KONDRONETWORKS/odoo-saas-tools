@@ -5,7 +5,7 @@
         <field name="name">kondro.treasury.movement.tree</field>
         <field name="model">kondro.treasury.movement</field>
         <field name="arch" type="xml">
-            <tree string="Mouvements de Trésorerie" decoration-success="movement_type == 'in'" decoration-danger="movement_type == 'out'">
+            <list string="Mouvements de Trésorerie" decoration-success="movement_type == 'in'" decoration-danger="movement_type == 'out'">
                 <field name="name"/>
                 <field name="date"/>
                 <field name="account_id"/>
@@ -16,7 +16,7 @@
                 <field name="reference"/>
                 <field name="project_id"/>
                 <field name="expense_request_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 

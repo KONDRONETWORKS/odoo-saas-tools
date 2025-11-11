@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="param_queue_warning_pending" model="ir.config_parameter">
+        <field name="key">saas_portal.queue.warning_pending</field>
+        <field name="value">20</field>
+    </record>
+    <record id="param_queue_critical_pending" model="ir.config_parameter">
+        <field name="key">saas_portal.queue.critical_pending</field>
+        <field name="value">50</field>
+    </record>
+    <record id="param_queue_warning_failed" model="ir.config_parameter">
+        <field name="key">saas_portal.queue.warning_failed</field>
+        <field name="value">1</field>
+    </record>
+    <record id="param_queue_critical_failed" model="ir.config_parameter">
+        <field name="key">saas_portal.queue.critical_failed</field>
+        <field name="value">5</field>
+    </record>
+    <record id="param_queue_warning_oldest" model="ir.config_parameter">
+        <field name="key">saas_portal.queue.warning_oldest_min</field>
+        <field name="value">10</field>
+    </record>
+    <record id="param_queue_critical_oldest" model="ir.config_parameter">
+        <field name="key">saas_portal.queue.critical_oldest_min</field>
+        <field name="value">30</field>
+    </record>
+</odoo>

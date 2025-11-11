@@ -76,7 +76,7 @@
         <field name="name">kondro.project.tree</field>
         <field name="model">kondro.project</field>
         <field name="arch" type="xml">
-            <tree string="Projets" decoration-info="status == 'opportunity'" decoration-warning="status == 'in_progress'" decoration-success="status == 'delivered'">
+            <list string="Projets" decoration-info="status == 'opportunity'" decoration-warning="status == 'in_progress'" decoration-success="status == 'delivered'">
                 <field name="name"/>
                 <field name="client_id"/>
                 <field name="project_type"/>
@@ -89,7 +89,7 @@
                 <field name="paid_amount" sum="Total Payé"/>
                 <field name="margin" sum="Total Marge"/>
                 <field name="progress"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -100,16 +100,16 @@
         <field name="arch" type="xml">
             <form string="Projet">
                 <header>
-                    <button name="action_view_expenses" string="Dépenses" type="object" class="oe_highlight" attrs="{'invisible': [('expense_count', '=', 0)]}"/>
-                    <button name="action_view_documents" string="Documents" type="object" attrs="{'invisible': [('document_count', '=', 0)]}"/>
+                    <button name="action_view_expenses" string="Dépenses" type="object" class="oe_highlight"/>
+                    <button name="action_view_documents" string="Documents" type="object"/>
                     <field name="status" widget="statusbar" statusbar_visible="draft,opportunity,in_progress,validation,delivered"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_expenses" type="object" class="oe_stat_button" icon="fa-money" attrs="{'invisible': [('expense_count', '=', 0)]}">
+                        <button name="action_view_expenses" type="object" class="oe_stat_button" icon="fa-money">
                             <field name="expense_count" widget="statinfo" string="Dépenses"/>
                         </button>
-                        <button name="action_view_documents" type="object" class="oe_stat_button" icon="fa-file" attrs="{'invisible': [('document_count', '=', 0)]}">
+                        <button name="action_view_documents" type="object" class="oe_stat_button" icon="fa-file">
                             <field name="document_count" widget="statinfo" string="Documents"/>
                         </button>
                     </div>

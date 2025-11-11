@@ -2,7 +2,7 @@
 {
     "name": "Kondro DT Workflow",
     "summary": "Matrices RACI et validations transverses pour le Directeur Technique",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Kondro/Directeur Technique",
     "author": "Kondro",
     "website": "https://kondro.example",
@@ -10,6 +10,7 @@
         "mail",
         "kondro_dt_projects",
         "kondro_finance",
+        "hr",
     ],
     "data": [
         "security/ir.model.access.csv",

@@ -7,15 +7,15 @@
             <field name="inherit_id" ref="kondro_finance.view_kondro_expense_request_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
-                    <button name="action_dt_validate" string="Valider Tech." type="object" groups="kondro_dt_hub.group_kondro_dt_user" class="oe_highlight" attrs="{'invisible': [('dt_validation_state', '!=', 'pending')]}"/>
-                    <button name="action_dt_request_changes" string="Retour Tech." type="object" groups="kondro_dt_hub.group_kondro_dt_manager" attrs="{'invisible': [('dt_validation_state', '=', 'changes')]}"/>
+                    <button name="action_dt_validate" string="Valider Tech." type="object" groups="kondro_dt_hub.group_kondro_dt_user" class="oe_highlight"/>
+                    <button name="action_dt_request_changes" string="Retour Tech." type="object" groups="kondro_dt_hub.group_kondro_dt_manager"/>
                     <field name="dt_validation_state" invisible="1"/>
                 </xpath>
                 <xpath expr="//div[@name='button_box']" position="inside">
-                    <button name="action_dt_validate" type="object" icon="fa-check" class="oe_stat_button" groups="kondro_dt_hub.group_kondro_dt_user" attrs="{'invisible': [('dt_validation_state', '!=', 'pending')]}">
+                    <button name="action_dt_validate" type="object" icon="fa-check" class="oe_stat_button" groups="kondro_dt_hub.group_kondro_dt_user">
                         <span class="o_stat_text">Valider Tech.</span>
                     </button>
-                    <button name="action_open_dt_matrix" type="object" class="oe_stat_button" icon="fa-sitemap" groups="kondro_dt_hub.group_kondro_dt_manager" attrs="{'invisible': [('dt_matrix_id', '=', False)]}">
+                    <button name="action_open_dt_matrix" type="object" class="oe_stat_button" icon="fa-sitemap" groups="kondro_dt_hub.group_kondro_dt_manager">
                         <field name="dt_matrix_id" widget="statinfo" string="Matrice"/>
                     </button>
                 </xpath>
@@ -32,7 +32,7 @@
                         </group>
                     </group>
                 </xpath>
-                <xpath expr="//page[@string='Validation']/group" position="inside">
+                <xpath expr="//page[.//field[@name='approved_by_id']]/group" position="inside">
                     <group string="Technique" groups="kondro_dt_hub.group_kondro_dt_user">
                         <group>
                             <field name="dt_validation_user_id" readonly="1"/>

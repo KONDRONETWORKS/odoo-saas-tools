@@ -2,7 +2,7 @@
 {
     "name": "Kondro DT Hub",
     "summary": "Tableau de bord central pour le Directeur Technique",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Kondro/Directeur Technique",
     "author": "Kondro",
     "website": "https://kondro.example",

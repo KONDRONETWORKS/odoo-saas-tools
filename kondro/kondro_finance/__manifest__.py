@@ -46,6 +46,7 @@ Module de gestion financière unifié pour KONDRONETWORKS.
         'account',
         'kondro_company',
         'kondro_core',
+        'hr',
     ],
     'data': [
         'security/kondro_finance_security.xml',

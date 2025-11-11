@@ -5,7 +5,7 @@
             <field name="name">kondro.dt.project.risk.tree</field>
             <field name="model">kondro.dt.project.risk</field>
             <field name="arch" type="xml">
-                <tree string="Risques techniques" decoration-danger="risk_level == 'escalate'" decoration-warning="risk_level == 'mitigate'">
+                <list string="Risques techniques" decoration-danger="risk_level == 'escalate'" decoration-warning="risk_level == 'mitigate'">
                     <field name="name"/>
                     <field name="project_id" optional="hide"/>
                     <field name="category"/>
@@ -15,7 +15,7 @@
                     <field name="status"/>
                     <field name="owner_id" optional="show"/>
                     <field name="next_review_date"/>
-                </tree>
+                </list>
             </field>
         </record>
 
