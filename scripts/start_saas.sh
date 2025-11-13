@@ -1,10 +1,15 @@
 #!/bin/bash
 # Script simple pour démarrer/arrêter le service SaaS
+# 
+# Ce script utilise docker-compose.simple.yml qui est la configuration
+# principale pour le développement local avec tous les modules.
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Fichier principal à utiliser (évite les confusions)
 COMPOSE_FILE="$PROJECT_DIR/config/docker-compose.simple.yml"
 
 cd "$PROJECT_DIR"

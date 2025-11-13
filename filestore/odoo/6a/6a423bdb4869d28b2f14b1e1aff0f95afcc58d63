@@ -20979,19 +20979,23 @@ const subtaskCounter=__exports.subtaskCounter={component:SubtaskCounter,fieldDep
 odoo.define('@project/js/tours/project',['@web/core/l10n/translation','@web/core/registry','@web_tour/tour_service/tour_utils','@odoo/owl'],function(require){'use strict';let __exports={};const{_t}=require("@web/core/l10n/translation");const{registry}=require("@web/core/registry");const{stepUtils}=require("@web_tour/tour_service/tour_utils");const{markup}=require("@odoo/owl");registry.category("web_tour.tours").add('project_tour',{url:"/odoo",steps:()=>[stepUtils.showAppsMenuItem(),{isActive:["community"],trigger:'.o_app[data-menu-xmlid="project.menu_main_pm"]',content:markup(_t('Want a better way to <b>manage your projects</b>? <i>It starts here.</i>')),tooltipPosition:'right',run:"click",},{isActive:["enterprise"],trigger:'.o_app[data-menu-xmlid="project.menu_main_pm"]',content:markup(_t('Want a better way to <b>manage your projects</b>? <i>It starts here.</i>')),tooltipPosition:'bottom',run:"click",},{trigger:".o_project_kanban",},{trigger:'.o-kanban-button-new',content:markup(_t('Let\'s create your first <b>project</b>.')),tooltipPosition:'bottom',run:"click",},{trigger:'.o_project_name input',content:markup(_t('Choose a <b>name</b> for your project. <i>It can be anything you want: the name of a customer, of a product, of a team, of a construction site, etc.</i>')),tooltipPosition:'right',run:"edit Test",},{trigger:'.o_open_tasks',content:markup(_t('Let\'s create your first <b>project</b>.')),tooltipPosition:'top',run:"click .modal:visible .btn.btn-primary",},{trigger:".o_kanban_project_tasks .o_column_quick_create .o_kanban_header input",content:markup(_t("Add columns to organize your tasks into <b>stages</b> <i>e.g. New - In Progress - Done</i>.")),tooltipPosition:'bottom',run:"edit Test",},{trigger:".o_kanban_project_tasks .o_column_quick_create .o_kanban_add",content:markup(_t('Let\'s create your first <b>stage</b>.')),tooltipPosition:'right',run:"click",},{trigger:".o_kanban_group",},{trigger:".o_kanban_project_tasks .o_column_quick_create .o_kanban_header input",content:markup(_t("Add columns to organize your tasks into <b>stages</b> <i>e.g. New - In Progress - Done</i>.")),tooltipPosition:'bottom',run:"edit Test",},{trigger:".o_kanban_project_tasks .o_column_quick_create .o_kanban_add",content:markup(_t('Let\'s create your second <b>stage</b>.')),tooltipPosition:'right',run:"click",},{trigger:".o_kanban_group:eq(1)",},{trigger:'.o-kanban-button-new',content:markup(_t("Let's create your first <b>task</b>.")),tooltipPosition:'bottom',run:"click",},{trigger:".o_kanban_project_tasks",},{trigger:'.o_kanban_quick_create div.o_field_char[name=display_name] input',content:markup(_t('Choose a task <b>name</b> <i>(e.g. Website Design, Purchase Goods...)</i>')),tooltipPosition:'right',run:"edit Test",},{trigger:".o_kanban_project_tasks",},{trigger:'.o_kanban_quick_create .o_kanban_add',content:_t("Add your task once it is ready."),tooltipPosition:"bottom",run:"click",},{trigger:".o_kanban_project_tasks",},{trigger:".o_kanban_record",content:markup(_t("<b>Drag &amp; drop</b> the card to change your task from stage.")),tooltipPosition:"bottom",run:"drag_and_drop(.o_kanban_group:eq(1))",},{trigger:".o_kanban_project_tasks",},{trigger:".o_kanban_record:first",content:_t("Let's start working on your task."),tooltipPosition:"bottom",run:"click",},{trigger:".o_form_project_tasks",},{trigger:".o-mail-Chatter-topbar button.o-mail-Chatter-sendMessage",content:markup(_t("Use the chatter to <b>send emails</b> and communicate efficiently with your customers. Add new people to the followers' list to make them aware of the main changes about this task.")),tooltipPosition:"bottom",run:"click",},{trigger:".o_form_project_tasks",},{trigger:"button.o-mail-Chatter-logNote",content:markup(_t("<b>Log notes</b> for internal communications <i>(the people following this task won't be notified of the note you are logging unless you specifically tag them)</i>. Use @ <b>mentions</b> to ping a colleague or # <b>mentions</b> to reach an entire team.")),tooltipPosition:"bottom",run:"click",},{trigger:".o_form_project_tasks",},{trigger:".o-mail-Chatter-topbar button.o-mail-Chatter-activity",content:markup(_t("Create <b>activities</b> to set yourself to-dos or to schedule meetings.")),tooltipPosition:"bottom",run:"click",},{trigger:".o_form_project_tasks",},{trigger:".modal-dialog .btn-primary",content:_t("Schedule your activity once it is ready."),tooltipPosition:"bottom",run:"click",},{trigger:".o_form_project_tasks",},{isActive:["auto"],trigger:".o_field_widget[name='user_ids'] input",content:_t("Assign a responsible to your task"),tooltipPosition:"right",run:"edit Admin",},{isActive:["manual"],trigger:".o_field_widget[name='user_ids']",content:_t("Assign a responsible to your task"),tooltipPosition:"right",run:"click",},{isActive:["desktop","auto"],trigger:"a.dropdown-item[id*='user_ids'] span",content:_t("Select an assignee from the menu"),run:"click",},{isActive:["mobile"],trigger:"div.o_kanban_renderer > article.o_kanban_record",run:"click",},{isActive:["auto"],trigger:'a[name="sub_tasks_page"]',content:_t('Open sub-tasks notebook section'),run:'click',},{isActive:["auto"],trigger:'.o_field_subtasks_one2many .o_list_renderer a[role="button"]',content:_t('Add a sub-task'),run:'click',},{isActive:["auto"],trigger:'.o_field_subtasks_one2many div[name="name"] input',content:markup(_t('Give the sub-task a <b>name</b>')),run:"edit New Sub-task",},{trigger:".o_form_project_tasks .o_form_dirty",},{isActive:["auto"],trigger:".o_form_button_save",content:markup(_t("You have unsaved changes - no worries! Odoo will automatically save it as you navigate.<br/> You can discard these changes from here or manually save your task.<br/>Let's save it manually.")),tooltipPosition:"bottom",run:"click",},{trigger:".o_form_project_tasks",},{trigger:".o_breadcrumb .o_back_button",content:markup(_t("Let's go back to the <b>kanban view</b> to have an overview of your next tasks.")),tooltipPosition:"right",run:'click',},{isActive:["auto"],trigger:".o_kanban_record .o_widget_subtask_counter .subtask_list_button",content:_t("You can open sub-tasks from the kanban card!"),run:"click",},{trigger:".o_widget_subtask_kanban_list .subtask_list",},{isActive:["auto"],trigger:".o_kanban_record .o_widget_subtask_kanban_list .subtask_create",content:_t("Create a new sub-task"),run:"click",},{trigger:".subtask_create_input",},{isActive:["auto"],trigger:".o_kanban_record .o_widget_subtask_kanban_list .subtask_create_input input",content:markup(_t("Give the sub-task a <b>name</b>")),run:"edit Newer Sub-task && click body",},{isActive:["auto"],trigger:".o_kanban_record .o_widget_subtask_kanban_list .subtask_list_row:contains(newer sub-task) .o_field_project_task_state_selection button",content:_t("You can change the sub-task state here!"),run:"click",},{trigger:".project_task_state_selection_menu.dropdown-menu",},{isActive:["auto"],trigger:".project_task_state_selection_menu.dropdown-menu span.text-danger",content:markup(_t("Mark the task as <b>Cancelled</b>")),run:"click",},{trigger:".o-overlay-container:not(:visible):not(:has(.project_task_state_selection_menu))",},{isActive:["auto"],trigger:".o_kanban_record .o_widget_subtask_counter .subtask_list_button:contains('1/2')",content:_t("Close the sub-tasks list"),run:"click",},{isActive:["auto"],trigger:'.o_kanban_renderer',run:"click",}]});return __exports;});;
 
 /* /kondro_core/static/src/js/crm_dashboard.js */
-odoo.define('@kondro_core/js/crm_dashboard',['@web/core/registry','@owl/core/component'],function(require){'use strict';let __exports={};const{registry}=require("@web/core/registry");const{Component}=require("@owl/core/component");const KondroCRMDashboard=__exports.KondroCRMDashboard=class KondroCRMDashboard extends Component{setup(){this.loadDashboardData();}
-async loadDashboardData(){}}
-KondroCRMDashboard.template="kondro_core.CRMDashboard";registry.category("actions").add("kondro_crm_dashboard",KondroCRMDashboard);return __exports;});;
+odoo.define('@kondro_core/js/crm_dashboard',['@odoo/owl','@web/core/registry','@web/core/utils/hooks'],function(require){'use strict';let __exports={};const{Component,onMounted,useState}=require("@odoo/owl");const{registry}=require("@web/core/registry");const{useService}=require("@web/core/utils/hooks");const KondroCRMDashboard=__exports.KondroCRMDashboard=class KondroCRMDashboard extends Component{static template="kondro_core.CRMDashboard";setup(){this.rpc=useService("rpc");this.state=useState({loading:true,data:null,});onMounted(()=>{this.loadDashboardData();});}
+async loadDashboardData(){try{this.state.loading=true;const data=await this.rpc("/web/dataset/call_kw",{model:"kondro.project",method:"get_crm_stats",args:[],kwargs:{},});this.state.data=data||{};}catch(error){console.error("Erreur lors du chargement des données CRM:",error);}finally{this.state.loading=false;}}}
+registry.category("actions").add("kondro_crm_dashboard",KondroCRMDashboard);return __exports;});;
 
 /* /kondro_core/static/src/js/dashboard.js */
-odoo.define('@kondro_core/js/dashboard',['@odoo/owl','@web/core/registry'],function(require){'use strict';let __exports={};const{Component,onMounted,useState}=require("@odoo/owl");const{registry}=require("@web/core/registry");class KondroDashboard extends Component{static template="kondro_dashboard.DashboardView";setup(){this.dashboardData=useState({});this.loading=useState(true);onMounted(()=>{this.loadDashboardData();});}
-async loadDashboardData(){try{this.loading=true;const data=await this.env.services.rpc({model:'kondro.dashboard.data',method:'get_overall_stats',args:[]});this.dashboardData=data;this.updateDashboard();}catch(error){console.error('Erreur lors du chargement des données:',error);}finally{this.loading=false;}}
-updateDashboard(){this.updateElement('projects-total',this.dashboardData.projects?.total||0);this.updateElement('projects-in-progress',this.dashboardData.projects?.in_progress||0);this.updateElement('projects-completed',this.dashboardData.projects?.completed||0);this.updateElement('treasury-balance',this.formatCurrency(this.dashboardData.treasury?.balance||0));this.updateElement('treasury-income',this.formatCurrency(this.dashboardData.treasury?.total_income||0));this.updateElement('treasury-expense',this.formatCurrency(this.dashboardData.treasury?.total_expense||0));this.updateElement('commercial-total',this.dashboardData.commercial?.total_dossiers||0);this.updateElement('commercial-active',this.dashboardData.commercial?.active_dossiers||0);this.updateElement('commercial-won',this.dashboardData.commercial?.won_dossiers||0);this.updateElement('expense-total',this.dashboardData.expenses?.total_requests||0);this.updateElement('expense-pending',this.dashboardData.expenses?.pending||0);this.updateElement('expense-approved',this.dashboardData.expenses?.approved||0);this.updateElement('expense-amount',this.formatCurrency(this.dashboardData.expenses?.total_amount||0));this.updateProgressBar('projects-progress','projects-progress-text',this.calculateProgress(this.dashboardData.projects));}
-updateElement(id,value){const element=document.getElementById(id);if(element){element.textContent=value;}}
-updateProgressBar(barId,textId,percentage){const bar=document.getElementById(barId);const text=document.getElementById(textId);if(bar&&text){bar.style.width=`${percentage}%`;text.textContent=`${Math.round(percentage)}%`;}}
+odoo.define('@kondro_core/js/dashboard',['@odoo/owl','@web/core/registry','@web/core/utils/hooks'],function(require){'use strict';let __exports={};const{Component,onMounted,useState}=require("@odoo/owl");const{registry}=require("@web/core/registry");const{useService}=require("@web/core/utils/hooks");class KondroDashboard extends Component{static template="kondro_core.DashboardView";setup(){this.rpc=useService("rpc");this.action=useService("action");this.state=useState({loading:true,branding:{title:'',subtitle:'',company_name:'',currency_code:'XOF',currency_locale:'fr-FR',},quickActions:[],projects:{total:0,in_progress:0,completed:0},treasury:{balance:0,total_income:0,total_expense:0},commercial:{total_dossiers:0,active_dossiers:0,won_dossiers:0},expenses:{total_requests:0,pending:0,approved:0,total_amount:0},});onMounted(()=>{this.loadDashboardData();});}
+async loadDashboardData(){try{this.state.loading=true;const data=await this.rpc("/web/dataset/call_kw",{model:'kondro.dashboard.data',method:'get_overall_stats',args:[],kwargs:{},});this._applyData(data||{});}catch(error){console.error('Erreur lors du chargement des données:',error);}finally{this.state.loading=false;}}
+_applyData(data){const normalised={projects:{total:data.projects?.total||0,in_progress:data.projects?.in_progress||0,completed:data.projects?.completed||0,},treasury:{balance:data.treasury?.balance||0,total_income:data.treasury?.total_income||0,total_expense:data.treasury?.total_expense||0,},commercial:{total_dossiers:data.commercial?.total_dossiers||0,active_dossiers:data.commercial?.active_dossiers||0,won_dossiers:data.commercial?.won_dossiers||0,},expenses:{total_requests:data.expenses?.total_requests||0,pending:data.expenses?.pending||0,approved:data.expenses?.approved||0,total_amount:data.expenses?.total_amount||0,},branding:{title:data.branding?.title||data.branding?.company_name||this.env.company?.name||'',subtitle:data.branding?.subtitle||'',company_name:data.branding?.company_name||'',currency_code:data.branding?.currency_code||'XOF',currency_locale:data.branding?.currency_locale||(this.env.user?.lang??'fr-FR'),},quickActions:Array.isArray(data.quick_actions)?data.quick_actions:[],};Object.assign(this.state,normalised);}
+get projectsProgress(){const{total,completed,in_progress}=this.state.projects;if(!total){return 0;}
+return(completed/total)*100+(in_progress/total)*50;}
+openAction(action){if(!action||!action.action_id){return;}
+this.action.doAction(action.action_id);}
 calculateProgress(projectData){if(!projectData||projectData.total===0)return 0;const completed=projectData.completed||0;const inProgress=projectData.in_progress||0;return(completed/projectData.total)*100+(inProgress/projectData.total)*50;}
-formatCurrency(amount){return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'XOF',minimumFractionDigits:0}).format(amount);}}
-registry.category("views").add("kondro_core.dashboard",KondroDashboard);Object.assign(__exports,{KondroDashboard});return __exports;});;
+formatCurrency(amount){const locale=this.state.branding.currency_locale||'fr-FR';const currency=this.state.branding.currency_code||'XOF';let formatter;try{formatter=new Intl.NumberFormat(locale,{style:'currency',currency,minimumFractionDigits:0,});}catch(error){formatter=new Intl.NumberFormat('fr-FR',{style:'currency',currency:'XOF',minimumFractionDigits:0,});}
+return formatter.format(amount||0);}
+get formattedProjectsProgress(){return Math.round(this.projectsProgress);}}
+registry.category("actions").add("kondro_core.dashboard",KondroDashboard);Object.assign(__exports,{KondroDashboard});return __exports;});;
 
 /* /resource_mail/static/src/components/avatar_card_resource/avatar_card_resource_popover.js */
 odoo.define('@resource_mail/components/avatar_card_resource/avatar_card_resource_popover',['@odoo/owl','@web/core/utils/hooks','@mail/core/web/open_chat_hook','@mail/discuss/web/avatar_card/avatar_card_popover'],function(require){'use strict';let __exports={};const{onWillStart}=require("@odoo/owl");const{useService}=require("@web/core/utils/hooks");const{useOpenChat}=require("@mail/core/web/open_chat_hook");const{AvatarCardPopover}=require("@mail/discuss/web/avatar_card/avatar_card_popover");const AvatarCardResourcePopover=__exports.AvatarCardResourcePopover=class AvatarCardResourcePopover extends AvatarCardPopover{static template="resource_mail.AvatarCardResourcePopover";static props={...AvatarCardPopover.props,recordModel:{type:String,optional:true,},};static defaultProps={...AvatarCardPopover.defaultProps,recordModel:"resource.resource",};setup(){this.orm=useService("orm");this.actionService=useService("action");this.openChat=useOpenChat("res.users");onWillStart(this.onWillStart);}
@@ -22263,6 +22267,23 @@ patch(KanbanHeader.prototype,{setup(){super.setup();this.action=useService("acti
 
 /* /base_automation/static/src/utils.js */
 odoo.define('@base_automation/utils',[],function(require){'use strict';let __exports={};const TRIGGER_FILTERS=__exports.TRIGGER_FILTERS={on_create_or_write:(f)=>true,on_create:(f)=>true,on_write:(f)=>true,on_change:(f)=>true,on_unlink:(f)=>true,on_time:(f)=>true,on_time_created:(f)=>f.ttype==="datetime"&&f.name==="create_date",on_time_updated:(f)=>f.ttype==="datetime"&&f.name==="write_date",on_stage_set:(f)=>f.ttype==="many2one"&&["stage_id","x_studio_stage_id"].includes(f.name),on_user_set:(f)=>f.relation==="res.users"&&["many2one","many2many"].includes(f.ttype)&&["user_id","user_ids","x_studio_user_id","x_studio_user_ids"].includes(f.name),on_tag_set:(f)=>f.ttype==="many2many"&&["tag_ids","x_studio_tag_ids"].includes(f.name),on_state_set:(f)=>f.ttype==="selection"&&["state","x_studio_state"].includes(f.name),on_priority_set:(f)=>f.ttype==="selection"&&["priority","x_studio_priority"].includes(f.name),on_archive:(f)=>f.ttype==="boolean"&&["active","x_active"].includes(f.name),on_unarchive:(f)=>f.ttype==="boolean"&&["active","x_active"].includes(f.name),on_webhook:(f)=>true,};return __exports;});;
+
+/* /queue_job/static/src/views/fields/job_direct_graph/job_direct_graph.esm.js */
+odoo.define('@queue_job/views/fields/job_direct_graph/job_direct_graph.esm',['@web/core/assets','@web/core/registry','@web/views/fields/standard_field_props','@web/core/utils/hooks'],function(require){'use strict';let __exports={};const{loadCSS,loadJS}=require("@web/core/assets");const{registry}=require("@web/core/registry");const{standardFieldProps}=require("@web/views/fields/standard_field_props");const{useService}=require("@web/core/utils/hooks");const{Component,onWillStart,useEffect,useRef}=owl;const{document}=globalThis;class JobDirectGraph extends Component{static props={...standardFieldProps};static template="queue.JobDirectGraph";setup(){this.orm=useService("orm");this.action=useService("action");this.rootRef=useRef("root_vis");this.network=null;this.forceRender=false;onWillStart(async()=>{await loadJS("/queue_job/static/lib/vis/vis-network.min.js");loadCSS("/queue_job/static/lib/vis/vis-network.min.css");});useEffect(()=>{this.renderNetwork();this._fitNetwork();return()=>{if(this.network){this.$el.innerHTML="";}
+return this.rootRef.el;};},()=>[]);}
+get $el(){return this.rootRef.el;}
+get resId(){return this.props.record.resId;}
+get context(){return this.props.record.context;}
+get model(){return this.props.record.resModel;}
+htmlTitle(html){const container=document.createElement("div");container.innerHTML=html;return container;}
+renderNetwork(){if(this.network){this.$el.innerHTML="";}
+const values=this.props.record.data[this.props.name];let nodes=values?.nodes||[];if(!nodes.length){return;}
+nodes=nodes.map((node)=>{node.title=this.htmlTitle(node.title||"");return node;});const edges=[];(values?.edges||[]).forEach((edge)=>{const edgeFrom=edge[0];const edgeTo=edge[1];edges.push({from:edgeFrom,to:edgeTo,arrows:"to",});});if(nodes.length*edges.length>5000&&!this.forceRender){const warningDiv=document.createElement("div");warningDiv.className="alert alert-warning h-100 d-flex";warningDiv.className+=" flex-column justify-content-center align-items-center";warningDiv.innerText=`This graph is big (${nodes.length} nodes, `+`${edges.length} edges), it may take a while to display.`;const self=this;const button=document.createElement("button");button.innerText="Display anyway";button.className="btn btn-secondary";button.onclick=function(){self.forceRender=true;warningDiv.parentNode.removeChild(warningDiv);self.renderNetwork();};warningDiv.appendChild(button);this.$el.append(warningDiv);return;}
+const data={nodes:new vis.DataSet(nodes),edges:new vis.DataSet(edges),};const options={layout:{randomSeed:1},};if(nodes.length>100){options.physics={stabilization:false};}
+const network=new vis.Network(this.$el,data,options);network.selectNodes([this.resId]);var self=this;network.on("dragging",function(){network.selectNodes([self.resId]);});network.on("click",function(params){if(params.nodes.length>0){var resId=params.nodes[0];if(resId!==self.resId){self.openDependencyJob(resId);}}else{network.selectNodes([self.resId]);}});this.network=network;}
+async openDependencyJob(resId){const action=await this.orm.call(this.model,"get_formview_action",[[resId]],{context:this.context,});await this.action.doAction(action);}
+_fitNetwork(){if(this.network){this.network.fit(this.network.body.nodeIndices);}}}
+const jobDirectGraph=__exports.jobDirectGraph={component:JobDirectGraph,};registry.category("fields").add("job_directed_graph",jobDirectGraph);return __exports;});;
 
 /* /base_import/static/src/binary_file_manager.js */
 odoo.define('@base_import/binary_file_manager',['@web/core/utils/concurrency','@web/core/utils/files'],function(require){'use strict';let __exports={};const{Mutex}=require("@web/core/utils/concurrency");const{checkFileSize}=require("@web/core/utils/files");const BinaryFileManager=__exports.BinaryFileManager=class BinaryFileManager{constructor(resModel,fields,parameters,context,orm,notificationService){this.resModel=resModel;this.fields=[".id",...fields];this.parameters=parameters;this.context=context;this.orm=orm;this.notificationService=notificationService;this.maxBatchSize=this.parameters.maxBatchSize*0.95;this.delayAfterEachBatch=this.parameters.delayAfterEachBatch*1000;this.dataToSend={};this.mutex=new Mutex();}
@@ -37143,6 +37164,160 @@ registerTemplate("project.example.tshirtprinting", `/project/static/src/xml/proj
     </t>
 
 `);
+registerTemplate("kondro_core.DashboardView", `/kondro_core/static/src/xml/dashboard_templates.xml`, `<t t-name="kondro_core.DashboardView" xml:space="preserve">
+        <div class="kondro-dashboard">
+            <t t-if="state.loading">
+                <div class="o_view_nocontent_smiling_face mt32">
+                    Chargement des indicateurs...
+                </div>
+            </t>
+            <t t-else="">
+            <div class="dashboard-header">
+                <h1>
+                    <t t-esc="state.branding.title or state.branding.company_name or 'Tableau de bord'"/>
+                </h1>
+                <p t-esc="state.branding.subtitle or ''"/>
+            </div>
+
+            <div class="dashboard-metrics">
+                <div class="metric-card">
+                    <h3>Projets KONDRO</h3>
+                    <div class="metric-value" t-esc="state.projects.total"/>
+                    <div class="metric-detail">
+                        <span class="in-progress" t-esc="state.projects.in_progress"/> en cours
+                        <span class="completed" t-esc="state.projects.completed"/> terminés
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Trésorerie</h3>
+                    <div class="metric-value" t-esc="formatCurrency(state.treasury.balance)"/>
+                    <div class="metric-detail">
+                        <span class="income" t-esc="formatCurrency(state.treasury.total_income)"/> entrées
+                        <span class="expense" t-esc="formatCurrency(state.treasury.total_expense)"/> sorties
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Dossiers Commerciaux</h3>
+                    <div class="metric-value" t-esc="state.commercial.total_dossiers"/>
+                    <div class="metric-detail">
+                        <span class="active" t-esc="state.commercial.active_dossiers"/> actifs
+                        <span class="won" t-esc="state.commercial.won_dossiers"/> gagnés
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-charts">
+                <div class="chart-section">
+                    <h3>Progression des Projets</h3>
+                    <div class="progress-bars">
+                        <div class="progress-item">
+                            <div class="o_form_label">Projets KONDRO</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" t-att-style="'width: %s%%' % projectsProgress"/>
+                            </div>
+                            <span t-esc="formattedProjectsProgress"/>%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-section">
+                    <h3>Dépenses Internes</h3>
+                    <div class="expense-stats">
+                        <div class="expense-item">
+                            <span class="label">Total des demandes:</span>
+                            <span class="value" t-esc="state.expenses.total_requests"/>
+                        </div>
+                        <div class="expense-item">
+                            <span class="label">En attente:</span>
+                            <span class="value pending" t-esc="state.expenses.pending"/>
+                        </div>
+                        <div class="expense-item">
+                            <span class="label">Approuvées:</span>
+                            <span class="value approved" t-esc="state.expenses.approved"/>
+                        </div>
+                        <div class="expense-item">
+                            <span class="label">Montant total:</span>
+                            <span class="value amount" t-esc="formatCurrency(state.expenses.total_amount)"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-actions">
+                <h3>Actions Rapides</h3>
+                <div class="action-buttons">
+                    <t t-foreach="state.quickActions" t-as="action" t-index="idx" t-key="action.action_id or idx">
+                        <button t-attf-class="btn btn-{action.style or 'primary'}" t-on-click="() =&gt; this.openAction(action)" t-att-disabled="action.action_id ? false : true">
+                            <span t-if="action.icon" t-esc="action.icon"/> <t t-esc="action.label"/>
+                        </button>
+                    </t>
+                </div>
+            </div>
+            </t>
+        </div>
+    </t>
+
+    `);
+registerTemplate("kondro_core.CRMDashboard", `/kondro_core/static/src/xml/dashboard_templates.xml`, `<t t-name="kondro_core.CRMDashboard" xml:space="preserve">
+        <div class="kondro-crm-dashboard">
+            <t t-if="state.loading">
+                <div class="o_view_nocontent_smiling_face mt32">
+                    Chargement du dashboard CRM...
+                </div>
+            </t>
+            <t t-else="">
+                <div class="crm-dashboard-header">
+                    <h1>Dashboard CRM KONDRO</h1>
+                </div>
+                <div class="crm-dashboard-content">
+                    <t t-if="state.data">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Projets Actifs</h5>
+                                        <h2 class="text-primary" t-esc="state.data.active_projects or 0"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Budget Total</h5>
+                                        <h2 class="text-success" t-esc="state.data.total_budget or '0 XOF'"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Montant Engagé</h5>
+                                        <h2 class="text-warning" t-esc="state.data.total_engaged or '0 XOF'"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Marge Totale</h5>
+                                        <h2 class="text-info" t-esc="state.data.total_margin or '0 XOF'"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="alert alert-info">
+                            Aucune donnée disponible pour le moment.
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </div>
+    </t>
+`);
 registerTemplate("resource_mail.AvatarCardResourcePopover", `/resource_mail/static/src/components/avatar_card_resource/avatar_card_resource_popover.xml`, `<t t-name="resource_mail.AvatarCardResourcePopover" t-inherit="mail.AvatarCardPopover" xml:space="preserve">
         <xpath expr="//span[hasclass('o_avatar')]/img" position="attributes">
             <attribute name="t-attf-src" t-if="displayAvatar">/web/image/{{ props.recordModel }}/{{ props.id }}/avatar_128</attribute>
@@ -39302,6 +39477,11 @@ registerTemplate("base_automation.TriggerSelectionField", `/base_automation/stat
             </t>
         </xpath>
     </t>
+`);
+registerTemplate("queue.JobDirectGraph", `/queue_job/static/src/views/fields/job_direct_graph/job_direct_graph.xml`, `<t t-name="queue.JobDirectGraph" xml:space="preserve">
+        <div id="props.id" t-ref="root_vis" class="root_vis"/>
+    </t>
+
 `);
 registerTemplate("ImportAction", `/base_import/static/src/import_action/import_action.xml`, `<t t-name="ImportAction" xml:space="preserve">
         <div t-ref="root" class="h-100 d-flex flex-column">

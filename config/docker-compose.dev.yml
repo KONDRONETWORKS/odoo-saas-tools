@@ -44,9 +44,9 @@ services:
       - "8069:8069"
       - "8072:8072"
     volumes:
-      # Tous les modules SaaS montés pour développement
+      # Tous les modules SaaS montés pour développement (chemin relatif)
       - ../:/mnt/extra-addons
-      - ../odoo.conf:/etc/odoo/odoo.conf:ro
+      - ../odoo.conf.docker:/etc/odoo/odoo.conf:ro
       - ../filestore:/var/lib/odoo/filestore
     command: >
       odoo

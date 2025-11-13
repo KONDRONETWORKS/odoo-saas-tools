@@ -1241,6 +1241,9 @@
 /* /base_automation/static/src/base_automation.scss */
  .o_base_automation_actions_field .o_kanban_ungrouped, .o_base_automation_kanban_view .o_kanban_ungrouped{padding: 0;}.o_base_automation_actions_field .o_kanban_ungrouped .o_kanban_record, .o_base_automation_kanban_view .o_kanban_ungrouped .o_kanban_record{width: 100%; margin: 0;}.o_base_automation_actions_field .o_kanban_ungrouped .o_kanban_record.o_kanban_ghost, .o_base_automation_kanban_view .o_kanban_ungrouped .o_kanban_record.o_kanban_ghost{display: none;}.o_base_automation_actions_field .o_kanban_ghost{display: none;}.o_base_automation_kanban_view .o_kanban_grouped .row{flex-direction: column !important; gap: 0.5rem !important;}.o_base_automation_kanban_view .o_kanban_grouped .row > *{width: 100% !important;}.o_base_automation_kanban_view .o_kanban_grouped .row > * > *{margin: 0 0.5rem !important;}.o_base_automation_kanban_view .o_kanban_ungrouped .o_kanban_record .oe_kanban_global_click{border-top: 0; display: -webkit-box; display: -webkit-flex; display: flex; align-items: center;}.o_base_automation_kanban_view .o_kanban_ungrouped .o_kanban_record .oe_kanban_global_click .o_widget_web_ribbon{align-self: flex-start;}.o_base_automation_error pre{max-height: 25vh !important;}.o_field_base_automation_trigger_selection select option, .o_field_base_automation_trigger_selection select optgroup{background-color: var(--body-bg);}
 
+/* /queue_job/static/src/views/fields/job_direct_graph/job_direct_graph.scss */
+ .o_field_job_directed_graph{width: 600px; height: 400px; border: 1px solid lightgray;}.o_field_job_directed_graph div.root_vis{height: 100%; width: 100%;}
+
 /* /account_edi_ubl_cii/static/src/scss/account_edi_ubl_cii.scss */
  .o_field_peppol_eas_selection > select{color: #212529; font-weight: 500;}.o_field_peppol_eas_selection{min-width: 200px;}
 

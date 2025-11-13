@@ -1,0 +1,31 @@
+�� FICHIER PRINCIPAL À UTILISER
+================================
+
+✅ docker-compose.simple.yml  ← UTILISEZ CELUI-CI
+
+Ce fichier est utilisé par:
+- ./scripts/start_saas.sh
+- Tous les scripts de développement
+- La documentation principale
+
+Usage:
+  ./scripts/start_saas.sh start
+  ou
+  docker compose -f config/docker-compose.simple.yml up -d
+
+─────────────────────────────────────────────────────────
+
+�� AUTRES FICHIERS (Cas spécifiques uniquement)
+
+⚠️  docker-compose.dev.yml      → Dev avec hot reload
+⚠️  docker-compose.prod.yml     → Production uniquement  
+⚠️  docker-compose.windows.yml  → Windows uniquement
+⚠️  docker-compose.ubuntu-vm.yml → Déploiement VM
+
+Ces fichiers ne sont PAS nécessaires pour le développement quotidien.
+
+─────────────────────────────────────────────────────────
+
+Pour plus d'informations, voir:
+- config/README_SIMPLIFICATION.md
+- config/GUIDE_FICHIERS_DOCKER_COMPOSE.md

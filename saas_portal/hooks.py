@@ -23,6 +23,9 @@ def post_init_hook(env):
     # 4. Installer automatiquement saas_portal_start si disponible
     _install_portal_start_module(env)
     
+    # 5. Installer automatiquement queue_job si disponible
+    _install_queue_job_module(env)
+    
     _logger.info("✅ post_init_hook terminé avec succès")
 
 
@@ -141,6 +144,35 @@ def _install_portal_start_module(env):
             _logger.info("✅ Module saas_portal_start déjà installé")
         else:
             _logger.info("ℹ️  Module saas_portal_start non trouvé. Installation manuelle requise.")
+
+
+def _install_queue_job_module(env):
+    """Installer automatiquement queue_job si disponible"""
+    module_obj = env['ir.module.module']
+    
+    # Chercher le module queue_job
+    queue_job = module_obj.sudo().search([
+        ('name', '=', 'queue_job'),
+        ('state', 'in', ['uninstalled', 'to install'])
+    ], limit=1)
+    
+    if queue_job:
+        try:
+            queue_job.button_immediate_install()
+            _logger.info("✅ Module queue_job installé automatiquement")
+        except Exception as e:
+            _logger.warning(f"⚠️  Impossible d'installer queue_job automatiquement: {e}")
+            _logger.info("💡 Assurez-vous que le module queue_job est dans le chemin des addons")
+    else:
+        # Vérifier si déjà installé
+        installed = module_obj.sudo().search([
+            ('name', '=', 'queue_job'),
+            ('state', '=', 'installed')
+        ], limit=1)
+        if installed:
+            _logger.info("✅ Module queue_job déjà installé")
+        else:
+            _logger.info("ℹ️  Module queue_job non trouvé. Vérifiez qu'il est dans le chemin des addons.")
 
 
 def post_upgrade_hook(env):

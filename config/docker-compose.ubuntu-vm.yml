@@ -1,30 +1,30 @@
-# 🏗️ Configuration Docker Compose - Développement Complet
-# Note: 'version' est obsolète dans Docker Compose v2+
-# Usage: docker-compose -f config/docker-compose.simple.yml up -d
-# 
-# Cette configuration est optimisée pour le développement avec tous les modules montés individuellement.
-# Elle utilise l'image officielle Odoo 18 et permet un développement modulaire.
+version: '3.8'
+
+# 🏗️ Configuration Docker Compose - Production Ubuntu VM
+# Pour déploiement sur Ubuntu 22.04.5 (VM OVH 10.10.10.40)
+# Usage: docker compose -f config/docker-compose.ubuntu-vm.yml up -d
 
 services:
   postgres:
     image: postgres:15
-    container_name: saas-postgres-dev
+    container_name: odoo-postgres-prod
     environment:
-      POSTGRES_DB: odoo
-      POSTGRES_USER: odoo
-      POSTGRES_PASSWORD: odoo
+      POSTGRES_DB: ${POSTGRES_DB:-odoo}
+      POSTGRES_USER: ${POSTGRES_USER:-odoo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - postgres_data_dev:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5433:5432"  # Port 5433 pour éviter conflit avec PostgreSQL local
+      - "127.0.0.1:5432:5432"  # Écoute uniquement sur localhost
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-odoo}"]
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 10s
+      start_period: 30s
     networks:
-      - saas-network-dev
+      - odoo-network
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -34,88 +34,75 @@ services:
 
   odoo:
     image: odoo:18
-    container_name: saas-odoo-dev
+    container_name: odoo-main-prod
     depends_on:
       postgres:
         condition: service_healthy
     environment:
       # Configuration base de données
       - HOST=postgres
-      - USER=odoo
-      - PASSWORD=odoo
+      - USER=${POSTGRES_USER:-odoo}
+      - PASSWORD=${POSTGRES_PASSWORD}
       - DB_HOST=postgres
-      - DB_USER=odoo
-      - DB_PASSWORD=odoo
+      - DB_USER=${POSTGRES_USER:-odoo}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
       - DB_PORT=5432
       # Configuration Odoo
       - ODOO_RC=/etc/odoo/odoo.conf
-    # Installer les dépendances Python au démarrage
     entrypoint: >
       bash -c "
-      pip install --break-system-packages 'oauthlib>=3.2.0' 2>/dev/null || true &&
+      pip install --break-system-packages -q 'oauthlib>=3.2.0' 'psycopg2-binary>=2.9.0' 'boto3>=1.34.0' 'requests>=2.31.0' 2>/dev/null || true &&
       /entrypoint.sh odoo
       "
     ports:
-      - "8069:8069"   # XML-RPC
-      - "8072:8072"   # Longpolling
+      - "127.0.0.1:8069:8069"   # XML-RPC (Nginx reverse proxy)
+      - "127.0.0.1:8072:8072"   # Longpolling (Nginx reverse proxy)
     volumes:
-      # ============================================
       # Modules Core (Obligatoires)
-      # ============================================
       - ../saas_base:/mnt/extra-addons/saas_base
       - ../saas_portal:/mnt/extra-addons/saas_portal
       - ../saas_server:/mnt/extra-addons/saas_server
       - ../saas_client:/mnt/extra-addons/saas_client
+      - ../saas_ocore:/mnt/extra-addons/saas_ocore
+      - ../saas_oserver:/mnt/extra-addons/saas_oserver
+      - ../saas_oclient:/mnt/extra-addons/saas_oclient
+      - ../saas_oconfig:/mnt/extra-addons/saas_oconfig
+      - ../saas_oadmin:/mnt/extra-addons/saas_oadmin
       
-      # ============================================
       # Modules OAuth (Sécurité)
-      # ============================================
       - ../saas_oauth_provider:/mnt/extra-addons/saas_oauth_provider
       - ../saas_auth_oauth_ip:/mnt/extra-addons/saas_auth_oauth_ip
       - ../saas_auth_oauth_check_client_id:/mnt/extra-addons/saas_auth_oauth_check_client_id
       
-      # ============================================
-      # Modules Portail (Interface)
-      # ============================================
+      # Modules Portail
       - ../saas_portal_portal:/mnt/extra-addons/saas_portal_portal
       - ../saas_portal_start:/mnt/extra-addons/saas_portal_start
       - ../saas_portal_signup:/mnt/extra-addons/saas_portal_signup
       - ../saas_portal_templates:/mnt/extra-addons/saas_portal_templates
       - ../saas_portal_demo:/mnt/extra-addons/saas_portal_demo
       
-      # ============================================
-      # Modules Vente (Optionnels)
-      # ============================================
+      # Modules Vente
       - ../saas_portal_sale:/mnt/extra-addons/saas_portal_sale
       - ../saas_portal_sale_online:/mnt/extra-addons/saas_portal_sale_online
       - ../saas_portal_sale_subscription:/mnt/extra-addons/saas_portal_sale_subscription
       - ../saas_portal_subscription:/mnt/extra-addons/saas_portal_subscription
       
-      # ============================================
-      # Modules Infrastructure (Optionnels)
-      # ============================================
+      # Modules Infrastructure
       - ../saas_sysadmin:/mnt/extra-addons/saas_sysadmin
-      - ../saas_sysadmin_aws:/mnt/extra-addons/saas_sysadmin_aws
-      - ../saas_sysadmin_aws_route53:/mnt/extra-addons/saas_sysadmin_aws_route53
-      - ../saas_sysadmin_route53:/mnt/extra-addons/saas_sysadmin_route53
-      - ../saas_sysadmin_mailgun:/mnt/extra-addons/saas_sysadmin_mailgun
       - ../saas_sysadmin_ovh:/mnt/extra-addons/saas_sysadmin_ovh
       - ../saas_sysadmin_ovh_route53:/mnt/extra-addons/saas_sysadmin_ovh_route53
+      - ../saas_sysadmin_route53:/mnt/extra-addons/saas_sysadmin_route53
       
-      # ============================================
-      # Modules Backup (Optionnels)
-      # ============================================
+      # Modules Backup
       - ../saas_server_backup_ftp:/mnt/extra-addons/saas_server_backup_ftp
       - ../saas_server_backup_s3:/mnt/extra-addons/saas_server_backup_s3
       - ../saas_server_backup_rotate:/mnt/extra-addons/saas_server_backup_rotate
       - ../saas_server_backup_rotate_s3:/mnt/extra-addons/saas_server_backup_rotate_s3
       - ../saas_server_backup_ovh:/mnt/extra-addons/saas_server_backup_ovh
-      
-      # ============================================
-      # Modules Utilitaires
-      # ============================================
-      - ../saas_portal_async:/mnt/extra-addons/saas_portal_async
       - ../saas_portal_backup:/mnt/extra-addons/saas_portal_backup
+      
+      # Modules Utilitaires
+      - ../saas_portal_async:/mnt/extra-addons/saas_portal_async
       - ../saas_portal_cache:/mnt/extra-addons/saas_portal_cache
       - ../saas_portal_client_web:/mnt/extra-addons/saas_portal_client_web
       - ../saas_portal_monitoring:/mnt/extra-addons/saas_portal_monitoring
@@ -126,16 +113,9 @@ services:
       - ../saas_server_demo:/mnt/extra-addons/saas_server_demo
       - ../saas_utils:/mnt/extra-addons/saas_utils
       - ../saas_product_price_factor:/mnt/extra-addons/saas_product_price_factor
-      - ../saas_oadmin:/mnt/extra-addons/saas_oadmin
-      - ../saas_oclient:/mnt/extra-addons/saas_oclient
-      - ../saas_oconfig:/mnt/extra-addons/saas_oconfig
-      - ../saas_ocore:/mnt/extra-addons/saas_ocore
-      - ../saas_oserver:/mnt/extra-addons/saas_oserver
       - ../website_sale_require_login:/mnt/extra-addons/website_sale_require_login
       
-      # ============================================
-      # Modules KONDRONETWORKS (Architecture Simplifiée)
-      # ============================================
+      # Modules KONDRONETWORKS
       - ../kondro/kondro_company:/mnt/extra-addons/kondro_company
       - ../kondro/kondro_core:/mnt/extra-addons/kondro_core
       - ../kondro/kondro_finance:/mnt/extra-addons/kondro_finance
@@ -145,86 +125,82 @@ services:
       - ../kondro/kondro_dt_docs:/mnt/extra-addons/kondro_dt_docs
       - ../kondro/kondro_dt_reporting:/mnt/extra-addons/kondro_dt_reporting
       
-      # ============================================
-      # Configuration et Données
-      # ============================================
-      - ../odoo.conf.docker:/etc/odoo/odoo.conf:ro
+      # Configuration et données
+      - ../config/odoo.ubuntu-vm.conf:/etc/odoo/odoo.conf:ro
       - ../filestore:/var/lib/odoo/filestore
       - odoo_logs:/var/log/odoo
     command: >
       odoo
       --config=/etc/odoo/odoo.conf
       --db_host=postgres
-      --db_user=odoo
-      --db_password=odoo
+      --db_user=${POSTGRES_USER:-odoo}
+      --db_password=${POSTGRES_PASSWORD}
       --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
       --data-dir=/var/lib/odoo
       --xmlrpc-port=8069
       --gevent-port=8072
-      --workers=3
-      --max-cron-threads=2
+      --workers=${WORKERS:-4}
+      --max-cron-threads=${MAX_CRON_THREADS:-2}
       --without-demo=all
       --db-filter=.*
       --log-level=info
       --logfile=/var/log/odoo/odoo.log
+      --limit-memory-soft=${LIMIT_MEMORY_SOFT:-2147483648}
+      --limit-memory-hard=${LIMIT_MEMORY_HARD:-2684354560}
     networks:
-      - saas-network-dev
+      - odoo-network
     restart: unless-stopped
     logging:
       driver: "json-file"
       options:
-        max-size: "10m"
-        max-file: "3"
+        max-size: "50m"
+        max-file: "5"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8069/web/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 60s
+      start_period: 120s
 
   odoo-queue:
     image: odoo:18
-    container_name: saas-odoo-queue-dev
+    container_name: odoo-queue-prod
     depends_on:
       postgres:
         condition: service_healthy
+      odoo:
+        condition: service_started
     environment:
       - HOST=postgres
-      - USER=odoo
-      - PASSWORD=odoo
+      - USER=${POSTGRES_USER:-odoo}
+      - PASSWORD=${POSTGRES_PASSWORD}
       - DB_HOST=postgres
-      - DB_USER=odoo
-      - DB_PASSWORD=odoo
+      - DB_USER=${POSTGRES_USER:-odoo}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
       - DB_PORT=5432
       - ODOO_RC=/etc/odoo/odoo.conf
     entrypoint: >
       bash -c "
-      pip install --break-system-packages 'oauthlib>=3.2.0' 2>/dev/null || true &&
+      pip install --break-system-packages -q 'oauthlib>=3.2.0' 'psycopg2-binary>=2.9.0' 2>/dev/null || true &&
       /entrypoint.sh odoo
       "
     volumes:
+      # Modules nécessaires pour queue_job
       - ../saas_base:/mnt/extra-addons/saas_base
       - ../saas_portal:/mnt/extra-addons/saas_portal
       - ../saas_server:/mnt/extra-addons/saas_server
       - ../saas_client:/mnt/extra-addons/saas_client
       - ../saas_portal_async:/mnt/extra-addons/saas_portal_async
       - ../saas_utils:/mnt/extra-addons/saas_utils
-      - ../saas_portal_monitoring:/mnt/extra-addons/saas_portal_monitoring
-      - ../saas_portal_quotas:/mnt/extra-addons/saas_portal_quotas
-      - ../saas_portal_backup:/mnt/extra-addons/saas_portal_backup
-      - ../saas_portal_tagging:/mnt/extra-addons/saas_portal_tagging
-      - ../saas_product_price_factor:/mnt/extra-addons/saas_product_price_factor
-      - ../saas_oadmin:/mnt/extra-addons/saas_oadmin
-      - ../saas_portal_cache:/mnt/extra-addons/saas_portal_cache
-      - ../odoo.conf.docker:/etc/odoo/odoo.conf:ro
+      - ../config/odoo.ubuntu-vm.conf:/etc/odoo/odoo.conf:ro
       - ../filestore:/var/lib/odoo/filestore
       - odoo_logs:/var/log/odoo
     command: >
       odoo
       --config=/etc/odoo/odoo.conf
       --db_host=postgres
-      --db_user=odoo
-      --db_password=odoo
+      --db_user=${POSTGRES_USER:-odoo}
+      --db_password=${POSTGRES_PASSWORD}
       --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
       --data-dir=/var/lib/odoo
       --xmlrpc-port=8071
@@ -235,19 +211,27 @@ services:
       --limit-memory-hard=805306368
       --queue-job-channels=root:2
       --load=web,queue_job
+      --log-level=info
+      --logfile=/var/log/odoo/odoo-queue.log
     networks:
-      - saas-network-dev
+      - odoo-network
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
 
 volumes:
-  postgres_data_dev:
+  postgres_data:
     driver: local
-    name: saas_postgres_data_dev
+    name: odoo_postgres_data_prod
   odoo_logs:
     driver: local
-    name: saas_odoo_logs
+    name: odoo_logs_prod
 
 networks:
-  saas-network-dev:
+  odoo-network:
     driver: bridge
-    name: saas_network_dev
+    name: odoo_network_prod
+

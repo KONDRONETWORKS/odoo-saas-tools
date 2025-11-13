@@ -19,4 +19,3 @@ WHERE module = 'kondro_core'
 AND name = 'action_kondro_dashboard'
 AND model = 'ir.actions.act_window';
 
-

@@ -26,4 +26,3 @@ def migrate(cr, version):
         AND model = 'ir.actions.act_window'
     """)
 
-

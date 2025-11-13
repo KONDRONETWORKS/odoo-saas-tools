@@ -41,7 +41,11 @@ Ce module ajoute une option pour créer les bases de données client de manière
 - Bases de données avec des configurations complexes
 - Environnements où la création peut prendre plusieurs minutes
 """,
-    'depends': ['base', 'saas_portal', 'queue_job'],
+    'depends': [
+        'base', 
+        'saas_portal',
+        'queue_job',
+    ],
     'installable': True,
     'application': False,
     'data': ['views/wizard.xml'],
