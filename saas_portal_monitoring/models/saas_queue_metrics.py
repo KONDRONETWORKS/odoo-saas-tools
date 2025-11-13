@@ -64,6 +64,14 @@ class SaasPortalQueueMetric(models.Model):
     @api.model
     def collect_queue_metrics(self):
         """Collect queue statistics per channel."""
+        # Vérifier si le module queue_job est installé
+        if not self.env['ir.module.module'].sudo().search([
+            ('name', '=', 'queue_job'),
+            ('state', '=', 'installed')
+        ]):
+            _logger.warning("Module queue_job non installé. Les métriques de queue ne peuvent pas être collectées.")
+            return 0
+        
         Job = self.env["queue.job"].sudo()
         now = fields.Datetime.now()
         thresholds = self._get_thresholds()

@@ -108,7 +108,9 @@
             </field>
         </record>
 
-        <!-- Action du tableau de bord -->
+        <!-- Action du tableau de bord (Client Action pour JavaScript) -->
+        <!-- Note: L'ancien action_kondro_dashboard (ir.actions.act_window) sera supprimé 
+             automatiquement par le script de migration post-migration.py -->
         <record id="action_kondro_dashboard" model="ir.actions.client">
             <field name="name">Tableau de Bord KONDRO</field>
             <field name="tag">kondro_core.dashboard</field>

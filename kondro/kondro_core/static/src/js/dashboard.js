@@ -2,11 +2,15 @@
 
 import { Component, onMounted, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
+import { useService } from "@web/core/utils/hooks";
 
 class KondroDashboard extends Component {
-    static template = "kondro_dashboard.DashboardView";
+    static template = "kondro_core.DashboardView";
 
     setup() {
+        this.rpc = useService("rpc");
+        this.action = useService("action");
+        
         this.state = useState({
             loading: true,
             branding: {
@@ -32,10 +36,11 @@ class KondroDashboard extends Component {
         try {
             this.state.loading = true;
 
-            const data = await this.env.services.rpc({
+            const data = await this.rpc("/web/dataset/call_kw", {
                 model: 'kondro.dashboard.data',
                 method: 'get_overall_stats',
-                args: []
+                args: [],
+                kwargs: {},
             });
 
             this._applyData(data || {});
@@ -94,7 +99,7 @@ class KondroDashboard extends Component {
         if (!action || !action.action_id) {
             return;
         }
-        this.env.services.action.doAction(action.action_id);
+        this.action.doAction(action.action_id);
     }
 
     calculateProgress(projectData) {

@@ -85,6 +85,9 @@ odoo.conf.prod
 monitoring.yml
 oca_dependencies.txt
 
+# Modules OCA externes (clonés depuis GitHub)
+oca_addons/
+
 # Fichiers système
 saas.log
 odoo.log

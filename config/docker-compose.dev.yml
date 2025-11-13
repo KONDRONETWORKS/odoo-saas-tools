@@ -54,7 +54,7 @@ services:
       --db_host=postgres
       --db_user=odoo
       --db_password=odoo
-      --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+      --addons-path=/mnt/extra-addons/oca_addons/queue,/mnt/extra-addons/oca_addons/connector,/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
       --data-dir=/var/lib/odoo
       --xmlrpc-port=8069
       --gevent-port=8072

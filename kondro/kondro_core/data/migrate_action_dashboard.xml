@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Ce fichier n'est plus nécessaire car la suppression est gérée par le hook post_init_hook
+    dans hooks.py. Ce fichier est conservé pour référence mais ne sera pas chargé.
+-->
+<odoo>
+    <!-- La suppression de l'ancien action_kondro_dashboard est gérée par post_init_hook dans hooks.py -->
+</odoo>

@@ -5,5 +5,6 @@ oauthlib>=3.2.0
 ovh>=1.1.0
 psycopg2-binary>=2.9.0
 requests>=2.31.0
+cachetools>=5.0.0
 odoo18-addon-connector>=18.0.1.0.0
 odoo18-addon-queue-job>=18.0.1.0.0

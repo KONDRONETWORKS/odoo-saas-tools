@@ -73,5 +73,6 @@ Module central offrant une vue CRM complète et unifiée pour tous les projets e
     'application': True,
     'auto_install': False,
     'sequence': 10,
+    'pre_init_hook': 'pre_init_hook',
 }
 

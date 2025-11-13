@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates id="template" xml:space="preserve">
-    <t t-name="kondro_dashboard.DashboardView">
+    <t t-name="kondro_core.DashboardView">
         <div class="kondro-dashboard">
             <t t-if="state.loading">
                 <div class="o_view_nocontent_smiling_face mt32">
@@ -94,6 +94,64 @@
                     </t>
                 </div>
             </div>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="kondro_core.CRMDashboard">
+        <div class="kondro-crm-dashboard">
+            <t t-if="state.loading">
+                <div class="o_view_nocontent_smiling_face mt32">
+                    Chargement du dashboard CRM...
+                </div>
+            </t>
+            <t t-else="">
+                <div class="crm-dashboard-header">
+                    <h1>Dashboard CRM KONDRO</h1>
+                </div>
+                <div class="crm-dashboard-content">
+                    <t t-if="state.data">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Projets Actifs</h5>
+                                        <h2 class="text-primary" t-esc="state.data.active_projects or 0"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Budget Total</h5>
+                                        <h2 class="text-success" t-esc="state.data.total_budget or '0 XOF'"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Montant Engagé</h5>
+                                        <h2 class="text-warning" t-esc="state.data.total_engaged or '0 XOF'"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>Marge Totale</h5>
+                                        <h2 class="text-info" t-esc="state.data.total_margin or '0 XOF'"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="alert alert-info">
+                            Aucune donnée disponible pour le moment.
+                        </div>
+                    </t>
+                </div>
             </t>
         </div>
     </t>
