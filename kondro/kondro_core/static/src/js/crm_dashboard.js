@@ -15,14 +15,14 @@ export class KondroCRMDashboard extends Component {
         });
         
         onMounted(() => {
-            this.loadDashboardData();
+        this.loadDashboardData();
         });
     }
 
     async loadDashboardData() {
         try {
             this.state.loading = true;
-            // Charger les statistiques depuis le serveur
+        // Charger les statistiques depuis le serveur
             const data = await this.rpc("/web/dataset/call_kw", {
                 model: "kondro.project",
                 method: "get_crm_stats",

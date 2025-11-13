@@ -105,3 +105,5 @@ odoo-server
 !pyproject.toml
 !pytest.ini
 !check_modules.py
+.env
+# Fichier .env avec secrets
