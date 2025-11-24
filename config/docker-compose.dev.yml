@@ -45,9 +45,9 @@ services:
       - "8072:8072"
     volumes:
       # Tous les modules SaaS montés pour développement
-      - ../:/mnt/extra-addons
-      - ../odoo.conf:/etc/odoo/odoo.conf:ro
-      - ../filestore:/var/lib/odoo/filestore
+      - /Users/apple/KONDRO/odoo-sass/odoo-saas-tools:/mnt/extra-addons
+      - /Users/apple/KONDRO/odoo-sass/odoo-saas-tools/odoo.conf:/etc/odoo/odoo.conf:ro
+      - /Users/apple/KONDRO/odoo-sass/odoo-saas-tools/filestore:/var/lib/odoo/filestore
     command: >
       odoo
       --config=/etc/odoo/odoo.conf
