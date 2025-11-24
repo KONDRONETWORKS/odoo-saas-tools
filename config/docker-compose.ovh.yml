@@ -1,0 +1,188 @@
+version: '3.8'
+
+# 🏢 Configuration Docker Compose - Production OVH
+# VM Ubuntu 22.04.5 - IP: 10.10.10.40
+# Usage: docker compose -f config/docker-compose.ovh.yml up -d
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: odoo-postgres-prod
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-odoo_prod}
+      POSTGRES_USER: ${POSTGRES_USER:-odoo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    ports:
+      - "127.0.0.1:5432:5432"  # Accessible uniquement localement
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-odoo}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - odoo-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+
+  odoo:
+    build:
+      context: ..
+      dockerfile: config/Dockerfile
+    container_name: odoo-app-prod
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - HOST=postgres
+      - USER=${POSTGRES_USER:-odoo}
+      - PASSWORD=${POSTGRES_PASSWORD}
+      - DB_HOST=postgres
+      - DB_USER=${POSTGRES_USER:-odoo}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB:-odoo_prod}
+      - ODOO_ADMIN_PASSWD=${ODOO_ADMIN_PASSWD}
+    ports:
+      - "127.0.0.1:8069:8069"  # Accessible uniquement via Nginx
+      - "127.0.0.1:8072:8072"  # Longpolling
+    volumes:
+      # Modules et addons
+      - ../saas_base:/mnt/extra-addons/saas_base:ro
+      - ../saas_server:/mnt/extra-addons/saas_server:ro
+      - ../saas_portal:/mnt/extra-addons/saas_portal:ro
+      - ../saas_client:/mnt/extra-addons/saas_client:ro
+      - ../kondro:/mnt/extra-addons/kondro:ro
+      # Tous les modules saas
+      - ../saas_auth_oauth_check_client_id:/mnt/extra-addons/saas_auth_oauth_check_client_id:ro
+      - ../saas_auth_oauth_ip:/mnt/extra-addons/saas_auth_oauth_ip:ro
+      - ../saas_oauth_provider:/mnt/extra-addons/saas_oauth_provider:ro
+      - ../saas_portal_async:/mnt/extra-addons/saas_portal_async:ro
+      - ../saas_portal_backup:/mnt/extra-addons/saas_portal_backup:ro
+      - ../saas_portal_cache:/mnt/extra-addons/saas_portal_cache:ro
+      - ../saas_portal_demo:/mnt/extra-addons/saas_portal_demo:ro
+      - ../saas_portal_monitoring:/mnt/extra-addons/saas_portal_monitoring:ro
+      - ../saas_portal_quotas:/mnt/extra-addons/saas_portal_quotas:ro
+      - ../saas_portal_sale:/mnt/extra-addons/saas_portal_sale:ro
+      - ../saas_portal_signup:/mnt/extra-addons/saas_portal_signup:ro
+      - ../saas_portal_start:/mnt/extra-addons/saas_portal_start:ro
+      - ../saas_portal_tagging:/mnt/extra-addons/saas_portal_tagging:ro
+      - ../saas_portal_templates:/mnt/extra-addons/saas_portal_templates:ro
+      - ../saas_server_autodelete:/mnt/extra-addons/saas_server_autodelete:ro
+      - ../saas_server_backup_ftp:/mnt/extra-addons/saas_server_backup_ftp:ro
+      - ../saas_server_backup_s3:/mnt/extra-addons/saas_server_backup_s3:ro
+      - ../saas_sysadmin:/mnt/extra-addons/saas_sysadmin:ro
+      - ../saas_utils:/mnt/extra-addons/saas_utils:ro
+      # Configuration et données
+      - ./odoo.prod.conf:/etc/odoo/odoo.conf:ro
+      - ../filestore:/var/lib/odoo/filestore
+      - ../logs:/var/log/odoo
+      - ../backups:/var/lib/odoo/backups
+    command: >
+      odoo
+      --config=/etc/odoo/odoo.conf
+      --db_host=postgres
+      --db_user=${POSTGRES_USER:-odoo}
+      --db_password=${POSTGRES_PASSWORD}
+      --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+      --data-dir=/var/lib/odoo/filestore
+      --logfile=/var/log/odoo/odoo.log
+      --log-level=info
+      --xmlrpc-port=8069
+      --longpolling-port=8072
+      --workers=4
+      --max-cron-threads=2
+      --limit-memory-soft=2147483648
+      --limit-memory-hard=2684354560
+      --limit-time-cpu=600
+      --limit-time-real=1200
+      --without-demo=all
+      --db-filter=^%d$
+      --proxy-mode
+    networks:
+      - odoo-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8069/web/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  nginx:
+    image: nginx:alpine
+    container_name: odoo-nginx-prod
+    depends_on:
+      - odoo
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.ovh.conf:/etc/nginx/nginx.conf:ro
+      - ../ssl:/etc/nginx/ssl:ro
+      - ./nginx-logs:/var/log/nginx
+    networks:
+      - odoo-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/web/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Service de backup automatique
+  backup:
+    image: postgres:15
+    container_name: odoo-backup-service
+    depends_on:
+      - postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-odoo}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB:-odoo_prod}
+      - BACKUP_DIR=/backups
+    volumes:
+      - ../backups:/backups
+      - ../scripts/backup.sh:/backup.sh:ro
+    networks:
+      - odoo-network
+    restart: "no"
+    entrypoint: ["/bin/sh", "-c", "echo 'Backup service ready. Run manually with: docker compose exec backup /backup.sh'"]
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  odoo-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
