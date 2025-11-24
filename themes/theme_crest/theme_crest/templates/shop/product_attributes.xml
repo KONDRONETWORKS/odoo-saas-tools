@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="products_attributes_bits" name="Filter Attributes">
+        <div id="wsale_products_attributes_collapse" class=" position-relative">
+            <form t-if="attributes or all_tags" t-attf-class="js_attributes d-flex flex-column" method="get">
+                <input t-if="category" type="hidden" name="category" t-att-value="category.id"/>
+                <input type="hidden" name="search" t-att-value="search"/>
+                <div t-if="len(brands)" t-attf-class="accordion-item border-top-0 {{(_status == 'active') and 'order-1' or 'order-2'}}">
+                    <t t-set="_bstatus" t-value="'inactive'"/>
+                    <t t-foreach="brands" t-as="b" t-if="b.id in attribs_set" t-set="bstatus" t-value="'active'"/>
+                    <h2 class="accordion-header mb-0" t-attf-id="o_wsale_offcanvas_attribute_brands_header">
+                        <button t-attf-class="o_wsale_offcanvas_title accordion-button rounded-0 {{ not attrib_values and 'collapsed'}}" type="button" t-att-data-status="_bstatus" data-bs-toggle="collapse" t-attf-data-bs-target="#o_wsale_offcanvas_attribute_brands" t-att-aria-expanded="_bstatus == 'active' and 'True' or 'False'" t-attf-aria-controls="o_wsale_offcanvas_attribute_brands">
+                            <b t-out="'Brands'"/>
+                        </button>
+                    </h2>
+                    <div t-attf-id="o_wsale_offcanvas_attribute_brands" t-attf-class="accordion-collapse collapse {{ (_bstatus == 'active') and 'show'}}" t-att-aria-expanded="(_bstatus == 'active') and 'True' or 'False'" t-attf-aria-labelledby="o_wsale_offcanvas_attribute_brands_header">
+                        <div class="accordion-body pt-0 px-0 ">
+                            <div t-if="len(brands) > 9" class="brand-search-box py-2 px-3">
+                                <input type="text" class="form-control js-brand-search" placeholder="Search..." />
+                            </div>
+                            <div t-attf-class="brands-row m-auto px-0 #{'overf' if len(brands) > 8 else ''}">
+                                <t t-foreach="brands" t-as="brand">
+                                    <div t-attf-class="row-item px-0 py-1 brand-item" t-att-data-name="brand.name.lower()">
+                                        <div t-attf-class="form-check mb-1 ps-0 mx-2 text-center">
+                                            <input type="checkbox" name="attribs" class="form-check-input d-none" t-att-id="'brand_'+ str(brand.id)" t-att-value="brand.id" t-att-checked="'checked' if brand.id in attribs_set else None"/>
+                                            <label t-attf-class="p-1 form-check-label fw-normal rounded #{'border border-dark rounded-2' if brand.id in attribs_set else 'border'} d-flex flex-column align-items-center justify-content-center my-2 text-capitalize" t-att-for="'brand_'+ str(brand.id)">
+                                                <img t-if="brand.brand_image" t-attf-src="/web/image/product.brands/#{brand.id}/brand_image" class="lazyload mx-auto" loading="lazy" style="width: 60px;height: 50px;object-fit: contain;" />
+                                                <h3 class="s-fs-14 pt-3 m-0 px-1 text-break" t-else="" t-esc="brand.name"/>
+                                                <span class="text-600">(<t t-esc="len(brand.product_ids)"/>)</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <t t-foreach="attributes" t-as="a">
+                    <t t-cache="a,attrib_set">
+                        <t t-set="_status" t-value="'inactive'"/>
+                        <t t-foreach="a.value_ids" t-as="v" t-if="v.id in attrib_set" t-set="_status" t-value="'active'"/>
+                        <t t-if="a.display_type in ('radio', 'pills', 'multi','color')"> 
+                            <div t-if="a.value_ids and len(a.value_ids) &gt; 1" t-attf-class="accordion-item border-top-0 {{(_status == 'active') and 'order-1' or 'order-2'}}">
+                                <h2 class="accordion-header mb-0" t-attf-id="o_wsale_offcanvas_attribute_{{a.id}}_header">
+                                    <button t-attf-class="o_wsale_offcanvas_title accordion-button rounded-0 {{ not attrib_values and 'collapsed'}}" type="button" t-att-data-status="_status" data-bs-toggle="collapse" t-attf-data-bs-target="#o_wsale_offcanvas_attribute_{{a.id}}" t-att-aria-expanded="_status == 'active' and 'True' or 'False'" t-attf-aria-controls="o_wsale_offcanvas_attribute_{{a.id}}">
+                                        <b t-out="a.name"/>
+                                    </button>
+                                </h2>
+                                <div t-attf-id="o_wsale_offcanvas_attribute_{{a.id}}" t-attf-class="accordion-collapse collapse {{ (_status == 'active') and 'show'}}" t-att-aria-expanded="(_status == 'active') and 'True' or 'False'" t-attf-aria-labelledby="o_wsale_offcanvas_attribute_{{a.id}}_header">
+                                    <div class="accordion-body pt-0 px-0">
+                                        <div t-if="len(a.value_ids) > 8" class="filter-search-box py-2 px-3">
+                                            <input type="text" t-attf-class="form-control js-#{a.display_type}-search" placeholder="Search..." />
+                                        </div>
+                                        <div t-if="a.display_type == 'color'" class="pt-1 pb-3 attr_colors px-2">
+                                            <t t-call="website_sale.o_wsale_offcanvas_color_attribute"/>
+                                        </div>
+                                        <div t-elif="a.display_type in ('radio', 'pills', 'multi')" t-attf-class="list-group list-group-flush #{'overf' if len(a.value_ids) > 8 else ''}">
+                                            <t t-foreach="a.value_ids" t-as="v">
+                                                <div t-attf-class="list-group-item border-0 ps-0 pb-0 #{a.display_type}-filter-itmes"  t-if="v.with_context(attrib_search=search).products_count != 0" t-att-data-name="v.name.lower()">
+                                                    <div class="form-check mb-1">
+                                                        <input type="checkbox" name="attrib" class="form-check-input" t-att-id="'%s-%s' % (a.id,v.id)" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None"/>
+                                                        <label class="form-check-label fw-normal" t-att-for="'%s-%s' % (a.id,v.id)" t-field="v.name"/>
+                                                        <span class="produ-count">  
+                                                            (                                                    <span>
+                                                                <t t-esc="v.with_context(attrib_search=search).products_count"/>
+                                                            </span>)
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-if="a.display_type == 'select'">
+                            <div t-if="a.value_ids and len(a.value_ids) &gt; 1" t-attf-class="accordion-item border-top-0 {{(_status == 'active') and 'order-1' or 'order-2'}}">
+                                <h2 class="accordion-header mb-0" t-attf-id="o_wsale_offcanvas_attribute_{{a.id}}_header">
+                                    <button t-attf-class="o_wsale_offcanvas_title accordion-button rounded-0 {{ not attrib_values and 'collapsed'}}" type="button" t-att-data-status="_status" data-bs-toggle="collapse" t-attf-data-bs-target="#o_wsale_offcanvas_attribute_{{a.id}}" t-att-aria-expanded="_status == 'active' and 'True' or 'False'" t-attf-aria-controls="o_wsale_offcanvas_attribute_{{a.id}}">
+                                        <b t-out="a.name"/>
+                                    </button>
+                                </h2>
+                                <div t-attf-id="o_wsale_offcanvas_attribute_{{a.id}}" t-attf-class="accordion-collapse collapse {{ (_status == 'active') and 'show'}}" t-att-aria-expanded="(_status == 'active') and 'True' or 'False'" t-attf-aria-labelledby="o_wsale_offcanvas_attribute_{{a.id}}_header">
+                                    <div class="accordion-body pt-0 px-3">
+                                        <select class="form-control css_attribute_select my-2" name="attrib">
+                                            <option value="">-</option>
+                                            <t t-foreach="a.value_ids" t-as="v">
+                                                <option t-att-value="'%s-%s' % (a.id,v.id)" t-esc="v.name" t-att-selected="v.id in attrib_set" />
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+                <t t-if="opt_wsale_filter_tags and (opt_wsale_attributes or opt_wsale_attributes_top)">
+                    <t t-set="_status" t-value="'inactive'"/>
+                    <t t-foreach="all_tags" t-as="v" t-if="v.id in tags" t-set="_status" t-value="'active'"/>
+                    <div class="accordion-item" t-if="all_tags">
+                        <h2 class="accordion-header mb-0" t-attf-id="o_wsale_offcanvas_tags_header">
+                            <button t-attf-class="o_wsale_offcanvas_title accordion-button border-top rounded-0 {{ not tags and 'collapsed'}}" type="button" t-att-data-status="_status" data-bs-toggle="collapse" t-attf-data-bs-target="#o_wsale_offcanvas_tags" t-att-aria-expanded="_status == 'active' and 'True' or 'False'" t-attf-aria-controls="o_wsale_offcanvas_tags">
+                                <b>Tags</b>
+                            </button>
+                        </h2>
+                        <div t-attf-id="o_wsale_offcanvas_tags" t-attf-class="accordion-collapse collapse {{ (_status == 'active') and 'show'}}" t-att-aria-expanded="(_status == 'active') and 'True' or 'False'" t-attf-aria-labelledby="o_wsale_offcanvas_tags_header">
+                            <div class="accordion-body p-0">
+                                <div t-attf-class="list-group list-group-flush #{'overf' if len(all_tags) > 8 else ''}" >
+                                    <t t-call="website_sale.filter_products_tags_list">
+                                        <t t-set="all_tags" t-value="all_tags"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <div t-if="show_ratings_filter and ratings_avg > 1" class="accordion-item border-top-0 order-2">
+                    <t t-set="_status" t-value="'inactive'"/>
+                    <t t-foreach="range(1,ratings_avg)" t-as="i" t-if="i in applied_ratings" t-set="_status" t-value="'active'"/>
+                    <h2 class="accordion-header mb-0">
+                        <button t-attf-class="accordion-button {{ not applied_ratings and 'collapsed'}}" type="button" data-bs-toggle="collapse" t-attf-data-bs-target="#attrib_ratings" t-attf-aria-controls="attrib_ratings">
+                            <b>Ratings</b>
+                        </button>
+                    </h2>
+                    <div id="attrib_ratings" t-attf-class="accordion-collapse collapse {{ (_status == 'active') and 'show'}}" t-att-aria-expanded="(_status == 'active') and 'True' or 'False'" t-attf-aria-labelledby="attrib_ratings">
+                        <div class="accordion-body pt-0 px-0">
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item border-0 ps-0 pb-0" t-foreach="range(1,ratings_avg)" t-as="rating">
+                                    <label class="form-check">
+                                        <input class="form-check-input" t-attf-id="rating_{{rating}}" type="checkbox" name="rt" t-att-value="rating" t-att-checked="'checked' if rating in applied_ratings else None" title="Rating" />
+                                        <span t-attf-class="fa-ratings-bits form-check-label star-{{rating}} #{'active' if rating in applied_ratings else ''}" t-attf-for="rating_{{rating}}">
+                                            <span t-esc="rating"/>
+                                            <i class="fa fa-star"/>
+                                                &amp; up
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div t-if="show_stock_avail_filter" class="accordion-item border-top-0 order-2">
+                    <t t-set="_status" t-value="'active' if in_stock_applied else 'inactive'"/>
+                    <h2 class="accordion-header mb-0">
+                        <button t-attf-class="accordion-button {{ not in_stock_applied and 'collapsed'}}" type="button" data-bs-toggle="collapse" t-attf-data-bs-target="#attrib_stock_avail" t-attf-aria-controls="attrib_stock_avail">
+                            <b>Stock Availability</b>
+                        </button>
+                    </h2>
+                    <div id="attrib_stock_avail" t-attf-class="accordion-collapse collapse {{ (_status == 'active') and 'show'}}" t-att-aria-expanded="(_status == 'active') and 'True' or 'False'" t-attf-aria-labelledby="attrib_stock_avail">
+                        <div class="accordion-body pt-0 px-0">
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item border-0 ps-0 pb-0">
+                                    <input class="form-check-input" id="stock_avaibility" type="checkbox" name="in_stock" value="1" t-att-checked="'checked' if in_stock_applied else None" title="Stock Availability" />
+                                    <span class="form-check-label" for="in_stock">
+                                        Exclude out of stock
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </template>
+
+    <template id="filter_products_tags_list_bits" name="Filter Products Tags List" inherit_id="website_sale.filter_products_tags_list">
+        <xpath expr="//t[@t-foreach='all_tags']" position="replace">
+            <div class="tags-search-box mb-3 px-0" t-if="len(all_tags) > 8">
+                <input type="text" class="form-control js-tags-search" placeholder="Search..." />
+            </div>
+            <t t-foreach="all_tags" t-as="tag" class="list-group-item border-0 ps-0 pb-0">
+                <div class="form-check mb-1 text-capitalize tags-items" t-att-data-name="tag.name.lower()">
+                    <input type="checkbox" name="tags" class="form-check-input" t-attf-id="tag_#{tag.id}" t-att-value="tag.id" t-att-checked="'checked' if tag.id in tags else None" />
+                    <label class="form-check-label fw-normal" t-attf-for="tag_#{tag.id}">
+                        <t t-esc="tag.name"/>
+                        (<t t-esc="len(tag.product_template_ids)"/>)
+                    </label>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="products_categories_list_bits" inherit_id="website_sale.products_categories_list" name="Product categories">
+        <xpath expr="//h6" position="replace">
+        </xpath>
+        <xpath expr="//div[@name='wsale_products_categories_list']" position="replace">
+            <!-- <div class="accordion-item"> -->
+                <h2 class="accordion-header mb-0">
+                    <button t-attf-class="accordion-button {{ not tags and 'collapsed'}}" type="button" t-att-data-status="_status" data-bs-toggle="collapse" t-attf-data-bs-target="#attrib_categories" t-att-aria-expanded="_status == 'active' and 'True' or 'False'" t-attf-aria-controls="attrib_categories">
+                        <b>Categories</b>
+                    </button>
+                </h2>
+                <div id="attrib_categories" t-attf-class="wsale_products_categories_list accordion-collapse collapse 
+                    #{'overf' if len(categories) > 6 else ''} 
+                    {{ (_status == 'active') and 'show'}}" t-att-aria-expanded="(_status == 'active') and 'True' or 'False'" t-attf-aria-labelledby="attrib_categories">
+                    <ul class="nav d-flex flex-column my-2">
+                        <li class="nav-item mb-2">
+                            <div t-att-data-link-href="keep('/shop', category=0)" class="form-check d-inline-block">
+                                <input type="radio" t-attf-name="wsale_categories_radios{{_radioGroup}}" class="form-check-input pe-none o_not_editable" t-att-id="all_products" t-att-value="all_products" t-att-checked="'true' if not category else None"/>
+                                <label class="form-check-label fw-normal" t-att-for="all_products">All Products</label>
+                            </div>
+                        </li>
+                        <t t-foreach="categories" t-as="c">
+                            <t t-call="theme_crest.categories_recursive_bits"/>
+                        </t>
+                    </ul>
+                </div>
+            <!-- </div> -->
+        </xpath>
+    </template>
+
+    <template id="categories_recursive_bits" name="Categories recursive">
+        <li class="nav-item mb-2" t-if="c.with_context(product_categ_search=search).product_count != 0">
+            <t t-call="website_sale.categorie_link"/>
+            <ul t-if="c.child_id" class="nav flex-column nav-hierarchy mt-1 ps-3">
+                <t t-foreach="c.child_id" t-as="c">
+                    <t t-if="not search or c.id in search_categories_ids">
+                        <t t-call="theme_crest.categories_recursive_bits" />
+                    </t>
+                </t>
+            </ul>
+        </li>
+    </template>
+
+    <template id="categorie_link_bits" inherit_id="website_sale.categorie_link" name="categorie_link">
+        <xpath expr="//a" position="replace">
+            <a
+            t-att-href="keep('/shop/category/' + slug(c), category=0)"
+            t-attf-class="{{c.id == category.id and ' '}} p-0">
+            <input type="radio" t-attf-name="wsale_categories_radios_{{parentCategoryId}}" class="form-check-input pe-none" t-att-id="c.id" t-att-value="c.id" t-att-checked="'true' if c.id == category.id else None"/>
+            <t t-esc="c.name"/>
+            <span class="produ-count">  
+                (<span><t t-out="c.with_context(product_categ_search=search).product_count"/></span>)
+            </span>
+            </a>
+        </xpath>
+    </template>
+
+    <template id="filter_products_price" inherit_id="website_sale.filter_products_price" name="Filter Products Price">
+        <xpath expr="//div[@id='o_wsale_price_range_option']" position="replace">
+            <div class="accordion-item">
+                <label t-attf-class="accordion-header m-0 h6 o_products_attributes_title w-100 {{_classes_title}}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" t-attf-data-bs-target="#o_wsale_price_range_option" t-att-aria-expanded="False" t-attf-aria-controls="o_wsale_price_range_option">
+                        <b>Price Range</b>
+                    </button>
+                </label>
+                <div id="o_wsale_price_range_option" t-attf-class="position-relative accordion-collapse collapse {{_classes}} {{isDisabled and 'opacity-75 pe-none user-select-none'}}">
+                    <input type="range" multiple="multiple" t-attf-class="form-range range-with-input {{_classes_input}}" t-att-data-currency="website.currency_id.symbol" t-att-data-currency-position="website.currency_id.position" t-att-step="website.currency_id.rounding" t-att-min="'%f' % (available_min_price)" t-att-max="'%f' % (available_max_price)" t-att-value="'%f,%f' % (min_price, max_price)"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+    
+    <template id="o_wsale_offcanvas_color_attribute_bits" inherit_id="website_sale.o_wsale_offcanvas_color_attribute" name="Color Attribute">
+        <xpath expr="//t[@t-foreach='a.value_ids']" position="replace">
+            <t t-foreach="a.value_ids" t-as="v">
+                <div t-attf-class="#{a.display_type}-filter-itmes px-1"   t-if="v.with_context(attrib_search=search).products_count != 0"  t-att-data-name="v.name.lower()">
+                     <t t-set="img_style" t-value="'background:url(/web/image/product.attribute.value/%s/image); background-size:cover;' % v.id if v.image else ''" />
+                    <t t-set="color_style" t-value="'background: ' + str(v.html_color or v.name if not v.is_custom else '')" />
+                    <div t-attf-class="d-flex align-itemes-cnter "  >
+                        <label t-attf-style="#{img_style or color_style}"   t-attf-class="css_attribute_color mb-1 #{'active' if v.id in attrib_set else ''}">
+                            <input type="checkbox" name="attrib" t-att-value="'%s-%s' % (a.id, v.id)" t-att-checked="'checked' if v.id in attrib_set else None" t-att-title="v.name" />
+                        </label>
+                        <span class="color-name ps-2" t-esc="v.name"/>
+                        <span class="produ-count">  
+                            (                        <span>
+                                <t t-esc="v.with_context(attrib_search=search).products_count"/>
+                            </span>)
+                        </span>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- added custom filter options into offcanvas filters -->
+    <template id="o_wsale_offcanvas_bits" name="Offcanvas Category" inherit_id="website_sale.o_wsale_offcanvas">
+        <xpath expr="//div[@id='o_wsale_offcanvas_content']" position="attributes">
+                <attribute name="class" > accordion accordion-flush flex-grow-1 overflow-auto search_filter_category</attribute>
+        </xpath>
+        <xpath expr="//form//t[@t-foreach='attributes']" position="before">
+            <div t-if="len(brands)" t-attf-class="accordion-item border-top-0 {{(_status == 'active') and 'order-1' or 'order-2'}}">
+                <t t-set="_bstatus" t-value="'inactive'"/>
+                <t t-foreach="brands" t-as="b" t-if="b.id in attribs_set" t-set="bstatus" t-value="'active'"/>
+                <h2 class="accordion-header mb-0" t-attf-id="o_wsale_offcanvas_attribute_brands_header">
+                    <button t-attf-class="o_wsale_offcanvas_title accordion-button rounded-0 {{ not attrib_values and 'collapsed'}}" type="button" t-att-data-status="_bstatus" data-bs-toggle="collapse" t-attf-data-bs-target="#o_wsale_offcanvas_attribute_brands" t-att-aria-expanded="_bstatus == 'active' and 'True' or 'False'" t-attf-aria-controls="o_wsale_offcanvas_attribute_brands">
+                        <b t-out="'Brands'"/>
+                    </button>
+                </h2>
+                <div t-attf-id="o_wsale_offcanvas_attribute_brands" t-attf-class="accordion-collapse collapse {{ (_bstatus == 'active') and 'show'}}" t-att-aria-expanded="(_bstatus == 'active') and 'True' or 'False'" t-attf-aria-labelledby="o_wsale_offcanvas_attribute_brands_header">
+                    <div class="accordion-body pt-0 px-0 ">
+                        <div class="brand-search-box py-2 px-3">
+                            <input type="text" class="form-control js-brand-search" placeholder="Search..." />
+                        </div>
+                        <div t-attf-class="brands-row m-auto px-0 #{'overf' if len(brands) > 8 else ''}">
+                            <t t-foreach="brands" t-as="brand">
+                                <div  t-attf-class="row-item px-0 py-1 brand-item" t-att-data-name="brand.name.lower()">
+                                    <div t-attf-class="form-check mb-1 ps-0 mx-2 text-center">
+                                        <input type="checkbox" name="attribs" class="form-check-input d-none" t-att-id="'brand_'+ str(brand.id)" t-att-value="brand.id" t-att-checked="'checked' if brand.id in attribs_set else None"/>
+                                        <label t-attf-class="p-1 form-check-label fw-normal rounded #{'border border-dark rounded-2' if brand.id in attribs_set else 'border'} d-flex flex-column align-items-center justify-content-center my-2 text-capitalize" t-att-for="'brand_'+ str(brand.id)">
+                                            <img t-if="brand.brand_image" t-attf-src="/web/image/product.brands/#{brand.id}/brand_image" class="lazyload mx-auto" loading="lazy" style="width: 60px;height: 50px;object-fit: contain;" />
+                                            <h3 class="s-fs-14 pt-3 m-0 px-1 text-break" t-else="" t-esc="brand.name"/>
+                                            <span class="text-600">(<t t-esc="len(brand.product_ids)"/>)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//form" position="inside">
+            <div t-if="show_ratings_filter and ratings_avg > 1" class="accordion-item border-top-0 order-2">
+                <t t-set="_status" t-value="'inactive'"/>
+                <t t-foreach="range(1,ratings_avg)" t-as="i" t-if="i in applied_ratings" t-set="_status" t-value="'active'"/>
+                <h2 class="accordion-header mb-0">
+                    <button t-attf-class="accordion-button {{ not applied_ratings and 'collapsed'}}" type="button" data-bs-toggle="collapse" t-attf-data-bs-target="#attrib_ratings" t-attf-aria-controls="attrib_ratings">
+                        <b>Ratings</b>
+                    </button>
+                </h2>
+                <div id="attrib_ratings" t-attf-class="accordion-collapse collapse {{ (_status == 'active') and 'show'}}" t-att-aria-expanded="(_status == 'active') and 'True' or 'False'" t-attf-aria-labelledby="attrib_ratings">
+                    <div class="accordion-body pt-0 px-0">
+                        <div class="list-group list-group-flush px-4">
+                            <div class="list-group-item border-0 ps-0 pb-0" t-foreach="range(1,ratings_avg)" t-as="rating">
+                                <label class="form-check">
+                                    <input class="form-check-input" t-attf-id="rating_{{rating}}" type="checkbox" name="rt" t-att-value="rating" t-att-checked="'checked' if rating in applied_ratings else None" title="Rating" />
+                                    <span t-attf-class="fa-ratings-bits form-check-label star-{{rating}} #{'active' if rating in applied_ratings else ''}" t-attf-for="rating_{{rating}}">
+                                        <span t-esc="rating"/>
+                                        <i class="fa fa-star"/>
+                                            &amp; up
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div t-if="show_stock_avail_filter" class="accordion-item border-top-0 order-2">
+                <t t-set="_status" t-value="'active' if in_stock_applied else 'inactive'"/>
+                <h2 class="accordion-header mb-0">
+                    <button t-attf-class="accordion-button {{ not in_stock_applied and 'collapsed'}}" type="button" data-bs-toggle="collapse" t-attf-data-bs-target="#attrib_stock_avail" t-attf-aria-controls="attrib_stock_avail">
+                        <b>Stock Availability</b>
+                    </button>
+                </h2>
+                <div id="attrib_stock_avail" t-attf-class="accordion-collapse collapse {{ (_status == 'active') and 'show'}}" t-att-aria-expanded="(_status == 'active') and 'True' or 'False'" t-attf-aria-labelledby="attrib_stock_avail">
+                    <div class="accordion-body pt-0 px-0">
+                        <div class="list-group list-group-flush px-4">
+                            <div class="list-group-item border-0 ps-0 pb-0">
+                                <input class="form-check-input" id="stock_avaibility" type="checkbox" name="in_stock" value="1" t-att-checked="'checked' if in_stock_applied else None" title="Stock Availability" />
+                                <span class="form-check-label" for="in_stock">
+                                    Exclude out of stock
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('offcanvas-body','d-flex','justify-content-between')]" position="replace">
+            <div class="offcanvas-body d-flex justify-content-between flex-grow-0 border-top overflow-hidden">
+                <t t-set="is_active_clear"
+                    t-value="not attribs_set and not applied_ratings and not in_stock_applied and not attrib_values and not isFilteringByPrice and not tags"/>
+                <a t-attf-class="btn btn-{{navClass}} d-flex py-1 mb-2 {{is_active_clear and 'disabled' }}"
+                    t-att-aria-disabled="(not attrib_values and not isFilteringByPrice and not tags) and 'true' or 'false'"
+                    href="/shop" title="Clear Filters">
+                    Clear Filters
+                </a>
+            </div>
+        </xpath>
+        <xpath expr="//div[@t-if='opt_wsale_categories']" position="replace">
+            <t t-if="opt_wsale_categories">
+                <t t-call="theme_crest.products_categories_list_bits">
+                    <t t-set="isOffcanvas" t-value="true"/>
+                    <t t-set="_titleClasses" t-valuef="d-none"/>
+                    <t t-set="_radioGroup" t-valuef="_offcanvas"/>
+                </t>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-foreach='attributes']//div[@class='accordion-body pt-0']" position="replace">
+                <div class="accordion-body pt-0">
+                    <div t-if="len(a.value_ids) > 8" class="filter-search-box py-2 px-3">
+                        <input type="text" t-attf-class="form-control js-#{a.display_type}-search" placeholder="Search..." />
+                    </div>
+                    <div t-if="a.display_type == 'color'" class="pt-1 pb-3">
+                        <t t-call="website_sale.o_wsale_offcanvas_color_attribute"/>
+                    </div>
+                    <div t-elif="a.display_type in ('radio', 'pills', 'select')"
+                         t-attf-class="list-group list-group-flush #{'overf' if len(a.value_ids) > 8 else ''}">
+                         <t t-foreach="a.value_ids" t-as="v" >
+                            <div t-attf-class="list-group-item border-0 ps-0 pb-0 #{a.display_type}-filter-itmes" t-att-data-name="v.name.lower()" >
+                                <div class="form-check mb-1">
+                                    <input type="checkbox"
+                                        name="attrib"
+                                        class="form-check-input"
+                                        t-att-id="'%s-%s' % (a.id,v.id)"
+                                        t-att-value="'%s-%s' % (a.id,v.id)"
+                                        t-att-checked="'checked' if v.id in attrib_set else None"/>
+                                    <label class="form-check-label fw-normal" t-att-for="'%s-%s' % (a.id,v.id)" t-field="v.name"/>
+                                </div>
+                            </div>
+                         </t>
+                    </div>
+                </div>
+        </xpath>
+        <xpath expr="//div[@id='o_wsale_offcanvas_orderby']//div[@class='accordion-body pt-0']" position="replace">
+            <div class="accordion-body pt-0">
+                <div class="filter-search-box py-2 px-3" t-if="len(website_sale_sortable) > 8">
+                    <input type="text" t-attf-class="form-control js-sort-search" placeholder="Search..." t-attf-data-name='sort' />
+                </div>
+                <div class="list-group list-group-flush">
+                    <t t-foreach="website_sale_sortable" t-as="sortby">
+                        <a 
+                            role="menuitem"
+                            rel="noindex,nofollow"
+                            t-att-href="keep('/shop', order=sortby[0])"
+                            class="list-group-item border-0 ps-0 pb-0 sort-filter-itmes" t-att-data-name="sortby[1].lower()" >
+                                <div class="form-check d-inline-block">
+                                    <input type="radio"
+                                        t-attf-onclick="location.href='#{keep('/shop', order=sortby[0])}';"
+                                        class="form-check-input o_not_editable"
+                                        name="wsale_sortby_radios_offcanvas"
+                                        t-att-checked="isSortingBy and isSortingBy == sortby[1]">
+                                        <label class="form-check-label fw-normal" t-out="sortby[1]"/>
+                                    </input>
+                                </div>
+                        </a>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

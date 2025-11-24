@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+    <record id="product_attribute_view_form" model="ir.ui.view">
+        <field name="name">product.attribute.form.inherit</field>
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="website_sale.product_attribute_view_form"/>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="terabits_settings" string="Terabits Settings">
+                    <group>
+                        <group>
+                            <field name="attribute_details_id"></field> 
+                        </group>
+                    </group> 
+                </page>
+            </notebook>
+            <field name="category_id" position="after">
+                <field name="show_on_ecomm_card" />
+            </field>
+            <xpath expr="//page[@name='attribute_values']/field[@name='value_ids']/list/field[@name='image']" position="replace">
+                <field name="image"
+                    class="oe_avatar text-start float-none"
+                    options="{'size': [70, 70]}"
+                    widget="image"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

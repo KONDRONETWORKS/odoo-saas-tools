@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="mega_menu_bits_1" name="Mega Menu Crest 1" groups="base.group_user">
+        <section class="mega_menu_bits_1 ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mega-menu-section-1">
+                            <h5>Products</h5>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                            <a href="#" class="cta-button">CTA Button</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mega-menu-section-2 py-4 py-lg-0">
+                            <h5>PRODUCTS</h5>
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <i class="fa fa-bar-chart"></i>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-white mb-2 text-decoration-none">Order Management</a>
+                                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.</p>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled mb-0 pt-3">
+                                <li>
+                                    <i class="fa fa-calendar"></i>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-white mb-2 text-decoration-none">Subscriptions Commerce</a>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled mb-0 pt-3">
+                                <li>
+                                    <i class="fa fa-shopping-cart"></i>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-white mb-2 text-decoration-none">eCommerce</a>
+                                    <p>Consectetur adgang est, sed do eiusmod tempor incididunt</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mega-menu-section-3">
+                            <h5>MODULES</h5>
+                            <div class="d-flex align-items-center menu-items">
+                                <i class="text-primary fa fa-tag"></i>
+                                <a class="text-white ms-2 p-0 d-inline-block text-decoration-none" href="#">Catalog, Pricing, &#38; Promotions</a>
+                            </div>
+                            <div class="d-flex align-items-center pt-3 menu-items">
+                                <i class="text-primary fa fa-shopping-cart"></i>
+                                <a class="text-white ms-2 p-0 d-inline-block text-decoration-none" href="#">Unified Cart and Checkout</a>
+                            </div>
+                            <div class="d-flex align-items-center menu-items pt-3">
+                                <i class="text-primary fa fa-search"></i>
+                                <a class="text-white ms-2 p-0 d-inline-block text-decoration-none" href="#">Search</a>
+                            </div>
+                            <div class="d-flex align-items-center menu-items pt-3">
+                                <i class="text-primary fa fa-tasks"></i>
+                                <a class="text-white ms-2 p-0 d-inline-block text-decoration-none" href="#">Inventory &#38; Order Routing</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="mega_menu_bits_2" name="Mega Menu Crest 2" groups="base.group_user">
+        <section class="mega_menu_bits_2 ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mega-manu-title">
+                            <h4>Solutions</h4>
+                            <p>Simplify your approach to backup and archival Learn how you can experience cloud-based simplicity that scales with cost efficiency</p>
+                            <a href="#">Speak to a technologist</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 p-0">
+                        <div class="mega-manu-inner px-3">
+                            <div class="row">
+                                <div class="col-lg-4 p-0  ">
+                                    <div class="manu-items">
+                                        <ul class="list-unstyled mb-0 d-flex ">
+                                            <li>
+                                                <i class="fa fa-undo"></i>
+                                            </li>
+                                            <li>
+                                                <h4>Backup 
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </h4>
+                                                <ul class="mb-0">
+                                                    <li>
+                                                        <a href="/">VM backup</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">Microsoft 365</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">NAS</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">flaai Apps</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">Paas storage</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 p-0 ">
+                                    <div class="manu-items">
+                                        <ul class="list-unstyled mb-0 d-flex">
+                                            <li>
+                                                <i class="fa fa-archive"></i>
+                                            </li>
+                                            <li>
+                                                <h4>Archiving 
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </h4>
+                                                <ul class="mb-0">
+                                                    <li>
+                                                        <a href="/">Discovery</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">Immutable retention</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">EMC Centera migration</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">Veice calls</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">App retirement</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 p-0 ">
+                                    <div class="manu-items">
+                                        <ul class="list-unstyled mb-0 d-flex">
+                                            <li>
+                                                <i class="fa fa-book"></i>
+                                            </li>
+                                            <li>
+                                                <h4>Journaling  
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </h4>
+                                                <ul class="mb-0">
+                                                    <li>
+                                                        <a href="/">Microsoft 36 and Exchange</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">G-Suite</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">Instant messaging</a>
+                                                    </li>
+
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 p-0 border-end ">
+                                    <div class="manu-items">
+                                        <ul class="list-unstyled mb-0 d-flex">
+                                            <li>
+                                                <i class="fa fa-shield"></i>
+                                            </li>
+                                            <li>
+                                                <h4>Tiering <i class="fa fa-chevron-right"></i>
+
+                                                </h4>
+                                                <ul class="mb-0">
+                                                    <li>
+                                                        <a href="/">Windows Server</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">Linux/Unix-based shares</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">StorSimple alternative</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">File Storage Analyzer</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">(Free)</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 p-0 border-end ">
+                                    <div class="manu-items">
+                                        <ul class="list-unstyled mb-0 d-flex">
+                                            <li>
+                                                <i class="fa fa-file-text"></i>
+                                            </li>
+                                            <li>
+                                                <h4>Compliance 
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </h4>
+                                                <ul class="mb-0">
+                                                    <li>
+                                                        <a href="/">SEC/FINRA</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">FDA</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">CCC</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">GOPR</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 p-0  ">
+                                    <div class="manu-items">
+                                        <ul class="list-unstyled mb-0 d-flex">
+                                            <li>
+                                                <i class="fa fa-bar-chart"></i>
+                                            </li>
+                                            <li>
+                                                <h4>Hot Use Cases 
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </h4>
+                                                <ul class="mb-0">
+                                                    <li>
+                                                        <a href="/">Veeam replacemerit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">Hubstor vs Azure File</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">Sync</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">Video sterage</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/">Tape replacement</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+</odoo>

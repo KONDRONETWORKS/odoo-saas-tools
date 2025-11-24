@@ -1,0 +1,1413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <template id="header_theme_crest_1" inherit_id="website.layout" name="Header Theme Crest 1" active="False">
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="_navbar_classes" t-valuef="o_header_sales_four_top o_header_force_no_radius d-none d-lg-block p-0 shadow-sm z-index-1"/>
+
+                <div id="o_main_nav" class="o_main_nav header_theme_crest_1">
+                    <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+                    <div class="top-bar">
+                        <div aria-label="Top" class="container d-flex ">
+                            <ul class="list-unstyled m-0 ">
+                                <!-- Language Selector -->
+                                <t t-call="website.placeholder_header_language_selector">
+                                    <t t-set="_div_classes" t-valuef="position-relative"/>
+                                    <t t-set="_btn_class" t-valuef="nav-link"/>
+                                    <t t-set="_txt_class" t-valuef="small"/>
+                                    <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                </t>
+                            </ul>
+                            <!-- Navbar -->
+                            <t t-call="website.navbar_nav">
+                                <t t-set="_nav_class" t-valuef="align-items-center me-auto pe-3"/>
+                                <!-- Menu -->
+                                <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                    <t t-call="website.submenu">
+                                        <t t-set="item_class" t-valuef="nav-item small"/>
+                                        <t t-set="link_class" t-valuef="nav-link"/>
+                                    </t>
+                                </t>
+                            </t>
+                            <ul class="o_header_separator navbar-nav align-items-center gap-3 flex-shrink-0">
+                                <!-- Text element -->
+                                <li>
+                                    <t t-set="is_config_phone_shipping" t-value="request.website.sudo().config_phone_shipping()"/>
+                                    <div class="phone-number" t-if="is_config_phone_shipping['phone_number']">
+                                        <a t-attf-href="tel://#{is_config_phone_shipping['phone_number']}" class="nav-link o_nav-link_secondary p-0">
+                                            <i class="fa fa-phone me-2"></i>
+                                            <t t-esc="is_config_phone_shipping['phone_number']"/>
+                                        </a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div aria-label="Bottom" class="o_bottom_header_theme_crest o_header_hide_on_scroll z-index-0">
+                        <div class="container">
+                            <ul class="navbar-nav align-items-center py-2">
+                                <!-- Brand -->
+                                <li t-if="is_view_active('website.placeholder_header_brand')">
+                                    <t t-call="website.placeholder_header_brand">
+                                        <t t-set="_link_class" t-valuef="mx-auto mw-100"/>
+                                    </t>
+                                </li>
+                                <!-- Search bar -->
+                                <li class="o_bottom_header_theme_search_placeholder_bits" t-if="is_view_active('website.header_search_box') == False"/>
+                                <t t-call="website.placeholder_header_search_box">
+                                    <t t-set="_form_classes" t-valuef="w-100"/>
+                                    <t t-set="_input_classes" t-valuef="rounded-start-pill ps-3 text-bg-light "/>
+                                    <t t-set="_submit_classes" t-valuef="rounded-end-pill lh-1 search-btn"/>
+                                    <t t-set="_item_class" t-valuef="d-flex w-100 mx-5 search-bar"/>
+                                </t>
+                                <li class="d-flex align-items-center gap-3  mb-0">
+                                    <ul class="navbar-nav gap-2 align-items-center">
+                                        <!-- wishlist -->
+                                        <t t-call="website_sale_wishlist.header_wishlist_link">
+                                            <t t-set="_icon" t-value="True"/>
+                                            <t t-set="_link_class" t-value="'o_navlink_background_hover btn position-relative rounded-circle border-0 p-1 text-reset'"/>
+                                            <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                        </t>
+                                        <!-- Sign In -->
+                                        <t t-call="portal.placeholder_user_sign_in">
+                                            <t t-set="_link_class" t-valuef="btn "/>
+                                        </t>
+                                        <!-- User Dropdown -->
+                                        <t t-call="portal.user_dropdown">
+                                            <t t-set="_user_name" t-value="True"/>
+                                            <t t-set="_item_class" t-valuef="dropdown"/>
+                                            <t t-set="_link_class" t-valuef="border-0 fw-bold"/>
+                                            <t t-set="_user_name_class" t-valuef="small"/>
+                                            <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                        </t>
+                                        <!-- card -->
+                                        <t t-call="website_sale.header_cart_link">
+                                            <t t-set="_icon" t-value="True"/>
+                                            <t t-set="_link_class" t-value="'o_navlink_background btn position-relative rounded-circle p-1 text-reset'"/>
+                                            <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                        </t>
+                                        <!-- <a href="javascript:void(0)" class="min-cart-bits">cart</a> -->
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="category-header py-2">
+                        <div class="container">
+                            <div class="d-flex justify-content-between align-items-center ">
+                                <div class="category-container position-relative me-4">
+                                    <button class="scroll-btn left-btn" type="button">
+                                        <i class="fa fa-chevron-left"></i>
+                                    </button>
+                                    <ul class="list-unstyled category-inner mb-0 d-flex" id="category-scroll">
+                                        <t t-foreach="request.env['product.public.category'].search([])" t-as="category">
+                                            <li>
+                                                <a class="category-item d-flex align-items-center" t-attf-href="/shop/category/#{category.id}">
+                                                    <img t-attf-src="/web/image/product.public.category/#{category.id}/image_1024" alt="alt" class="dropdown-items-img lazyload" />
+                                                    <t t-esc="category.name" />
+                                                </a>
+                                            </li>
+                                        </t>
+                                    </ul>
+                                    <button class="scroll-btn right-btn" type="button">
+                                        <i class="fa fa-chevron-right"></i>
+                                    </button>
+                                </div>
+
+                                <t t-call="theme_crest.shipping_label_bits" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-call="website.template_header_mobile">
+                <t t-set="_txt_elt_content" t-valuef="mail"/>
+                <t t-set="_extra_navbar_classes" t-valuef="o_header_force_no_radius"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="header_theme_crest_2" inherit_id="website.layout" name="Header Theme Crest 2" active="False">
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="_navbar_classes" t-valuef="d-none d-lg-block shadow-sm p-0"/>
+                <div id="o_main_nav" class="o_main_nav flex-wrap header_theme_crest_2">
+                    <div class="o_header_hide_on_scroll header-top  align-items-center w-100 ">
+                        <div class="container">
+                            <div class="d-flex align-items-center">
+                                <!-- Social Links -->
+                                <ul class="list-unstyled mb-0 me-auto align-items-center d-flex">
+                                    <t t-call="website.placeholder_header_social_links"/>
+                                </ul>
+                                <!-- Pricelist Offers -->
+                                <t t-set="get_h_offers_show" t-value="request.website.sudo().get_h_offers_show()"/>
+                                <t t-set="pl_offers_header" t-value="request.website.sudo().get_pricelist_offers()"/>
+                                <t t-if="get_h_offers_show">
+                                    <div class="py-2">
+                                         <t t-call="theme_crest.header_pricelist_offers"/>
+                                    </div>
+                                </t>
+                                <ul class="navbar-nav align-items-center gap-1">
+                                    <!-- currency -->
+                                    <li class="ms-3">
+                                        <t t-call="website_sale.pricelist_list" t-cache="pricelist">
+                                            <t t-set="_classes" t-valuef="currency-pricelist"/>
+                                        </t>
+                                    </li>
+                                    <li>
+                                        <t t-set="is_config_phone_shipping" t-value="request.website.sudo().config_phone_shipping()"/>
+                                        <div class="phone-number" t-if="is_config_phone_shipping['phone_number']">
+                                            <a t-attf-href="tel://#{is_config_phone_shipping['phone_number']}" class="nav-link o_nav-link_secondary p-0">
+                                                <i class="fa fa-phone me-2"></i>
+                                                <t t-esc="is_config_phone_shipping['phone_number']"/>
+                                            </a>
+                                        </div>
+                                        <!-- Language Selector -->
+                                        <t t-call="website.placeholder_header_language_selector">
+                                            <t t-set="_div_classes" t-valuef="position-relative"/>
+                                            <t t-set="_btn_class" t-valuef="nav-link "/>
+                                            <t t-set="_txt_class" t-valuef="small"/>
+                                            <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                        </t>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="d-flex justify-content-between header-bottom align-items-center ">
+                            <!-- Navbar -->
+                            <t t-call="website.navbar_nav">
+                                <t t-set="_nav_class" t-valuef="pb-0 "/>
+
+                                <!-- Menu -->
+                                <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                    <t t-call="website.submenu">
+                                        <t t-set="item_class" t-valuef="nav-item"/>
+                                        <t t-set="link_class" t-valuef="nav-link"/>
+                                    </t>
+                                </t>
+                            </t>
+                            <!-- Brand -->
+                            <t t-call="website.placeholder_header_brand">
+                                <t t-set="_link_class" t-valuef="mx-auto mw-100"/>
+                            </t>
+                            <ul class="navbar-nav navbar-nav-icons align-items-center gap-1 justify-content-end ms-auto">
+                                <!-- Search bar -->
+                                <t t-call="website.placeholder_header_search_box">
+                                    <t t-set="_layout" t-valuef="modal"/>
+                                    <t t-set="_input_classes" t-valuef="border border-end-0 p-3"/>
+                                    <t t-set="_submit_classes" t-valuef="border border-start-0 px-4 bg-o-color-4"/>
+                                    <t t-set="_button_classes" t-valuef="o_navlink_background text-reset"/>
+                                </t>
+
+                                
+                                <!-- wishlist -->
+                                <t t-call="website_sale_wishlist.header_wishlist_link">
+                                    <t t-set="_icon" t-value="True"/>
+                                    <t t-set="_link_class" t-value="'o_navlink_background_hover btn position-relative rounded-circle border-0 p-1 text-reset'"/>
+                                    <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                </t>
+
+                                <!-- card -->
+                                <t t-call="website_sale.header_cart_link">
+                                    <t t-set="_icon" t-value="True"/>
+                                    <t t-set="_link_class" t-value="'o_navlink_background btn position-relative rounded-circle p-1 text-reset'"/>
+                                    <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                </t>
+                                <!-- Sign In -->
+                                <t t-call="portal.placeholder_user_sign_in">
+                                    <t t-set="_link_class" t-valuef="o_navlink_background btn rounded-circle text-reset"/>
+                                </t>
+                                <!-- User Dropdown -->
+                                <t t-call="portal.user_dropdown">
+                                    <t t-set="_icon" t-value="true"/>
+                                    <t t-set="_item_class" t-valuef="dropdown"/>
+                                    <t t-set="_icon_class" t-valuef="fa-stack"/>
+                                    <t t-set="_link_class" t-valuef="o_navlink_background btn d-flex align-items-center rounded-pill py-1 text-reset"/>
+                                    <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-call="website.template_header_mobile"/>
+        </xpath>
+    </template>
+
+    <template id="header_theme_crest_3" inherit_id="website.layout" name="Header Theme Crest 3" active="False">
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="_navbar_classes" t-valuef="d-none d-lg-block p-0 shadow-sm"/>
+                <div id="o_main_nav" class="o_main_nav flex-wrap header_theme_crest_3">
+                    <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+                    <div class="top-bar py-1">
+                        <div class="container">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                <t t-call="theme_crest.shipping_label_bits"/>
+
+                                <ul class="list-unstyled mb-0 d-flex">
+                                    <!-- wishlist -->
+                                    <t t-call="website_sale_wishlist.header_wishlist_link">
+                                        <t t-set="_text" t-value="True"/>
+                                        <t t-set="_icon" t-value="True"/>
+                                        <t t-set="_item_class" t-value="'border-start o_border_contrast'"/>
+                                        <t t-set="_link_class" t-value="'o_navlink_background_hover btn btn-sm d-flex align-items-center gap-1 h-100 rounded-0 p-0 text-reset border-0'"/>
+                                        <t t-set="_badge_class" t-value="'rounded'"/>
+                                    </t>
+
+                                    <!-- Sign In -->
+                                    <t t-call="portal.placeholder_user_sign_in">
+                                        <t t-set="_link_class" t-valuef="o_navlink_background_hover btn btn-sm d-flex align-items-center h-100 rounded-0 border-0  px-3 text-reset o_border_contrast"/>
+                                    </t>
+                                    <!-- User Dropdown -->
+                                    <t t-call="portal.user_dropdown">
+                                        <t t-set="_icon" t-value="true"/>
+
+                                        <t t-set="_item_class" t-valuef="dropdown  o_border_contrast"/>
+                                        <t t-set="_link_class" t-valuef="o_navlink_background_hover btn-sm d-flex align-items-center h-100 rounded-0 p-2 text-reset"/>
+                                        <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                    </t>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div aria-label="Top" class="o_header_hide_on_scroll border-bottom o_border_contrast">
+                        <div class="container">
+                            <ul class="o_header_search_left_col navbar-nav justify-content-between align-items-center">
+                                <!-- Brand -->
+                                <li t-if="is_view_active('website.placeholder_header_brand')">
+                                    <t t-call="website.placeholder_header_brand">
+                                        <t t-set="_link_class" t-valuef=""/>
+                                    </t>
+                                </li>
+
+                                <!-- Search bar -->
+                                <li class="o_bottom_header_theme_search_placeholder_bits" t-if="is_view_active('website.header_search_box') == False"/>
+                                <t t-call="website.placeholder_header_search_box">
+                                    <t t-set="_form_classes" t-valuef="w-100"/>
+                                    <t t-set="_input_classes" t-valuef=" ps-3 text-bg-light "/>
+                                    <t t-set="_submit_classes" t-valuef="  lh-1 search-btn"/>
+                                    <t t-set="_item_class" t-valuef="d-flex w-100 me-5 search-bar"/>
+                                </t
+                                >
+                                <!-- card -->
+                                <li class="card-add-to-card">
+                                    <ul class="list-unstyled mb-0 ">
+                                        <t t-call="website_sale.header_cart_link">
+                                            <t t-set="_icon" t-value="True"/>
+                                            <t t-set="_link_class" t-value="'o_navlink_background btn position-relative rounded-circle p-1 text-reset'"/>
+                                            <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                        </t>
+                                        <li>
+
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bottom-header">
+                        <div aria-label="Bottom" class="container align-items-center w-100 d-flex justify-content-between">
+                            <t t-set="h_category_menu" t-value="request.website.sudo().get_category_menu()"/>
+                            <ul class="list-unstyled mb-0 d-flex">
+                                <li class="nav-item  category-main" t-if="h_category_menu">
+                                    <a class="nav-link dropdown-toggle-hover d-flex align-items-center" aria-expanded="false">
+                                        <i class="fa fa-th-list me-2"></i> Shop By Categories
+                                    </a>
+                                    <ul class="dropdown-menu-show list-unstyled mb-0 me-auto">
+                                        <!-- Loop through all product categories -->
+                                        <t t-foreach="request.env['product.public.category'].search([]).filtered(lambda c: not c.parent_id)[:10]" t-as="category" t-if="0 == len(category.parent_id)">
+                                            <li class="dropdown-menu-items d-flex align-items-center">
+                                                <img t-attf-src="/web/image/product.public.category/#{category.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+                                                <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if category.child_id else ''}" t-attf-href="/shop/category/#{category.id}">
+                                                    <t t-esc="category.name"/>
+                                                    <t t-if="category.child_id">
+                                                        <i class="fa fa-chevron-right"></i>
+                                                    </t>
+                                                </a>
+                                                <!-- Check if the category has subcategories -->
+                                                <t t-if="category.child_id">
+                                                    <ul class="dropdown-submenu list-unstyled mb-0">
+                                                        <!-- Loop through subcategories -->
+                                                        <t t-foreach="category.child_id" t-as="subcategory">
+                                                            <li class="d-flex align-items-center ">
+                                                                <img t-attf-src="/web/image/product.public.category/#{subcategory.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+
+                                                                <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if subcategory.child_id else ''} " t-attf-href="/shop/category/#{category.id}-#{subcategory.id} ">
+                                                                    <t t-esc="subcategory.name"/>
+                                                                    <t t-if="subcategory.child_id">
+                                                                        <i class="fa fa-chevron-right"></i>
+                                                                    </t>
+                                                                </a>
+                                                                <t t-if="subcategory.child_id">
+                                                                    <ul class="dropdown-subcategorychild list-unstyled mb-0">
+                                                                        <!-- Loop through subcategories -->
+                                                                        <t t-foreach="subcategory.child_id" t-as="subcategorychild">
+                                                                            <li class="d-flex align-items-center">
+                                                                                <img t-attf-src="/web/image/product.public.category/#{subcategorychild.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+                                                                                <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if subcategorychild.child_id else ''} " t-attf-href="/shop/category/#{category.id}-#{subcategorychild.id} ">
+                                                                                    <t t-esc="subcategorychild.name"/>
+                                                                                    <t t-if="subcategorychild.child_id">
+                                                                                        <i class="fa fa-chevron-right"></i>
+                                                                                    </t>
+                                                                                </a>
+                                                                            </li>
+                                                                        </t>
+                                                                    </ul>
+                                                                </t>
+                                                            </li>
+                                                        </t>
+                                                    </ul>
+                                                </t>
+                                            </li>
+                                        </t>
+                                        <li class="o_all_collections">
+                                            <a href="/our/collections">All Collections</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
+                            </ul>
+                            <!-- Navbar -->
+                            <t t-call="website.navbar_nav">
+                                <t t-set="_nav_class" t-valuef="me-4"/>
+                                <!-- Menu -->
+                                <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                    <t t-call="website.submenu">
+                                        <t t-set="item_class" t-valuef="nav-item"/>
+                                        <t t-set="link_class" t-valuef="nav-link"/>
+                                    </t>
+                                </t>
+                            </t>
+                            <ul class="list-unstyled mb-0 d-flex align-items-center">
+                                <!-- Language Selector -->
+                                <t t-call="website.placeholder_header_language_selector">
+                                    <t t-set="_div_classes" t-valuef="position-relative"/>
+                                    <t t-set="_btn_class" t-valuef="nav-link "/>
+                                    <t t-set="_txt_class" t-valuef="small"/>
+                                    <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                </t>
+                                <li class="ms-3">
+                                    <t t-call="website_sale.pricelist_list" t-cache="pricelist">
+                                        <t t-set="_classes" t-valuef="  currency-pricelist"/>
+                                    </t>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-call="website.template_header_mobile">
+                <t t-set="_txt_elt_content" t-valuef="sentence"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="header_theme_crest_4" inherit_id="website.layout" name="Header Theme Crest 4" active="False">
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="_navbar_classes" t-valuef="d-none d-lg-block p-0 shadow-sm"/>
+
+                <div id="o_main_nav" class="o_main_nav flex-wrap header_theme_crest_4">
+                    <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+                    <div aria-label="Top" class="o_header_hide_on_scroll o_border_contrast">
+                        <div class="container">
+                            <div class="d-flex flex-wrap w-100 justify-content-between align-items-center">
+                                <t t-set="is_config_phone_shipping" t-value="request.website.sudo().config_phone_shipping()"/>
+                                <div class="phone-number" t-if="is_config_phone_shipping['phone_number']">
+                                    <a t-attf-href="tel://#{is_config_phone_shipping['phone_number']}" class="nav-link o_nav-link_secondary p-0">
+                                        <i class="fa fa-phone me-2"></i>
+                                        <t t-esc="is_config_phone_shipping['phone_number']"/>
+                                    </a>
+                                </div>
+                                <ul class="list-unstyled mb-0 d-flex justify-content-end align-items-center" style="margin : 0 0 0 auto;">
+                                    <!-- Language Selector -->
+                                    <t t-call="website.placeholder_header_language_selector">
+                                        <t t-set="_div_classes" t-valuef="position-relative"/>
+                                        <t t-set="_btn_class" t-valuef="nav-link "/>
+                                        <t t-set="_txt_class" t-valuef="small"/>
+                                        <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                    </t>
+
+                                    <!-- Sign In -->
+                                    <t t-call="portal.placeholder_user_sign_in">
+                                        <t t-set="_link_class" t-valuef="o_navlink_background_hover btn btn-sm d-flex align-items-center h-100 rounded-0 border-0  px-3 text-reset o_border_contrast"/>
+                                    </t>
+                                    <!-- User Dropdown -->
+                                    <t t-call="portal.user_dropdown">
+                                        <t t-set="_icon" t-value="true"/>
+                                        <t t-set="_item_class" t-valuef="dropdown  o_border_contrast"/>
+                                        <t t-set="_link_class" t-valuef="o_navlink_background_hover btn-sm d-flex align-items-center h-100 rounded-0 p-2 text-reset"/>
+                                        <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                    </t>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom-header">
+                        <div aria-label="Bottom" class="container d-grid align-items-center w-100 py-2 o_grid_header_3_cols">
+                            <!-- Brand -->
+                            <t t-call="website.placeholder_header_brand">
+                                <t t-set="_link_class" t-valuef=""/>
+                            </t>
+                            <!-- Search bar -->
+                            <li class="o_bottom_header_theme_search_placeholder_bits" t-if="is_view_active('website.header_search_box') == False"/>
+                            <t t-call="website.placeholder_header_search_box">
+                                <t t-set="_form_classes" t-valuef="w-100 search-bar"/>
+                                <t t-set="_input_classes" t-valuef=" ps-3 text-bg-light "/>
+                                <t t-set="_submit_classes" t-valuef="  lh-1 search-btn"/>
+                                <t t-set="_item_class" t-valuef="d-flex w-100 ms-5 "/>
+                            </t>
+
+                            <ul class="o_header_search_right_col navbar-nav align-items-center gap-2 ms-auto ps-3">
+
+
+
+                                <!-- wishlist -->
+                                <t t-call="website_sale_wishlist.header_wishlist_link">
+                                    <t t-set="_icon" t-value="True"/>
+                                    <t t-set="_link_class" t-value="'o_navlink_background_hover btn position-relative rounded-circle border-0 p-1 text-reset'"/>
+                                    <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                </t>
+
+                                <!-- card -->
+                                <t t-call="website_sale.header_cart_link">
+                                    <t t-set="_icon" t-value="True"/>
+                                    <t t-set="_link_class" t-value="'o_navlink_background btn position-relative rounded-circle p-1 text-reset'"/>
+                                    <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                </t>
+
+
+                                <!-- Search bar -->
+                                <!-- <t t-call="website.placeholder_header_search_box">
+                                <t t-set="_input_classes" t-valuef="rounded-start-pill ps-3 text-bg-light"/>
+                                <t t-set="_submit_classes" t-valuef="rounded-end-pill pe-3 bg-o-color-3"/>
+                            </t> -->
+                                <!-- Call To Action -->
+                                <!-- <t t-call="website.placeholder_header_call_to_action"/> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="category-header">
+                        <div class="container">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <ul class="list-unstyled mb-0 d-flex align-items-center  ">
+                                    <t t-set="h_category_menu" t-value="request.website.sudo().get_category_menu()"/>
+                                    <li class="nav-item  category-main" t-if="h_category_menu">
+                                        <a class="nav-link dropdown-toggle-hover d-flex align-items-center" aria-expanded="false">
+                                            <i class="fa fa-th-list me-2"></i> Shop By Categories
+                                        </a>
+                                        <ul class="dropdown-menu-show list-unstyled mb-0 ">
+                                            <!-- Loop through all product categories -->
+                                            <t t-foreach="request.env['product.public.category'].search([]).filtered(lambda c: not c.parent_id)[:10]" t-as="category" t-if="0 == len(category.parent_id)">
+                                                <li class="dropdown-menu-items d-flex align-items-center">
+                                                    <img t-attf-src="/web/image/product.public.category/#{category.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if category.child_id else ''}" t-attf-href="/shop/category/#{category.id}">
+                                                        <t t-esc="category.name"/>
+                                                        <t t-if="category.child_id">
+                                                            <i class="fa fa-chevron-right"></i>
+                                                        </t>
+                                                    </a>
+                                                    <!-- Check if the category has subcategories -->
+                                                    <t t-if="category.child_id">
+                                                        <ul class="dropdown-submenu list-unstyled mb-0">
+                                                            <!-- Loop through subcategories -->
+                                                            <t t-foreach="category.child_id" t-as="subcategory">
+                                                                <li class="d-flex align-items-center ">
+                                                                    <img t-attf-src="/web/image/product.public.category/#{subcategory.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+
+                                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if subcategory.child_id else ''} " t-attf-href="/shop/category/#{category.id}-#{subcategory.id} ">
+                                                                        <t t-esc="subcategory.name"/>
+                                                                        <t t-if="subcategory.child_id">
+                                                                            <i class="fa fa-chevron-right"></i>
+                                                                        </t>
+                                                                    </a>
+                                                                    <t t-if="subcategory.child_id">
+                                                                        <ul class="dropdown-subcategorychild list-unstyled mb-0">
+                                                                            <!-- Loop through subcategories -->
+                                                                            <t t-foreach="subcategory.child_id" t-as="subcategorychild">
+                                                                                <li class="d-flex align-items-center">
+                                                                                    <img t-attf-src="/web/image/product.public.category/#{subcategorychild.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+                                                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if subcategorychild.child_id else ''} " t-attf-href="/shop/category/#{category.id}-#{subcategorychild.id} ">
+                                                                                        <t t-esc="subcategorychild.name"/>
+                                                                                        <t t-if="subcategorychild.child_id">
+                                                                                            <i class="fa fa-chevron-right"></i>
+                                                                                        </t>
+                                                                                    </a>
+                                                                                </li>
+                                                                            </t>
+                                                                        </ul>
+                                                                    </t>
+                                                                </li>
+                                                            </t>
+                                                        </ul>
+                                                    </t>
+                                                </li>
+                                            </t>
+                                            <li class="o_all_collections">
+                                                <a href="/our/collections">All Collections</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!-- Navbar -->
+                                    
+                                </ul>
+                                <t t-call="website.navbar_nav">
+                                    <t t-set="_nav_class" t-valuef="me-auto"/>
+                                    <!-- Menu -->
+                                    <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                        <t t-call="website.submenu">
+                                            <t t-set="item_class" t-valuef="nav-item"/>
+                                            <t t-set="link_class" t-valuef="nav-link"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <t t-call="website_sale.pricelist_list" t-cache="pricelist">
+                                    <t t-set="_classes" t-valuef="  currency-pricelist"/>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-call="website.template_header_mobile">
+                <t t-set="_txt_elt_content" t-valuef="sentence"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="header_theme_crest_5" inherit_id="website.layout" name="Header Theme Crest 5" active="False">
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="_navbar_classes" t-valuef="d-none d-lg-block p-0 shadow-sm"/>
+
+                <div id="o_main_nav" class="o_main_nav flex-wrap header_theme_crest_5">
+                    <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+                    <div aria-label="Top" class="o_header_hide_on_scroll o_border_contrast top-bar">
+                        <div class="container">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <!-- Brand -->
+                                <t t-call="website.placeholder_header_brand">
+                                    <t t-set="_link_class" t-valuef=""/>
+                                </t>
+                                <ul class="list-unstyled mb-0 d-flex w-100">
+                                    <!-- Search bar -->
+                                    <li class="o_bottom_header_theme_search_placeholder_bits" t-if="is_view_active('website.header_search_box') == False"/>
+                                    <t t-call="website.placeholder_header_search_box">
+                                        <t t-set="_form_classes" t-valuef="w-100 search-bar"/>
+                                        <t t-set="_input_classes" t-valuef=" ps-3 text-bg-light "/>
+                                        <t t-set="_submit_classes" t-valuef="  lh-1 search-btn"/>
+                                        <t t-set="_item_class" t-valuef="d-flex w-100 mx-4 "/>
+                                    </t>
+                                </ul>
+                                <t t-set="is_config_phone_shipping" t-value="request.website.sudo().config_phone_shipping()"/>
+                                <ul class="list-unstyled mb-0 d-flex align-items-center">
+                                    <li class="me-3" t-if="is_config_phone_shipping['phone_number'] != 0">
+                                        <div class="d-flex align-items-center o_phone_support_bits">
+                                            <div class="phone_support_img">
+                                                <img src="/theme_crest/static/images/header/support.svg" alt="support" />
+                                            </div>
+                                            <ul class="list-unstyled  p-0 m-0 phone_support_items ms-2">
+
+                                                <li class="mb-1">
+                                                    <h6 class="m-0 text-nowrap">
+                                                        <t t-esc="is_config_phone_shipping['phone_label']"/>
+                                                    </h6>
+                                                </li>
+                                                <li>
+                                                    <div class="phone-number" t-if="is_config_phone_shipping['phone_number']">
+                                                        <a t-attf-href="tel://#{is_config_phone_shipping['phone_number']}" class="nav-link o_nav-link_secondary p-0">
+                                                            <t t-esc="is_config_phone_shipping['phone_number']"/>
+                                                        </a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex align-items-center o_worldwide_bits">
+                                            <div class="worldwide_img">
+                                                <img src="/theme_crest/static/images/header/worldwide.svg" alt="worldwide" />
+                                            </div>
+                                            <ul class="list-unstyled  p-0 m-0 worldwide_items ms-2">
+                                                <li class="mb-1">
+                                                    <h6 class="m-0">Worldwide</h6>
+                                                </li>
+                                                <li>
+                                                    <t t-call="theme_crest.shipping_label_bits"/>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <!-- Text element -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-header">
+                        <div class="container">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <ul class="list-unstyled mb-0 d-flex align-items-center ">
+                                    <t t-set="h_category_menu" t-value="request.website.sudo().get_category_menu()"/>
+                                    <li class="nav-item  category-main" t-if="h_category_menu">
+                                        <a class="nav-link dropdown-toggle-hover d-flex align-items-center" aria-expanded="false">
+                                            <i class="fa fa-th-list me-2"></i> All Categories
+                                        </a>
+                                        <ul class="dropdown-menu-show list-unstyled mb-0 ">
+                                            <!-- Loop through all product categories -->
+                                            <t t-foreach="request.env['product.public.category'].search([]).filtered(lambda c: not c.parent_id)[:10]" t-as="category" t-if="0 == len(category.parent_id)">
+                                                <li class="dropdown-menu-items d-flex align-items-center">
+                                                    <img t-attf-src="/web/image/product.public.category/#{category.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if category.child_id else ''}" t-attf-href="/shop/category/#{category.id}">
+                                                        <t t-esc="category.name"/>
+                                                        <t t-if="category.child_id">
+                                                            <i class="fa fa-chevron-right"></i>
+                                                        </t>
+                                                    </a>
+                                                    <!-- Check if the category has subcategories -->
+                                                    <t t-if="category.child_id">
+                                                        <ul class="dropdown-submenu list-unstyled mb-0">
+                                                            <!-- Loop through subcategories -->
+                                                            <t t-foreach="category.child_id" t-as="subcategory">
+                                                                <li class="d-flex align-items-center ">
+                                                                    <img t-attf-src="/web/image/product.public.category/#{subcategory.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+
+                                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if subcategory.child_id else ''} " t-attf-href="/shop/category/#{category.id}-#{subcategory.id} ">
+                                                                        <t t-esc="subcategory.name"/>
+                                                                        <t t-if="subcategory.child_id">
+                                                                            <i class="fa fa-chevron-right"></i>
+                                                                        </t>
+                                                                    </a>
+                                                                    <t t-if="subcategory.child_id">
+                                                                        <ul class="dropdown-subcategorychild list-unstyled mb-0">
+                                                                            <!-- Loop through subcategories -->
+                                                                            <t t-foreach="subcategory.child_id" t-as="subcategorychild">
+                                                                                <li class="d-flex align-items-center">
+                                                                                    <img t-attf-src="/web/image/product.public.category/#{subcategorychild.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+                                                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if subcategorychild.child_id else ''} " t-attf-href="/shop/category/#{category.id}-#{subcategorychild.id} ">
+                                                                                        <t t-esc="subcategorychild.name"/>
+                                                                                        <t t-if="subcategorychild.child_id">
+                                                                                            <i class="fa fa-chevron-right"></i>
+                                                                                        </t>
+                                                                                    </a>
+                                                                                </li>
+                                                                            </t>
+                                                                        </ul>
+                                                                    </t>
+                                                                </li>
+                                                            </t>
+                                                        </ul>
+                                                    </t>
+                                                </li>
+                                            </t>
+                                            <li class="o_all_collections">
+                                                <a href="/our/collections">All Collections</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <!-- Navbar -->
+                                <t t-call="website.navbar_nav">
+                                    <t t-set="_nav_class" t-valuef="me-auto"/>
+                                    <!-- Menu -->
+                                    <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                        <t t-call="website.submenu">
+                                            <t t-set="item_class" t-valuef="nav-item"/>
+                                            <t t-set="link_class" t-valuef="nav-link"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <div class="d-flex align-items-center ">
+                                    <t t-call="website_sale.pricelist_list" t-cache="pricelist">
+                                        <t t-set="_classes" t-valuef="  currency-pricelist"/>
+                                    </t>
+                                    <ul class="list-unstyled mb-0 d-flex align-items-center">
+                                        <!-- Language Selector -->
+                                        <t t-call="website.placeholder_header_language_selector">
+                                            <t t-set="_div_classes" t-valuef="position-relative"/>
+                                            <t t-set="_btn_class" t-valuef="nav-link "/>
+                                            <t t-set="_txt_class" t-valuef="small"/>
+                                            <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                        </t>
+                                        <!-- Sign In -->
+                                        <t t-call="portal.placeholder_user_sign_in">
+                                            <t t-set="_link_class" t-valuef="o_navlink_background btn rounded-circle text-reset"/>
+                                        </t>
+                                        <!-- User Dropdown -->
+                                        <t t-call="portal.user_dropdown">
+                                            <t t-set="_icon" t-value="true"/>
+                                            <t t-set="_item_class" t-valuef="dropdown"/>
+                                            <t t-set="_icon_class" t-valuef="fa-stack"/>
+                                            <t t-set="_link_class" t-valuef="o_navlink_background btn d-flex align-items-center rounded-pill py-1 text-reset"/>
+                                            <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                        </t>
+                                        <!-- wishlist -->
+                                        <t t-call="website_sale_wishlist.header_wishlist_link">
+                                            <t t-set="_icon" t-value="True"/>
+                                            <t t-set="_link_class" t-value="'o_navlink_background_hover btn position-relative rounded-circle border-0 p-1 text-reset'"/>
+                                            <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                        </t>
+
+                                        <!-- card -->
+                                        <t t-call="website_sale.header_cart_link">
+                                            <t t-set="_icon" t-value="True"/>
+                                            <t t-set="_link_class" t-value="'o_navlink_background btn position-relative rounded-circle p-1 text-reset'"/>
+                                            <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                        </t>
+
+
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-call="website.template_header_mobile">
+                <t t-set="_txt_elt_content" t-valuef="sentence"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="header_theme_crest_6" inherit_id="website.layout" name="Header Theme Crest 6" active="False">
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="_navbar_classes" t-valuef="d-none d-lg-block p-0 shadow-sm"/>
+
+                <div id="o_main_nav" class="o_main_nav flex-wrap header_theme_crest_6">
+                    <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+                    <div aria-label="Top" class="o_header_hide_on_scroll o_border_contrast top-bar">
+                        <div class="container">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <ul class="list-unstyled mb-0 d-flex align-items-center">
+                                    <li>
+                                        <t t-call="website_sale.pricelist_list" t-cache="pricelist">
+                                            <t t-set="_classes" t-valuef="  currency-pricelist"/>
+                                        </t>
+                                    </li>
+                                    <!-- Language Selector -->
+                                    <t t-call="website.placeholder_header_language_selector">
+                                        <t t-set="_div_classes" t-valuef="position-relative"/>
+                                        <t t-set="_btn_class" t-valuef="nav-link "/>
+                                        <t t-set="_txt_class" t-valuef="small"/>
+                                        <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                    </t>
+
+                                </ul>
+                                <t t-call="theme_crest.shipping_label_bits"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="header-middle">
+                        <div class="container">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <!-- Brand -->
+                                <t t-call="website.placeholder_header_brand">
+                                    <t t-set="_link_class" t-valuef=""/>
+                                </t>
+                                <!-- Navbar -->
+                                <t t-call="website.navbar_nav">
+                                    <t t-set="_nav_class" t-valuef="ms-4"/>
+
+                                    <!-- Menu -->
+                                    <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                        <t t-call="website.submenu">
+                                            <t t-set="item_class" t-valuef="nav-item"/>
+                                            <t t-set="link_class" t-valuef="nav-link"/>
+                                        </t>
+                                    </t>
+                                </t>
+
+                                <div class="d-flex align-items-center">
+
+                                    <ul class="list-unstyled mb-0 d-flex">
+                                        <!-- wishlist -->
+                                        <t t-call="website_sale_wishlist.header_wishlist_link">
+                                            <t t-set="_icon" t-value="True"/>
+                                            <t t-set="_link_class" t-value="'o_navlink_background_hover btn position-relative rounded-circle border-0 p-1 text-reset'"/>
+                                            <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                        </t>
+                                        <li class="d-flex align-items-center">
+                                            <ul class="d-flex algin-items-center my-account-login px-2 list-unstyled mb-0 ">
+                                                <!-- Sign In -->
+                                                <t t-call="portal.placeholder_user_sign_in">
+                                                    <t t-set="_link_class" t-valuef="o_navlink_background btn rounded-circle text-reset"/>
+                                                </t>
+                                                <!-- User Dropdown -->
+                                                <t t-call="portal.user_dropdown">
+                                                    <t t-set="_icon" t-value="true"/>
+                                                    <t t-set="_item_class" t-valuef="dropdown"/>
+                                                    <t t-set="_icon_class" t-valuef="fa-stack"/>
+                                                    <t t-set="_link_class" t-valuef="o_navlink_background btn d-flex align-items-center rounded-pill py-1 text-reset  user_sign_in"/>
+                                                    <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                                </t>
+
+                                            </ul>
+                                        </li>
+
+
+                                        <li class="d-flex align-items-center">
+                                            <ul class="d-flex algin-items-center o_header_cart_bits p-0 ps-2 list-unstyled mb-0 ">
+                                                <!-- card -->
+                                                <t t-call="website_sale.header_cart_link">
+                                                    <t t-set="_icon" t-value="True"/>
+                                                    <t t-set="_link_class" t-value="'o_navlink_background btn position-relative rounded-circle p-1 text-reset'"/>
+                                                    <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                                </t>
+                                                <t t-set="current_sale_order" t-value="request.website.sale_get_order()"/>
+
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-bottom">
+                        <div class="container">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <!-- Category -->
+                                <ul class="list-unstyled mb-0 d-flex align-items-center">
+                                     <t t-set="h_category_menu" t-value="request.website.sudo().get_category_menu()"/>
+                                     <li class="nav-item  category-main" t-if="h_category_menu">
+                                        <a class="nav-link dropdown-toggle-hover d-flex align-items-center" aria-expanded="false">
+                                            <i class="fa fa-bars me-2"></i> Shop Categories
+                                        </a>
+                                        <ul class="dropdown-menu-show list-unstyled mb-0 ">
+                                            <!-- Loop through all product categories -->
+                                            <t t-foreach="request.env['product.public.category'].search([]).filtered(lambda c: not c.parent_id)[:10]" t-as="category" t-if="0 == len(category.parent_id)">
+                                                <li class="dropdown-menu-items d-flex align-items-center">
+                                                    <img t-attf-src="/web/image/product.public.category/#{category.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if category.child_id else ''}" t-attf-href="/shop/category/#{category.id}">
+                                                        <t t-esc="category.name"/>
+                                                        <t t-if="category.child_id">
+                                                            <i class="fa fa-chevron-right"></i>
+                                                        </t>
+                                                    </a>
+                                                    <!-- Check if the category has subcategories -->
+                                                    <t t-if="category.child_id">
+                                                        <ul class="dropdown-submenu list-unstyled mb-0">
+                                                            <!-- Loop through subcategories -->
+                                                            <t t-foreach="category.child_id" t-as="subcategory">
+                                                                <li class="d-flex align-items-center ">
+                                                                    <img t-attf-src="/web/image/product.public.category/#{subcategory.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+
+                                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if subcategory.child_id else ''} " t-attf-href="/shop/category/#{category.id}-#{subcategory.id} ">
+                                                                        <t t-esc="subcategory.name"/>
+                                                                        <t t-if="subcategory.child_id">
+                                                                            <i class="fa fa-chevron-right"></i>
+                                                                        </t>
+                                                                    </a>
+                                                                    <t t-if="subcategory.child_id">
+                                                                        <ul class="dropdown-subcategorychild list-unstyled mb-0">
+                                                                            <!-- Loop through subcategories -->
+                                                                            <t t-foreach="subcategory.child_id" t-as="subcategorychild">
+                                                                                <li class="d-flex align-items-center">
+                                                                                    <img t-attf-src="/web/image/product.public.category/#{subcategorychild.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+                                                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if subcategorychild.child_id else ''} " t-attf-href="/shop/category/#{category.id}-#{subcategorychild.id} ">
+                                                                                        <t t-esc="subcategorychild.name"/>
+                                                                                        <t t-if="subcategorychild.child_id">
+                                                                                            <i class="fa fa-chevron-right"></i>
+                                                                                        </t>
+                                                                                    </a>
+                                                                                </li>
+                                                                            </t>
+                                                                        </ul>
+                                                                    </t>
+                                                                </li>
+                                                            </t>
+                                                        </ul>
+                                                    </t>
+                                                </li>
+                                            </t>
+                                            <li class="o_all_collections">
+                                                <a href="/our/collections">All Collections</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <ul class="list-unstyled mb-0 w-100">
+                                    <!-- Search bar -->
+                                    <li class="o_bottom_header_theme_search_placeholder_bits" t-if="is_view_active('website.header_search_box') == False"/>
+                                    <t t-call="website.placeholder_header_search_box">
+                                        <t t-set="_form_classes" t-valuef="w-100"/>
+                                        <t t-set="_input_classes" t-valuef=" ps-3 text-bg-light "/>
+                                        <t t-set="_submit_classes" t-valuef="  lh-1 search-btn"/>
+                                        <t t-set="_item_class" t-valuef="d-flex w-100 px-2 search-bar"/>
+                                    </t
+                                >
+                                </ul>
+
+                                <!-- Text element -->
+                                <t t-set="is_config_phone_shipping" t-value="request.website.sudo().config_phone_shipping()"/>
+                                <div class="phone-number" t-if="is_config_phone_shipping['phone_number'] != 0">
+                                    <a t-attf-href="tel://#{is_config_phone_shipping['phone_number']}" class="nav-link o_nav-link_secondary p-2">
+                                        <i class="fa fa-headphones"></i>
+                                        <t t-esc="is_config_phone_shipping['phone_number']"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-call="website.template_header_mobile">
+                <t t-set="_txt_elt_content" t-valuef="sentence"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="header_theme_crest_7" inherit_id="website.layout" name="Header Theme Crest 6" active="False">
+        <xpath expr="//header//nav" position="replace">
+            <t t-call="website.navbar">
+                <t t-set="_navbar_classes" t-valuef="d-none d-lg-block p-0 shadow-sm"/>
+                <div id="o_main_nav" class="o_main_nav flex-wrap header_theme_crest_7">
+                    <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+                    <div aria-label="Top" class="o_header_hide_on_scroll o_border_contrast top-bar">
+                        <div class="container">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <!-- Brand -->
+                                <t t-call="website.placeholder_header_brand">
+                                    <t t-set="_link_class" t-valuef=""/>
+                                </t>
+                                 <ul class="list-unstyled mb-0 w-100">
+                                    <!-- Search bar -->
+                                    <li class="o_bottom_header_theme_search_placeholder_bits" t-if="is_view_active('website.header_search_box') == False"/>
+                                    <t t-call="website.placeholder_header_search_box">
+                                        <t t-set="_form_classes" t-valuef="w-100"/>
+                                        <t t-set="_input_classes" t-valuef=" ps-3 text-bg-light "/>
+                                        <t t-set="_submit_classes" t-valuef="  lh-1 search-btn"/>
+                                        <t t-set="_item_class" t-valuef="d-flex w-100 px-2 search-bar"/>
+                                    </t
+                                >
+                                </ul>
+                                <ul class="list-unstyled mb-0 d-flex">
+                                    <!-- wishlist -->
+                                    <t t-call="website_sale_wishlist.header_wishlist_link">
+                                        <t t-set="_icon" t-value="True"/>
+                                        <t t-set="_link_class" t-value="'o_navlink_background_hover btn position-relative rounded-circle border-0 p-1 text-reset'"/>
+                                        <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                    </t>
+                                    <li class="d-flex align-items-center">
+                                        <ul class="d-flex algin-items-center o_header_cart_bits p-0 ps-2 list-unstyled mb-0 ">
+                                            <!-- card -->
+                                            <t t-call="website_sale.header_cart_link">
+                                                <t t-set="_icon" t-value="True"/>
+                                                <t t-set="_link_class" t-value="'o_navlink_background btn position-relative rounded-circle p-1 text-reset'"/>
+                                                <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                            </t>
+                                            <t t-set="current_sale_order" t-value="request.website.sale_get_order()"/>
+                                        </ul>
+                                    </li>
+                                     <li class="d-flex align-items-center">
+                                        <ul class="d-flex algin-items-center my-account-login px-2 list-unstyled mb-0 ">
+                                            <!-- Sign In -->
+                                            <t t-call="portal.placeholder_user_sign_in">
+                                                <t t-set="_link_class" t-valuef="o_navlink_background btn rounded-circle text-reset"/>
+                                            </t>
+                                            <!-- User Dropdown -->
+                                            <t t-call="portal.user_dropdown">
+                                                <t t-set="_icon" t-value="true"/>
+                                                <t t-set="_item_class" t-valuef="dropdown"/>
+                                                <t t-set="_icon_class" t-valuef="fa-stack"/>
+                                                <t t-set="_link_class" t-valuef="o_navlink_background btn d-flex align-items-center rounded-pill py-1 text-reset  user_sign_in"/>
+                                                <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                            </t>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-bottom">
+                        <div class="container">
+                            <div class="d-flex align-items-center justify-content-between header-bottom-nav">
+                                <!-- Category -->
+                                <ul class="list-unstyled mb-0 d-flex align-items-center">
+                                     <t t-set="h_category_menu" t-value="request.website.sudo().get_category_menu()"/>
+                                     <li class="nav-item  category-main" t-if="h_category_menu">
+                                        <a class="nav-link dropdown-toggle-hover d-flex align-items-center" aria-expanded="false">
+                                            <i class="fa fa-bars me-2"></i> Shop Categories
+                                        </a>
+                                        <ul class="dropdown-menu-show list-unstyled mb-0 ">
+                                            <!-- Loop through all product categories -->
+                                            <t t-foreach="request.env['product.public.category'].search([]).filtered(lambda c: not c.parent_id)[:10]" t-as="category" t-if="0 == len(category.parent_id)">
+                                                <li class="dropdown-menu-items d-flex align-items-center">
+                                                    <img t-attf-src="/web/image/product.public.category/#{category.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if category.child_id else ''}" t-attf-href="/shop/category/#{category.id}">
+                                                        <t t-esc="category.name"/>
+                                                        <t t-if="category.child_id">
+                                                            <i class="fa fa-chevron-right"></i>
+                                                        </t>
+                                                    </a>
+                                                    <!-- Check if the category has subcategories -->
+                                                    <t t-if="category.child_id">
+                                                        <ul class="dropdown-submenu list-unstyled mb-0">
+                                                            <!-- Loop through subcategories -->
+                                                            <t t-foreach="category.child_id" t-as="subcategory">
+                                                                <li class="d-flex align-items-center ">
+                                                                    <img t-attf-src="/web/image/product.public.category/#{subcategory.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+
+                                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if subcategory.child_id else ''} " t-attf-href="/shop/category/#{category.id}-#{subcategory.id} ">
+                                                                        <t t-esc="subcategory.name"/>
+                                                                        <t t-if="subcategory.child_id">
+                                                                            <i class="fa fa-chevron-right"></i>
+                                                                        </t>
+                                                                    </a>
+                                                                    <t t-if="subcategory.child_id">
+                                                                        <ul class="dropdown-subcategorychild list-unstyled mb-0">
+                                                                            <!-- Loop through subcategories -->
+                                                                            <t t-foreach="subcategory.child_id" t-as="subcategorychild">
+                                                                                <li class="d-flex align-items-center">
+                                                                                    <img t-attf-src="/web/image/product.public.category/#{subcategorychild.id}/image_1024" alt="alt" class="dropdown-items-img lazyload"/>
+                                                                                    <a t-attf-class="dropdown-item ms-2 #{'d-flex align-items-center justify-content-between' if subcategorychild.child_id else ''} " t-attf-href="/shop/category/#{category.id}-#{subcategorychild.id} ">
+                                                                                        <t t-esc="subcategorychild.name"/>
+                                                                                        <t t-if="subcategorychild.child_id">
+                                                                                            <i class="fa fa-chevron-right"></i>
+                                                                                        </t>
+                                                                                    </a>
+                                                                                </li>
+                                                                            </t>
+                                                                        </ul>
+                                                                    </t>
+                                                                </li>
+                                                            </t>
+                                                        </ul>
+                                                    </t>
+                                                </li>
+                                            </t>
+                                            <li class="o_all_collections">
+                                                <a href="/our/collections">All Collections</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                 <!-- Navbar -->
+                                    <t t-call="website.navbar_nav">
+                                        <t t-set="_nav_class" t-valuef="me-auto"/>
+                                        <!-- Menu -->
+                                        <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                            <t t-call="website.submenu">
+                                                <t t-set="item_class" t-valuef="nav-item"/>
+                                                <t t-set="link_class" t-valuef="nav-link"/>
+                                            </t>
+                                        </t>
+                                    </t>
+                                <div class="d-flex align-items-center scroll-language-pricelist me-2">
+                                    <ul class="list-unstyled mb-0 d-flex align-items-center">
+                                        <li>
+                                            <t t-call="website_sale.pricelist_list" t-cache="pricelist">
+                                                <t t-set="_classes" t-valuef="  currency-pricelist"/>
+                                            </t>
+                                        </li>
+                                        <!-- Language Selector -->
+                                        <t t-call="website.placeholder_header_language_selector">
+                                            <t t-set="_div_classes" t-valuef="position-relative"/>
+                                            <t t-set="_btn_class" t-valuef="nav-link "/>
+                                            <t t-set="_txt_class" t-valuef="small"/>
+                                            <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                        </t>
+                                    </ul>
+                                </div>
+                                <ul class="list-unstyled mb-0 d-flex scroll-header-bottom">
+                                    <!-- wishlist -->
+                                    <t t-call="website_sale_wishlist.header_wishlist_link">
+                                        <t t-set="_icon" t-value="True"/>
+                                        <t t-set="_link_class" t-value="'o_navlink_background_hover btn position-relative rounded-circle border-0 p-1 text-reset'"/>
+                                        <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                    </t>
+                                    <li class="d-flex align-items-center ">
+                                        <ul class="d-flex algin-items-center o_header_cart_bits p-0 ps-2 list-unstyled mb-0 ">
+                                            <!-- card -->
+                                            <t t-call="website_sale.header_cart_link">
+                                                <t t-set="_icon" t-value="True"/>
+                                                <t t-set="_link_class" t-value="'o_navlink_background btn position-relative rounded-circle p-1 text-reset'"/>
+                                                <t t-set="_badge_class" t-value="'position-absolute top-0 end-0 mt-n1 me-n1 rounded-pill'"/>
+                                            </t>
+                                            <t t-set="current_sale_order" t-value="request.website.sale_get_order()"/>
+                                        </ul>
+                                    </li>
+                                     <li class="d-flex align-items-center">
+                                        <ul class="d-flex algin-items-center my-account-login px-2 list-unstyled mb-0 ">
+                                            <!-- Sign In -->
+                                            <t t-call="portal.placeholder_user_sign_in">
+                                                <t t-set="_link_class" t-valuef="o_navlink_background btn rounded-circle text-reset"/>
+                                            </t>
+                                            <!-- User Dropdown -->
+                                            <t t-call="portal.user_dropdown">
+                                                <t t-set="_icon" t-value="true"/>
+                                                <t t-set="_item_class" t-valuef="dropdown"/>
+                                                <t t-set="_icon_class" t-valuef="fa-stack"/>
+                                                <t t-set="_link_class" t-valuef="o_navlink_background btn d-flex align-items-center rounded-pill py-1 text-reset  user_sign_in"/>
+                                                <t t-set="_dropdown_menu_class" t-valuef="dropdown-menu-end"/>
+                                            </t>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-call="website.template_header_mobile">
+                <t t-set="_txt_elt_content" t-valuef="sentence"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="shipping_label_bits" name="Shipping Label">
+        <t t-set="is_config_phone_shipping" t-value="request.website.sudo().config_phone_shipping()"/>
+        <div class="s_text_block d-flex align-items-center text-nowrap h-100 p-2  o_border_contrast fee-shipping-order">
+            <small>
+                <t t-if="is_config_phone_shipping['shipping_label']">
+                    <t t-esc="is_config_phone_shipping['shipping_label']"/>
+                </t>
+                <t t-else="">
+                    Free Shipping
+                </t>
+            </small>
+        </div>
+    </template>
+
+    <template id="user_sign_in_bits" name="USE SING IN CREST" inherit_id="portal.user_sign_in">
+        <xpath expr="//a[@t-attf-href='/web/login']" position="replace">
+            <a t-attf-href="/web/login" t-attf-class="#{_link_class} o_sign_out_btn">
+                <i class="fa fa-sign-in me-1 small text-primary"></i>
+                <span t-if="request.session.profile_session" class="text-danger fa fa-circle"/>
+            </a>
+        </xpath>
+    </template>
+
+    <template id="header_text_element_bits" inherit_id="website.header_text_element" name="Header Text element">
+        <xpath expr="//li" position="replace">
+            <t t-set="website" t-value="request.website"/>
+            <t t-set="is_config_phone_shipping" t-value="website.sudo().config_phone_shipping()"/>
+            <li t-attf-class="#{_item_class}">
+                <t t-if="_txt_elt_content == 'sentence'">
+                    <div t-attf-class="s_text_block #{_div_class}" data-name="Text">
+                        <small>
+                            <t t-esc="is_config_phone_shipping['shipping_label']"/>
+                        </small>
+                    </div>
+                </t>
+                <t t-elif="_txt_elt_content == 'list'">
+                    <div t-attf-class="s_text_block d-flex flex-column flex-lg-row gap-1 gap-lg-4 align-items-lg-center #{_div_class}" data-name="Text">
+                        <small class="d-flex align-items-center">
+                            <i class="fa fa-1x fa-fw fa-usd fa-stack me-1"/>
+                        Low Price Guarantee
+                        </small>
+                        <small class="d-flex align-items-center">
+                            <i class="fa fa-1x fa-fw fa-shopping-basket fa-stack me-1"/>
+                        30 Days Online Returns
+                        </small>
+                        <small class="d-flex align-items-center">
+                            <i class="fa fa-1x fa-fw fa-truck fa-stack me-1"/>
+                        Standard Shipping
+                        </small>
+                    </div>
+                </t>
+                <t t-elif="_txt_elt_content == 'phone_mail'">
+                    <div t-attf-class="s_text_block #{_div_class}" data-name="Text">
+                        <a t-attf-href="tel:#{website.company_id.phone or '+1 555-555-5556'}" class="nav-link o_nav-link_secondary">
+                            <small>
+                                <i class="fa fa-1x fa-fw fa-phone me-1"/>
+                                    &#847;                                                                    
+                                <span class="o_force_ltr">
+                                    <t t-esc="website.company_id.phone or '+1 555-555-5556'"/>
+                                </span>
+                            </small>
+                        </a>
+                        <a t-attf-href="mailto:#{website.company_id.email or 'info@yourcompany.example.com'}" class="nav-link o_nav-link_secondary">
+                            <small>
+                                <i class="fa fa-1x fa-fw fa-envelope me-1"/>
+                                <t t-esc="website.company_id.email or 'info@yourcompany.example.com'"/>
+                            </small>
+                        </a>
+                    </div>
+                </t>
+                <t t-elif="_txt_elt_content == 'mail'">
+                    <div t-attf-class="s_text_block #{_div_class}" data-name="Text">
+                        <a t-attf-href="mailto:#{website.company_id.email or 'info@yourcompany.example.com'}" class="nav-link o_nav-link_secondary">
+                            <small>
+                                <i class="fa fa-1x fa-fw fa-envelope me-1"/>
+                                <t t-esc="website.company_id.email or 'info@yourcompany.example.com'"/>
+                            </small>
+                        </a>
+                    </div>
+                </t>
+                <t t-elif="_txt_elt_content == 'mail_stretched'">
+                    <div t-attf-class="s_text_block #{_div_class}" data-name="Text">
+                        <a t-attf-href="tel:#{website.company_id.phone or '+1 555-555-5556'}" class="nav-link o_nav-link_secondary p-2 o_navlink_background_hover d-flex align-items-center h-100 text-reset">
+                            <i class="fa fa-1x fa-fw fa-phone me-1"/>
+                            <span class="o_force_ltr">
+                                <small>
+                                    <t t-esc="website.company_id.phone or '+1 555-555-5556'"/>
+                                </small>
+                            </span>
+                        </a>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div t-attf-class="s_text_block #{_div_class}" data-name="Text">
+                        <a t-attf-href="tel:#{website.company_id.phone or '+1 555-555-5556'}" class="nav-link o_nav-link_secondary p-2">
+                            <i class="fa fa-1x fa-fw fa-phone me-1"/>
+                            <span class="o_force_ltr">
+                                <small>
+                                    <t t-if="is_config_phone_shipping['phone_number']">
+                                        <t t-esc="is_config_phone_shipping['phone_number']"/>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-esc="website.company_id.phone or '+1 555-555-5556'"/>
+                                    </t>
+                                </small>
+                            </span>
+                        </a>
+                    </div>
+                </t>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="header_pricelist_offers" name="Pricelist Offers">
+        <div t-if="len(pl_offers_header)" class="pricelist-carousel-offers owl-carousel owl-theme"> 
+            <t t-foreach="pl_offers_header" t-as="offer"> 
+                <div class="header-offer">
+                    <t t-if="offer == false">
+                        <t>Best Value Offer</t>
+                    </t>
+                    <t t-else="">
+                        <t t-esc="offer"/>
+                    </t>
+                </div>
+            </t>
+        </div>
+    </template>
+
+    <template id="header_pricelist_offers_line_bits" name="Pricelist offers">
+        <t t-set="get_h_offers_show" t-value="request.website.sudo().get_h_offers_show()"/>
+        <t t-set="pl_offers_header" t-value="request.website.sudo().get_pricelist_offers()"/>
+        <t t-if="get_h_offers_show">
+            <div class="header-offers-top" t-if="len(pl_offers_header) != 0">
+                <div class="container">
+                    <t t-call="theme_crest.header_pricelist_offers"/>
+                </div>
+                <i class="oi oi-odoo oi-close header-close-btn"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="header_offers_bits" inherit_id="website.template_header_mobile">
+        <xpath expr="//div[@class='o_main_nav container flex-wrap justify-content-between']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+    </template>
+
+     <template id="template_header_default_bits" name="tempalte Header default" inherit_id="website.template_header_default">
+        <xpath expr="//t[@t-set='_navbar_classes']" position="replace">
+                <t t-set="_navbar_classes" t-valuef="d-none d-lg-block shadow-sm p-0"/>
+        </xpath>
+        <xpath expr="//div[@id='o_main_nav']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+    </template>
+    <template id="template_header_hamburger_bits" name="tempalte Header default" inherit_id="website.template_header_hamburger">
+        <xpath expr="//t[@t-set='_navbar_classes']" position="replace">
+            <t t-set="_navbar_classes" t-valuef="d-none d-lg-block shadow-sm p-0"/>
+        </xpath>
+        <xpath expr="//div[@id='o_main_nav']" position="attributes">
+            <attribute name="class" separator=" " add="py-2" />
+        </xpath>
+        <xpath expr="//div[@id='o_main_nav']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+    </template>
+    <template id="template_header_stretch_bits" name="tempalte Header default" inherit_id="website.template_header_stretch">
+        <xpath expr="//div[@id='o_main_nav']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+    </template>
+    <template id="template_header_boxed_bits" name="tempalte Header default" inherit_id="website.template_header_boxed">
+        <xpath expr="//div[@id='o_main_nav']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+          <xpath expr="//t[@t-set='_navbar_classes']" position="replace">
+                <t t-set="_navbar_classes" t-valuef="o_full_border d-none d-lg-block rounded-pill pt-2 px-5 shadow-sm"/>
+        </xpath>
+        <xpath expr="//div[@id='o_main_nav']" position="attributes">
+            <attribute name="class" separator=" " add="pt-2" />
+        </xpath>
+    </template>
+    <template id="template_header_vertical_bits" name="tempalte Header default" inherit_id="website.template_header_vertical">
+        <xpath expr="//div[@id='o_main_nav']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+        <xpath expr="//t[@t-set='_navbar_classes']" position="replace">
+            <t t-set="_navbar_classes" t-valuef="d-none d-lg-block py-0 shadow-sm"/>
+        </xpath>
+        <xpath expr="//div[@id='o_main_nav']" position="attributes">
+            <attribute name="class" separator=" " add="pt-2" />
+        </xpath>
+    </template>
+    <template id="template_header_search_bits" name="tempalte Header default" inherit_id="website.template_header_search">
+        <xpath expr="//div[@id='o_main_nav']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+        <xpath expr="//div[@class='container d-grid align-items-center w-100 py-2 o_grid_header_3_cols']" position="attributes">
+            <attribute name="class" separator=" " add="" remove="py-2"></attribute>
+        </xpath>
+        <xpath expr="//div[@id='o_main_nav']" position="attributes">
+            <attribute name="class" separator=" " remove="py-2" />
+        </xpath>
+    </template>
+    <template id="template_header_sales_one_bits" name="tempalte Header default" inherit_id="website.template_header_sales_one">
+         <xpath expr="//div[@class='container d-flex align-items-center justify-content-between py-3']" position="attributes">
+            <attribute name="class" separator=" "  remove="py-3"></attribute>
+        </xpath>
+        <xpath expr="//div[@id='o_main_nav']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+    </template>
+    <template id="template_header_sales_two_bits" name="tempalte Header default" inherit_id="website.template_header_sales_two">
+        <xpath expr="//t[@t-call='website.navbar_nav']//t[@t-set='_nav_class']" position="attributes">
+            <attribute name="t-valuef" separator=" " remove="py-1"></attribute>
+        </xpath>
+        <xpath expr="//div[@id='o_main_nav']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+    </template>
+     <template id="template_header_sales_three_bits" name="tempalte Header default" inherit_id="website.template_header_sales_three">
+        <xpath expr="//div[@class='container d-flex align-items-center py-2']" position="attributes">
+            <attribute name="class" separator=" " add="pt-2" remove="py-2"></attribute>
+        </xpath>
+        <xpath expr="//div[@id='o_main_nav']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+    </template>
+     <template id="template_header_sales_four_bits" name="tempalte Header default" inherit_id="website.template_header_sales_four">
+        <xpath expr="//div[@id='o_main_nav']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+    </template>
+     <template id="template_header_sidebar_bits" name="tempalte Header default" inherit_id="website.template_header_sidebar">
+        <xpath expr="//div[@id='o_main_nav']" position="before">
+            <t t-call="theme_crest.header_pricelist_offers_line_bits"/>
+        </xpath>
+        <xpath expr="//div[@id='o_main_nav']" position="attributes">
+            <attribute name="class" separator=" " add="py-2" />
+        </xpath>
+    </template>
+
+    <template id="shop_mini_cart_bits" name="Mini Cart Extend" inherit_id="website_sale.header_cart_link" >
+        <xpath expr="//a[@href='/shop/cart']" position="attributes">
+            <attribute name="t-attf-class" separator=" " add="#{'min-cart-bits' if request.website.sudo().get_h_cart_popup() else ' '}"/>
+        </xpath>
+    </template>
+</odoo>

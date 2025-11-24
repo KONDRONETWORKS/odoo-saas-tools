@@ -1,0 +1,1184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="bits_snippet_option" inherit_id="website.snippet_options">
+        <xpath expr="." position="inside">
+            <div data-js="theme_crest_dynamic_snippet" data-selector=".theme-bits-builder-snippet">
+                <we-button data-set-grid="true" data-no-preview="true">
+                    <i class="fa fa-shopping-cart fa-fw"/>
+                    Manage Snippet
+                </we-button>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="dynamic_snippet" name="Products Cards">
+        <section contenteditable="false" class="theme-bits-builder-snippet dynamic_snippet_wrapper oe_structure oe_empty" data-tp-snippet-id="dynamic_snippet">
+            <div class="dynamic_snippet container oe_structure oe_empty"/>
+        </section>
+    </template>
+
+    <template id="no_data_template_bits" name="No Data Template">
+        <div class="empty_block text-center">
+            <h6>No Data Available</h6>
+        </div>
+    </template>
+    <template id="dynamic_template_bits" name="dynamic Tempalte Renderer">
+        <t t-set="dynamic_tempalte" t-value="'theme_crest.'+template_key"/>
+        <t t-call="#{dynamic_tempalte}"/>
+    </template>
+
+    <!-- main start template product -->
+    <!-- Product  -->
+    <template id="dy_prod_tmp_style_1_bits" name="Product">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_prod_tmp_style_1_bits">
+                <div class="row">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_product_template_style_1_bits">
+                                <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_prod_tmp_style_1_bits">
+                <div class="owl-carousel owl-theme ">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_product_template_style_1_bits">
+                            <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="dy_prod_tmp_style_2_bits" name="Product">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_prod_tmp_style_2_bits">
+                <div class="row">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_product_template_style_2_bits">
+                                <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_prod_tmp_style_2_bits">
+                <div class="owl-carousel owl-theme">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_product_template_style_2_bits">
+                            <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="dy_prod_tmp_style_3_bits" name="Product">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_prod_tmp_style_3_bits">
+                <div class="row">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_product_template_style_3_bits">
+                                <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_prod_tmp_style_3_bits">
+                <div class="owl-carousel owl-theme ">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_product_template_style_3_bits">
+                            <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+     <template id="dy_prod_tmp_style_4_bits" name="Product">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_prod_tmp_style_4_bits">
+                <div class="row">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_product_template_style_4_bits">
+                                <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_prod_tmp_style_4_bits">
+                <div class="owl-carousel owl-theme">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_product_template_style_4_bits">
+                            <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="dy_prod_tmp_style_5_bits" name="Product">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_prod_tmp_style_5_bits">
+                <div class="row">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_product_template_style_5_bits">
+                                <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_prod_tmp_style_5_bits">
+                <div class="owl-carousel owl-theme">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_product_template_style_5_bits">
+                            <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!--Product Card Style -->
+    <template id="dy_product_template_style_1_bits" name="Product Card Style 1">
+        <div t-attf-class="dy_prod_template_style_1_bits dy_prod_template_style_bits h-100 #{visual['borderstyle']}">
+            <form class="" action="/shop/cart/update" method="post">
+                <t t-set="product_prl_offer_data" t-value="record.sudo().product_variant_id._get_offer_timing(website._get_current_pricelist())"/>
+                <t t-set="combination" t-value="record.sudo()._get_first_possible_combination()"/>
+                <t t-set="combination_info" t-value="record.sudo()._get_combination_info(combination, add_qty=add_qty or 1)"/>
+                <t t-set="product_variant" t-value="record.env['product.product'].browse(combination_info['product_id'])"/>
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" t-nocache="The csrf token must always be up to date."/>
+                <input name="product_id" t-att-value="product_variant.id" type="hidden"/>
+                <div class="product-image">
+                    <a class="oe_product_image_img_wrapper" t-attf-href="/shop/{{slug(record.sudo())}}">
+                        <img t-attf-class="product-img-bits img img-fluid   #{visual['borderstyle']} h-100 w-100" t-att-src="request.website.image_url(record,'image_1024')"/>
+                        <img t-attf-class="img-fluid hover-img-bits img img-fluid  #{visual['borderstyle']}" t-att-src="request.website.image_url(record,'hover_image_bits')"/>
+                    </a>
+                    <!-- Produtc lables -->
+                    <div class="lbl_container container_bits" t-if="'ribbon' in visual['buttons']">
+                        <t t-foreach="record.product_label_ids" t-as="p_label">
+                            <span t-attf-class="p_label #{p_label.lable_style}" t-attf-style="border-color:#{p_label.bg_color};background-color:#{p_label.bg_color};color:#{p_label.text_color};">
+                                <t t-esc="p_label.name"/>
+                            </span>
+                        </t>
+                    </div>
+
+                    <!-- Stock Sold Out -->
+                    <div t-if="record.check_inventory_config()" class="stock-lbl-bits">
+                        <span>Sold Out</span>
+                    </div>
+
+                     <div t-if="'timer' in visual['buttons'] and product_prl_offer_data"  class=" card_item_timer_bits" style="display : none" >
+                        <div t-attf-class="pl_offer_timer d-flex align-items-center justify-content-center #{visual['borderstyle']}" t-att-data-offerends="product_prl_offer_data">
+                            <div class="counter-box mx-1">
+                                <span class="counter days "></span>
+                                <p>D</p>
+                            </div>
+                            <div class="counter-box mx-1">
+                                <span class="counter hours "></span>
+                                <p>H</p>
+                            </div>
+                            <div class="counter-box mx-1">
+                                <span class="counter minutes "></span>
+                                <p>M</p>
+                            </div>
+                            <div class="counter-box mx-1">
+                                <span class="counter seconds "></span>
+                                <p>S</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-details">
+                    <div class="d-flex justify-content-between align-items-center view-rating-action">
+                        <t t-if="'rating' in visual['buttons']">
+                           <t t-call="theme_crest.product_rating_bits"/>
+                        </t>
+                        <!-- attrs -->
+                        <t  t-if="'color' in visual['buttons']">
+                            <t t-call="theme_crest.product_attrs_selector_dynamic_bits"/>
+                        </t>
+                        
+                        <t t-if="'view' in visual['buttons']">
+                            <div class="quick_view_container d-inline-block">
+                                <button type="button" role="button" t-attf-class="view o_quick_view_btn #{visual['borderstyle']}" title="Quick View" t-att-data-product-template-id="record.id" data-action="o_quick_view">
+                                    <i class="fa fa-eye"/>
+                                </button>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="product-title">
+                        <a t-attf-href="/shop/{{slug(record.sudo())}}" t-esc="record.name" />
+                    </div>
+                    <t t-if="not is_b2b_enabled">
+                        <div class="product-price d-flex align-items-center justify-content-center flex-wrap">
+                            <span t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}" class="price me-2"/>
+                            <span t-attf-class="text-muted oe_default_price me-2 {{'' if combination_info['has_discounted_price'] and not combination_info['compare_list_price'] else 'd-none'}}"
+                                                style="text-decoration: line-through; white-space: nowrap;"
+                                                t-esc="combination_info['list_price']"
+                                                t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                                                itemprop="listPrice"
+                            />
+                            <div t-attf-class="te_discount {{'' if combination_info['has_discounted_price'] else 'd-none'}}">
+                                <t t-set="difference" t-value="round(combination_info['list_price'] - combination_info['price'],2)"/>
+                                <t t-set="discount" t-value="round(difference*100/combination_info['list_price']) if combination_info['list_price'] &gt; 0 else 0"/>
+                                <div class="te_percentage" t-if="discount">
+                                    <span t-esc="'(%s'%(discount)+'%'"/>
+                                    Off)
+                                </div>
+                            </div>
+                        </div>    
+                    </t>
+                    <t t-else="">
+                        <div class="text-center">
+                            <t t-call="theme_crest.b2b_pricing_content_bits"/>
+                        </div>
+                    </t>
+                    <div class="product-action row align-items-center justify-content-center">
+                        <div class="col-2 px-0">
+                            <div class="mx-2 d-flex align-items-center justify-content-center chart-items">
+                                <t t-if="'chart' in visual['buttons']">
+                                    <t t-set="product_variant_id" t-value="record._get_first_possible_variant_id()"/>
+                                    <a  t-attf-class="o_add_compare chart #{visual['borderstyle']}" title="Add to Compare" aria-label="Compare" t-att-data-product-product-id="product_variant_id" data-action="o_comparelist">
+                                        <i class="fa fa-bar-chart-o"/>
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="col-8 px-0">
+                            <t t-if="'cart' in visual['buttons']">
+                                <a role="button" t-attf-class="btn_cart_bits text-nowrap #{visual['borderstyle']}" aria-label="Shopping cart" title="Shopping cart" t-if="not is_b2b_enabled">
+                                    <i class="fa fa-shopping-cart"/>
+                                    <span class="ms-2">Add To Cart</span>
+                                </a>
+                            </t>
+                        </div>
+                        <div class='col-2 px-0'>
+                            <div class="mx-2 d-flex align-items-center justify-content-center like-items">
+                                <t t-if="'like' in visual['buttons']">
+                                    <t t-nocache="The wishlist depends on the user and must not be shared with other users. As this rendering is in the loop, the product value is set in the template, we must retain the id of the product on which we are." t-nocache-product_template_id="record.id">
+                                        <t t-set="in_wish" t-value="record._is_in_wishlist()"/>
+                                        <a t-if="product_variant" type="button" role="button" t-attf-class="as-pc-btn #{visual['borderstyle']} like o_add_wishlist #{'disabled' if in_wish else ''}" t-att-disabled='in_wish or None' title="Add to Wishlist" t-att-data-product-template-id="record.id" t-att-data-product-product-id="product_variant.id" data-action="o_wishlist">
+                                            <span class="fa fa-heart" role="img" aria-label="Add to wishlist"></span>
+                                        </a>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </form>
+        </div>
+    </template>
+    <template id="dy_product_template_style_2_bits" name="Product Card Style 2">
+        <div t-attf-class="dy_prod_template_style_2_bits dy_prod_template_style_bits h-100 #{visual['borderstyle']}">
+            <form class="" action="/shop/cart/update" method="post">
+                <t t-set="product_prl_offer_data" t-value="record.sudo().product_variant_id._get_offer_timing(website._get_current_pricelist())"/>
+                <t t-set="combination" t-value="record.sudo()._get_first_possible_combination()"/>
+                <t t-set="combination_info" t-value="record.sudo()._get_combination_info(combination, add_qty=add_qty or 1)"/>
+                <t t-set="product_variant" t-value="record.env['product.product'].browse(combination_info['product_id'])"/>
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" t-nocache="The csrf token must always be up to date."/>
+                <input name="product_id" t-att-value="product_variant.id" type="hidden"/>
+                <div class="product-image">
+                    <a class="oe_product_image_img_wrapper" t-attf-href="/shop/{{slug(record.sudo())}}">
+                        <img t-attf-class="product-img-bits img img-fluid #{visual['borderstyle']}  h-100 w-100" t-att-src="request.website.image_url(record,'image_1024')"/>
+                        <img t-attf-class="img-fluid hover-img-bits img img-fluid #{visual['borderstyle']}" t-att-src="request.website.image_url(record,'hover_image_bits')"/>                    </a>
+                    <!-- Stock Sold Out -->
+                    <div t-if="record.check_inventory_config()" class="stock-lbl-bits">
+                        <span>Sold Out</span>
+                    </div>
+                    <!-- Produtc lables -->
+                    <div class="lbl_container container_bits" t-if="'ribbon' in visual['buttons']">
+                        <t t-foreach="record.product_label_ids" t-as="p_label">
+                            <span t-attf-class="p_label #{p_label.lable_style}" t-attf-style="border-color:#{p_label.bg_color};background-color:#{p_label.bg_color};color:#{p_label.text_color};">
+                                <t t-esc="p_label.name"/>
+                            </span>
+                        </t>
+                    </div>
+                    <t t-if="'like' in visual['buttons']">
+                        <t t-nocache="The wishlist depends on the user and must not be shared with other users. As this rendering is in the loop, the product value is set in the template, we must retain the id of the product on which we are." t-nocache-product_template_id="record.id">
+                            <t t-set="in_wish" t-value="record._is_in_wishlist()"/>
+                            <a t-if="product_variant" type="button" role="button" t-attf-class="as-pc-btn like o_add_wishlist #{'disabled' if in_wish else ''}" t-att-disabled='in_wish or None' title="Add to Wishlist" t-att-data-product-template-id="record.id" t-att-data-product-product-id="product_variant.id" data-action="o_wishlist">
+                                <span class="fa fa-heart" role="img" aria-label="Add to wishlist"></span>
+                            </a>
+                        </t>
+                    </t>
+                    <!-- attrs -->
+                     <t  t-if="'color' in visual['buttons']">
+                         <t t-call="theme_crest.product_attrs_selector_dynamic_bits"/>
+                    </t>
+
+                    <div t-if="'timer' in visual['buttons'] and product_prl_offer_data"  class="card_item_timer_bits" style="display : none" >
+                        <div class="pl_offer_timer d-flex align-items-center justify-content-center" t-att-data-offerends="product_prl_offer_data">
+                            <div class="counter-box me-2">
+                                <span class="counter days "></span>
+                                <p>D</p>
+                            </div>
+                            <div class="counter-box me-2">
+                                <span class="counter hours "></span>
+                                <p>H</p>
+                            </div>
+                            <div class="counter-box me-2">
+                                <span class="counter minutes "></span>
+                                <p>M</p>
+                            </div>
+                            <div class="counter-box me-2">
+                                <span class="counter seconds "></span>
+                                <p>S</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">
+                        <a t-attf-href="/shop/{{slug(record.sudo())}}" t-esc="record.name" class="product-name" />
+                        <t t-if="'rating' in visual['buttons']">
+                            <t t-call="theme_crest.product_rating_bits"/>
+                        </t>
+                    </div>
+                    <t t-if="not is_b2b_enabled">
+                        <div class="product-price d-flex align-items-center flex-wrap">
+                            <span t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}" class="price me-2"/>
+                            <span t-attf-class="text-muted oe_default_price me-2 {{'' if combination_info['has_discounted_price'] and not combination_info['compare_list_price'] else 'd-none'}}"
+                                                style="text-decoration: line-through; white-space: nowrap;"
+                                                t-esc="combination_info['list_price']"
+                                                t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                                                itemprop="listPrice"
+                            />
+                            <div t-attf-class="te_discount {{'' if combination_info['has_discounted_price'] else 'd-none'}}">
+                                <t t-set="difference" t-value="round(combination_info['list_price'] - combination_info['price'],2)"/>
+                                <t t-set="discount" t-value="round(difference*100/combination_info['list_price']) if combination_info['list_price'] &gt; 0 else 0"/>
+                                <div class="te_percentage" t-if="discount">
+                                    <span t-esc="'(%s'%(discount)+'%'"/>
+                                    Off)
+                                </div>
+                            </div>
+                        </div>                       
+                    </t>
+                    <t t-else="">
+                        <t t-call="theme_crest.b2b_pricing_content_bits"/>
+                    </t>
+                    <div t-att-class="'d-flex product-action-btn' + (' justify-content-between' if 'cart' in visual['buttons'] else ' justify-content-center')">
+                        <t t-if="'cart' in visual['buttons']">
+
+                            <a role="button" t-attf-class="btn_cart_bits #{visual['borderstyle']}" aria-label="Shopping cart" title="Shopping cart" t-if="not is_b2b_enabled">
+                                <i class="fa fa-shopping-cart"/>
+                            </a>
+                        </t>
+                        <div t-att-class="'product-action' + ('' if 'cart' in visual['buttons'] else ' product-not-cart')">
+                            <t t-if="'chart' in visual['buttons']">
+                                <t t-set="product_variant_id" t-value="record._get_first_possible_variant_id()"/>
+                                <a t-attf-class="o_add_compare chart #{visual['borderstyle']}" title="Add to Compare" aria-label="Compare" t-att-data-product-product-id="product_variant_id" data-action="o_comparelist">
+                                    <i class="fa fa-bar-chart-o"/>
+                                </a>
+                            </t>
+                            <t t-if="'view' in visual['buttons']">
+                                <div class="quick_view_container">
+                                    <button type="button" role="button" t-attf-class="view o_quick_view_btn #{visual['borderstyle']}" title="Quick View" t-att-data-product-template-id="record.id" data-action="o_quick_view">
+                                        <i class="fa fa-eye"/>
+                                    </button>
+                                </div>
+                            </t>
+
+                        </div>
+                    </div>
+                    
+                </div>
+            </form>
+        </div>
+    </template>
+    <template id="dy_product_template_style_3_bits" name="Product Card Style 3">
+        <div t-attf-class="dy_prod_template_style_3_bits dy_prod_template_style_bits h-100 #{visual['borderstyle']}">
+            <form class="" action="/shop/cart/update" method="post">
+                <t t-set="product_prl_offer_data" t-value="record.sudo().product_variant_id._get_offer_timing(website._get_current_pricelist())"/>
+                <t t-set="combination" t-value="record.sudo()._get_first_possible_combination()"/>
+                <t t-set="combination_info" t-value="record.sudo()._get_combination_info(combination, add_qty=add_qty or 1)"/>
+                <t t-set="product_variant" t-value="record.env['product.product'].browse(combination_info['product_id'])"/>
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" t-nocache="The csrf token must always be up to date."/>
+                <input name="product_id" t-att-value="product_variant.id" type="hidden"/>
+                <div class="product-image">
+                    <a class="oe_product_image_img_wrapper" t-attf-href="/shop/{{slug(record.sudo())}}">
+                        <img class="product-img-bits img img-fluid  h-100 w-100" t-att-src="request.website.image_url(record,'image_1024')"/>
+                        <img class="img-fluid hover-img-bits img img-fluid" t-att-src="request.website.image_url(record,'hover_image_bits')"/>
+                    </a>
+                    <!-- Stock Sold Out -->
+                    <div t-if="record.check_inventory_config()" class="stock-lbl-bits">
+                        <span>Sold Out</span>
+                    </div>
+                    <!-- Produtc lables -->
+                    <div class="lbl_container container_bits" t-if="'ribbon' in visual['buttons']">
+                        <t t-foreach="record.product_label_ids" t-as="p_label">
+                            <span t-attf-class="p_label #{p_label.lable_style}" t-attf-style="border-color:#{p_label.bg_color};background-color:#{p_label.bg_color};color:#{p_label.text_color};">
+                                <t t-esc="p_label.name"/>
+                            </span>
+                        </t>
+                    </div>
+                    <div class="product-action">
+                        <div class="d-flex align-items-center">
+                            <t t-if="'chart' in visual['buttons']">
+                                <t t-set="product_variant_id" t-value="record._get_first_possible_variant_id()"/>
+                                <div class="compare-btn">
+                                    <a t-attf-class="o_add_compare chart #{visual['borderstyle']}" title="Add to Compare" aria-label="Compare" t-att-data-product-product-id="product_variant_id" data-action="o_comparelist">
+                                    <i class="fa fa-bar-chart-o"/>
+                                    </a>
+                                </div>
+                            </t>
+                            <t t-if="'view' in visual['buttons']">
+                                <div class="quick_view_container ">
+                                    <button type="button" role="button" t-attf-class="view o_quick_view_btn #{visual['borderstyle']}" title="Quick View" t-att-data-product-template-id="record.id" data-action="o_quick_view">
+                                        <i class="fa fa-eye"/>
+                                    </button>
+                                </div>
+                            </t>
+                            <t t-if="'like' in visual['buttons']">
+                                <t t-nocache="The wishlist depends on the user and must not be shared with other users. As this rendering is in the loop, the product value is set in the template, we must retain the id of the product on which we are." t-nocache-product_template_id="record.id">
+                                    <t t-set="in_wish" t-value="record._is_in_wishlist()"/>
+                                    <div class="wishlist-btn">
+                                        <a t-if="product_variant" type="button" role="button" t-attf-class="as-pc-btn #{visual['borderstyle']}  like o_add_wishlist #{'disabled' if in_wish else ''}" t-att-disabled='in_wish or None' title="Add to Wishlist" t-att-data-product-template-id="record.id" t-att-data-product-product-id="product_variant.id" data-action="o_wishlist">
+                                            <span class="fa fa-heart" role="img" aria-label="Add to wishlist"></span>
+                                        </a>
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                    <div  t-if="'timer' in visual['buttons'] and product_prl_offer_data" class=" card_item_timer_bits" style="display : none">
+                        <div class="pl_offer_timer d-flex align-items-center justify-content-start" t-att-data-offerends="product_prl_offer_data">
+                            <div class="counter-box me-2">
+                                <span class="counter days "></span>
+                                <p class="text-nowrap">D :</p>
+                            </div>
+                            <div class="counter-box me-2">
+                                <span class="counter hours "></span>
+                                <p class="text-nowrap">H :</p>
+                            </div>
+                            <div class="counter-box me-2">
+                                <span class="counter minutes "></span>
+                                <p class="text-nowrap">M :</p>
+                            </div>
+                            <div class="counter-box me-2">
+                                <span class="counter seconds "></span>
+                                <p class="text-nowrap">S</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-details">
+                    <t t-if="'cart' in visual['buttons']">
+                        <a role="button" t-attf-class="btn_cart_bits " aria-label="Shopping cart" title="Shopping cart" t-if="not is_b2b_enabled">
+                            <i class="fa fa-shopping-cart"/>
+                            <span>Add To Cart</span>
+                        </a>
+                    </t>
+                    <div class="product-title">
+                        <a t-attf-href="/shop/{{slug(record.sudo())}}" t-esc="record.name" />
+                    </div>
+                    <div t-attf-class="product-price #{' ' if not is_b2b_enabled else 'flex-column' }">
+                        <t t-if="not is_b2b_enabled">
+                             <div class="d-flex align-items-center flex-wrap">
+                                <span t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}" class="price me-2"/>
+                                <span t-attf-class="text-muted oe_default_price me-2 {{'' if combination_info['has_discounted_price'] and not combination_info['compare_list_price'] else 'd-none'}}"
+                                                style="text-decoration: line-through; white-space: nowrap;"
+                                                t-esc="combination_info['list_price']"
+                                                t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                                                itemprop="listPrice"
+                                />
+                                <div t-attf-class="te_discount {{'' if combination_info['has_discounted_price'] else 'd-none'}}">
+                                    <t t-set="difference" t-value="round(combination_info['list_price'] - combination_info['price'],2)"/>
+                                    <t t-set="discount" t-value="round(difference*100/combination_info['list_price']) if combination_info['list_price'] &gt; 0 else 0"/>
+                                    <div class="te_percentage" t-if="discount">
+                                        <span t-esc="'(%s'%(discount)+'%'"/>
+                                        Off)
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <t t-call="theme_crest.b2b_pricing_content_bits"/>
+                        </t>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pb-2">
+                            <!-- attrs -->
+                            <t  t-if="'color' in visual['buttons']">
+                                <t t-call="theme_crest.product_attrs_selector_dynamic_bits"/>
+                            </t>                       
+                             <t t-if="'rating' in visual['buttons']">
+                                <t t-call="portal_rating.rating_widget_stars_static">
+                                    <t t-set="rating_avg" t-value="record.rating_avg"/>
+                                    <t t-set="rating_count" t-value="record.rating_count"/>
+                                </t>
+                            </t>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </template>
+     <template id="dy_product_template_style_4_bits" name="Product Card Style 4">
+        <div t-attf-class="dy_prod_template_style_4_bits dy_prod_template_style_bits h-100 #{visual['borderstyle']}">
+            <form class="" action="/shop/cart/update" method="post">
+                <t t-set="product_prl_offer_data" t-value="record.sudo().product_variant_id._get_offer_timing(website._get_current_pricelist())"/>
+                <t t-set="combination" t-value="record.sudo()._get_first_possible_combination()"/>
+                <t t-set="combination_info" t-value="record.sudo()._get_combination_info(combination, add_qty=add_qty or 1)"/>
+                <t t-set="product_variant" t-value="record.env['product.product'].browse(combination_info['product_id'])"/>
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" t-nocache="The csrf token must always be up to date."/>
+                <input name="product_id" t-att-value="product_variant.id" type="hidden"/>
+                <div class="row mx-0">
+                    <div class="col-md-6 col-12">
+                        <div class="product-content-image">
+                            <div class="product-image">
+                                <a class="oe_product_image_img_wrapper" t-attf-href="/shop/{{slug(record.sudo())}}">
+                                    <img class="product-img-bits img img-fluid  h-100 w-100" t-att-src="request.website.image_url(record,'image_1024')"/>
+                                    <img class="img-fluid hover-img-bits img img-fluid" t-att-src="request.website.image_url(record,'hover_image_bits')"/>
+                                </a>
+                        
+                                <!-- Produtc lables -->
+                                <div class="lbl_container container_bits" t-if="'ribbon' in visual['buttons']">
+                                    <t t-foreach="record.product_label_ids" t-as="p_label">
+                                        <span t-attf-class="p_label #{p_label.lable_style}" t-attf-style="border-color:#{p_label.bg_color};background-color:#{p_label.bg_color};color:#{p_label.text_color};">
+                                            <t t-esc="p_label.name"/>
+                                        </span>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <div class="product-title">
+                                    <a t-attf-href="/shop/{{slug(record.sudo())}}" t-esc="record.name" />
+                                </div>
+                                <t t-if="'rating' in visual['buttons']">
+                                    <t t-call="portal_rating.rating_widget_stars_static">
+                                        <t t-set="rating_avg" t-value="record.rating_avg"/>
+                                        <t t-set="rating_count" t-value="record.rating_count"/>
+                                    </t>
+                                </t>
+
+                                <t t-if="not is_b2b_enabled">
+                                    <div class="d-flex align-items-center product-price flex-wrap">
+                                        <span t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}" class="price me-2"/>
+                                         <span t-attf-class="text-muted oe_default_price me-2 {{'' if combination_info['has_discounted_price'] and not combination_info['compare_list_price'] else 'd-none'}}"
+                                                style="text-decoration: line-through; white-space: nowrap;"
+                                                t-esc="combination_info['list_price']"
+                                                t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                                                itemprop="listPrice"
+                                        />
+                                        <div t-attf-class="te_discount {{'' if combination_info['has_discounted_price'] else 'd-none'}}">
+                                            <t t-set="difference" t-value="round(combination_info['list_price'] - combination_info['price'],2)"/>
+                                            <t t-set="discount" t-value="round(difference*100/combination_info['list_price']) if combination_info['list_price'] &gt; 0 else 0"/>
+                                            <div class="te_percentage" t-if="discount">
+                                                <span t-esc="'(%s'%(discount)+'%'"/>
+                                                Off)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <t t-call="theme_crest.b2b_pricing_content_bits"/>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                          <div class="product-details mt-2 mt-sm-0">
+                            <!-- Stock Sold Out -->
+                            <div t-if="record.check_inventory_config()" class="stock-lbl-bits">
+                                <span>Sold Out</span>
+                            </div>
+                            <div class="d-flex flex-column o_term_and_conditions_inner mt-2 m-0" t-if="'termsandcondition' in visual['buttons'] and record.terms_conditions_id.product_terms_lines">
+                                <t t-foreach="record.terms_conditions_id.product_terms_lines" t-as="term">
+                                    <div class="p-0 m-0">
+                                        <div class=" d-flex align-items-center o_term_and_conditions ">
+                                            <t t-if="term.indication_type == 'icon'">
+                                                <div class="img" t-if="term.indication_icon">
+                                                    <i t-attf-class="#{term.indication_icon}  terms-icon"/>
+                                                </div>
+                                            </t>
+                                            <t t-if="term.indication_type == 'image'">
+                                                <div class="img"  t-if="term.indication_img">
+                                                    <img class="img img-fluid terms-img" t-attf-src="/web/image/product.terms.lines/#{term.id}/indication_img"/>
+                                                </div> 
+                                            </t>
+                                             <div >
+                                                <span t-field="term.name" t-attf-class=" #{t_name} terms-title " />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                            <div t-if="'timer' in visual['buttons'] and product_prl_offer_data" class="  card_item_timer_bits" style="display : none">
+                                <div class="pl_offer_timer d-flex align-items-center justify-content-start flex-wrap " t-att-data-offerends="product_prl_offer_data">
+                                    <div class="d-flex justify-content-start align-items-center my-1">
+                                            <div t-attf-class="counter-box me-2 #{visual['borderstyle']}">
+                                                <span class="counter days "></span>
+                                                <p>Days</p>
+                                            </div>
+                                            <div t-attf-class="counter-box me-2 #{visual['borderstyle']}">
+                                                <span class="counter hours "></span>
+                                                <p>Hours</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-start align-items-center my-1">
+                                            <div t-attf-class="counter-box me-2 #{visual['borderstyle']}">
+                                                <span class="counter minutes "></span>
+                                                <p>Mins</p>
+                                            </div>
+                                            <div t-attf-class="counter-box me-2 #{visual['borderstyle']}">
+                                                <span class="counter seconds "></span>
+                                                <p>Secs</p>
+                                            </div>
+                                        </div>  
+                                </div>
+                            </div>
+                             <t  t-if="'color' in visual['buttons']">
+                                <t t-call="theme_crest.product_attrs_selector_dynamic_bits"/>
+                            </t>
+                            <div class='product-tags' t-if="'tag' in visual['buttons'] and record.product_tag_ids">
+                                <ul class='d-flex align-items-center p-0 m-0 flex-wrap'>
+                                    <t t-foreach="record.product_tag_ids" t-as="tag">
+                                        <li class="tag-items"><t t-esc="tag.name"/></li>
+                                    </t>
+                                </ul>
+                            </div>
+                            <t t-if="'cart' in visual['buttons']">
+                                <a role="button" t-attf-class="btn_cart_bits #{visual['borderstyle']}" aria-label="Add to cart" title="Add to cart" t-if="not is_b2b_enabled">
+                                    <i class="fa fa-shopping-cart"/>
+                                    <span>Add To Cart</span>
+                                </a>
+                            </t>
+                            <div class="product-action d-flex align-items-center flex-wrap">
+                                    <t t-if="'view' in visual['buttons']">
+                                        <div t-attf-class="quick_view_container #{visual['borderstyle']}">
+                                            <button type="button" role="button" class="view o_quick_view_btn " title="Quick View" t-att-data-product-template-id="record.id" data-action="o_quick_view">
+                                                <i class="fa fa-eye"/> 
+                                            </button>
+                                        </div>
+                                    </t>
+                                    <t t-if="'like' in visual['buttons']">
+                                        <t t-nocache="The wishlist depends on the user and must not be shared with other users. As this rendering is in the loop, the product value is set in the template, we must retain the id of the product on which we are." t-nocache-product_template_id="record.id">
+                                            <t t-set="in_wish" t-value="record._is_in_wishlist()"/>
+                                            <a t-if="product_variant" type="button" role="button" t-attf-class="as-pc-btn #{visual['borderstyle']} text-nowrap like o_add_wishlist #{'disabled' if in_wish else ''}" t-att-disabled='in_wish or None' title="Add to Wishlist" t-att-data-product-template-id="record.id" t-att-data-product-product-id="product_variant.id" data-action="o_wishlist">
+                                                <span class="fa fa-heart" role="img" aria-label="Add to wishlist"></span> 
+                                            </a>
+                                        </t>
+                                    </t>  
+                                        
+                                    <t t-if="'chart' in visual['buttons']">
+                                            <t t-set="product_variant_id" t-value="record._get_first_possible_variant_id()"/>
+                                            <a t-attf-class="o_add_compare chart text-nowrap #{visual['borderstyle']}" title="Add to Compare" aria-label="Compare" t-att-data-product-product-id="product_variant_id" data-action="o_comparelist">
+                                                <i class="fa fa-bar-chart-o"/> 
+                                            </a>
+                                    </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </template>
+    <template id="dy_product_template_style_5_bits" name="Product Card Style 5">
+        <div t-attf-class="dy_prod_template_style_5_bits dy_prod_template_style_bits h-100 #{visual['borderstyle']}">
+            <form class="" action="/shop/cart/update" method="post">
+                <t t-set="product_prl_offer_data" t-value="record.sudo().product_variant_id._get_offer_timing(website._get_current_pricelist())"/>
+                <t t-set="combination" t-value="record.sudo()._get_first_possible_combination()"/>
+                <t t-set="combination_info" t-value="record.sudo()._get_combination_info(combination, add_qty=add_qty or 1)"/>
+                <t t-set="product_variant" t-value="record.env['product.product'].browse(combination_info['product_id'])"/>
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" t-nocache="The csrf token must always be up to date."/>
+                <input name="product_id" t-att-value="product_variant.id" type="hidden"/>
+                <div class="row mx-0 align-items-center">
+                    <div class="col-4 px-0 flex-img">
+                        <div class="product-content-image">
+                             <a class="oe_product_image_img_wrapper" t-attf-href="/shop/{{slug(record.sudo())}}">
+                                    <img class="product-img-bits img img-fluid h-100 w-100" t-att-src="request.website.image_url(record,'image_1024')"/>
+                                    <img class="img-fluid hover-img-bits img img-fluid" t-att-src="request.website.image_url(record,'hover_image_bits')"/>
+                                </a>
+                        
+                                <!-- Produtc lables -->
+                                <div class="lbl_container container_bits" t-if="'ribbon' in visual['buttons']">
+                                    <t t-foreach="record.product_label_ids" t-as="p_label">
+                                        <span t-attf-class="p_label #{p_label.lable_style}" t-attf-style="border-color:#{p_label.bg_color};background-color:#{p_label.bg_color};color:#{p_label.text_color};">
+                                            <t t-esc="p_label.name"/>
+                                        </span>
+                                    </t>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-8 px-0 flex-content">
+                            <div class="product-details mt-2 mt-sm-0">
+                                <div class="product-title">
+                                    <a t-attf-href="/shop/{{slug(record.sudo())}}" t-esc="record.name" />
+                                </div>
+                                <t t-if="not is_b2b_enabled">
+                                     <div class="d-flex align-items-center product-price flex-wrap">
+                                        <span t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}" class="price me-2"/>
+                                        <span t-attf-class="text-muted oe_default_price me-2 {{'' if combination_info['has_discounted_price'] and not combination_info['compare_list_price'] else 'd-none'}}"
+                                                style="text-decoration: line-through; white-space: nowrap;"
+                                                t-esc="combination_info['list_price']"
+                                                t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                                                itemprop="listPrice"
+                                        />
+                                        <div t-attf-class="te_discount {{'' if combination_info['has_discounted_price'] else 'd-none'}}">
+                                            <t t-set="difference" t-value="round(combination_info['list_price'] - combination_info['price'],2)"/>
+                                            <t t-set="discount" t-value="round(difference*100/combination_info['list_price']) if combination_info['list_price'] &gt; 0 else 0"/>
+                                            <div class="te_percentage" t-if="discount">
+                                                <span t-esc="'(%s'%(discount)+'%'"/>
+                                                Off)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <t t-call="theme_crest.b2b_pricing_content_bits"/>
+                                </t>
+                                <t t-if="'rating' in visual['buttons']">
+                                    <t t-call="portal_rating.rating_widget_stars_static">
+                                        <t t-set="rating_avg" t-value="record.rating_avg"/>
+                                        <t t-set="rating_count" t-value="record.rating_count"/>
+                                    </t>
+                                </t>
+                                <div t-if="product_prl_offer_data and'timer' in visual['buttons']" t-attf-class="card_item_timer_bits" style="display : none">
+                                    <div class="pl_offer_timer d-flex align-items-center justify-content-start flex-wrap" t-att-data-offerends="product_prl_offer_data">
+                                        <div class="d-flex justify-content-start align-items-center my-1">
+                                            <div t-attf-class="counter-box me-2  #{visual['borderstyle']}">
+                                                <span class="counter days"></span>
+                                                <p>Days</p>
+                                            </div>
+                                            <div t-attf-class="counter-box me-2  #{visual['borderstyle']}">
+                                                <span class="counter hours "></span>
+                                                <p>Hours</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-start align-items-center my-1">
+                                            <div t-attf-class="counter-box me-2  #{visual['borderstyle']}">
+                                                <span class="counter minutes "></span>
+                                                <p>Mins</p>
+                                            </div>
+                                            <div t-attf-class="counter-box me-2  #{visual['borderstyle']}">
+                                                <span class="counter seconds "></span>
+                                                <p>Secs</p>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div> 
+                               
+                                <!-- attrs -->
+                                <t  t-if="'color' in visual['buttons']">
+                                    <t t-call="theme_crest.product_attrs_selector_dynamic_bits"/>
+                                </t> 
+                                <!-- Stock Sold Out -->
+                                <div t-if="record.check_inventory_config()" class="stock-lbl-bits">
+                                    <span>Sold Out</span>
+                                </div>
+                                <div class="d-flex flex-column o_term_and_conditions_inner  m-0" t-if="'termsandcondition' in visual['buttons'] and record.terms_conditions_id.product_terms_lines">
+                                    <t t-foreach="record.terms_conditions_id.product_terms_lines" t-as="term">
+                                        <div class="p-0 m-0">
+                                            <div class=" d-flex align-items-center o_term_and_conditions ">
+                                                    <t t-if="term.indication_type == 'icon' ">
+                                                        <div class="img" t-if="term.indication_icon">
+                                                            <i t-attf-class="#{term.indication_icon}  terms-icon"/>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="term.indication_type == 'image' and term.indication_icon != ''">
+                                                        <div class="img" t-if="term.indication_img">
+                                                            <img class="img img-fluid terms-img" t-attf-src="/web/image/product.terms.lines/#{term.id}/indication_img"/>
+                                                        </div> 
+                                                    </t>
+                                                <div>
+                                                    <span t-field="term.name" t-attf-class=" #{t_name} terms-title " />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class='product-tags' t-if="'tag' in visual['buttons'] and record.product_tag_ids">
+                                    <ul class='d-flex align-items-center p-0 m-0 flex-wrap'>
+                                        <t t-foreach="record.product_tag_ids" t-as="tag">
+                                            <li class="tag-items"><t t-esc="tag.name"/></li>
+                                        </t>
+                                    </ul>
+                                </div>
+                                <div class="product-action d-flex justify-content-start aligh-items-center flex-wrap" t-if="'cart' in visual['buttons'] or 'view' in visual['buttons'] or 'like' in visual['buttons'] or 'chart' in visual['buttons']">
+                                        <t t-if="'cart' in visual['buttons']">
+                                            <a role="button" t-attf-class="btn_cart_bits #{visual['borderstyle']}" aria-label="Add to cart" title="Add to cart" t-if="not is_b2b_enabled">
+                                                <i class="fa fa-shopping-cart"/>
+                                            </a>
+                                        </t>
+                                        <t t-if="'view' in visual['buttons']">
+                                            <div class="quick_view_container ">
+                                                <button type="button" role="button" t-attf-class="view o_quick_view_btn  #{visual['borderstyle']}" title="Quick View" t-att-data-product-template-id="record.id" data-action="o_quick_view">
+                                                    <i class="fa fa-eye"/> 
+                                                </button>
+                                            </div>
+                                        </t>
+                                        <t t-if="'like' in visual['buttons']">
+                                            <t t-nocache="The wishlist depends on the user and must not be shared with other users. As this rendering is in the loop, the product value is set in the template, we must retain the id of the product on which we are." t-nocache-product_template_id="record.id">
+                                                <t t-set="in_wish" t-value="record._is_in_wishlist()"/>
+                                                <a t-if="product_variant" type="button" role="button" t-attf-class="as-pc-btn text-nowrap like o_add_wishlist #{visual['borderstyle']} #{'disabled' if in_wish else ''}" t-att-disabled='in_wish or None' title="Add to Wishlist" t-att-data-product-template-id="record.id" t-att-data-product-product-id="product_variant.id" data-action="o_wishlist">
+                                                    <span class="fa fa-heart" role="img" aria-label="Add to wishlist"></span> 
+                                                </a>
+                                            </t>
+                                        </t>
+                                        <t t-if="'chart' in visual['buttons']">
+                                            <t t-set="product_variant_id" t-value="record._get_first_possible_variant_id()"/>
+                                            <a t-attf-class="o_add_compare chart text-nowrap #{visual['borderstyle']}" title="Add to Compare" aria-label="Compare" t-att-data-product-product-id="product_variant_id" data-action="o_comparelist">
+                                                <i class="fa fa-bar-chart-o"/> 
+                                            </a>
+                                        </t>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </template>
+
+
+    <!-- Category -->
+    <template id="dy_categ_tmp_style_1_bits" name="Category">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_categ_tmp_style_1_bits">
+                <div class="row">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_category_template_style_1_bits"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_categ_tmp_style_1_bits">
+                <div class="dy-categ-owl-carousel-style-1 owl-carousel owl-theme ">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_category_template_style_1_bits"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="dy_categ_tmp_style_2_bits" name="Category">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_categ_tmp_style_2_bits">
+                <div class="row ">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_category_template_style_2_bits"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_categ_tmp_style_2_bits">
+                <div class="dy-categ-owl-carousel-style-2 owl-carousel owl-theme ">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_category_template_style_2_bits"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="dy_categ_tmp_style_3_bits" name="Category">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_categ_tmp_style_3_bits">
+                <div class="row">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_category_template_style_3_bits"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_categ_tmp_style_3_bits">
+                <div class="dy-categ-owl-carousel-style-3 owl-carousel owl-theme ">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_category_template_style_3_bits"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+     <template id="dy_categ_tmp_style_4_bits" name="Category">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_categ_tmp_style_4_bits">
+                <div class="row">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_category_template_style_4_bits"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_categ_tmp_style_4_bits">
+                <div class="dy-categ-owl-carousel-style-4 owl-carousel owl-theme ">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_category_template_style_4_bits"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!-- Categoery Card Style -->
+    <template id="dy_category_template_style_1_bits" name="Categoery Card Style 1">
+        <div t-attf-class="dy_categ_template_style_1_bits #{visual['borderstyle']}">
+            <div class='category-img'>
+                <img t-attf-src="/web/image/product.public.category/#{record.id}/image_1920/300x300" alt="Category Image" class="w-100"/>
+                <div class="category-btn">
+                    <a class="btn btn-secondary" t-att-href="keep('/shop/category/' + slug(record), category=0)">View</a>
+                </div>
+            </div>
+            <div class="category-title">
+                <h4>
+                    <t t-esc="record.name"/>
+                </h4>
+            </div>
+        </div>
+    </template>
+    <template id="dy_category_template_style_2_bits" name="Categoery Card Style 2">
+        <div t-attf-class="dy_categ_template_style_2_bits #{visual['borderstyle']}">
+            <div class='category-img'>
+                <img t-attf-src="/web/image/product.public.category/#{record.id}/image_1920/300x300" alt="Category Image" class="w-100"/>
+                <div class="category-btn">
+                    <a class="btn btn-secondary" t-att-href="keep('/shop/category/' + slug(record), category=0)">
+                        <t t-esc="record.name"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="dy_category_template_style_3_bits" name="Categoery Card Style 3">
+        <div t-attf-class="dy_categ_template_style_3_bits #{visual['borderstyle']}">
+            <div class='category-img'>
+                <img t-attf-src="/web/image/product.public.category/#{record.id}/image_1920/300x300" alt="Category Image" class="w-100"/>
+                <div class="category-btn">
+                    <a class="btn btn-secondary" t-att-href="keep('/shop/category/' + slug(record), category=0)">
+                        <t t-esc="record.name"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="dy_category_template_style_4_bits" name="Categoery Card Style 4">
+        <div t-attf-class="dy_categ_template_style_4_bits #{visual['borderstyle']}">
+            <a class='category-items' t-att-href="keep('/shop/category/' + slug(record), category=0)">
+                <div class="category-img">
+                    <img t-attf-src="/web/image/product.public.category/#{record.id}/image_1920/300x300" alt="Category Image" class="w-100"/>
+                </div>
+                <div class="category-btn ">
+                    <p> <t t-esc="record.name"/></p>
+                </div>
+            </a>
+        </div>
+    </template>
+
+    <!-- Blog -->
+    <template id="dy_blog_tmp_style_1_bits" name="Blog">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_blog_tmp_style_1_bits">
+                <div class="row">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_blog_template_style_1_bits"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_blog_tmp_style_1_bits">
+                <div class="dy-blog-owl-carousel-style-1 owl-carousel owl-theme ">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_blog_template_style_1_bits"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="dy_blog_tmp_style_2_bits" name="Blog">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_blog_tmp_style_2_bits">
+                <div class="row ">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_blog_template_style_2_bits"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_blog_tmp_style_2_bits">
+                <div class="dy-blog-owl-carousel-style-2 owl-carousel owl-theme ">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_blog_template_style_2_bits"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="dy_blog_tmp_style_3_bits" name="Blog">
+        <t t-if="visual['type'] == 'grid'">
+            <div class="dy_blog_tmp_style_3_bits">
+                <div class="row">
+                    <t t-foreach="records" t-as="record">
+                        <div t-att-class="'px-0 ' + responsiveclass">
+                            <t t-call="theme_crest.dy_blog_template_style_3_bits"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="dy_blog_tmp_style_3_bits">
+                <div class="dy-blog-owl-carousel-style-3 owl-carousel owl-theme ">
+                    <t t-foreach="records" t-as="record">
+                        <t t-call="theme_crest.dy_blog_template_style_3_bits"/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Blog Card Style -->
+    <template id="dy_blog_template_style_1_bits" name="Blog Card Style 1">
+        <div t-attf-class="dy_blog_template_style_1_bits #{visual['borderstyle']}">
+            <div class="blog-img">
+                <t t-set="_cp" t-value="_cp or json.loads(record.cover_properties)"/>
+                <t t-set="_name" t-value="_name or record._name"/>
+                <t t-set="_id" t-value="_id or record.id"/>
+                <t t-set="_bg" t-value="_bg or record._get_background(height=_resize_height, width=_resize_width)"/>
+                <t t-set="default_cover_name">Cover</t>
+
+                <div t-att-data-name="display_opt_name or default_cover_name" t-att-style="_cp.get('background_color_style')" t-att-data-use_size="use_size" t-att-data-use_filters="use_filters" t-att-data-use_text_align="use_text_align" t-att-data-res-model="_name" t-att-data-res-id="_id" t-attf-class="o_record_cover_container d-flex flex-column w-100 o_colored_level o_cc #{_cp.get('background_color_class')} #{use_size and _cp.get('resize_class')} #{use_text_align and _cp.get('text_align_class')} #{additionnal_classes}">
+                    <div t-attf-class="o_record_cover_component w-100 o_record_cover_image #{snippet_autofocus and 'o_we_snippet_autofocus'}" t-attf-style="background-image: #{_bg};"/>
+                    <div t-if="use_filters" t-attf-class="o_record_cover_component o_record_cover_filter oe_black" t-attf-style="opacity: #{_cp.get('opacity', 0.0)};"/>
+                    <t t-out="0"/>
+                </div>
+                <div class="o_read_more">
+                    <a t-attf-href="/blog/#{slug(record.blog_id)}/#{slug(record)}">Read More</a>
+                </div>
+            </div>
+            <div class="blog-content">
+                <a t-attf-href="/blog/#{slug(record.blog_id)}" t-field="record.blog_id" class="blog-category"/>
+                <a t-attf-href="/blog/#{slug(record.blog_id)}/#{slug(record)}" t-field="record.name" t-attf-class="d-block text-reset text-decoration-none o_blog_post_title my-0 #{'h3' if opt_blog_list_view else ('h5' if opt_blog_readable else 'h6')}">Untitled Post
+                </a>
+                <div class="d-flex o_blog_category align-items-center pt-3">
+                    <i class="fa fa-calendar"></i>
+                    <time t-field="record.post_date" class="text-nowrap fw-bold ms-2 o_blog_category_time pt-0" t-options="{'widget': 'datetime', 'date_only': 'true', 'format': 'medium'}"/>
+
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="dy_blog_template_style_2_bits" name="Blog Card Style 2">
+        <div t-attf-class="dy_blog_template_style_2_bits #{visual['borderstyle']}">
+            <div class="blog-img">
+                <t t-set="_cp" t-value="_cp or json.loads(record.cover_properties)"/>
+                <t t-set="_name" t-value="_name or record._name"/>
+                <t t-set="_id" t-value="_id or record.id"/>
+                <t t-set="_bg" t-value="_bg or record._get_background(height=_resize_height, width=_resize_width)"/>
+                <t t-set="default_cover_name">Cover</t>
+
+                <div t-att-data-name="display_opt_name or default_cover_name" t-att-style="_cp.get('background_color_style')" t-att-data-use_size="use_size" t-att-data-use_filters="use_filters" t-att-data-use_text_align="use_text_align" t-att-data-res-model="_name" t-att-data-res-id="_id" t-attf-class="o_record_cover_container d-flex flex-column w-100 o_colored_level o_cc #{_cp.get('background_color_class')} #{use_size and _cp.get('resize_class')} #{use_text_align and _cp.get('text_align_class')} #{additionnal_classes}">
+                    <div t-attf-class="o_record_cover_component w-100 o_record_cover_image #{snippet_autofocus and 'o_we_snippet_autofocus'}" t-attf-style="background-image: #{_bg};"/>
+                    <div t-if="use_filters" t-attf-class="o_record_cover_component o_record_cover_filter oe_black" t-attf-style="opacity: #{_cp.get('opacity', 0.0)};"/>
+                    <t t-out="0"/>
+                </div>
+                <div class="o_read_more">
+                    <a t-attf-href="/blog/#{slug(record.blog_id)}/#{slug(record)}">Read More</a>
+                </div>
+            </div>
+            <div class="blog-content">
+                <div class="blog-items">
+
+                    <a t-attf-href="/blog/#{slug(record.blog_id)}" t-field="record.blog_id" class="blog-category"/>
+                    <a t-attf-href="/blog/#{slug(record.blog_id)}/#{slug(record)}" t-field="record.name" t-attf-class="d-block text-reset text-decoration-none o_blog_post_title my-0 #{'h3' if opt_blog_list_view else ('h5' if opt_blog_readable else 'h6')}">Untitled Post
+                    </a>
+                    <a t-attf-href="/blog/#{slug(record.blog_id)}/#{slug(record)}" class="text-reset text-decoration-none blog-description">
+                        <div t-if="opt_blog_list_view" t-field="record.teaser" class="mt-2 o_wblog_read_text"/>
+                        <div t-else="" t-field="record.teaser" t-attf-class="mt-2 #{opt_blog_readable and 'o_wblog_normalize_font'}"/>
+                    </a>
+                </div>
+
+
+                <div class="d-flex o_blog_category_time align-items-center">
+                    <i class="fa fa-calendar"></i>
+                    <time t-field="record.post_date" class="text-nowrap fw-bold ms-2 " t-options="{'widget': 'datetime', 'date_only': 'true', 'format': 'medium'}"/>
+
+                </div>
+            </div>
+
+        </div>
+    </template>
+    <template id="dy_blog_template_style_3_bits" name="Blog Card Style 3">
+        <t t-esc="record.name"/>
+    </template>
+
+
+
+    <!-- TEMPLATE -->
+    <template id="product_rating_bits" name="template_name">
+        <div class="o_product_page_reviews_link text-decoration-none text-nowrap">
+             <t t-set="trans_text_plural">%s</t>
+             <t t-set="trans_text_singular">%s</t>
+             <t t-set="rating_count" t-value="(trans_text_plural if record.rating_count > 1 else trans_text_singular) % record.rating_count"/>
+             <t t-set="rating_avg" t-value="round(record.rating_avg * 100) / 100"/>
+             <t t-if="rating_avg &lt;= 2">
+                 <i class="fa fa-star-o" role="img"></i>
+             </t>
+             <t t-elif="rating_avg &gt;= 2.1 and rating_avg &lt;= 3.5">
+                 <i class="fa fa-star-half-o" role="img"></i>
+             </t>
+             <t t-else="">
+                 <i class="fa fa-star" role="img"></i>
+             </t>
+             <small class="text-muted ms-1">
+                 <t t-esc="rating_avg"/>
+             </small>
+        </div>
+    </template>
+
+    <template id="product_attrs_selector_dynamic_bits" name="template_name">
+        <t t-set="product_attrs" t-value="record.attribute_line_ids.filtered(lambda a: a.attribute_id.display_type and a.attribute_id.show_on_ecomm_card)"/>
+        <div t-if="len(product_attrs) and len(product_attrs.value_ids) > 1" class="pav_container d-flex align-items-center justify-content-center">
+            <t t-foreach="product_attrs.value_ids" t-as="attr" >
+                <t t-if="attr_index &lt; 3">
+                    <div t-if="attr.attribute_id.name == 'Color' and product_attrs.value_ids[0].attribute_id.name == attr.attribute_id.name and attr.attribute_id.show_on_ecomm_card == True" t-att-title="attr.name" class="rounded-circle cursor-pointer position-relative">
+                            <span t-if="attr.html_color" class="rounded-circle color-attr-bits" t-att-data-value="product_attrs.product_template_value_ids[attr_index].ptav_product_variant_ids[0].id"  t-att-data-valid="attr.id" t-att-data-product_id="record.id" t-attf-data-main-image="/web/image/product.product/#{product_attrs.product_template_value_ids[attr_index].ptav_product_variant_ids[0].id}/image_1920" t-attf-style="background-color: #{attr.html_color}"/>
+                            <span t-elif="attr.image" class="rounded-circle color-attr-bits" t-att-data-value="product_attrs.product_template_value_ids[attr_index].ptav_product_variant_ids[0].id" t-att-data-valid="attr.id" t-attf-data-main-image="/web/image/product.product/#{product_attrs.product_template_value_ids[attr_index].ptav_product_variant_ids[0].id}/image_1920" t-attf-style="background-image: url(/web/iamge/record.attribute.value/#{attr.id}/image);background-size:cover;"/>
+                    </div>
+                    <div t-if="attr.attribute_id.name != 'Color' and product_attrs.value_ids[0].attribute_id.name == attr.attribute_id.name and attr.attribute_id.show_on_ecomm_card == True" t-att-title="attr.name" class="rounded-circle cursor-pointer position-relative all-attr-bits" t-attf-data-main-image="/web/image/product.product/#{product_attrs.product_template_value_ids[attr_index].ptav_product_variant_ids[0].id}/image_1920">
+                            <span t-if="attr.image" class="rounded-circle all-attr-img" t-att-data-valid="attr.id" t-attf-data-main-image="/web/image/product.product/#{product_attrs.product_template_value_ids[attr_index].ptav_product_variant_ids[0].id}/image_1920" t-attf-style="background-image: url(/web/image/record.attribute.value/#{attr.id}/image);background-size:cover;"/>
+                            <span t-elif="attr.name" class="all-attr" ><t t-esc="attr.name[0].upper()"/></span>
+                    </div>
+                </t>
+            </t>
+            <t t-set="product_attrs_len" t-value="product_attrs.mapped('value_ids').filtered(lambda v: v.attribute_id.name == product_attrs[0].attribute_id.name)"/>
+            <t t-if="len(product_attrs_len) &gt; 3">
+                <a class="more-atv badge bg-gray text-black" t-att-href="product_href">3+</a>
+            </t>
+        </div>
+    </template>
+</odoo>

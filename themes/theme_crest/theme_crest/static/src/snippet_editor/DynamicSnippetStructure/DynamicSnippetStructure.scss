@@ -1,0 +1,43 @@
+.dynamic-snippet-structrue {
+  .btn {
+    &:active {
+      border-color: transparent !important;
+    }
+  }
+  .structure-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 0px;
+    margin-bottom: 10px;
+    .btn-row-action {
+      padding: 8px 40px;
+    }
+    .row-selector {
+      padding-left: 10px;
+      background: #e4d1d1;
+      border-radius: 6px;
+      .row-select {
+        width: 100px;
+        height: 39px;
+        border: 1px solid #f4ca8c;
+        background: #fff;
+        border-radius: 3px;
+        padding: 5px 18px;
+        margin-left: 12px;
+      }
+    }
+  }
+  .border-dashed {
+    border: 1px solid black;
+    border-radius: 2px;
+  }
+}
+.o_technical_modal {
+  .modal-body {
+    p {
+      margin: 0 !important;
+      font-size: 17px !important;
+      font-weight: 500;
+    }
+  }
+}

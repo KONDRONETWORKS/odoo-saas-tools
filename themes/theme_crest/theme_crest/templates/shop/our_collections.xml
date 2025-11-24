@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="our_collections_bits" name="Our Collections">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty our_collections_bits">
+                <section class="s_banner our_collections-title text-center">
+                    <img src="/theme_crest/static/images/collection.jpg" alt="collections" />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100"><g fill="#FFFFFF"><path d="M500 80.7C358 68 0 4 0 4V0h1000v84.7c-216 23.3-358 8.6-500-4Z" opacity=".3"></path><path d="M500 65.7C358 53 0 4 0 4V0h1000v62.7c-216 23.3-358 15.6-500 3Z" opacity=".5"></path><path d="M500 50.7C358 38 0 4 0 4V0h1000v40.7C784 64 642 63.3 500 50.7Z"></path></g></svg>
+                    <h2>Collections</h2>
+                </section>
+                <section class="bits-dy-collections pt-5">
+                    <div class="container">
+                        <div class="collections_main">
+                            <t t-foreach="categories" t-as="categ" class="">
+                                <div class="card">
+                                    <img class="img-fluid categ-img-bits" t-attf-src="/web/image/product.public.category/#{categ.id}/image_1920/300x300"/>
+                                    <a t-attf-href="/shop/category/#{categ.id}" class="categ-link">
+                                        <t t-esc="categ.name"/>
+                                        <i class="oi oi-arrow-up-right"/>
+                                    </a>
+                                </div>
+                            </t>
+                        </div>
+                        <div class="d-flex justify-content-center mt-4 pagination-inner ">
+                            <ul class="pagination">
+                                <!-- Previous page link -->
+                                <li t-attf-class="page-item #{'disabled' if not pager.get('previous') else ''}">
+                                    <a t-if="pager.get('previous')" t-attf-href="#{pager.get('previous')}" class="page-link prev-btn">
+                                        <i class="fa fa-chevron-left"></i>
+                                    </a>
+                                    <span t-else="" class="page-link">
+                                        <i class="fa fa-chevron-left"></i>
+                                    </span>
+                                </li>
+
+                                <!-- Page numbers -->
+                                <li t-attf-class="page-item" t-if="pager['currentpage'] != 1" >
+                                    <a t-attf-href="/our/collections?page=#{pager['currentpage'] - 1}" class="page-link">
+                                        <t t-esc="pager['currentpage'] - 1"/>
+                                    </a>
+                                </li>
+                                <t t-foreach="pager['pages']" t-as="page">
+                                    <li t-attf-class="page-item #{'active' if page.get('current') else ' '}" t-if="page.get('current')">
+                                        <a t-attf-href="#{page.get('url')}" class="page-link">
+                                            <t t-esc="page.get('number')"/>
+                                        </a>
+                                    </li>
+                                </t>
+                               <li t-attf-class="page-item" t-if="len(pager['pages']) > pager['currentpage']" >
+                                    <a t-attf-href="/our/collections?page=#{pager['currentpage'] + 1}" class="page-link">
+                                        <t t-esc="pager['currentpage'] + 1"/>
+                                    </a>
+                                </li>
+
+                                <!-- Next page link -->
+                                <li t-attf-class="page-item #{'disabled' if not pager.get('next') else ''}">
+                                    <a t-if="pager.get('next')" t-attf-href="#{pager.get('next')}" class="page-link next-btn">
+                                        <i class="fa fa-chevron-right"></i>
+                                    </a>
+                                    <span t-else="" class="page-link">
+                                        <i class="fa fa-chevron-right"></i>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+</odoo>

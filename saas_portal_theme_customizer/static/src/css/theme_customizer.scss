@@ -1,0 +1,97 @@
+/* Styles dynamiques basés sur les paramètres de configuration */
+
+/* Charger les couleurs depuis les paramètres système */
+/* Charger les couleurs depuis les paramètres système (injectés par JS) */
+:root {
+    --theme-primary-color: var(--theme-primary-color, #714B67);
+    --theme-secondary-color: var(--theme-secondary-color, #2D3142);
+    --theme-accent-color: var(--theme-accent-color, #A53860);
+    --theme-success-color: var(--theme-success-color, #28a745);
+    --theme-warning-color: var(--theme-warning-color, #ffc107);
+    --theme-danger-color: var(--theme-danger-color, #dc3545);
+
+    /* Light Mode Defaults */
+    --theme-bg-color: var(--theme-bg-color-light, #ffffff);
+    --theme-text-color: var(--theme-text-color-light, #212529);
+    /* UI Elements Defaults */
+    --theme-button-radius: var(--theme-button-radius, 4px);
+    --theme-card-radius: var(--theme-card-radius, 8px);
+    --theme-input-radius: var(--theme-input-radius, 4px);
+    --theme-font-size-base: var(--theme-font-size-base, 14px);
+    --theme-link-decoration: var(--theme-link-decoration, none);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --theme-bg-color: var(--theme-bg-color-dark, #1e1e2d);
+        --theme-text-color: var(--theme-text-color-dark, #ffffff);
+    }
+}
+
+body.o_web_client {
+    background-color: var(--theme-bg-color) !important;
+    color: var(--theme-text-color) !important;
+    font-size: var(--theme-font-size-base) !important;
+}
+
+/* UI Customization */
+.btn {
+    border-radius: var(--theme-button-radius) !important;
+}
+
+.card,
+.o_card,
+.o_saas_dashboard_grid .o_app_card {
+    border-radius: var(--theme-card-radius) !important;
+}
+
+.form-control,
+.o_input {
+    border-radius: var(--theme-input-radius) !important;
+}
+
+a {
+    text-decoration: var(--theme-link-decoration) !important;
+}
+
+/* Appliquer les couleurs personnalisées */
+.o_main_navbar {
+    background: linear-gradient(135deg, var(--theme-primary-color) 0%, var(--theme-secondary-color) 100%) !important;
+    border-bottom: 3px solid var(--theme-accent-color) !important;
+}
+
+.btn-primary {
+    background: var(--theme-primary-color) !important;
+    border-color: var(--theme-primary-color) !important;
+}
+
+.btn-primary:hover {
+    background: var(--theme-secondary-color) !important;
+    border-color: var(--theme-secondary-color) !important;
+}
+
+/* Styles pour les alertes avec couleurs personnalisées */
+.alert-success {
+    border-left-color: var(--theme-success-color) !important;
+}
+
+.alert-warning {
+    border-left-color: var(--theme-warning-color) !important;
+}
+
+.alert-danger {
+    border-left-color: var(--theme-danger-color) !important;
+}
+
+/* Barre supérieure conditionnelle */
+body:has([data-theme-top-bar="true"])::before {
+    background: linear-gradient(90deg,
+            var(--theme-primary-color) 0%,
+            var(--theme-accent-color) 50%,
+            var(--theme-secondary-color) 100%) !important;
+}
+
+/* Badge SaaS Portal conditionnel */
+body:has([data-theme-branding="false"]) .o_main_navbar .o_menu_brand::before {
+    display: none !important;
+}

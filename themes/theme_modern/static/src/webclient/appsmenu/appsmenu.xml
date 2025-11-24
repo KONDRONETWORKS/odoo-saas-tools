@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+	<t 
+		t-name="modern_theme.AppsMenu" 
+		owl="1"
+	>
+		<Dropdown 
+			hotkey="props.hotkey"
+			title="props.title"
+			class="props.class"
+			manualOnly="props.manualOnly"
+		>
+			<t t-slot="toggler">
+				<t t-slot="toggler"/>
+			</t>
+			<t t-slot="default">
+				<t t-slot="default"/>
+			</t>
+		</Dropdown>
+	</t>
+	
+</templates>

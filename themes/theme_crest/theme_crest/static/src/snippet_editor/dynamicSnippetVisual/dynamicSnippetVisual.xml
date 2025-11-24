@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="theme_crest.DynamicSnippetVisual">
+        <div class="dynamic-snippet-visual input-groups py-5 bg-200">
+            <div class="d-flex flex-wrap justify-content-center o_static_category" t-if="state?.colValue?.data?.model == 'static_template'">
+                <t t-foreach="state.catgorys" t-as="catgory" t-key="catgory.categoryId">
+                    <button t-on-click="ev => this.selectCategory(catgory.categoryId)" t-attf-class="btn m-2 #{state.selectedCategory == catgory.categoryId? 'btn-primary': 'btn-outline-primary'}" t-esc="catgory.categoryTitle">
+                    </button>
+                </t>
+            </div>
+            <div class="row mt-3" t-if="state?.colValue?.data?.model == 'static_template'">
+                <t t-foreach="state.templates" t-as="template" t-key="template.id" t-if="template.category == state.selectedCategory and template.type == 'static_template'">
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <div class="o_static_template_container">
+                            <div t-on-click="ev => this.selectTemplate(template)" t-attf-class="o_static_template-items #{state.selectedTemplate == template.id ? 'o_static_template_active' : ''}">
+                                <img t-att-src="template.image" alt="svg" class="w-100" />
+                            </div>
+                            <div class="text-center mt-1">
+                                <t t-esc="template.title"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+            <div class="d-flex justify-content-center" t-if="state?.colValue?.data?.model == 'product.template' ||  state?.colValue?.data?.model == 'product.public.category' ||  state?.colValue?.data?.model == 'blog.post'">
+                <div class="col-12 col-xl-6">
+                    <t t-if="state?.colValue?.data?.model == 'product.template'">
+                        <div class="row m-auto">
+                            <div class="col-12">
+                                <label class="group-domain-label mb-1">Products Action:</label>
+                            </div>
+                            <div class="col-12 d-flex flex-wrap mb-3 product-shop-btn" style="gap: 25px;">
+                                <button t-attf-class="btn #{state.selectedButton.includes('cart')? 'btn-primary': 'btn-outline-primary'} flex-grow-1" t-on-click="ev => this.toggleBtn('cart')" title="Cart">
+                                    <i class="fa fa-shopping-cart fa-2x"/>
+                                </button>
+                                <button t-attf-class="btn #{state.selectedButton.includes('chart')? 'btn-primary': 'btn-outline-primary'} flex-grow-1" t-on-click="ev => this.toggleBtn('chart')" title="Chart">
+                                    <i class="fa fa-bar-chart-o fa-2x"/>
+                                </button>
+                                <button t-attf-class="btn #{state.selectedButton.includes('view')? 'btn-primary': 'btn-outline-primary'} flex-grow-1" t-on-click="ev => this.toggleBtn('view')" title="View">
+                                    <i class="fa fa-eye fa-2x"/>
+                                </button>
+                                <button t-attf-class="btn #{state.selectedButton.includes('like')? 'btn-primary': 'btn-outline-primary'} flex-grow-1" t-on-click="ev => this.toggleBtn('like')" title="Like">
+                                    <i class="fa fa-heart fa-2x"/>
+                                </button>
+                                <button t-attf-class="btn #{state.selectedButton.includes('rating')? 'btn-primary': 'btn-outline-primary'} flex-grow-1" t-on-click="ev => this.toggleBtn('rating')" title="Rating">
+                                    <i class="fa fa-star-o fa-2x"/>
+                                </button>
+                                <button t-attf-class="btn #{state.selectedButton.includes('tag')? 'btn-primary': 'btn-outline-primary'} flex-grow-1" t-on-click="ev => this.toggleBtn('tag')" title="Tag">
+                                    <i class="fa fa-tag fa-2x"/>
+                                </button>
+                                 <button t-attf-class="btn #{state.selectedButton.includes('timer')? 'btn-primary': 'btn-outline-primary'} flex-grow-1" t-on-click="ev => this.toggleBtn('timer')" title="Offer Timer">
+                                    <i class="fa fa-clock-o fa-2x" ></i>
+                                </button>
+                                <button t-attf-class="btn #{state.selectedButton.includes('color')? 'btn-primary': 'btn-outline-primary'} flex-grow-1" t-on-click="ev => this.toggleBtn('color')" title="Color OR Size">
+                                    <svg t-attf-fill="#{state.selectedButton.includes('color')? '#ffffff' : '#0097a7'} " style="width: 26px; height: auto; max-width: 100%; max-height: 100%;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 256c0 .9 0 1.8 0 2.7c-.4 36.5-33.6 61.3-70.1 61.3L344 320c-26.5 0-48 21.5-48 48c0 3.4 .4 6.7 1 9.9c2.1 10.2 6.5 20 10.8 29.9c6.1 13.8 12.1 27.5 12.1 42c0 31.8-21.6 60.7-53.4 62c-3.5 .1-7 .2-10.6 .2C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM128 288a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-96a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM288 96a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm96 96a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg>
+                                </button>
+                                 <button t-attf-class="btn #{state.selectedButton.includes('termsandcondition')? 'btn-primary': 'btn-outline-primary'} flex-grow-1" t-on-click="ev => this.toggleBtn('termsandcondition')" title="Term and Conditions">
+                                    <svg t-attf-fill="#{state.selectedButton.includes('termsandcondition')? '#ffffff' : '#0097a7'} " style="width: 26px; height: auto; max-width: 100%; max-height: 100%;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM112 256l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+                                </button>
+                                <button t-attf-class="btn #{state.selectedButton.includes('ribbon')? 'btn-primary': 'btn-outline-primary'} flex-grow-1" t-on-click="ev => this.toggleBtn('ribbon')" title="Label">
+                                    <svg t-attf-fill="#{state.selectedButton.includes('ribbon')? '#ffffff' : '#0097a7'} " style="width: 26px; height: auto; max-width: 100%; max-height: 100%;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M333.2 322.8s0 0 0 0l-133.9-146s0 0 0 0L146 118.6c7.8-5.1 37-22.6 78-22.6s70.2 17.4 78 22.6L245.7 180l85.6 93.4 27.4-29.8c16.3-17.7 25.3-40.9 25.3-65l0-29.5c0-19-5.6-37.5-16.1-53.3L327.8 35.6C312.9 13.4 287.9 0 261.2 0l-76 0c-25.8 0-50.1 12.5-65.1 33.5L81.9 87C70.3 103.2 64 122.8 64 142.8L64 164c0 23.2 8.4 45.6 23.6 63.1l56 64.2s0 0 0 0l83.3 95.6s0 0 0 0l91.8 105.3c10 11.5 26.8 14.3 40 6.8l54.5-31.1c17.8-10.2 21.6-34.3 7.7-49.4l-87.7-95.7zM205.2 410.6l-83.3-95.6L27.1 418.5c-13.9 15.1-10.1 39.2 7.7 49.4l55.1 31.5c13 7.4 29.3 4.9 39.4-6.1l75.9-82.6z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </t>
+                    <div class="row m-auto py-2">
+                        <div class="col-sm-6 col-12 " t-if="state?.colValue?.data?.model != 'static_template'">
+                            <div class="me-sm-2 m-0">
+                                <label class="group-domain-label pb-1">Template Style</label>
+                                <select class="from-control group-domain-input " t-on-change="ev => this.state.selectedTemplate = ev.target.value" t-att-value="state.selectedTemplate">
+                                    <t t-foreach="state.templates" t-as="template" t-key="template_index">
+                                        <option t-att-value="template.id">
+                                            <t t-esc="template.title"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-12">
+                            <div class="ms-sm-2 m-0 mt-2 mt-sm-0">
+                                <label class="group-domain-label pb-1">Grid Type</label>
+                                <select class="group-domain-input" t-on-change="ev => this.state.selectedType = ev.target.value" t-att-value="state.selectedType">
+                                    <option value="grid">Grid</option>
+                                    <option value="slider">Slider</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-auto py-2" t-if="state.selectedType == 'grid'">
+                        <div class="col-12 col-sm-6" t-if="state?.colValue?.data?.model != 'static_template'">
+                            <div class="me-sm-2">
+                                <label class="group-domain-label pb-1">
+                                Data items per row (
+                                    <t t-esc="state.limit"/>
+                                    )
+                                </label>
+                                <div class="d-flex align-items-center">
+                                    <input class="progress" t-att-value="state.limit" t-on-change="ev => this.state.limit = ev.target.value" type="range" min="1" t-att-max="state.selectedTemplate == 'dy_prod_tmp_style_4_bits' ? 2 : 8"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-auto py-2" t-if="state.selectedType == 'slider'">
+                        <div class="col-12 col-sm-6" t-if="state?.colValue?.data?.model != 'static_template'">
+                            <div class="me-sm-2">
+                                <label class="group-domain-label pb-1">Data limit per slide (
+                                    <t t-esc="state.limit"/>
+                                )    
+                                </label>
+                                <input t-att-value="state.limit" t-on-change="ev => this.state.limit = ev.target.value" type="range" min="1" t-att-max="state.selectedTemplate == 'dy_prod_tmp_style_4_bits' ? 2 : 8" class="progress"/>
+
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 py-0">
+                            <div class="row mt-3 mt-sm-0">
+                                <div class="col-12">
+                                    <label class="group-domain-label pb-1 ms-sm-2 ">Slider Configuration</label>
+                                </div>
+                                <div class="col-4">
+                                    <div t-attf-class="d-flex align-items-center slider-confi-itmes border-primary border justify-content-evenly rounded-3 mx-2 #{state.dost == true ? 'slider-confi-itmes-active' : ''}">
+                                        <label class="" for="CheckDots">Dots</label>
+                                        <input t-on-change="(ev)=>this.state.dost = ev.target.checked" type="checkbox" t-att-checked="state.dost" id="CheckDots"/>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div t-attf-class="d-flex align-items-center border-primary slider-confi-itmes border justify-content-evenly rounded-3 mx-2 #{state.nav == true ? 'slider-confi-itmes-active' : ''}">
+                                        <label class="" for="CheckNav">Nav</label>
+                                        <input t-on-change="(ev) => this.state.nav = ev.target.checked" type="checkbox" t-att-checked="state.nav" id="CheckNav"/>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div t-attf-class="d-flex align-items-center border-primary slider-confi-itmes border justify-content-evenly rounded-3 mx-2 #{state.autoplay == true ? 'slider-confi-itmes-active' : ''}">
+                                        <label class="" for="CheckAutopaly">AutoPlay</label>
+                                        <input t-on-change="(ev) => this.state.autoplay = ev.target.checked" type="checkbox" t-att-checked="state.autoplay" id="CheckAutopaly" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="row m-auto py-2" >
+                        <div class="col-12 col-sm-6" t-if="state?.colValue?.data?.model != 'static_template'">
+                            <div class="me-sm-2">
+                                <label class="group-domain-label pb-1">
+                                    Border style
+                                </label>
+                                <select class="group-domain-input" t-on-change="ev => this.state.borderStyle = ev.target.value" t-att-value="state.borderStyle">
+                                    <option value="square">Square</option>
+                                    <option value="rounded">Rounded</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="navbar_nav_label_bits" inherit_id="website.submenu">
+        <xpath expr="//a[@t-att-href='submenu._clean_url()']" position="attributes">
+            <attribute name="t-attf-class" add="#{request.website.sudo().get_navbar_hover_effect()}"  separator=" "/>
+        </xpath>
+        <xpath expr="//span[@t-field='submenu.name']" position="replace">
+            <span>
+                <span t-field="submenu.name"/>
+                <span t-if="submenu.menu_label_id" t-attf-class="#{submenu.menu_label_id.label_style} " t-attf-style="background-color: #{submenu.menu_label_id.background_color}; color: #{submenu.menu_label_id.color}; top:#{'-100%' if submenu.menu_label_id.label_position == 'label_top' else '100%'} ;">
+                    <span t-field="submenu.menu_label_id.name"/>
+                    <div class="before" t-attf-style="border-color: #{submenu.menu_label_id.background_color};  #{'bottom : -4px ' if submenu.menu_label_id.label_position == 'label_top' else 'top : -4px'};  transform: #{'translateX(-50%) rotate(0deg)' if submenu.menu_label_id.label_position == 'label_top' else 'translateX(-50%) rotate(180deg)'};"/>
+                </span>
+            </span>
+        </xpath>
+    </template>
+</odoo>

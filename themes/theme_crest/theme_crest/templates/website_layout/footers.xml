@@ -1,0 +1,1499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- footer_1_bits -->
+     <template id="footer_1_bits" inherit_id="website.layout" name="footer_1_bits" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo footer1_bits" t-ignore="true" t-if="not no_footer"> 
+                <section class="footer-middle footer-color">
+                    <t t-set="website" t-value="request.website"/>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row justify-content-between">
+                                    <div class="col-12 col-lg-4">
+                                        <div class="footer-title mb-3">
+                                            <img t-attf-src="/web/image/website/#{website.id}/logo" class="img img-fluid img-responsive" t-att-title="website.name"/>
+                                        </div>
+                                        <div class="footer-link">
+                                            <span>
+                                                We are team of designers and developers that create 
+                                                high quality WordPress, Magento, Prestashop, Opencart
+                                                themes.
+                                            </span>
+                                        </div>
+
+                                        <div class="Pay-content my-3">
+                                             <div class="footer-title mb-3">
+                                                <h5 class="mb-0">Payment:</h5>
+                                            </div>
+                                            <div class="d-flex align-items-center mt-1">
+                                                <a class="pe-2">
+                                                    <img src="/theme_crest/static/images/footer/footer-1/payment-brand-1.png" class="img img-fluid img-responsive"/>                                                
+                                                </a>
+                                                <a class="pe-2">
+                                                    <img src="/theme_crest/static/images/footer/footer-1/payment-brand-2.png" class="img img-fluid img-responsive"/>                                                
+                                                </a>
+                                                <a class="pe-2">
+                                                    <img src="/theme_crest/static/images/footer/footer-1/payment-brand-3.png" class="img img-fluid img-responsive"/>                                                
+                                                </a>
+                                                <a class="pe-2">
+                                                    <img src="/theme_crest/static/images/footer/footer-1/payment-brand-4.png" class="img img-fluid img-responsive"/>                                                
+                                                </a>
+                                                <a class="pe-2">
+                                                    <img src="/theme_crest/static/images/footer/footer-1/payment-brand-5.png" class="img img-fluid img-responsive"/>                                                
+                                                </a>
+                                                <a class="pe-2">
+                                                    <img src="/theme_crest/static/images/footer/footer-1/payment-brand-6.png" class="img img-fluid img-responsive"/>                                                
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-lg-2">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">Useful Links</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link"> 
+                                                <li class="mb-2"><a href="/our/collections">Collections</a></li>
+                                                <li class="mb-2"><a href="/our/brands">Brands</a></li>
+                                                <li class="mb-2"><a href="/shop/wishlist">Wishlist</a></li>
+                                                <li class="mb-2"><a href="/blogs">My Cart</a></li>  
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-lg-2">
+                                       <div class="my-2 my-lg-0">
+                                             <div class="footer-title mb-3">
+                                                <h5 class="mb-0">Quick Links</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><a href="javascript:;">About Us</a></li>
+                                                <li class="mb-2"><a href="/contactus">Contact Us</a></li> 
+                                                <li class="mb-2"><a href="/jobs">Career</a></li> 
+                                                <li class="mb-2"><a href="/blogs">Blogs</a></li>
+                                            </ul>
+                                       </div>
+                                    </div>
+                                    <div class="col-6 col-lg-2">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">Informations</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><a href="#">Terms &amp; Conditions</a></li>
+                                                <li class="mb-2"><a href="#">Refund policy</a></li> 
+                                                <li class="mb-2"><a href="#">Shipping policy</a></li> 
+                                                <li class="mb-2"><a href="#">Track Your Order</a></li>
+                                            </ul>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div>  
+                        <div class="footer-copyright mt-lg-5 mt-sm-4">
+                            <div class="row border-top pt-3">
+                                <div class="col-lg-9">
+                                    <p class="footer-link mb-0"> 
+                                        &amp;copy; Copyright <t t-esc="datetime.datetime.now().year"/> <t t-esc="website.company_id.name or 'Company name'"/>.
+                                    </p>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- footer_2_bits -->
+     <template id="footer_2_bits" inherit_id="website.layout" name="footer_2_bits" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo footer2_bits" t-ignore="true" t-if="not no_footer"> 
+                <section class="footer-middle footer-color">
+                    <t t-set="website" t-value="request.website"/>
+                    <div class="container">
+                        <div class="row"> 
+                            <div class="col-lg-4 mt-4 mt-lg-0">
+                                <div class="footer-title mb-3">
+                                    <h5 class="mb-0">Call To Order</h5>
+                                </div>
+                                <div class="footer-y-color pb-3">
+                                    <h3><t t-esc="website.company_id.phone or ''"/></h3>
+                                </div>   
+                                <div class="footer-link-para">
+                                    <p>
+                                        There are many variations passages of avilable, but the majority have
+                                        sufferd alternative injected humour words.
+                                    </p>
+                                    <p>
+                                        Address: 
+                                        <t t-esc="website.company_id.street"/>, 
+                                        <t t-esc="website.company_id.city or ''"/>,
+                                        <t t-esc="website.company_id.state_id.name or ''"/>
+                                        <t t-esc="website.company_id.country_id.name or ''"/>
+                                    </p>
+                                    <p>
+                                        Email: <t t-esc="website.company_id.email"/>
+                                    </p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="footer-link-para">
+                                        <p class="mb-0">Follow Us:</p>
+                                    </div>
+                                    <div class="footer-icon-light d-flex">
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_facebook" target="_blank" title="Facebook">
+                                                <i class="fa fa-facebook-official"></i>
+                                            </a> 
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_twitter" target="_blank" title="Twitter">
+                                               <i class="fa fa-twitter-square"></i>
+                                            </a>
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_linkedin" target="_blank" title="LinkedIn">
+                                              <i class="fa fa-linkedin-square"></i>
+                                            </a> 
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_instagram" target="_blank" title="Instagram">
+                                                <i class="fa fa-instagram"></i>
+                                            </a>
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_youtube" target="_blank" title="Youtube">
+                                                <i class="fa fa-youtube-play"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div> 
+                            <div class="col-lg-8">
+                                <div class="row">
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">USEFUL LINKS</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><a href="/our/collections">Collections</a></li>
+                                                <li class="mb-2"><a href="/our/brands">Brands</a></li>
+                                                <li class="mb-2"><a href="/shop/wishlist">Wishlist</a></li>
+                                                <li class="mb-2"><a href="/blogs">My Cart</a></li>  
+                                            </ul>
+                                        </div>
+                                    </div> 
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">QUICK LINKS</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><a href="#">Terms &amp; Conditions</a></li>
+                                                <li class="mb-2"><a href="#">Refund policy</a></li> 
+                                                <li class="mb-2"><a href="#">Shipping policy</a></li> 
+                                                <li class="mb-2"><a href="#">Track Your Order</a></li>
+                                            </ul>
+                                        </div>
+                                    </div> 
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">COMPANY INFO</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><a href="#">About Us</a></li>
+                                                <li class="mb-2"><a href="#">Contact Us</a></li>
+                                                <li class="mb-2"><a href="#">Blog</a></li>
+                                                <li class="mb-2"><a href="#">Become A Vendor</a></li>
+                                                <li class="mb-2"><a href="#">Business With Us</a></li>
+                                                <li class="mb-2"><a href="#">Find a Store</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                             <div class="footer-title mb-3">
+                                                <h5 class="mb-0">LET US HELP YOU</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link"> 
+                                                <li class="mb-2"><a href="#">Contack us</a></li>
+                                                <li class="mb-2"><a href="#">Order</a></li>
+                                                <li class="mb-2"><a href="#">Checkout</a></li>
+                                                <li class="mb-2"><a href="#">Downloads</a></li> 
+                                            </ul>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+
+                     <div class="footer-copyright mt-sm-4">
+                        <div class="container">
+                            <div class="row align-items-center border-top pt-3">
+                                <div class="col-lg-8">
+                                    <span class="footer-link mb-0 text-center text-lg-start d-block"> 
+                                        &amp;copy; Copyright <t t-esc="datetime.datetime.now().year"/> <t t-esc="website.company_id.name or 'Company name'"/>. 
+                                    </span>
+                                </div> 
+                                <div class="col-lg-4"> 
+                                    <div class="d-flex align-items-center justify-content-lg-end justify-content-center mt-2 mt-lg-0">
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/pypal-grey-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/mastercard-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/visa-grey-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/express-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/discover-network.png" class="img img-fluid img-responsive"/>                                                
+                                        </a> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- footer_3_bits -->
+    <template id="footer_3_bits" inherit_id="website.layout" name="footer_3_bits" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo footer3_bits"  t-ignore="true" t-if="not no_footer">
+                <section class="footer-middle footer-color">
+                    <t t-set="website" t-value="request.website"/>
+                    <div class="container">
+                        <div class="row"> 
+                            <div class="col-lg-4 my-4">
+                                <div class="footer-title mb-3 pb-2">
+                                    <h5 class="mb-0">Call To Order</h5>
+                                </div>
+                                <div class="footer-r-color pb-3">
+                                    <h3><t t-esc="website.company_id.phone"/></h3>
+                                </div>   
+                                <div class="footer-link-para">
+                                    <span>
+                                        There are many variations passages of avilable, but the majority have
+                                        sufferd alternative injected humour words.
+                                    </span> 
+                                </div>
+                                <div class="footer-link-para">
+                                    <span>
+                                        <b class="text-dark">Address:</b> 
+                                        <t t-esc="website.company_id.street"/>, 
+                                        <t t-esc="website.company_id.city or ''"/>,
+                                        <t t-esc="website.company_id.state_id.name or ''"/>
+                                        <t t-esc="website.company_id.country_id.name or ''"/>
+                                    </span>
+                                </div>
+                                <div class="footer-link-para">
+                                    <span>
+                                        <b class="text-dark">Email:</b> <t t-esc="website.company_id.email"/>
+                                    </span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="footer-link-para">
+                                        <p class="mb-0 text-dark"><b>Follow Us:</b></p> 
+                                    </div>
+                                    <div class="footer-icon d-flex">
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_facebook" target="_blank" title="Facebook">
+                                                <i class="fa fa-facebook-official"></i>
+                                            </a> 
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_twitter" target="_blank" title="Twitter">
+                                               <i class="fa fa-twitter-square"></i>
+                                            </a>
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_linkedin" target="_blank" title="LinkedIn">
+                                              <i class="fa fa-linkedin-square"></i>
+                                            </a> 
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_instagram" target="_blank" title="Instagram">
+                                                <i class="fa fa-instagram"></i>
+                                            </a>
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_youtube" target="_blank" title="Youtube">
+                                                <i class="fa fa-youtube-play"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div> 
+                            <div class="col-lg-8 my-4">
+                                <div class="row">
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">COMPANY INFOR</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><a href="#">About Us</a></li>
+                                                <li class="mb-2"><a href="#">Contact Us</a></li>
+                                                <li class="mb-2"><a href="#">Blog</a></li>
+                                                <li class="mb-2"><a href="#">Become A Vendor</a></li>
+                                                <li class="mb-2"><a href="#">Business With Us</a></li>
+                                                <li class="mb-2"><a href="#">Find a Store</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">LET US HELP YOU</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><a href="#">Order</a></li>
+                                                <li class="mb-2"><a href="#">Checkout</a></li>
+                                                <li class="mb-2"><a href="#">Downloads</a></li>
+                                                <li class="mb-2"><a href="#">Addresses</a></li>
+                                                <li class="mb-2"><a href="#">Account Details</a></li>
+                                                <li class="mb-2"><a href="#">Lost Password</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">QUICK LINKS</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><a href="#">Special Offers</a></li>
+                                                <li class="mb-2"><a href="#">Gift Cards</a></li>
+                                                <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                                                <li class="mb-2"><a href="#">Teams Of Use</a></li>
+                                                <li class="mb-2"><a href="#">Portfolio</a></li>
+                                                <li class="mb-2"><a href="#">FAQs</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">USEFUL LINKS</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><a href="#">Flash Deal</a></li>
+                                                <li class="mb-2"><a href="#">New Arrivals</a></li>
+                                                <li class="mb-2"><a href="#">Personal Branding</a></li>
+                                                <li class="mb-2"><a href="#">Best Seller</a></li>
+                                                <li class="mb-2"><a href="#">Top Rating</a></li>
+                                                <li class="mb-2"><a href="#">Search Trending</a></li>
+                                            </ul>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div>
+                        <!-- subscribe-box -->
+                        <div class="subscribe-box mt-3 mt-lg-5">
+                            <div class="row">
+                                <div class="col-lg-3 border-end border-2 border-dark">
+                                    <div class="d-flex justify-content-center">
+                                        <img src="/theme_crest/static/images/footer/footer-1/sign-up-img.png" class="img img-fluid img-responsive"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-lg-4">
+                                            <div class="footer-sub-para text-center text-lg-start">
+                                                <p>Subscribe to the weekly newsletter for all the latest updates.</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                           <div class="input-group justify-content-center justify-content-lg-start mt-2 mt-lg-0">
+                                                <t t-set="newsletter" t-value="request.env['ir.module.module'].sudo().search([('name', '=', 'website_mass_mailing'), ('state', '=', 'installed')])"/>
+
+                                                <t t-if="len(newsletter) != 0">
+                                                    <t t-call="website_mass_mailing.s_newsletter_subscribe_form"/>
+                                                </t>
+                                                <t t-else="">
+                                                </t>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                     <div class="footer-copyright mt-sm-4">
+                        <div class="container">
+                            <div class="row pt-2 border-top">
+                                <div class="col-lg-8">
+                                    <span class="footer-link text-dark d-block text-center text-lg-start">
+                                        &amp;copy; Copyright <t t-esc="datetime.datetime.now().year"/> <t t-esc="website.company_id.name or 'Company name'"/>.
+                                    </span>
+                                </div>
+                                <div class="col-lg-4"> 
+                                    <div class="d-flex align-items-center justify-content-lg-end justify-content-center mt-2 mt-lg-0">
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/pypal-grey-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/mastercard-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/visa-grey-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/express-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/discover-network.png" class="img img-fluid img-responsive"/>                                                
+                                        </a> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- footer_4_bits -->
+    <template id="footer_4_bits" inherit_id="website.layout" name="footer_4_bits" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo footer4_bits position-relative" t-ignore="true" t-if="not no_footer"> 
+                <section class="footer-top-absolute col-lg-9">
+                    <t t-set="website" t-value="request.website"/>
+                    <div class="container">
+                        <div class="footer-top-box">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 col-lg-3">               
+                                    <div class="icon-para m-2">
+                                        <img src="/theme_crest/static/images/footer/footer-1/shipping-icon.png" class="img img-fluid img-responsive"/>
+                                        <p>FREE SHIPPING WORLD WIDE</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <div class="icon-para m-2">
+                                        <img src="/theme_crest/static/images/footer/footer-1/money-return-icon.png" class="img img-fluid img-responsive"/>
+                                        <p>30 DAYS MONEY RETURNS</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <div class="icon-para m-2">
+                                        <img src="/theme_crest/static/images/footer/footer-1/cust-support-icon.png" class="img img-fluid img-responsive"/>
+                                        <p>24/7 CUSTOMER SUPPORT</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    
+                                    <div class="icon-para">
+                                        <img src="/theme_crest/static/images/footer/footer-1/quality-icon.png" class="img img-fluid img-responsive"/>
+                                        <p>COMMITMENT TO QUALITY</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+                </section>
+                <section class="footer-middle footer-color ">
+                    <div class="container"> 
+                        <!-- middle-section -->
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="row">
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="ms-2 mb-0">COMPANY INFO</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">About Us</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Contact Us</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Blogs</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Business With Us</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Find a Store</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="ms-2 mb-0">LET US HELP YOU</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Order</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Downloads</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Addresses</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Account Details</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Lost Password</a></li> 
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="ms-2 mb-0">QUICK LINKS</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Special Offers</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Gifts Cards</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Privacy Policy</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Terms of Use</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Portfolio</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="ms-2 mb-0">QUICK LINKS</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Special Offers</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Gifts Cards</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Privacy Policy</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Terms of Use</a></li>
+                                                <li class="mb-2"><img src="/theme_crest/static/images/footer/footer-1/rightarrow-icon.png" class="img img-fluid img-responsive me-1"/><a href="#">Portfolio</a></li>
+                                            </ul>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mt-4 mt-lg-0">
+                                 <div class="footer-title mb-3">
+                                    <h5 class="mb-0">SIGN UP FOR NEWSLETTER</h5>
+                                </div>
+                                <div class="footer-link-para">
+                                    <p>Subscribe to the weekly newsletter for all the latest upadates &amp; get a 10% off bill offers</p>
+                                </div>
+                               <div class="input-group">
+                                    <t t-set="newsletter" t-value="request.env['ir.module.module'].sudo().search([('name', '=', 'website_mass_mailing'), ('state', '=', 'installed')])"/>
+                                    <t t-if="len(newsletter) != 0">
+                                        <t t-call="website_mass_mailing.s_newsletter_subscribe_form"/>
+                                    </t>
+                                    <t t-else="">
+                                    </t>
+                                </div>
+                                <div class="d-flex align-items-center mt-3">
+                                    <div class="footer-link-para">
+                                        <p class="mb-0 text-dark"><b>Or Follow Us:</b></p>
+                                    </div>
+                                    <div class="footer-icon d-flex">
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_facebook" target="_blank" title="Facebook">
+                                                <i class="fa fa-facebook-official"></i>
+                                            </a> 
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_twitter" target="_blank" title="Twitter">
+                                               <i class="fa fa-twitter-square"></i>
+                                            </a>
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_linkedin" target="_blank" title="LinkedIn">
+                                              <i class="fa fa-linkedin-square"></i>
+                                            </a> 
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_instagram" target="_blank" title="Instagram">
+                                                <i class="fa fa-instagram"></i>
+                                            </a>
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_youtube" target="_blank" title="Youtube">
+                                                <i class="fa fa-youtube-play"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <!-- Copyright -->
+                        <div class="footer-copyright mt-lg-5 mt-sm-4">
+                            <hr/>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <span class="footer-link text-dark d-block text-center text-lg-start">
+                                            &amp;copy; Copyright <t t-esc="datetime.datetime.now().year"/> <t t-esc="website.company_id.name or 'Company name'"/>.
+                                        </span>
+                                    </div>
+                                    <div class="col-lg-4"> 
+                                        <div class="d-flex align-items-center justify-content-lg-end justify-content-center mt-2 mt-lg-0">
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/pypal-grey-logo.png" class="img img-fluid img-responsive"/>                                                
+                                            </a>
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/mastercard-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                            </a>
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/visa-grey-logo.png" class="img img-fluid img-responsive"/>                                                
+                                            </a>
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/express-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                            </a>
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/discover-network.png" class="img img-fluid img-responsive"/>                                                
+                                            </a> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- footer_5_bits -->
+    <template id="footer_5_bits" inherit_id="website.layout" name="footer_5_bits" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo footer5_bits" t-ignore="true" t-if="not no_footer"> 
+                <section class="footer-middle footer-color">
+                    <t t-set="website" t-value="request.website"/>
+                    <div class="container">
+                        <div class="row"> 
+                            <div class="row justify-content-between">
+                                <div class="col-12 col-lg-4">
+                                    <div class="my-2 my-lg-0">
+                                        <div class="footer-title mb-3">
+                                            <h5 class="mb-0"><t t-esc="website.name"/> the brand</h5>
+                                        </div>
+                                        <div class="footer-link-para">
+                                            <p>
+                                                We have established ourselves as experts in our fields. Allow us to 
+                                                take your online shop to the next level of success !<br/>
+                                                Our specialized service will reduce the need for a large<br/>
+                                                inventory and associated overhead costs. 
+                                            </p>
+                                        </div>
+                                        <div class="footer-icon-light d-flex">
+                                            <div>
+                                                <a t-att-href="website.company_id.social_facebook" target="_blank" title="Facebook">
+                                                    <i class="fa fa-facebook-official"></i>
+                                                </a> 
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_twitter" target="_blank" title="Twitter">
+                                                <i class="fa fa-twitter-square"></i>
+                                                </a>
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_linkedin" target="_blank" title="LinkedIn">
+                                                <i class="fa fa-linkedin-square"></i>
+                                                </a> 
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_instagram" target="_blank" title="Instagram">
+                                                    <i class="fa fa-instagram"></i>
+                                                </a>
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_youtube" target="_blank" title="Youtube">
+                                                    <i class="fa fa-youtube-play"></i>
+                                                </a>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg-2">
+                                    <div class="my-2 my-lg-0">
+                                        <div class="footer-title mb-3">
+                                            <h5 class="mb-0">OUR BRAND</h5>
+                                        </div>
+                                        <ul class="list-unstyled m-0 footer-link">
+                                            <li class="mb-2"><a href="#">About Us</a></li>
+                                            <li class="mb-2"><a href="#">Contact Us</a></li>
+                                            <li class="mb-2"><a href="#">Career</a></li>
+                                            <li class="mb-2"><a href="#">My Account</a></li>
+                                            <li class="mb-2"><a href="#">Order and Returns</a></li> 
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg-2">
+                                    <div class="my-2 my-lg-0">
+                                        <div class="footer-title mb-3">
+                                            <h5 class="mb-0">CUSTOMER CARE</h5>
+                                        </div>
+                                        <ul class="list-unstyled m-0 footer-link">
+                                            <li class="mb-2"><a href="#">Help &amp; FAQs</a></li>
+                                            <li class="mb-2"><a href="#">Returns Policy</a></li>
+                                            <li class="mb-2"><a href="#">Terms &amp; Condition</a></li>
+                                            <li class="mb-2"><a href="#"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <div>
+                                        <div class="footer-title mb-3">
+                                            <h5 class="mb-0">KEEP UP WITH US</h5>
+                                        </div> 
+                                        <div class="footer-link-para">
+                                            <p>Subscribe to the weekly newsletter for all the latest upadates &amp; get a 10% off bill offers</p>
+                                        </div>
+                                        <div class="w-100 mt-4">
+                                            <t t-set="newsletter" t-value="request.env['ir.module.module'].sudo().search([('name', '=', 'website_mass_mailing'), ('state', '=', 'installed')])"/>
+                                            <t t-if="len(newsletter) != 0">
+                                                    <t t-call="website_mass_mailing.s_newsletter_subscribe_form"/>
+                                            </t>
+                                            <t t-else="">
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div> 
+                        </div> 
+                        <!-- Copyright -->
+                        <div class="footer-copyright  mt-sm-4 mt-3"> 
+                            <div class="container">
+                                <div class="row align-items-center border-top pt-3">
+                                    <div class="col-lg-8">
+                                        <span class="f-content-span d-block text-center text-lg-start">
+                                            &amp;copy; Copyright <t t-esc="datetime.datetime.now().year"/> <t t-esc="website.company_id.name or 'Company name'"/>. 
+                                        </span>
+                                    </div>
+                                    <div class="col-lg-4"> 
+                                        <div class="d-flex align-items-center justify-content-lg-end justify-content-center mt-2 mt-lg-0">
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/express-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                            </a>
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/apple-pay-logo.png" class="img img-fluid img-responsive"/>                                                
+                                            </a>
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/g-pay-logo.png" class="img img-fluid img-responsive"/>                                                
+                                            </a>
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/payment-brand-5.png" class="img img-fluid img-responsive"/>                                                
+                                            </a>
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/payment-brand-2.png" class="img img-fluid img-responsive"/>                                                
+                                            </a> 
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/shop-logo.png" class="img img-fluid img-responsive"/>                                                
+                                            </a> 
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/union-pay-logo.png" class="img img-fluid img-responsive"/>                                                
+                                            </a> 
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/payment-brand-1.png" class="img img-fluid img-responsive"/>                                                
+                                            </a> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- footer_6_bits -->
+    <template id="footer_6_bits" inherit_id="website.layout" name="footer_6_bits" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo footer6_bits" t-ignore="true" t-if="not no_footer">
+               <section class="footer-middle">
+                    <t t-set="website" t-value="request.website"/>
+                    <div class="container">
+                        <div class="row justify-content-between">
+                            <div class="col-12 col-lg-3">
+                                <div class="my-2 my-lg-0">
+                                    <div class="footer-title mb-3">
+                                        <img t-attf-src="/web/image/website/#{website.id}/logo" class="img img-fluid img-responsive" t-att-title="website.name"/>
+                                    </div>
+                                    <div class="footer-link-para">
+                                        <p class="mb-1">
+                                            Address: <t t-esc="website.company_id.street"/>, 
+                                            <t t-esc="website.company_id.city or ''"/>,
+                                            <t t-esc="website.company_id.state_id.name or ''"/>
+                                            <t t-esc="website.company_id.country_id.name or ''"/>
+                                        </p>
+                                        <p class="mb-1">
+                                            Email: <b><t t-esc="website.company_id.email"/></b>
+                                        </p>
+                                        <p class="mb-1">
+                                            Phone: <b><t t-esc="website.phone_number or ''"/></b>
+                                        </p>
+                                    </div>
+                                    <ul class="list-unstyled f-link-underline  mt-3">
+                                        <li><a href="#" class="text-underline text-decoration-line-through">Get direction</a></li>
+                                    </ul>
+                                    <div class="footer-icon-light d-flex">
+                                            <div>
+                                                <a t-att-href="website.company_id.social_facebook" target="_blank" title="Facebook">
+                                                    <i class="fa fa-facebook-official"></i>
+                                                </a> 
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_twitter" target="_blank" title="Twitter">
+                                                <i class="fa fa-twitter-square"></i>
+                                                </a>
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_linkedin" target="_blank" title="LinkedIn">
+                                                <i class="fa fa-linkedin-square"></i>
+                                                </a> 
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_instagram" target="_blank" title="Instagram">
+                                                    <i class="fa fa-instagram"></i>
+                                                </a>
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_youtube" target="_blank" title="Youtube">
+                                                    <i class="fa fa-youtube-play"></i>
+                                                </a>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-2">
+                                <div class="my-2 my-lg-0">
+                                    <div class="footer-title mb-3">
+                                        <h5 class="mb-0">Help</h5>
+                                    </div>
+                                    <ul class="list-unstyled m-0 footer-link">
+                                        <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                                        <li class="mb-2"><a href="#">Returns + Exchange</a></li>
+                                        <li class="mb-2"><a href="#">Shipping</a></li>
+                                        <li class="mb-2"><a href="#">Order + Payments</a></li>
+                                        <li class="mb-2"><a href="#">FAQs</a></li> 
+                                        <li class="mb-2"><a href="#">Compare</a></li> 
+                                        <li class="mb-2"><a href="#">My Wislist</a></li>  
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-2">
+                                <div class="my-2 my-lg-0">
+                                    <div class="footer-title mb-3">
+                                        <h5 class="mb-0">About us</h5>
+                                    </div>
+                                    <ul class="list-unstyled m-0 footer-link">
+                                        <li class="mb-2"><a href="#">Our Story</a></li>
+                                        <li class="mb-2"><a href="#">Visit Our Store</a></li>
+                                        <li class="mb-2"><a href="#">Contact Us</a></li>
+                                        <li class="mb-2"><a href="#">Account</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-3">
+                                <div class="my-2 my-lg-0">
+                                    <div class="footer-title mb-3">
+                                        <h5 class="mb-0">Sign Up for Email</h5>
+                                    </div> 
+                                    <div class="footer-link-para">
+                                        <p>
+                                            Sign up to get first dibs on new arrivals, sales, exclusive, <br/>
+                                            content, events, and more !
+                                        </p>
+                                    </div>
+                                    <div class="w-100 mt-4">
+                                        <t t-set="newsletter" t-value="request.env['ir.module.module'].sudo().search([('name', '=', 'website_mass_mailing'), ('state', '=', 'installed')])"/>
+                                        <t t-if="len(newsletter) != 0">
+                                                <t t-call="website_mass_mailing.s_newsletter_subscribe_form"/>
+                                        </t>
+                                        <t t-else="">
+                                        </t>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div> 
+                        <!-- Copyright -->
+                        <div class="footer-copyright mt-sm-4 mt-3"> 
+                            <div class="container">
+                                <div class="row pt-3 border-top">
+                                    <div class="col-lg-8">
+                                        <span class="f-content-span d-block text-center text-lg-start">
+                                            &amp;copy; Copyright <t t-esc="datetime.datetime.now().year"/> <t t-esc="website.company_id.name or 'Company name'"/>. 
+                                        </span>
+                                    </div>
+                                    <div class="col-lg-4"> 
+                                        <div class="d-flex align-items-center justify-content-lg-end justify-content-center mt-2 mt-lg-0">
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/payment-brand-1.png" class="img img-fluid img-responsive"/>                                                
+                                            </a>
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/payment-brand-3.png" class="img img-fluid img-responsive"/>                                                
+                                            </a>
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/payment-brand-2.png" class="img img-fluid img-responsive"/>                                                
+                                            </a>
+                                            <a class="pe-2">
+                                                <img src="/theme_crest/static/images/footer/footer-1/express-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                            </a> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- footer_7_bits -->
+    <template id="footer_7_bits" inherit_id="website.layout" name="footer_7_bits" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo footer7_bits" t-ignore="true" t-if="not no_footer">
+                <section class="footer-middle footer-color">
+                    <div class="container">
+                        <div class="row"> 
+                            <div class="col-lg-12 my-4">
+                                <div class="row">
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">HELP</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                                                <li class="mb-2"><a href="#">Returns + Exchange</a></li>
+                                                <li class="mb-2"><a href="#">Shipping</a></li>
+                                                <li class="mb-2"><a href="#">Orders + Payments</a></li>
+                                                <li class="mb-2"><a href="#">FAQ's</a></li>
+                                                <li class="mb-2"><a href="#">Compare</a></li>
+                                                <li class="mb-2"><a href="#">My Wislist</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">ABOUt US</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li class="mb-2"><a href="#">Our Story</a></li>
+                                                <li class="mb-2"><a href="#">Visit Our Story</a></li>
+                                                <li class="mb-2"><a href="#">Contact Us</a></li>
+                                                <li class="mb-2"><a href="#">Account</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-3">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">FIND US</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li><a class="btn btn-link px-0" href="#">Find a location nearest you.</a></li>
+                                                <li><a href="#">See Our Stores</a></li>
+                                                <li><a href="#"><t t-esc="website.company_id.phone"/></a></li>
+                                                <li><a href="#"><t t-esc="website.company_id.email"/></a></li> 
+                                            </ul>
+                                            <div class="footer-icon-dark d-flex mt-2">
+                                                <div>
+                                                    <a t-att-href="website.company_id.social_facebook" target="_blank" title="Facebook">
+                                                        <i class="fa fa-facebook-official"></i>
+                                                    </a> 
+                                                </div>
+                                                <div class="ps-3">
+                                                    <a t-att-href="website.company_id.social_twitter" target="_blank" title="Twitter">
+                                                    <i class="fa fa-twitter-square"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="ps-3">
+                                                    <a t-att-href="website.company_id.social_linkedin" target="_blank" title="LinkedIn">
+                                                    <i class="fa fa-linkedin-square"></i>
+                                                    </a> 
+                                                </div>
+                                                <div class="ps-3">
+                                                    <a t-att-href="website.company_id.social_instagram" target="_blank" title="Instagram">
+                                                        <i class="fa fa-instagram"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="ps-3">
+                                                    <a t-att-href="website.company_id.social_youtube" target="_blank" title="Youtube">
+                                                        <i class="fa fa-youtube-play"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-3"> 
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">Sign Up for Email</h5>
+                                            </div> 
+                                            <div class="footer-link-para">
+                                                <p>
+                                                    Sign up to get first dibs on new arrivals, sales, exclusive, <br/>
+                                                    content, events, and more !
+                                                </p>
+                                            </div>
+                                            <div class="w-100 mt-4 ">
+                                                <t t-set="newsletter" t-value="request.env['ir.module.module'].sudo().search([('name', '=', 'website_mass_mailing'), ('state', '=', 'installed')])"/>
+                                                <t t-if="len(newsletter) != 0">
+                                                    <t t-call="website_mass_mailing.s_newsletter_subscribe_form"/>
+                                                </t>
+                                                <t t-else="">
+                                                </t>
+                                            </div> 
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div> 
+                    </div>
+                     <div class="footer-copyright mt-lg-4 mt-sm-4 mt-3">
+                        <hr/>
+                        <div class="container">
+                            <div class="row align-items-center pt-3 border-top">
+                                <div class="col-lg-8 col-12">
+                                    <span class="footer-link text-dark text-lg-start text-center d-block">
+                                        &amp;copy; Copyright <t t-esc="datetime.datetime.now().year"/> <t t-esc="website.company_id.name or 'Company name'"/>.
+                                    </span>
+                                </div>
+                                <div class="col-lg-4 col-12"> 
+                                    <div class="d-flex align-items-center justify-content-center justify-content-lg-center mt-1">
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/pypal-grey-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/mastercard-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/visa-grey-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/express-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/discover-network.png" class="img img-fluid img-responsive"/>                                                
+                                        </a> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- footer_8_bits -->
+    <template id="footer_8_bits" inherit_id="website.layout" name="footer_8_bits" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo footer8_bits" t-ignore="true" t-if="not no_footer"> 
+                <section class="footer-middle footer-color">
+                    <div class="container">
+                        <div class="row"> 
+                            <div class="row justify-content-between">
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="my-2 my-lg-0">
+                                        <div class="footer-title mb-3">
+                                            <h5 class="mb-0">ABOUT Tailor</h5>
+                                        </div>
+                                        <div class="footer-link-para">
+                                            <p>
+                                                We have established ourselves as experts in our fields. Allow us to 
+                                                take your online shop to the next level of success !<br/>
+                                                Our specialized service will reduce the need for a large<br/>
+                                                inventory and associated overhead costs. 
+                                            </p>    
+                                        </div>
+                                        <div class="footer-icon-light d-flex">
+                                            <div>
+                                                <a t-att-href="website.company_id.social_facebook" target="_blank" title="Facebook">
+                                                    <i class="fa fa-facebook-official"></i>
+                                                </a> 
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_twitter" target="_blank" title="Twitter">
+                                                <i class="fa fa-twitter-square"></i>
+                                                </a>
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_linkedin" target="_blank" title="LinkedIn">
+                                                <i class="fa fa-linkedin-square"></i>
+                                                </a> 
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_instagram" target="_blank" title="Instagram">
+                                                    <i class="fa fa-instagram"></i>
+                                                </a>
+                                            </div>
+                                            <div class="ps-3">
+                                                <a t-att-href="website.company_id.social_youtube" target="_blank" title="Youtube">
+                                                    <i class="fa fa-youtube-play"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-2">
+                                    <div class="my-2 my-lg-0">
+                                        <div class="footer-title mb-3">
+                                            <h5 class="mb-0">Get in Touch</h5>
+                                        </div>
+                                        <ul class="list-unstyled m-0 footer-link">
+                                            <div class="d-flex align-items-start">
+                                                <img src="/theme_crest/static/images/footer/footer-1/w-location-icon.png" class="img img-fluid img-responsive me-2 mt-1"/>
+                                                <li>
+                                                    <a href="#">
+                                                        <t t-esc="website.company_id.street"/>, 
+                                                        <t t-esc="website.company_id.city or ''"/>,
+                                                        <t t-esc="website.company_id.state_id.name or ''"/>
+                                                        <t t-esc="website.company_id.country_id.name or ''"/>
+                                                    </a> 
+                                                </li>
+                                            </div>
+                                            <div class="d-flex align-items-start">
+                                                <img src="/theme_crest/static/images/footer/footer-1/w-message-icon.png" class="img img-fluid img-responsive me-2 mt-1"/>
+                                                <li><a href="#"><t t-esc="website.company_id.email"/></a> </li>
+                                            </div> 
+                                            <div class="d-flex align-items-start">
+                                                <img src="/theme_crest/static/images/footer/footer-1/w-phone-icon.png" class="img img-fluid img-responsive me-2 mt-1"/>
+                                                <li>
+                                                    <a href="#">
+                                                        <t t-esc="website.company_id.phone or ''"/>
+                                                    </a> 
+                                                </li>
+                                            </div> 
+                                            <div class="d-flex align-items-start">
+                                                <img src="/theme_crest/static/images/footer/footer-1/w-clock-icon.png" class="img img-fluid img-responsive me-2 mt-1"/>
+                                                <li><a href="#">07:00AM - 06:00PM</a> </li>
+                                            </div>   
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-2">
+                                    <div class="my-2 my-lg-0">
+                                        <div class="footer-title mb-3">
+                                            <h5 class="mb-0">Quick Links</h5>
+                                        </div>
+                                        <ul class="list-unstyled m-0 footer-link">
+                                            <li class="mb-2"><a href="#">Home</a></li>
+                                            <li class="mb-2"><a href="#">About</a></li>
+                                            <li class="mb-2"><a href="#">Blog</a></li>
+                                            <li class="mb-2"><a href="#">Gallery</a></li>
+                                            <li class="mb-2"><a href="#">Contact</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-3">
+                                    <div class="my-2 my-lg-0">
+                                        <div class="footer-title mb-3">
+                                            <h5 class="mb-0">Letest News</h5>
+                                        </div> 
+                                        <div class="d-flex">
+                                            <div class="img">
+                                                <img src="/theme_crest/static/images/footer/footer-1/footer-8-img(1).png" class="img img-fluid img-responsive me-3 mt-1"/>
+                                            </div>
+                                            <div class="img-content">
+                                                <div class="footer-link-para">
+                                                    <p class="mb-0">Candime netus lullam <br/>
+                                                        utlacus adipiscing ipsum</p>
+                                                </div>
+                                                <div class="footer-date">
+                                                    <p>March 26,2023</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="img">
+                                                <img src="/theme_crest/static/images/footer/footer-1/footer-8-img(2).png" class="img img-fluid img-responsive me-3 mt-1"/>
+                                            </div>
+                                            <div class="img-content">
+                                                <div class="footer-link-para">
+                                                    <p class="mb-0">Candime netus lullam <br/>
+                                                        utlacus adipiscing ipsum</p>
+                                                </div>
+                                                <div class="footer-date">
+                                                    <p>March 26,2023</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div> 
+                        </div>
+                        <!-- Copyright -->
+                        <div class="footer-copyright mt-sm-4 mt-3"> 
+                            <div class="row pt-3 border-top">
+                                <div class="col-lg-9">
+                                    <p class="footer-link-para mb-0">
+                                        &amp;copy; Copyright <t t-esc="datetime.datetime.now().year"/> <t t-esc="website.company_id.name or 'Company name'"/>.
+                                    </p>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- footer_9_bits -->
+    <template id="footer_9_bits" inherit_id="website.layout" name="footer_9_bits" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo footer9_bits" t-ignore="true" t-if="not no_footer"> 
+                <section class="footer-middle footer-color">
+                    <t t-set="website" t-value="request.website"/>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <div class="text-center mb-3">
+                                    <img src="/theme_crest/static/images/footer/footer-1/w-location-icon.png" class="img img-fluid img-responsive"/>
+                                </div>
+                                <div class="content text-center">
+                                   <div class="footer-title pb-1">
+                                        <h5 class="mb-0">
+                                            Contact Info
+                                        </h5>
+                                   </div>
+                                   <div class="footer-link-para">
+                                        <p>
+                                            1635 Franklin street Montgomery, <br/>
+                                            Near Sherwood Mall, AL 36104
+                                        </p>
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="text-center mb-3">
+                                    <img src="/theme_crest/static/images/footer/footer-1/w-location-icon.png" class="img img-fluid img-responsive"/>
+                                </div>
+                                <div class="content text-center">
+                                   <div class="footer-title pb-1">
+                                        <h5 class="mb-0">
+                                            Contact Info
+                                        </h5>
+                                   </div>
+                                   <div class="footer-link-para">
+                                        <p>
+                                            1635 Franklin street Montgomery, <br/>
+                                            Near Sherwood Mall, AL 36104
+                                        </p>
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="text-center mb-3">
+                                    <img src="/theme_crest/static/images/footer/footer-1/w-location-icon.png" class="img img-fluid img-responsive"/>
+                                </div>
+                                <div class="content text-center">
+                                   <div class="footer-title pb-1">
+                                        <h5 class="mb-0">
+                                            Contact Info
+                                        </h5>
+                                   </div>
+                                   <div class="footer-link-para">
+                                        <p>
+                                            1635 Franklin street Montgomery, <br/>
+                                            Near Sherwood Mall, AL 36104
+                                        </p>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="logo-img text-center mt-4 mt-lg-5">
+                            <img t-attf-src="/web/image/website/#{website.id}/logo" class="img img-fluid img-responsive" t-att-title="website.name"/>
+                        </div>
+                        <div class="footer-nav my-4">
+                            <div class="d-flex flex-wrap justify-content-center"> 
+                                <div class="pe-4"><a href="#">Home</a></div>
+                                <div class="pe-4 ms-3"><a href="#">About</a></div>
+                                <div class="pe-4 ms-3"><a href="#">Blog</a></div>
+                                <div class="pe-4 ms-3"><a href="#">Gallery</a></div>
+                                <div class="pe-4 ms-3"><a href="#">Contact</a></div> 
+                            </div>
+                        </div>
+                        <div class="footer-icon-light d-flex justify-content-center">
+                            <div>
+                                <a t-att-href="website.company_id.social_facebook" target="_blank" title="Facebook">
+                                    <i class="fa fa-facebook-official"></i>
+                                </a> 
+                            </div>
+                            <div class="ps-3">
+                                <a t-att-href="website.company_id.social_twitter" target="_blank" title="Twitter">
+                                <i class="fa fa-twitter-square"></i>
+                                </a>
+                            </div>
+                            <div class="ps-3">
+                                <a t-att-href="website.company_id.social_linkedin" target="_blank" title="LinkedIn">
+                                <i class="fa fa-linkedin-square"></i>
+                                </a> 
+                            </div>
+                            <div class="ps-3">
+                                <a t-att-href="website.company_id.social_instagram" target="_blank" title="Instagram">
+                                    <i class="fa fa-instagram"></i>
+                                </a>
+                            </div>
+                            <div class="ps-3">
+                                <a t-att-href="website.company_id.social_youtube" target="_blank" title="Youtube">
+                                    <i class="fa fa-youtube-play"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Copyright -->
+                        <div class="footer-copyright mt-sm-4 mt-3"> 
+                            <div class="container">
+                                <div class="text-center">
+                                    <p class="mb-0 py-3">
+                                        &amp;copy; Copyright <t t-esc="datetime.datetime.now().year"/> <t t-esc="website.company_id.name or 'Company name'"/>.
+                                    </p>
+                                </div> 
+                            </div>
+                        </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- footer_10_bits -->
+    <template id="footer_10_bits" inherit_id="website.layout" name="footer_10_bits" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo footer10_bits" t-ignore="true" t-if="not no_footer">
+                <section class="footer-top">
+                    <div class="container">
+                         <div class="row">
+                            <div class="col-lg-8">
+                                <div class="img-logo mb-lg-5 mb-4">
+                                    <img t-attf-src="/web/image/website/#{website.id}/logo" class="img img-fluid img-responsive" t-att-title="website.name"/>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-6">
+                                       <div class="my-2 my-lg-0">
+                                             <div class="footer-title mb-3">
+                                                <h5 class="mb-0">Quick Links</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li><a href="#">Home</a></li>
+                                                <li><a href="#">About</a></li>
+                                                <li><a href="#">Blog</a></li>
+                                                <li><a href="#">Gallery</a></li>
+                                                <li><a href="#">Contact</a></li>
+                                            </ul>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-4 col-6">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">Quick Links</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li><a href="#">Home</a></li>
+                                                <li><a href="#">About</a></li>
+                                                <li><a href="#">Blog</a></li>
+                                                <li><a href="#">Gallery</a></li>
+                                                <li><a href="#">Contact</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="my-2 my-lg-0">
+                                            <div class="footer-title mb-3">
+                                                <h5 class="mb-0">Quick Links</h5>
+                                            </div>
+                                            <ul class="list-unstyled m-0 footer-link">
+                                                <li><a href="#">Home</a></li>
+                                                <li><a href="#">About</a></li>
+                                                <li><a href="#">Blog</a></li>
+                                                <li><a href="#">Gallery</a></li>
+                                                <li><a href="#">Contact</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- subscribe -->
+                            <div class="col-lg-4 mt-3">
+                                <div class="d-flex">
+                                    <div class="footer-title mb-3">
+                                        <h5 class="mb-0">Subscribe us:</h5>
+                                    </div>
+                                    <div class="footer-icon-light d-flex">
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_facebook" target="_blank" title="Facebook">
+                                                <i class="fa fa-facebook-official"></i>
+                                            </a> 
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_twitter" target="_blank" title="Twitter">
+                                            <i class="fa fa-twitter-square"></i>
+                                            </a>
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_linkedin" target="_blank" title="LinkedIn">
+                                            <i class="fa fa-linkedin-square"></i>
+                                            </a> 
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_instagram" target="_blank" title="Instagram">
+                                                <i class="fa fa-instagram"></i>
+                                            </a>
+                                        </div>
+                                        <div class="ps-3">
+                                            <a t-att-href="website.company_id.social_youtube" target="_blank" title="Youtube">
+                                                <i class="fa fa-youtube-play"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer-title mb-3 mt-2">
+                                    <h5 class="mb-0">Download App on Mobile:</h5>
+                                </div>
+                                <div class="footer-link-para">
+                                    <p>
+                                        15% discount on your first purchase
+                                    </p>
+                                </div>
+                                <div class="d-flex">
+                                    <a href="#" class="">
+                                        <img src="/theme_crest/static/images/footer/footer-1/google-play.png" class="img img-fluid img-responsive"/>
+                                    </a>
+                                    <a href="#" class="">
+                                        <img src="/theme_crest/static/images/footer/footer-1/app-store.png" class="img img-fluid img-responsive"/>
+                                    </a>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+
+                    <div class="footer-copyright mt-lg-5 mt-sm-4 mt-3">
+                        <div class="container">
+                            <div class="row align-items-center pt-3 border-top">
+                                <div class="col-lg-8">
+                                    <span class="footer-link text-center text-lg-start d-block">
+                                        &amp;copy; Copyright <t t-esc="datetime.datetime.now().year"/> <t t-esc="website.company_id.name or 'Company name'"/>.
+                                    </span>
+                                </div>
+                                <div class="col-lg-4"> 
+                                    <div class="d-flex align-items-center justify-content-lg-end justify-content-center align-items-center mt-2 mt-lg-0">
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/pypal-grey-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/mastercard-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/visa-grey-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/express-blue-logo.png" class="img img-fluid img-responsive"/>                                                
+                                        </a>
+                                        <a class="pe-2">
+                                            <img src="/theme_crest/static/images/footer/footer-1/discover-network.png" class="img img-fluid img-responsive"/>                                                
+                                        </a> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section> 
+            </div>
+        </xpath>
+    </template> 
+</odoo>

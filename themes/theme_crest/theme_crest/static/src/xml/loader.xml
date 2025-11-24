@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+
+    <t t-name="theme_crest.loader_bits" name="Loader">
+        <div class="d-flex justify-content-center align-items-center">
+            <i class="text-primary fa fa-circle-o-notch fa-spin fa-2x fa-fw text-black-50"></i>
+            <span class='text-primary'>Fetching</span>
+        </div>
+    </t>
+
+</templates>

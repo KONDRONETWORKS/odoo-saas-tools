@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+  <!-- Image Icon Add Delete -->
+  <div t-extend="FieldBinaryImage">
+    <t t-jquery=".fa.fa-pencil.fa-lg.pull-left.o_select_file_button" t-operation="attributes">
+      <attribute name="class">fas fa-pencil-alt fa-2x pull-left o_select_file_button</attribute>
+    </t>
+    <t t-jquery=".fa.fa-trash-o.fa-lg.pull-right.o_clear_file_button" t-operation="attributes">
+      <attribute name="class">far fa-trash-alt fa-2x pull-right o_clear_file_button</attribute>
+    </t>
+  </div>
+
+
+  <!-- Mail Icon -->
+  <div t-extend="mail.chat.Sidebar">
+    <t t-jquery=".fa.fa-star-o.mr8" t-operation="attributes">
+      <attribute name="class">fas fa-star mr8</attribute>
+    </t>
+  </div>
+</templates>

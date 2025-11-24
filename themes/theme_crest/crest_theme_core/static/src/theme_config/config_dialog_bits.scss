@@ -1,0 +1,90 @@
+.modal-content.web-config-dialog{
+    .config-dialog-bits{
+        header,footer{
+            border: none;
+        }
+        .tabs{
+            background-color: #fafafa;
+            border-right: 2px solid #f0efef;
+            padding: 0px !important;
+            position: sticky;
+            top: 1px;
+            .nav-tabs{
+                list-style-type: none;
+                padding: 0px !important;
+                margin: 0px !important;
+                border-bottom: 0px !important;
+                li{
+                    button{
+                        width: 100%;
+                        font-weight: 500;
+                        text-align: left;
+                        font-size: 16px;
+                        padding: 10px;
+                        border: none !important;
+                        border-bottom: 1px solid #eee !important;
+                        color: #191c64;
+                        &.active{
+                            background-color: #d0d0d0;
+                            border-left: 2px solid #191c64 !important;
+                        }
+                    }
+                }
+            }
+        }
+        .tab-details{
+            .tab-detail{
+                display: none;
+                height: 100%;
+                // overflow: auto !important;
+                &.active.show{
+                    display: block !important;
+                    .main-title{
+                        background-color: #191c64;
+                        padding: 12px;
+                        color: #fff !important;
+                    }
+                    input[type=checkbox]{
+                        width: 22px;
+                        height: 22px;
+                    }
+                    select{
+                        padding: 8px 4px;
+                        border: 1.5px solid #e5e5e5;
+                        border-radius: 8px;
+                    }
+                    .sec-title{
+                        font-size: 14px;
+                    }
+                    .card-actions{
+                        input{
+                            position: fixed;
+                            opacity: 0;
+                            width: 90px;
+                            height: 60px;
+                        }
+                        .btn-action{
+                            border-radius: 8px;
+                            height: 60px;
+                            border: 2px solid #eee;
+                            cursor: pointer;
+                            position: relative;
+                            width: 90px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            i{
+                                font-size: 26px;
+                                padding: 14px;
+                                color: #191c64;
+                            }
+                            &.active{
+                                border: 2px solid #191c64;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,202 @@
+/* Style personnalisé pour SaaS Portal - Identification visuelle distincte */
+
+/* Variables de couleurs spécifiques au SaaS Portal - Chargées depuis les paramètres */
+:root {
+    --saas-portal-primary: var(--theme-primary-color, #714B67) !important;
+    --saas-portal-secondary: var(--theme-secondary-color, #2D3142) !important;
+    --saas-portal-accent: var(--theme-accent-color, #A53860) !important;
+    --saas-portal-success: var(--theme-success-color, #28a745) !important;
+    --saas-portal-warning: var(--theme-warning-color, #ffc107) !important;
+    --saas-portal-danger: var(--theme-danger-color, #dc3545) !important;
+    --saas-portal-bg: #F8F9FA !important;
+    --saas-portal-sidebar: #111827 !important;
+}
+
+/* Barre de navigation principale - Style distinctif SaaS Portal */
+.o_main_navbar {
+    background: linear-gradient(135deg, var(--saas-portal-primary) 0%, var(--saas-portal-secondary) 100%) !important;
+    border-bottom: 3px solid var(--saas-portal-accent) !important;
+    box-shadow: 0 2px 10px rgba(113, 75, 103, 0.3) !important;
+}
+
+/* Logo et nom de l'application - Indicateur SaaS Portal */
+.o_main_navbar .o_menu_brand {
+    background: rgba(255, 255, 255, 0.1) !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 4px !important;
+    margin-right: 1rem !important;
+    position: relative !important;
+}
+
+.o_main_navbar .o_menu_brand::before {
+    content: "🚀 SaaS Portal - ";
+    font-size: 0.9em;
+    margin-right: 0.3rem;
+    font-weight: bold;
+}
+
+/* Menu principal - Style SaaS Portal */
+.o_main_navbar .dropdown-toggle,
+.o_main_navbar .o_nav_entry {
+    color: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 4px !important;
+    transition: all 0.3s ease !important;
+}
+
+.o_main_navbar .dropdown-toggle:hover,
+.o_main_navbar .o_nav_entry:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Sidebar - Style distinctif */
+.o_main .o_sidebar {
+    background: var(--saas-portal-sidebar) !important;
+    border-right: 3px solid var(--saas-portal-accent) !important;
+}
+
+/* Badge de notification SaaS Portal */
+.o_MessagingMenu_counter,
+.o_NotificationList_itemCounter {
+    background: var(--saas-portal-accent) !important;
+    color: white !important;
+    border: 2px solid white !important;
+}
+
+/* Boutons principaux - Style SaaS Portal */
+.btn-primary {
+    background: var(--saas-portal-primary) !important;
+    border-color: var(--saas-portal-primary) !important;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background: var(--saas-portal-secondary) !important;
+    border-color: var(--saas-portal-secondary) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(113, 75, 103, 0.3) !important;
+}
+
+/* En-tête de formulaire - Indicateur SaaS Portal */
+.o_control_panel {
+    background: linear-gradient(to right, var(--saas-portal-bg), #FFFFFF) !important;
+    border-bottom: 2px solid var(--saas-portal-primary) !important;
+}
+
+.o_control_panel .o_control_panel_main {
+    border-left: 4px solid var(--saas-portal-primary) !important;
+    padding-left: 1rem !important;
+}
+
+/* Breadcrumbs avec style SaaS Portal */
+.breadcrumb {
+    background: transparent !important;
+}
+
+.breadcrumb-item.active::before {
+    content: "📍 " !important;
+    color: var(--saas-portal-accent) !important;
+}
+
+/* Cartes et widgets - Style SaaS Portal */
+.o_kanban_view .o_kanban_record {
+    border-left: 4px solid var(--saas-portal-primary) !important;
+    transition: all 0.3s ease !important;
+}
+
+.o_kanban_view .o_kanban_record:hover {
+    box-shadow: 0 4px 12px rgba(113, 75, 103, 0.2) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Tableaux - En-têtes avec style SaaS Portal */
+.o_list_view thead th {
+    background: linear-gradient(to bottom, var(--saas-portal-primary), var(--saas-portal-secondary)) !important;
+    color: white !important;
+    border-bottom: 2px solid var(--saas-portal-accent) !important;
+}
+
+/* Indicateur visuel en haut de page */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        var(--saas-portal-primary) 0%, 
+        var(--saas-portal-accent) 50%, 
+        var(--saas-portal-secondary) 100%);
+    z-index: 10000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Badge de statut SaaS Portal */
+.o_form_view .o_field_badge {
+    background: var(--saas-portal-primary) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    padding: 0.25rem 0.75rem !important;
+}
+
+/* Menus déroulants - Style SaaS Portal */
+.dropdown-menu {
+    border: 1px solid var(--saas-portal-primary) !important;
+    box-shadow: 0 4px 12px rgba(113, 75, 103, 0.15) !important;
+}
+
+.dropdown-item:hover {
+    background: var(--saas-portal-bg) !important;
+    color: var(--saas-portal-primary) !important;
+}
+
+/* Messages et alertes - Style SaaS Portal */
+.alert-info {
+    background: rgba(113, 75, 103, 0.1) !important;
+    border-left: 4px solid var(--saas-portal-primary) !important;
+    color: var(--saas-portal-secondary) !important;
+}
+
+.alert-success {
+    border-left: 4px solid var(--saas-portal-success) !important;
+}
+
+.alert-warning {
+    border-left: 4px solid var(--saas-portal-warning) !important;
+}
+
+.alert-danger {
+    border-left: 4px solid var(--saas-portal-danger) !important;
+}
+
+/* Indicateur visuel dans le titre de la page */
+.o_control_panel h1::before {
+    content: "🚀 SaaS Portal - ";
+    color: var(--saas-portal-primary);
+    font-weight: bold;
+}
+
+/* Personnalisation pour les vues SaaS */
+.o_list_view[data-model="saas_portal.plan"] .o_list_table,
+.o_list_view[data-model="saas_portal.server"] .o_list_table,
+.o_list_view[data-model="saas_portal.database"] .o_list_table {
+    border: 2px solid var(--saas-portal-primary) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+/* Animation au chargement */
+@keyframes saas-portal-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.o_main_navbar .o_menu_brand {
+    animation: saas-portal-pulse 3s ease-in-out infinite;
+}
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="product_price" name="Product Price">
+        <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+        <t t-if="not is_b2b_enabled">
+            <div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" t-attf-class="product_price mt-2 {{'d-none' if combination_info['prevent_zero_price_sale'] else 'd-inline-block'}}">
+                <h5 class="css_editable_mode_hidden ">
+                    <span class="oe_price price-main" style="white-space: nowrap;" t-out="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                    <span itemprop="price" style="display:none;" t-out="combination_info['price']"/>
+                    <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name"/>
+                    <span t-attf-class="text-danger oe_default_price ms-1 h5 {{'' if combination_info['has_discounted_price'] and not combination_info['compare_list_price'] else 'd-none'}}" style="text-decoration: line-through; white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" itemprop="listPrice"/>
+                    <t t-if="is_view_active('website_sale.tax_indication')" t-call="website_sale.tax_indication"/>
+                    <del class="price-dics" t-if="combination_info['compare_list_price'] and (combination_info['compare_list_price'] &gt; combination_info['price'])">
+                        <bdi dir="inherit">
+                            <span t-esc="combination_info['compare_list_price']" groups="website_sale.group_product_price_comparison" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        </bdi>
+                    </del>
+                    <t t-if="combination_info['has_discounted_price']">
+                        <t t-set="discount_percentage" t-value="round((combination_info['list_price'] - combination_info['price']) / combination_info['list_price'] * 100)"/>
+                        <small class="discount_pr_bits h5">
+                        (                            <t t-out="discount_percentage"/>
+                            % off)
+                        </small>
+                    </t>
+
+                </h5>
+                <h3 class="css_non_editable_mode_hidden decimal_precision" t-att-data-precision="str(website.currency_id.decimal_places)">
+                    <span t-field="product.list_price" t-options="{'widget': 'monetary', 'display_currency': product.currency_id}"/>
+                    <t t-if="is_view_active('website_sale.tax_indication')" t-call="website_sale.tax_indication"/>
+                    <del t-if="combination_info['compare_list_price'] and (combination_info['compare_list_price'] &gt; combination_info['price'])">
+                        <bdi dir="inherit">
+                            <span t-field="product.compare_list_price" groups="website_sale.group_product_price_comparison" t-options="{'widget': 'monetary', 'display_currency': product.currency_id}"/>
+                        </bdi>
+                    </del>
+                </h3>
+            </div>
+            <div id="product_unavailable" t-attf-class="{{'d-flex' if combination_info['prevent_zero_price_sale'] else 'd-none'}}">
+                <h3 class="fst-italic" t-field="website.prevent_zero_price_sale_text"/>
+            </div>
+        </t>
+        <t t-else="">
+            <t t-call="theme_crest.b2b_pricing_content_bits"/>
+        </t>
+    </template>
+
+</odoo>

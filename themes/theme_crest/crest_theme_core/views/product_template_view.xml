@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_form_view_inherit_bits" model="ir.ui.view">
+        <field name="name">product.template.form.view</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml"> 
+            <xpath expr="//notebook" position="inside">
+                <page name="theme_configuration_bits" string="Product Configuration"> 
+                    <group>
+                        <field name="hover_image_bits" widget="image" class="oe_avatar" options="{'preview_image': 'hover_image_bits'}"/>    
+                    </group>  
+                    <group>
+                        <field name="product_faq_id"/>   
+                        <field name="brand_id"/>   
+                        <field name="terms_conditions_id"/>   
+                    </group>
+                    <notebook>
+                        <page name="lables" string="Product lables">
+                            <field name="product_label_ids"/>
+                        </page>
+                        <page name="offers" string="Product Offers">
+                            <field name="product_offers_ids"/>
+                        </page>  
+                        <page name="Website Description">
+                            <group name="website_description"> 
+                                <field name="website_description" />
+                            </group> 
+                        </page> 
+                    </notebook>
+                </page> 
+            </xpath>
+        </field>
+    </record>
+</odoo>

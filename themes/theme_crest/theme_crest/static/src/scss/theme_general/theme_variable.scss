@@ -1,0 +1,188 @@
+$primarycolor: #0097A7 !default;
+$secondarycolor: #1b1b1b !default;
+$deltacolor: #1a212e !default;
+$primarygamma: #f3f2f2 !default;
+$ptextcolor: #929292 !default;
+
+$o-theme-h1-font-size-multiplier: 3.375;
+$o-theme-h2-font-size-multiplier: 2.75;
+$o-theme-h3-font-size-multiplier: 2.25;
+$o-theme-h4-font-size-multiplier: 1.75;
+$o-theme-h5-font-size-multiplier: 1.375;
+$o-theme-h6-font-size-multiplier: 1.125;
+
+$container-max-widths: (
+    sm: 540px,
+    md: 720px,
+    lg: 960px,
+    xl: 1440px) !default;
+$input-bg: transparent !default;
+$input-border-color: #b4b4b4 !default;
+$h1-line-height: 1.1 !default;
+$h2-line-height: 1.1 !default;
+$h3-line-height: 1.1 !default;
+$h4-line-height: 1.1 !default;
+$h5-line-height: 1.1 !default;
+$h6-line-height: 1.4 !default;
+$o-website-values-palettes: (
+    ( // Font
+        'font': 'Albert Sans',
+        'headings-font': 'Albert Sans',
+        'navbar-font': 'Albert Sans',
+        'buttons-font': 'Albert Sans',
+    ),
+);
+
+
+/* -------------------------- Main Colors ------------------------*/
+$o-color-palettes: map-merge($o-color-palettes,
+        ('base-1': map-merge(map-get($o-color-palettes, 'base-1'), ('o-color-1': $primarycolor,
+                    'o-color-2': $secondarycolor,
+                    'o-color-3': $primarygamma,
+                    'o-color-4': $deltacolor,
+                    'o-color-5': $ptextcolor,
+                    // 'footer':2,
+
+                )),
+        ));
+
+/* -------------------------- Text Colors ------------------------*/
+$o-base-gray-color-palette: (
+    'white': #FFFFFF,
+    '100': #F8F9FA,
+    '200': #E9ECEF,
+    '300': #DEE2E6,
+    '400': #b4b4b4,
+    '500': #888,
+    '600': #666666,
+    '700': #1a212e,
+    '800': #888888,
+    '900': #253d4e,
+    'black': #000000,
+);
+
+$o-base-color-combination: (
+    'bg': 'white',
+    'text': #253d4e,
+    // Default to better contrast with the 'bg'
+    'headings': #253d4e,
+    // Default to 'text'
+    'h2': #253d4e,
+    // Default to 'h(x-1)'
+    'h3': #253d4e,
+    'h4': #253d4e,
+    'h5': #253d4e,
+    'h6': #253d4e,
+    'link': null,
+    // Default to BS 'primary' (= first odoo color)
+    'btn-primary': null,
+    // Default to BS 'primary' (= first odoo color)
+    'btn-primary-border': null,
+    // Default to 'btn-primary'
+    'btn-secondary': null,
+    // Default to BS 'secondary' (= second odoo color)
+    'btn-secondary-border': null,
+    // Default to 'btn-secondary'
+    ) !default;
+
+$o-color-combinations-presets: (
+    (('bg': 'white',
+            'text': '900',
+            'headings': '900',
+            'link': '900',
+            'btn-primary': 'o-color-1',
+            'btn-secondary': 'o-color-2',
+        ),
+        ('bg': 'white',
+            'text': 'black',
+            'heading': 'o-color-1',
+            'link': 'o-color-1',
+            'btn-primary': 'o-color-1',
+            'btn-secondary': 'o-color-2',
+        ),
+        ('bg': 'white',
+            'text': '900',
+            'headings': '900',
+            'link': 'o-color-5',
+            'btn-primary': 'o-color-2',
+            'btn-secondary': 'o-color-3',
+        ),
+        ('bg': 'white',
+            'text': '900',
+            'headings': '900',
+            'link': '900',
+            'btn-primary': 'o-color-1',
+            'btn-secondary': 'o-color-3',
+        ),
+        ('bg':'black',
+            'text': 'white',
+            'headings': 'white',
+            'link': 'white',
+            'btn-primary': 'o-color-1',
+            'btn-secondary': 'o-color-3',
+        ),
+    ),
+);
+$o-color-combinations-preset-number: 1;
+/* -------------------------- Color Pallets ------------------------*/
+
+// You can as many pallets you want 
+$o-color-palettes: (
+    ('o-color-1': $primarycolor,
+        'o-color-2': $secondarycolor,
+        'o-color-3': $primarygamma,
+        'o-color-4': $deltacolor,
+        'o-color-5': #eeeeee,
+
+        'menu': #1a212e,
+        'footer': #1a212e,
+        'copyright': #1a212e,
+    ),
+    ('o-color-1': $primarycolor,
+        'o-color-2': $deltacolor,
+        'o-color-3': $primarygamma,
+        'o-color-4': #ffffff,
+        'o-color-5': #eeeeee,
+
+        'menu': $deltacolor,
+        'footer': $deltacolor,
+        'copyright': $deltacolor,
+    ),
+    ) !default;
+$o-color-palette-number: 1 !default;
+
+/* -------------------------- fonts -----------------------------*/
+
+$o-theme-font-configs: (
+    'Poppins': ('family': ('Poppins', null),
+        'url': 'Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i',
+    ),
+    'Work Sans': ('family': ('Work Sans', null),
+        'url': 'Work Sans:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i',
+    ),
+    'Rubik': ('family': ('Rubik', null),
+        'url': 'Rubik:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i',
+    ),
+    'Roboto': ('family': ('Roboto', sans-serif),
+        'url': 'Roboto:300,300i,400,400i,700,700i',
+    ),
+    'Syne': ('family': ('Syne', null),
+        'url': 'Syne:300,300i,400,400i,700,700i',
+    ),
+    'Open Sans': ('family': ('Open Sans', sans-serif),
+        'url': 'Open+Sans:300,300i,400,400i,700,700i',
+    ),
+    'Source Sans Pro': ('family': ('Source Sans Pro', sans-serif),
+        'url': 'Source+Sans+Pro:300,300i,400,400i,700,700i',
+    ),
+    'Raleway': ('family': ('Raleway', sans-serif),
+        'url': 'Raleway:300,300i,400,400i,700,700i',
+    ),
+    'Noto Serif': ('family': ('Noto Serif', serif),
+        'url': 'Noto+Serif:300,300i,400,400i,700,700i',
+    ),
+    'Arvo': ('family': ('Arvo', Times, serif),
+        'url': 'Arvo:300,300i,400,400i,700,700i',
+    ),
+
+);

@@ -1,0 +1,108 @@
+#o_wsale_total_accordion {
+  padding: 0 !important;
+  margin: 0 !important;
+  &.col-xl-4 {
+    width: 41.66%;
+    @media (max-width: 992px) {
+      width: 100%;
+      padding: 15px !important;
+    }
+  }
+  .o_total_card {
+    border-color: 1px solid #8e8e8e3b !important;
+    #o_wsale_total_accordion_item {
+      #o_wsale_accordion_item {
+        #cart_products {
+          tr {
+            border-color: #8e8e8e3b !important;
+            .td-product_name {
+              vertical-align: middle !important;
+            }
+            .td-price {
+              vertical-align: middle !important;
+            }
+          }
+        }
+      }
+      #cart_total {
+        &.border-top {
+          border-top: 1px solid #8e8e8e3b !important;
+        }
+        #order_total {
+          border-top: 1px solid #8e8e8e3b !important;
+        }
+        .coupon_form {
+          input {
+            padding: 8px 15px !important;
+          }
+          a {
+            padding: 8px 20px;
+            &:hover {
+              background-color: darken(
+                $color: o-color("secondary"),
+                $amount: 20%
+              );
+            }
+          }
+        }
+      }
+      .o_cta_navigation_container {
+        padding: 10px 0;
+        .flex-column {
+          button[name="o_payment_submit_button"] {
+            padding: 8px 20px !important;
+            font-size: 16px !important;
+            border-radius: 6.4px !important;
+            background-color: #28a745;
+            color: white;
+            border: 1px solid #28a745;
+            &:hover,
+            &:focus {
+              outline: none !important;
+              box-shadow: none !important;
+              background-color: darken($color: #28a745, $amount: 25%);
+              border: darken($color: #28a745, $amount: 25%);
+            }
+          }
+          a {
+            &.text-center,
+            &.btn-primary {
+              padding: 8px 20px !important;
+              font-size: 16px !important;
+              border-radius: 6.4px !important;
+              background-color: #28a745;
+              color: white;
+              border: 1px solid #28a745;
+              &:hover,
+              &:focus {
+                outline: none !important;
+                box-shadow: none !important;
+                background-color: darken($color: #28a745, $amount: 25%);
+                border: darken($color: #28a745, $amount: 25%);
+              }
+            }
+            &.text-center {
+              background-color: o-color("primary") !important;
+              border: 1px solid #8e8e8e3b !important;
+
+              &:hover {
+                background-color: darken(
+                  $color: o-color("primary"),
+                  $amount: 25%
+                ) !important;
+                border: 1px solid 
+                  darken($color: o-color("primary"), $amount: 25%) !important;
+              }
+            }
+            &:hover {
+              text-decoration: none !important;
+            }
+          }
+          hr {
+            background-color: lighten($color: o-color("primary"), $amount: 40%);
+          }
+        }
+      }
+    }
+  }
+}

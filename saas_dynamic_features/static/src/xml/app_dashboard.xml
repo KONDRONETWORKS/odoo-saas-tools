@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="saas_dynamic_features.AppDashboard" owl="1">
+        <div class="o_saas_dashboard_container h-100 overflow-auto">
+            <div class="container py-5">
+                <div class="row mb-5">
+                    <div class="col-12 text-center">
+                        <h2 class="mb-2">Welcome Back</h2>
+                        <p class="text-muted">Select an application to get started</p>
+                    </div>
+                </div>
+                
+                <div class="o_saas_dashboard_grid">
+                    <t t-foreach="apps" t-as="app" t-key="app.id">
+                        <div class="o_app_card" t-on-click="() => this.openApp(app)">
+                            <div t-attf-class="o_app_icon #{app.colorClass || 'bg-gradient-primary'} text-white shadow-sm">
+                                <i t-attf-class="fa #{app.icon || 'fa-cube'}"/>
+                            </div>
+                            <div class="o_app_name">
+                                <t t-esc="app.name"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

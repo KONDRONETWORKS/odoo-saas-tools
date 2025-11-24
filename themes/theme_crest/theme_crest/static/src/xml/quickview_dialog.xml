@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+
+    <t t-name="theme_crest.QuickView">
+        <Dialog size="'xl'" footer="false" title="''" contentClass="'quick-view-bit'" withBodyPadding="false">
+            <div class="main-body p-3" t-ref="quickview"> 
+                <div t-ref="quickview" t-out="markup($content)"/>
+            </div>
+        </Dialog>
+    </t>
+
+    <t t-name="theme_crest.MiniCartDialog">
+         <Dialog size="'xl'" contentClass="'min-cart-content-bits'" bodyClass="'min-cart-body-bits'" footer="false" title="'Shopping cart'" withBodyPadding="false">
+            <div class="main-body " t-ref="minicartdialog"> 
+                <div class="div" t-ref="minicartdialog" t-out="markup($content)"/>
+            </div>
+        </Dialog>
+    </t>
+
+    <t t-name="theme_crest.ProductDialog">
+         <Dialog size="'xl'"  footer="false" title="'Available offers'" bodyClass="'px-4 py-3'" withBodyPadding="false">
+            <div class="main-body " t-ref="productDialog"> 
+                <div class="" t-ref="productDialog" t-out="markup($content)"/>
+            </div>
+        </Dialog>
+    </t>
+     <t t-name="theme_crest.ProductInquiryDialog">
+         <Dialog size="'lg'"  footer="false" title="'Product Inquiry'" contentClass="'product-inquriy-bits'"  bodyClass="'px-4 py-3'" withBodyPadding="false">
+            <div class="main-body " t-ref="productinquirydialog"> 
+                <div class="" t-ref="productinquirydialog" t-out="markup($content)"/>
+            </div>
+        </Dialog>
+    </t>
+</templates>

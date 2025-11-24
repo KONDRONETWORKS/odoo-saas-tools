@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--=====================  Snippets =====================-->
+    <template id="snippets" inherit_id="website.snippets" name="Dynamic Snippets">
+        <xpath expr="//snippets[@id='snippet_groups']" position="before">
+            <snippets id="snippet_alan" string="Crest Dynamic/Static Snippet Builder">
+                <t t-snippet="theme_crest.dynamic_snippet" string="Crest Snippet Builder" t-thumbnail="/theme_crest/static/images/snippet_thumbnails/dy_snippet.svg">
+                    <keywords>products, dynamic</keywords>
+                </t>
+            </snippets>
+        </xpath>
+    </template>
+
+</odoo>

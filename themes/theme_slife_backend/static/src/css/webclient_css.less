@@ -1,0 +1,458 @@
+@main-color: #ac142e;
+@secondary-color: #262728;
+@sub-menu-color: #5a5656;
+@placeholder-color: #fac5cf;
+
+.o_web_client > .o_main .o_sub_menu {
+    -webkit-box-flex: 0;
+    flex: 0 0 220px;
+    display: flex;
+    flex-flow: column nowrap;
+    border-right: 1px solid @secondary-color;
+    background-color: #f9f9f9;
+    box-shadow: none;
+    background: @secondary-color;
+    padding-top: 50px;
+}
+
+.o_web_client .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_menu_section {
+    margin-left: 8px;
+    margin: 0;
+    color: #ffffff;
+    cursor: pointer;
+    line-height: 40px;
+    // border-bottom: 1px solid #8b8c8c;
+    position: relative;
+}
+
+.o_web_client .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_menu_section .sb-m {
+  position: absolute;
+  top: 17px;
+  right: 10px;
+  bottom: 0;
+  cursor: pointer;
+  font-size: xx-small;
+}
+
+span.fa.fa-circle-o.circle {
+    font-size: x-small;
+}
+
+span.fa.fa-plus.expand {
+    float: right;
+    font-size: x-small;
+    padding: 2px;
+}
+
+.o_web_client > .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_menu_section:hover {
+  background-color: @main-color;
+  color: #FFFFFF;
+}
+
+.o_web_client > .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_submenu {
+    line-height: 1.1em;
+    background: @sub-menu-color;
+    margin: 0;
+}
+
+.o_web_client > .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_submenu > li:not(.active) > a {
+    color: #eee;
+}
+
+.app-sidebar-menuitem {
+    width: 23px;
+    height: 22px;
+    margin-right: 5px;
+}
+
+.nav-stacked > li {
+    float: none;
+}
+
+.panel-default > .panel-heading {
+    color: #333333;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.panel {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 0px;
+}
+
+.o_web_client > .o_main .o_sub_menu {
+    padding-top: 0px;
+}
+
+.o_web_client .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_submenu li:active > a, .o_web_client .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_submenu li:focus > a, .o_web_client .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_submenu li:hover > a, .o_web_client .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_submenu li.active > a {
+    background: @main-color;
+}
+
+.oe_menu_text.menu_name:hover {
+    color: white;
+}
+
+.o_web_client .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_submenu li a {
+  padding: 5px 5px 5px 35px;
+  color: #fff;
+  display: block;
+}
+
+.btn {
+    border-radius: 0px !important;
+    box-shadow: none;
+    font-weight: bolder !important;
+}
+
+.btn-primary {
+  color: @main-color !important;
+  background: #FFFFFF !important;
+  border: 2px solid @main-color !important;
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  color: #FFFFFF !important;
+  background: @main-color !important;
+  border: 2px solid @main-color !important;
+  font-weight: bold;
+}
+
+.btn-default {
+  color: #000000;
+  background: #FFFFFF;
+  border: 2px solid #000000;
+  font-weight: bold;
+}
+
+body .o_kanban_view .o_kanban_record {
+    box-shadow: none;
+    border: 1px solid #e6e6e6;
+}
+
+.navbar-inverse {
+    background: @main-color;
+    border: none;
+}
+
+.navbar-inverse {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+    line-height: 68px;
+    padding: 0 10px;
+    margin: 0;
+    font-size: 12px;
+    outline: none;
+}
+
+.nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+
+.navbar-inverse .oe_logo_backend {
+    float: left;
+}
+
+.navbar-inverse .oe_logo_backend .oe_logo_edit {
+    font-size: 0;
+    width: 45px;
+    // background: #fff;
+    border-radius: 50%;
+    padding: 0;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    line-height: 45px;
+    color: #ff5722;
+}
+
+.navbar-inverse .oe_logo_backend img {
+    max-height: 68px;
+}
+
+a.o_sub_menu_logo {
+    margin-bottom: 20%;
+}
+
+.o_web_client > .o_main .o_sub_menu .o_sub_menu_logo > img {
+    display: none;
+}
+
+.o_list_view {
+    border: 1px solid #e6e6e6;
+}
+
+.o_list_view thead {
+    color: #000000;
+    border-bottom: 1px solid #cacaca;
+}
+
+.o_list_view thead > tr > th {
+    font-weight: 600;
+    vertical-align: bottom;
+    border-left: none;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+    background: @main-color;
+    color: #FFFFFF;
+}
+
+.o_list_view tbody > tr > td {
+    border: 1px solid #e6e6e6;
+}
+
+.o_list_view tbody > tr:nth-of-type(2n+1) {
+    background: #f5f5f5;
+}
+
+body, .openerp, .ui-autocomplete {
+    font-family: 'Lato', sans-serif;
+    text-rendering: optimizeLegibility;
+    font-size: 12px;
+}
+
+.o_form_view .o_form_sheet_bg > .o_form_sheet {
+    max-width: 1050px;
+}
+
+@media screen and (max-width: 425px) {
+  .menu_name {
+    display: none;
+  }
+
+  .oe_secondary_menu_section:hover > .menu_name {
+    display: inline;
+  }
+
+  .o_web_client > .o_main .o_sub_menu {
+    max-width: 60px;
+  }
+
+  .o_web_client .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_submenu li a{
+    padding: 5px 5px 5px 5px;
+  }
+
+  .o_web_client > .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_menu_section:hover {
+    z-index: 4;
+  }
+  .o_sub_menu {
+    z-index: 4;
+  }
+  .o_control_panel > .o_cp_right > .o_cp_switch_buttons > .btn:first-child {
+    margin-left: 0px;
+  }
+  .o_web_client .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_menu_section {
+    width: 100%;
+  }
+
+  .modal-dialog.modal-lg {
+    width: 100% !important;
+  }
+
+}
+
+.o_web_client > .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_submenu .oe_secondary_submenu > li > a {
+  padding-left: 50px;
+}
+
+.o_required_modifier.o_input, .o_required_modifier .o_input {
+  background-color: @placeholder-color !important;;
+}
+
+.o_input {
+  border-radius: 0px;
+}
+
+.o_web_client > .o_main .o_sub_menu .o_sub_menu_logo {
+  display: none;
+}
+
+.breadcrumb > .active {
+  color: #000000;
+}
+
+.oe_view_nocontent {
+  color: #000000;
+}
+
+.oe_view_nocontent .oe_view_nocontent_create {
+  color: #000000;
+}
+
+.o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled {
+  border: 1px solid #f9f9f9 !important;
+  background-color: #f9f9f9 !important;
+}
+
+.o_form_view .o_form_statusbar {
+    border: 1px solid #d9d7d7;
+}
+
+.oe_menu_toggler, .oe_menu_leaf {
+  display: block;
+}
+
+.o_sub_menu_footer {
+    display: none;
+}
+
+.media {
+  padding: 0px;
+}
+
+.folder_icon {
+  max-height: 22px;
+}
+
+.folder_label {
+  margin-left:10px !important;
+  margin-right:10px !important;
+  font-size: 10px !important;
+}
+
+.folder_file {
+  margin-bottom: 10px !important;
+}
+
+.oe_hr_employee_status_green {
+    color: green;
+}
+.oe_hr_employee_status_red {
+    color: red;
+}
+
+.o_form_view .o_horizontal_separator {
+  color: @main-color;
+}
+
+.o_chat_window .o_chat_header {
+  background: #4CAF50;
+}
+
+a {
+  color: @main-color;
+}
+
+.o_form_view .o_group.o_inner_group.oe_subtotal_footer > tbody > tr > td .o_field_widget {
+  width: 200% !important;
+}
+
+.o_form_view .o_group.o_inner_group.oe_subtotal_footer {
+  margin-right: 8% !important;
+}
+
+.oe_paiement {
+  width: 100px;
+  border: 2px solid #4CAF50;
+}
+
+.oe_paiement:hover {
+  font-weight: bold;
+  border: 2px solid #000;
+  background: #4CAF50;
+  color: #FFF;
+}
+
+.oe_paiement_cancel:hover {
+  border: 2px solid red !important;
+  color: red !important;
+  background: #FFF;
+}
+
+.modal-lg {
+    width: 1100px !important;
+}
+
+.oe_sale_table {
+  width: 100%;
+  font-size: 13px;
+}
+
+.oe_sale_th {
+  background: #000;
+  color: #FFF;
+  border: 1px solid;
+  padding: 5px;
+  text-align: center;
+}
+
+.oe_sale_td {
+  border: 1px solid #ccc5c5;
+  color: #000;
+  padding: 5px;
+}
+
+.oe_amount_total {
+  color: green;
+  font-size: large;
+  font-weight: bold;
+  width: 300px;
+}
+
+.oe_versement {
+  margin-top: 10px;
+  background: #900;
+  font-weight: bold;
+  font-size: larger;
+  color: #FFF;
+  text-align:center;
+}
+
+.o_web_client > .o_main .o_sub_menu .o_sub_menu_content .oe_secondary_submenu .oe_menu_text {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.oe_home_image {
+  width: 300px;
+  height: 300px;
+  border-radius: 1000px;
+  float: right;
+  margin-top: 10px;
+  border: 5px solid #277247;
+}
+
+.oe_sale_type {
+  background-color: #ccc;
+  color: #000;
+  border: 1px solid white;
+}
+
+.oe_receipt_tr {
+  border-top: 1px solid #d0d1d1;
+  border-bottom: 1px solid #d0d1d1;
+}
+
+.oe_receipt_th {
+  font-weight: bold;
+}
+
+.oe_bank_paiement {
+  float: right;
+  margin: 20px;
+}
+
+.navbar-collapse {
+  padding-left: 0px !important;
+}
+
+.panel-heading {
+  padding: 1px 1px 1px 20px;
+}
+
+.o_sub_menu_content {
+  padding-top: 15px;
+}
+
+.fa-2x {
+  font-size: 1.8em;
+}
+
+span.menu_name {
+    padding-left: 3px;
+}

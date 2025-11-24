@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter';
+}
+
+body {
+  background-color: lightseagreen;
+  color: #fff;
+}
+
+.container {
+  width: 1140px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 30px;
+  text-align: center;
+}
+
+.count {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    flex-direction: column;
+  }
+}

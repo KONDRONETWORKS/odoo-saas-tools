@@ -1,0 +1,31 @@
+.card-box {
+  border: 1px solid #bebebe;
+  border-radius: 5px;
+  height: 100%;
+
+  .card-btn {
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
+  }
+  .card-content {
+    display: block;
+    .wishlist-title {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .wishlist-description_sale {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    @media (max-width: 768px) {
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+   <data>
+        <record id="product_label_bits_form_view" model="ir.ui.view">
+            <field name="name">product.label.bits.form.view</field>
+            <field name="model">product.label.bits</field>
+            <field name="arch" type="xml"> 
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="bg_color" widget="color"/>
+                            <field name="text_color" widget="color"/>
+                            <field name="lable_style"/>
+                            <field name="website_id"/>
+                            <field name="Product_tmpl_id"/>
+                        </group>
+                    </sheet>
+                </form> 
+            </field>
+        </record>
+        <record id="product_label_bits_tree_view" model="ir.ui.view">
+            <field name="name">product.label.bits.list.view</field>
+            <field name="model">product.label.bits</field>
+            <field name="arch" type="xml"> 
+                <list> 
+                    <field name="name"/>
+                    <field name="bg_color" widget="color"/>
+                    <field name="text_color" widget="color"/>
+                    <field name="lable_style"/>
+                    <field name="website_id"/>
+                    <field name="Product_tmpl_id"/>
+                </list> 
+            </field>
+        </record>
+   </data>  
+</odoo>

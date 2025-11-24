@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_theme_customizer" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.theme.customizer</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="100"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='companies']" position="after">
+                <div class="app_settings_block" data-string="Theme Customizer" string="Personnalisation des Thèmes" data-key="theme_customizer">
+                    <h2>🎨 Personnalisation des Thèmes SaaS Portal</h2>
+                    
+                    <!-- Section Couleurs Principales -->
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12">
+                            <h3>Couleurs Principales</h3>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_primary_color" widget="color"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_primary_color" string="Couleur Primaire"/>
+                                <div class="text-muted">
+                                    Couleur principale utilisée dans la barre de navigation et les boutons principaux.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_secondary_color" widget="color"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_secondary_color" string="Couleur Secondaire"/>
+                                <div class="text-muted">
+                                    Couleur secondaire utilisée dans les éléments complémentaires.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_accent_color" widget="color"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_accent_color" string="Couleur d'Accent"/>
+                                <div class="text-muted">
+                                    Couleur d'accent pour les éléments importants et les bordures.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section Couleurs d'État -->
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12">
+                            <h3>Couleurs d'État</h3>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-4 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_success_color" widget="color"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_success_color" string="Succès"/>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-4 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_warning_color" widget="color"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_warning_color" string="Avertissement"/>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-4 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_danger_color" widget="color"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_danger_color" string="Danger"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section Image de Fond -->
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12">
+                            <h3>Image de Fond</h3>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_background_image" string="Image de Fond du Backend"/>
+                                <field name="theme_background_image" widget="image"/>
+                                <div class="text-muted">
+                                    Téléchargez une image de fond personnalisée pour l'interface backend.
+                                    Formats recommandés: PNG, JPG. Taille recommandée: 1920x1080px.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Couleurs de Fond et Texte (Light/Dark) -->
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12">
+                            <h3>Couleurs de Fond et Texte (Light/Dark)</h3>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_bg_color_light" widget="color"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_bg_color_light" string="Fond (Mode Clair)"/>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_text_color_light" widget="color"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_text_color_light" string="Texte (Mode Clair)"/>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_bg_color_dark" widget="color"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_bg_color_dark" string="Fond (Mode Sombre)"/>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_text_color_dark" widget="color"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_text_color_dark" string="Texte (Mode Sombre)"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section UI Elements Customization -->
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12">
+                            <h3>Personnalisation UI (Boutons, Cartes, Typographie)</h3>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_button_radius"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_button_radius"/>
+                                <div class="text-muted">Rayon de bordure des boutons (px)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_card_radius"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_card_radius"/>
+                                <div class="text-muted">Rayon de bordure des cartes (px)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_input_radius"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_input_radius"/>
+                                <div class="text-muted">Rayon de bordure des champs (px)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_font_size_base"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_font_size_base"/>
+                                <div class="text-muted">Taille de police de base (px)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_link_decoration"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_link_decoration"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Options -->
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12">
+                            <h3>Options d'Affichage</h3>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_show_branding"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_show_branding" string="Afficher le Badge SaaS Portal"/>
+                                <div class="text-muted">
+                                    Afficher l'indicateur "🚀 SaaS Portal" dans la barre de navigation.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="theme_show_top_bar"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="theme_show_top_bar" string="Afficher la Barre Supérieure Colorée"/>
+                                <div class="text-muted">
+                                    Afficher la barre colorée en haut de la page.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt16">
+                        <div class="col-12">
+                            <div class="alert alert-info" role="alert">
+                                <strong>💡 Astuce:</strong> Après modification des couleurs, pensez à vider le cache de votre navigateur 
+                                (Ctrl+Shift+R ou Cmd+Shift+R) pour voir les changements.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

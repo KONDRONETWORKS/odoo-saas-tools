@@ -125,6 +125,11 @@ services:
       - ../kondro/kondro_dt_docs:/mnt/extra-addons/kondro_dt_docs
       - ../kondro/kondro_dt_reporting:/mnt/extra-addons/kondro_dt_reporting
       
+      # ============================================
+      # Modules Themes
+      # ============================================
+      - ../themes:/mnt/extra-addons/themes
+      
       # Configuration et données
       - ../config/odoo.ubuntu-vm.conf:/etc/odoo/odoo.conf:ro
       - ../filestore:/var/lib/odoo/filestore
@@ -135,7 +140,7 @@ services:
       --db_host=postgres
       --db_user=${POSTGRES_USER:-odoo}
       --db_password=${POSTGRES_PASSWORD}
-      --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+      --addons-path=/mnt/extra-addons/themes,/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
       --data-dir=/var/lib/odoo
       --xmlrpc-port=8069
       --gevent-port=8072
@@ -201,7 +206,7 @@ services:
       --db_host=postgres
       --db_user=${POSTGRES_USER:-odoo}
       --db_password=${POSTGRES_PASSWORD}
-      --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+      --addons-path=/mnt/extra-addons/themes,/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
       --data-dir=/var/lib/odoo
       --xmlrpc-port=8071
       --longpolling-port=8073

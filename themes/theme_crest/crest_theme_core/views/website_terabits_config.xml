@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="website_view_form_bits" model="ir.ui.view">
+        <field name="name">website.form.view.bits</field>
+        <field name="model">website</field>
+        <field name="inherit_id" ref="website.view_website_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="website_configuration_bits" string="Terabits Configuration">
+                    <group name="Terabits Configuration" string="Configuration ">
+                        <group>
+                            <field name="phone_label"></field>
+                            <field name="phone_number"></field>
+                        </group>
+                        <group>
+                            <field name="shipping_label"></field>
+                        </group>
+                    </group>
+                </page>
+                <page name="pwa_config_bits" string="PWA Configuration">
+                    <group >
+                        <field name="pwa_enable" /> 
+                    </group>
+                    <group invisible="not pwa_enable">
+                        <group >
+                            <field name="pwa_app_name" />
+                            <field name="pwa_short_name" />
+                            <field name="pwa_description" />
+                            <field name="pwa_image_192" widget="image" class="oe_avatar" options="{'preview_image':'pwa_image_192'}"/>
+                            <field name="pwa_image_512" widget="image" class="oe_avatar" options="{'preview_image':'pwa_image_512'}"/>
+                            <field name="pwa_start_url" />
+                            <field name="pwa_background_color" widget="color"/>
+                            <field name="pwa_theme_color" widget="color"/> 
+                            <field name="pwa_shortcuts_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="pwa_shortcuts_form_view_bits" model="ir.ui.view">
+        <field name="name">pwa.shortcuts.form.view.bits</field>
+        <field name="model">pwa.shortcuts</field> 
+        <field name="arch" type="xml"> 
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="short_name"/>
+                        <field name="website_id"/>
+                        <field name="description" />
+                        <field name="url"/>
+                        <field name="icon" widget="image" class="oe_avatar" options="{'preview_image':'icon'}"/>   
+                    </group>
+                </sheet>
+            </form> 
+        </field>
+    </record>
+</odoo>

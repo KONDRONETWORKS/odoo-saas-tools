@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="theme_crest.Domain"> 
+        <div class="col-12 d-flex align-items-center my-2">
+            <div class="row w-100">
+                <div class="col-1">
+                    <label class="group-domain-label">Match:</label>
+                </div>
+                <div class="col-3">
+                    <select class="group-domain-input">
+                        <option value="all">All</option>
+                        <option value="any">Any</option>
+                    </select>
+                </div>
+            </div> 
+        </div>
+        <div class="col-12 domain-creater px-0 my-2">
+            <div class="row align-items-end mx-auto px-2 py-1">
+                <div class="col-4 px-1">
+                    <label class="group-domain-label">Field:</label>
+                    <select class="group-domain-input" t-model="state.selectedField" t-on-change="(ev)=>state.selectedField=">
+                        <t t-foreach="Object.keys(state.domainTemplate)" t-as="key" t-key="key">
+                            <option t-att-value="key">
+                                <t t-esc="state.domainTemplate[key].displayName"/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-2 px-1">
+                    <label class="group-domain-label">Operators:</label>
+                    <select class="group-domain-input" t-model="state.selectedOperator">
+                        <t t-foreach="state.domainTemplate[state.selectedField].operators" t-as="operator" t-key="operator.operator">
+                            <option t-att-value="operator.operator">
+                                <t t-esc="operator.name"/>
+                            </option>
+                        </t>
+                    </select>
+                </div> 
+                <div class="col-4 px-1">
+                    <label class="group-domain-label">Value</label>
+                    <input class="group-domain-input" type="text" t-model="state.value"/>
+                </div>
+                <div class="col-2 px-0 text-center" >
+                    <button class="btn btn-primary" t-on-click="ev => this.showDomain()">Add rule</button>
+                </div>
+                <div class="col-12 domain-container" t-if="">
+                </div>
+            </div> 
+        </div>   
+    </t>
+</templates>

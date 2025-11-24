@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="theme_crest.SnippetEditorDialog">
+        <ThemeDialog size="'xl'" fullscreen="true" title="''" header="false" footer="false">
+            <div class="d-flex justify-content-between border-bottom flex-wrap" style="gap: 13px;font-size: 17px;position: sticky; top: 0; background: white; z-index: 10;">
+                <div class="o_statusbar_status">
+                    <button t-on-click="ev => state.selectedTab = 'structure'" t-attf-class="btn o_arrow_button #{state.selectedTab == 'structure'? 'o_arrow_button_current':''} me-2" style="cursor: pointer;">Structure</button>
+                    <button t-attf-class="btn o_arrow_button #{['data_visuals','visual'].includes(state.selectedTab)? 'o_arrow_button_current':''} me-2">Data/Visuals</button>
+                    <!-- <button t-on-click="ev => state.selectedTab = 'data_visuals'" t-attf-class="btn o_arrow_button #{state.selectedTab == 'data_visuals'? 'o_arrow_button_current':''} me-2">Data/Visuals</button> -->
+                    <button t-on-click="ev => state.selectedTab = 'preview'" t-attf-class="btn o_arrow_button #{state.selectedTab == 'preview'? 'o_arrow_button_current':''}" style="cursor: pointer;">Preview</button>
+                </div>
+                <div>
+                    <!-- <button class="btn btn-save" t-on-click="this.saveData">Save</button> -->
+                    <button class="btn bg-200 btn-cancel" t-on-click="this.closeDialog">Cancel</button>
+                </div>
+            </div>
+            <div class="container-fluid px-0">
+                <!-- <div class="h-100 border-end col-3 pe-4">
+                    <div class="d-flex justify-content-center align-items-center flex-column" style="gap: 13px;font-size: 17px;">
+                        <button t-att-disabled="!state.selectedCol" t-on-click="ev => state.selectedTab = 'data'" t-attf-class="btn w-100 #{state.selectedTab == 'data'? 'btn-primary': 'btn-outline-primary'}">Data</button>
+                        <button t-att-disabled="!state.selectedCol" t-on-click="ev => state.selectedTab = 'visual'" t-attf-class="btn w-100 #{state.selectedTab == 'visual'? 'btn-primary': 'btn-outline-primary'}">Visual</button>
+                    </div>
+                </div> -->
+                <div class="h-100 row m-auto">
+                    <t t-if="state.selectedTab == 'structure'">
+                        <DynamicSnippetStructure data="state.data" update="this.updateData.bind(this)" selectCol="this.selectCol.bind(this)"/>
+                    </t>
+                    <t t-if="state.selectedTab == 'data_visuals'">
+                        <DynamicSnippetData selectedCol="state.selectedCol" data="state.data" update="this.updateData.bind(this)"/>
+                    </t>
+                    <t t-if="state.selectedTab == 'visual'">
+                        <DynamicSnippetVisual selectedCol="state.selectedCol" data="state.data" update="this.updateData.bind(this)"/>
+                    </t>
+                    <t t-if="state.selectedTab == 'preview'">
+                        <DynamicSnippetPreview data="state.data"/>
+                    </t>
+                </div>
+            </div>
+            <div t-if="state.selectedTab == 'data_visuals'" class="d-flex justify-content-end d-flex border-top" style="gap: 13px;font-size: 17px;position: sticky; bottom: 0; background: white;z-index:100;">
+                <button t-att-disabled="this.hasData()" t-on-click="ev => this.state.selectedTab = 'visual'" class="btn btn-lg o_s_btn_primary">Next</button>
+            </div>
+            <div t-if="state.selectedTab == 'structure'" class="d-flex justify-content-end border-top" style="gap: 13px;font-size: 17px;position: sticky; bottom: 0; background: white;z-index:100;">
+                <button t-att-disabled="this.hasSaveData()" t-on-click="() => this.confirm_edit()" class="btn o_s_btn_primary">Save &amp; Close</button>
+            </div>
+            <div t-if="state.selectedTab == 'visual'" class="d-flex justify-content-between d-flex border-top" style="gap: 13px;font-size: 17px;position: sticky; bottom: 0; background: white;z-index:100;">
+                <a t-on-click="ev => this.state.selectedTab = 'data_visuals'" class="btn o_s_btn_primary">Back</a>
+                <div class="d-flex align-items-center">
+                    <button class="btn o_s_btn_primary px-3 py-2 mx-2" t-on-click="ev => this.state.selectedTab = 'structure'">Confirm</button>
+                    <button t-on-click="ev => this.state.selectedTab = 'preview'" class="btn o_s_btn_primary px-3 py-2 mx-2">Preview</button>
+                </div>
+            </div>
+            <div t-if="state.selectedTab == 'preview'" class="d-flex justify-content-between d-flex border-top" style="gap: 13px;font-size: 17px;position: sticky; bottom: 0; background: white;z-index:100;">
+                <a t-on-click="ev => this.state.selectedTab = 'data_visuals'" class="btn o_s_btn_primary">Back</a>
+                <button t-att-disabled="this.hasSaveData()" t-on-click="() => this.confirm_edit()" class="btn o_s_btn_primary">Save &amp; Close</button>
+            </div>
+        </ThemeDialog>
+    </t>
+</templates>

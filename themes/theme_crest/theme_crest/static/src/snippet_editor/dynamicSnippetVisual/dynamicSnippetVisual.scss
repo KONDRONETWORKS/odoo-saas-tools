@@ -1,0 +1,115 @@
+::selection {
+  background-color: #1e8d99af !important;
+  color: white !important;
+}
+
+.dynamic-snippet-visual {
+  .btn {
+    &:active {
+      border-color: transparent !important;
+    }
+  }
+  .o_static_category {
+    .btn-outline-primary {
+      padding: 8px 30px;
+      border: 1px solid #0097a7;
+      background: #ffffff;
+      color: #0097a7;
+      font-weight: 600;
+      transition: 0.4s all;
+    }
+
+    .btn-primary {
+      padding: 8px 30px;
+      border: none;
+      background: #0097a7;
+      color: white;
+      font-weight: 600;
+      transition: 0.4s all;
+      box-shadow: 0px -3px 6px 0px black inset;
+    }
+  }
+
+  .o_static_template-items {
+    background-color: #0097a7;
+    padding: 15px;
+    border-radius: 15px;
+    border: 2px solid;
+    border-color: transparent !important;
+    text-align: center;
+    transition: 0.4s all;
+  }
+
+  .row {
+    --gutter-x: 0;
+
+    .o_static_template_container {
+      margin: 10px;
+
+      .o_static_template_active {
+        border: 2px solid #00626c;
+        box-shadow: 0px 0px 100px -14px black inset;
+        transition: 0.4s all;
+      }
+    }
+  }
+
+  .product-shop-btn {
+    .btn-primary {
+      color: #fff !important;
+      background-color: #0093a3ab !important;
+      border-color: #00bbcf00 !important;
+      box-shadow: -1px -1px 1px 1px #0097a7 inset !important;
+      transition: 0.4s all;
+    }
+
+    .btn-outline-primary {
+      border-color: #0097a7 !important;
+      color: #0097a7 !important;
+      background-color: transparent !important;
+      box-shadow: 1px 1px 1px 1px #0097a7 !important;
+      transition: 0.4s all;
+    }
+  }
+
+  .group-domain-input {
+    padding: 8px 10px !important;
+  }
+
+  .progress {
+    accent-color: #0b6972;
+    width: 100%;
+  }
+
+  .slider-confi-itmes {
+    border: 1px solid #0097a7 !important;
+    color: #0097a7;
+    box-shadow: 1px 1px 1px 1px;
+    font-weight: 700;
+    transition: 0.4s all;
+
+    label {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 0;
+    }
+
+    input {
+      height: 0;
+      position: absolute;
+      z-index: -1;
+    }
+  }
+
+  .slider-confi-itmes-active {
+    color: #fff !important;
+    background-color: #0093a3ab !important;
+    border-color: #00bbcf00 !important;
+    box-shadow: -1px -1px 1px 1px #0097a7 inset !important;
+    transition: 0.4s all;
+    font-weight: 700;
+  }
+}

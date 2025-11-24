@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="s_enterprise_footer" inherit_id="website.footer_custom" name="Enterprise Footer">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block pt40 pb16" style="background-color: #1e1e2d; color: #b5b5c3;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 mb-4">
+                                <h5 class="text-white mb-3">About Us</h5>
+                                <p>We provide cutting-edge SaaS solutions to help businesses scale and succeed in the digital age. Our platform is built for performance, security, and reliability.</p>
+                                <div class="s_social_media mt-3">
+                                    <a href="#" class="text-white me-3"><i class="fa fa-facebook"/></a>
+                                    <a href="#" class="text-white me-3"><i class="fa fa-twitter"/></a>
+                                    <a href="#" class="text-white me-3"><i class="fa fa-linkedin"/></a>
+                                    <a href="#" class="text-white"><i class="fa fa-instagram"/></a>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 mb-4">
+                                <h5 class="text-white mb-3">Quick Links</h5>
+                                <ul class="list-unstyled">
+                                    <li><a href="/" class="text-muted text-decoration-none">Home</a></li>
+                                    <li><a href="/pricing" class="text-muted text-decoration-none">Pricing</a></li>
+                                    <li><a href="/contactus" class="text-muted text-decoration-none">Contact</a></li>
+                                    <li><a href="/about-us" class="text-muted text-decoration-none">About</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-2 mb-4">
+                                <h5 class="text-white mb-3">Services</h5>
+                                <ul class="list-unstyled">
+                                    <li><a href="#" class="text-muted text-decoration-none">Consulting</a></li>
+                                    <li><a href="#" class="text-muted text-decoration-none">Development</a></li>
+                                    <li><a href="#" class="text-muted text-decoration-none">Integration</a></li>
+                                    <li><a href="#" class="text-muted text-decoration-none">Support</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4 mb-4">
+                                <h5 class="text-white mb-3">Contact Info</h5>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fa fa-map-marker me-2 text-primary"/> 123 Innovation Drive, Tech City</li>
+                                    <li class="mb-2"><i class="fa fa-phone me-2 text-primary"/> +1 (555) 123-4567</li>
+                                    <li class="mb-2"><i class="fa fa-envelope me-2 text-primary"/> support@example.com</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row mt-4 pt-3 border-top border-secondary">
+                            <div class="col-md-6 text-center text-md-start">
+                                <p class="mb-0">&amp;copy; 2024 Your Company. All rights reserved.</p>
+                            </div>
+                            <div class="col-md-6 text-center text-md-end">
+                                <a href="#" class="text-muted text-decoration-none me-3">Privacy Policy</a>
+                                <a href="#" class="text-muted text-decoration-none">Terms of Service</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+</odoo>

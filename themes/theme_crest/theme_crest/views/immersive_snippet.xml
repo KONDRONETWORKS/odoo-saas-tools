@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="s_immersive_card" name="Immersive Card">
+        <section class="s_immersive_card pt80 pb80 bg-200" data-vcss="001" data-snippet="s_immersive_card">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 pt16 pb16">
+                        <div class="s_immersive_content p-5 bg-white shadow-lg rounded" style="transform: perspective(1000px) rotateY(-5deg); transition: transform 0.5s;">
+                            <h2 class="display-4 font-weight-bold">Experience the Future</h2>
+                            <p class="lead text-muted">Dive into a world of immersive possibilities with our cutting-edge solutions.</p>
+                            <a href="#" class="btn btn-primary btn-lg mt-3 rounded-pill">Get Started</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 pt16 pb16">
+                        <img src="/theme_crest/static/description/theme_screenshot.gif" class="img-fluid rounded shadow-lg" alt="Immersive Experience" style="transform: perspective(1000px) rotateY(5deg); transition: transform 0.5s;"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_immersive_card_options" inherit_id="website.snippet_options">
+        <xpath expr="." position="inside">
+            <div data-js="s_immersive_card" data-selector=".s_immersive_card">
+                <we-select string="Layout" data-attribute-name="layout">
+                    <we-button data-select-class="layout_1">Layout 1</we-button>
+                    <we-button data-select-class="layout_2">Layout 2</we-button>
+                </we-select>
+            </div>
+        </xpath>
+    </template>
+</odoo>

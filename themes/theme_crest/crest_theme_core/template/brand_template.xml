@@ -1,0 +1,45 @@
+<odoo>
+    <template id="brand_page_bits" name="Brand Page">
+        <t t-call="website.layout">
+            <div id="wrap" class="barnds-page-bits oe_structure oe_empty">
+                <div class="brand-title text-center">
+                    <img src="/theme_crest/static/images/collection.jpg" alt="brand" />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100"><g fill="#FFFFFF"><path d="M500 80.7C358 68 0 4 0 4V0h1000v84.7c-216 23.3-358 8.6-500-4Z" opacity=".3"></path><path d="M500 65.7C358 53 0 4 0 4V0h1000v62.7c-216 23.3-358 15.6-500 3Z" opacity=".5"></path><path d="M500 50.7C358 38 0 4 0 4V0h1000v40.7C784 64 642 63.3 500 50.7Z"></path></g></svg>
+                    <h2>Brands</h2>
+                </div>
+                <div class="container">
+                    <div class="brands-inner">
+                        <div class="brand-filter text-center ">
+                            <!-- Filter Buttons -->
+                            <t t-foreach="filter_btn" t-as="letter">
+                                <a t-attf-href="/our/brands?alpha=#{letter}" t-attf-class="btn btn-outline-primary  #{'active' if letter == active_alpha  else ''}">
+                                    <t t-esc="letter" />
+                                </a>
+                            </t>
+                        </div>
+                        <div class="brand-list row mt-4">
+                            <t t-foreach="brands" t-as="brand">
+                                <div class="col-xl-3 col-md-6 col-12  p-2" t-if="len(brand.product_ids) != 0">
+                                    <div class="brand-item">
+                                        <a t-attf-href="/shop?attribs=#{brand.id}" class="brand-link d-flex align-items-center justify-content-cetner">
+                                            <img t-if="brand.brand_image" t-attf-src="/web/image/product.brands/#{brand.id}/brand_image" />
+                                            <div class="ms-2">
+                                                <h5>
+                                                    <t t-esc="brand.name"/>
+                                                        (
+                                                    <t t-esc="len(brand.product_ids)"/>
+                                                        )
+                                                </h5>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

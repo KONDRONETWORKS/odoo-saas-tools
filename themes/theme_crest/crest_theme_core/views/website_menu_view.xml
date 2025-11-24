@@ -1,0 +1,63 @@
+<odoo>
+    <!-- Menu Label Views -->
+    <record id="view_menu_label_tree" model="ir.ui.view">
+        <field name="name">menu.label.list</field>
+        <field name="model">menu.label</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="background_color" />
+                <field name="color" />
+                <field name="label_position"></field>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_menu_label_form" model="ir.ui.view">
+        <field name="name">menu.label.form</field>
+        <field name="model">menu.label</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name" />
+                    <field name="background_color" widget="color" />
+                    <field name="color" widget="color"/>
+                    <field name="label_style"></field>
+                    <field name="label_position"></field>
+                </group>
+                <notebook>
+                    <page name="Menus" string="Menu">
+                        <field name="menu_ids" widget="many2many_tags" />
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Add Menu Label to Menu Configuration -->
+
+    <record id="action_menu_label" model="ir.actions.act_window">
+        <field name="name">Menu Labels</field>
+        <field name="res_model">menu.label</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+
+    <menuitem id="menu_label_bits" action="action_menu_label" parent="crest_theme_core.menu_terabits_customisation_bits" name="Menu Label" sequence="10" />
+
+    <!-- Add Menu Label Field in Website Menu -->
+    <record id="view_website_menu_form_inherit_label" model="ir.ui.view">
+        <field name="name">website.menu.form.label.inherit</field>
+        <field name="model">website.menu</field>
+        <field name="inherit_id" ref="website.website_menus_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='website_id']" position="before">
+                <field name="menu_label_id" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
+  

@@ -51,6 +51,12 @@ Ce module est automatiquement installé lors de la création d'une instance clie
 """,
     'depends': ['base', 'auth_oauth', 'saas_auth_oauth_ip', 'saas_auth_oauth_check_client_id', 'mail'],
     'data': ['views/saas_client.xml', 'views/res_config.xml', 'security/rules.xml', 'security/groups.xml', 'data/ir_cron.xml', 'data/auth_oauth_data.xml', 'data/ir_config_parameter.xml', 'data/ir_actions.xml'],
+    'assets': {
+        'web.assets_backend': [
+            'saas_client/static/src/js/saas_client.js',
+            'saas_client/static/src/xml/dashboard.xml',
+        ],
+    },
     'installable': True,
     'application': False,
     'sequence': 10,

@@ -9,4 +9,9 @@
         </xpath>
         </template>
     -->
+    <menuitem id="menu_saas_dashboard"
+              name="SaaS Dashboard"
+              action="action_saas_dashboard"
+              sequence="1"
+              groups="base.group_user"/>
 </odoo>

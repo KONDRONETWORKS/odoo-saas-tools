@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <record id="edit_menu_access" model="ir.ui.view">
+    <field name="name">SLife ir.ui.menu form</field>
+    <field name="model">ir.ui.menu</field>
+    <field name="inherit_id" ref="base.edit_menu_access"/>
+    <field name="arch" type="xml">
+      <xpath expr="//group[@groups='base.group_no_one']" position="replace">
+        <group groups="base.group_no_one">
+          <field name="complete_name"/>
+          <field name="action"/>
+          <field name="web_icon" attrs="{'invisible':[('use_font_icon','=',True)]}"/>
+          <field name="web_icon" string="Font Icon" placeholder="fa-check" attrs="{'invisible':[('use_font_icon','!=',True)]}"/>
+          <field name="web_icon_data" attrs="{'invisible':[('use_font_icon','=',True)]}"/>
+          <field name="use_font_icon" invisible="1"/>
+        </group>
+      </xpath>
+    </field>
+  </record>
+</odoo>

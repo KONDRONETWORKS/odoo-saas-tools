@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+    <template id="product_wishlist_bits" inherit_id="website_sale_wishlist.product_wishlist" name="product wishlist">
+        <xpath expr="//section[hasclass('wishlist-section')]" position="replace">
+            <section class="container wishlist-section">
+                <h3>My Wishlist</h3>
+                <div class="checkbox">
+                    <label class="text-muted">
+                        <input type="checkbox" id="b2b_wish" value="1" class="mr8"/>
+                        Add product to my cart but keep it in my wishlist
+                    </label>
+                </div>
+                <!--  cards  -->
+                <section class="container">
+                    <div class="card-design row  my-5">
+                        <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+
+                        <t t-foreach="wishes" t-as="wish">
+                            <t t-set="combination_info" t-value="wish.product_id._get_combination_info_variant()"/>
+                            <div class="wishlist-items col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 p-2" t-att-data-wish-id="wish.id" t-att-data-product-id="wish.product_id.id" t-att-data-product-tracking-info="'product_tracking_info' in combination_info and json.dumps(combination_info['product_tracking_info'])">
+                                <div class="card-box py-3 px-2">
+                                    <div class="row align-items-center ">
+                                        <div class="col-xl-3 col-md-12 col-sm-12">
+                                            <div class="card-img text-center">
+                                                <a t-att-href="wish.product_id.website_url">
+                                                    <img t-attf-src="/web/image/product.product/#{wish.product_id.id}/image_128" class="img img-fluid" style="margin:auto;" alt="Product image"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-9 col-md-12 col-sm-12">
+                                            <div class="card-content text-md-start text-sm-center">
+                                                <!--  title  -->
+                                                <strong>
+                                                    <a t-att-href="wish.product_id.website_url" class="wishlist-title">
+                                                        <t t-esc="wish.product_id.display_name"/>
+                                                    </a>
+                                                </strong>
+                                                <small class="d-none d-md-block">
+                                                    <p t-field="wish.product_id.description_sale" class="text-muted wishlist-description_sale"/>
+                                                </small>
+                                                <!--  price  -->
+
+                                                <t t-if="not is_b2b_enabled">
+                                                    <div>
+                                                        <t t-out="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                        <small t-if="combination_info['base_unit_price']" class="cart_product_base_unit_price d-block text-muted" groups="website_sale.group_show_uom_price">
+                                                            <t t-call="website_sale.base_unit_price">
+                                                                <t t-set="product" t-value="wish.product_id"/>
+                                                            </t>
+                                                        </small>
+                                                    </div>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-call="theme_crest.b2b_pricing_content_bits"/>
+                                                </t>
+
+                                                <!--  btn  -->
+                                                <div class="card-btn d-flex align-items-center mt-3">
+                                                    <t t-if="not is_b2b_enabled">
+                                                        <a t-if="combination_info['prevent_zero_price_sale']" t-att-href="website.contact_us_button_url" class="btn btn-primary btn_cta">Contact Us</a>
+                                                        <button id="add_to_cart_button" t-else="" type="button" role="button" class="btn btn-primary btn-block o_wish_add mb4">
+                                                        Add
+                                                            <span class="d-none d-md-inline">to Cart</span>
+                                                        </button>
+                                                    </t>
+
+                                                    <button type="button" class="btn btn-outline-primary ms-3 o_wish_rm">
+                                                        <i class="fa fa-trash-o me-2"/>
+                                                        Remove
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </section>
+            </section>
+        </xpath>
+    </template>
+</odoo>

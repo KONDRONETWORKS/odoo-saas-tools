@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="theme_configuration_form_view_bits" model="ir.ui.view">
+        <field name="name">theme.configuration.form.view.bits</field>
+        <field name="model">theme.configuration</field> 
+        <field name="arch" type="xml">
+            <list>
+                <field name="website_id"></field>
+            </list> 
+        </field>
+    </record>  
+    <menuitem id="menu_theme_config_bits" name="Bits Configuration" parent="website.menu_website_global_configuration" action="website.website_preview" sequence="10"/>
+</odoo>

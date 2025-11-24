@@ -3,7 +3,7 @@
     'summary': 'Création automatique de plusieurs bases de données pour les nouveaux clients après inscription',
     'category': 'SaaS',
     'images': [],
-    'version': '1.0.0',
+    'version': '18.0.1.0.0',
     'application': False,
     'author': 'IT-Projects LLC, Ildar Nasyrov',
     'support': 'apps@itexperts4africa.com',

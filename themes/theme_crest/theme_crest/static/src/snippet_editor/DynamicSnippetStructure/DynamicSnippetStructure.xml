@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="theme_crest.DynamicSnippetStructure">
+        <div class="dynamic-snippet-structrue col px-0">
+            <div class="structure-header bg-200 px-3">
+                <!-- <h3 class="row-header m-0">Structure</h1> -->
+                <button t-on-click="ev => this.onAddRowClicked()" class="btn o_s_btn_primary btn-row-action me-3">Add a row</button>
+                <div class="d-flex align-items-center row-selector" t-if="state.isAddRow">
+                    <b>Select number of columns </b>
+                    <select class="row-select" t-on-change="this.colValueChanged" style="width: 200px">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="6">6</option>
+                        <option value="12">12</option>
+                    </select>
+                    <button t-on-click="ev => this.onAddColClick()" class="btn o_s_btn_primary ms-1 btn-row-action">Add</button>
+                </div>
+            </div>
+            <div class="px-5 py-5">
+                <div class="text-center" t-if='state.deleteData == true'>
+                    <h6 class="text-danger s-fs-18">No Data Available</h6>
+                </div>
+                <t t-foreach="state?.data" t-as="row" t-key="row_index">
+                    <div class="d-flex mt-4" style="gap: 11px;">
+                        <button class="btn btn-delete bg-200" t-on-click="ev => this.deleteRow(row_index)">
+                            <i class="fa fa-trash fa-lg"/>
+                        </button>
+                        <button t-if="state.selectedColumns[row_index] and state.selectedColumns[row_index].length >= 2" class="btn btn-success text-white" t-on-click="ev => this.mergeColumns(row_index)">
+                                Merge Columns
+                        </button>
+                        <div style="flex-grow: 1;" class="row">
+                            <t t-foreach="row" t-as="col" t-key="col?._uid">
+                                <div t-attf-class="#{col?.class}">
+                                    <div t-attf-class="border-dashed d-flex justify-content-between align-items-center #{state.selectedColumns[row_index]?.includes(col?._uid) ? 'border-danger border-2' : 'border-black'}" t-on-click="ev => this.toggleColumnSelection(col?._uid,row_index)">
+                                        <div class="row-title p-2 bg-300">
+                                            <h6 class="m-0">Grid col</h6>
+                                        </div>
+                                        <div class="d-flex">
+                                            <button t-on-click="ev => this.resetData(col?._uid)" t-if="col?.data and col?.visual?.template != 'theme_crest.not_data_available'" title="reset" class="btn">
+                                                Reset<i class="fa fa-refresh fa-lg ps-2"/>
+                                            </button>
+                                            <button class="btn" t-on-click="ev => this.props.selectCol(col?._uid)">
+                                                Edit Row<i class="fa fa-pencil fa-lg ps-2"/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                        <div class="btn d-flex align-items-center px-2 py-1 bg-200">
+                            <label class='me-1'>Container Full-Width :</label>
+                            <input type="checkbox" t-on-change="(ev)=>this.selectContainer(row_index,ev)" t-att-checked="row[0]?.container" />
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+    <data> 
+        <menuitem id="menu_terabits_customisation_bits"
+            name="Terabits"
+            parent="website.menu_website_global_configuration"
+            sequence="50"> 
+        </menuitem> 
+        <!-- product buy notification --> 
+    </data>  
+</odoo>

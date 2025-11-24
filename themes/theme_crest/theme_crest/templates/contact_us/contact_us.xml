@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="contactus_bits" inherit_id="website.contactus" name="Contact Us">
+        <xpath expr='//div[@id="wrap"]' position="replace">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="accounting-banner" 
+                        style=" background-image: url('/theme_crest/static/images/contact/banner_img.png');
+                        background-size: cover;background-repeat: no-repeat; color:#fff;  padding: 80px 0;">
+                    <div class="container">
+                        <div class="banner-content my-5">
+                            <div class="text-center text-lg-center text-md-center text-sm-center text-xs-center">
+                                <h1 class="text-white" style="Font-size: 70px;">Get in Touch</h1>
+                                <p class="mt-2 mb-5 text-center text-white">
+                                    <!-- Have any questions? Reach out to us from our contact form <br/>and we will get back to you shortly. -->
+                                    Have queries? Send them our way through the contact form,
+                                    <br/> and we'll reply you in no time.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="s_text_block pt40 pb40 o_colored_level " data-snippet="s_text_block" style="background-color: #EDF1FD;">
+                    <div class="container s_allow_columns">
+                        <div class="row justify-content-evenly align-items-center">
+                            <div class="col-lg-6 mt-4 mt-lg-0">
+                                <p style="font-size: 14px; color: #484f62;">
+                                    Contact us about anything related to our company or services.
+                                    <br/>
+                                    We'll do our best to get back to you as soon as possible.
+                                </p>
+                                <section class="s_website_form mt-4" data-vcss="001" data-snippet="s_website_form" data-name="Form">
+                                    <div class="container">
+                                        <form id="contactus_form" action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-model_name="mail.mail" data-success-mode="redirect" data-success-page="/contactus-thank-you" data-pre-fill="true">
+                                            <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required col-lg-6" data-type="char">
+                                                    <label class="s_website_form_label d-none" style="width: 200px" for="otgec9cizmt">
+                                                        <span class="s_website_form_label_content"/>
+                                                        <span class="s_website_form_mark">*</span>
+                                                    </label>
+                                                    <input class="form-control s_website_form_input" type="text" name="" required="1" placeholder="Name*" id="otgec9cizmt" data-fill-with="name" style="background-color: #fff;padding: 10px 16px;"/>
+                                                </div>
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 col-lg-6 s_website_form_custom" data-type="char">
+                                                    <label class="s_website_form_label d-none" style="width: 200px" for="o5gl9q7vre0p">
+                                                        <span class="s_website_form_label_content"/>
+                                                    </label>
+                                                    <input class="form-control s_website_form_input" type="text" name="" placeholder="Phone Number*" id="o5gl9q7vre0p" data-fill-with="phone" style="background-color: #fff;padding: 10px 16px;"/>
+                                                </div>
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 col-lg-6 s_website_form_required" data-type="email">
+                                                    <label class="s_website_form_label d-none" style="width: 200px" for="om0fj4egl1x">
+                                                        <span class="s_website_form_label_content"/>
+                                                        <span class="s_website_form_mark">     *</span>
+                                                    </label>
+                                                    <input class="form-control s_website_form_input" type="email" name="email_from" required="1" placeholder="Email*" id="om0fj4egl1x" data-fill-with="email" style="background-color: #fff;padding: 10px 16px;"/>
+                                                </div>
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom col-lg-6" data-type="char">
+                                                    <label class="s_website_form_label d-none" style="width: 200px" for="othstiao3f0k">
+                                                        <span class="s_website_form_label_content"/>
+                                                    </label>
+                                                    <input class="form-control s_website_form_input" type="text" name="" placeholder="Company*" id="othstiao3f0k" data-fill-with="commercial_company_name" style="background-color: #fff;padding: 10px 16px;"/>
+                                                </div>
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_required" data-type="char">
+                                                    <label class="s_website_form_label d-none" style="width: 200px" for="ofnzixv573wn">
+                                                        <span class="s_website_form_label_content"/>
+                                                        <span class="s_website_form_mark">*</span>
+                                                    </label>
+                                                    <input class="form-control s_website_form_input" type="text" name="subject" required="1" placeholder="Subject" id="ofnzixv573wn" data-fill-with="undefined" style="background-color: #fff;padding: 10px 16px;"/>
+                                                </div>
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="text">
+                                                    <label class="s_website_form_label d-none" style="width: 200px" for="oknn40mdgx3o">
+                                                        <span class="s_website_form_label_content"/>
+                                                        <span class="s_website_form_mark">*</span>
+                                                    </label>
+                                                    <textarea class="form-control s_website_form_input" name="" required="1" placeholder="Question*" id="oknn40mdgx3o" rows="2" style="background-color: #fff;padding: 10px 16px;"/>
+                                                </div>
+                                                <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone">
+                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px">
+                                                            <span class="s_website_form_label_content"/>
+                                                        </label>
+                                                        <div class="col-sm">
+                                                            <input type="hidden" class="form-control s_website_form_input" name="email_to" value="info@yourcompany.example.com" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-0 py-2 col-12 s_website_form_submit col-lg-12" data-name="Submit Button">
+                                                    <!-- <div style="width: 200px;" class="s_website_form_label"/> -->
+                                                    <a href="#" role="button" class="btn text-white s_website_form_send" data-bs-original-title="" title="" style="background-color: #2f6ddf;">Submit</a>
+                                                    <span id="s_website_form_result"/>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-lg-4 mt-4 mt-lg-0">
+                                <ul class="list-unstyled mb-0 ps-2">
+                                    <li class="d-flex">
+                                        <div>
+                                            <i class="fa fa-map-marker fa-fw me-2" style="font-size: 26px; color: #2f6ddf;"/>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h5 style="font-size: 18px;font-weight: 700; color: #343f52; word-spacing: .1rem; letter-spacing: -.01rem;">Address</h5>
+                                            <h6 style="font-size: 16px;color:#60697B;margin-bottom: 30px;"> 404, Ambika Pinnacle,
+                                                <br/>beside Lajamani Chowk,
+                                                <br/>  Mota Varachha,  Surat.
+                                            </h6>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex">
+                                        <div>
+                                            <i class="fa fa-phone fa-fw me-2" style="font-size: 26px; color: #2f6ddf;"/>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h5 style="font-size: 18px;font-weight: 700; color: #343f52; word-spacing: .1rem; letter-spacing: -.01rem;">Phone</h5>
+                                            <h6 style="font-size: 16px;color:#60697B;margin-bottom: 30px;"> +91 9726381010 </h6>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex">
+                                        <div>
+                                            <i class="fa fa-1x fa-fw fa-envelope me-2" style="font-size: 26px; color: #2f6ddf;"/>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h5 style="font-size: 18px;font-weight: 700; color: #343f52; word-spacing: .1rem; letter-spacing: -.01rem;">Email</h5>
+                                            <h6 style="font-size: 16px;color:#60697B;margin-bottom: 30px;">info@terabits.xyz </h6>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+    <template id="contactus_thanks_bits" inherit_id="website.contactus_thanks_ir_ui_view" name="Contactus Thankyou">
+
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_text_block pt40 pb40 o_colored_level " data-snippet="s_text_block">
+                    <div class="container s_allow_columns">
+                        <div class="row align-items-center">
+                            <div class="col-lg-7 col-xl-6 me-lg-auto">
+                                <span class="d-block fa fa-4x fa-thumbs-up mx-auto rounded-circle bg-primary"/>
+                                <br/>
+                                <h1 class="text-center">Thank You!</h1>
+                                <div class="pb16 pt16 s_hr" data-snippet="s_hr" data-name="Separator">
+                                    <hr class="mx-auto border-top w-50 border-dark text-center"/>
+                                </div>
+                                <h5 class="text-center">
+                                    <span class="fa fa-check-circle"/>
+                                    <span>Your message has been sent
+                                        <b>successfully</b>
+                                    </span>
+                                </h5>
+                                <p class="text-center">We will get back to you shortly.</p>
+                            </div>
+                            <div class="col-lg-4">
+                                <ul class="list-unstyled mb-0 ps-2">
+                                    <li class="d-flex">
+                                        <div>
+                                            <i class="fa fa-map-marker fa-fw me-2" style="font-size: 26px; color: #2f6ddf;"/>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h5 style="font-size: 18px;font-weight: 700; color: #343f52; word-spacing: .1rem; letter-spacing: -.01rem;">Address</h5>
+                                            <h6 style="font-size: 16px;color:#60697B;margin-bottom: 30px;"> 404, Ambika Pinnacle,
+                                                <br/>beside Lajamani Chowk,
+                                                <br/>  Mota Varachha,  Surat.
+                                            </h6>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex">
+                                        <div>
+                                            <i class="fa fa-phone fa-fw me-2" style="font-size: 26px; color: #2f6ddf;"/>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h5 style="font-size: 18px;font-weight: 700; color: #343f52; word-spacing: .1rem; letter-spacing: -.01rem;">Phone</h5>
+                                            <h6 style="font-size: 16px;color:#60697B;margin-bottom: 30px;"> +91 9726381010 </h6>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex">
+                                        <div>
+                                            <i class="fa fa-1x fa-fw fa-envelope me-2" style="font-size: 26px; color: #2f6ddf;"/>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h5 style="font-size: 18px;font-weight: 700; color: #343f52; word-spacing: .1rem; letter-spacing: -.01rem;">Email</h5>
+                                            <h6 style="font-size: 16px;color:#60697B;margin-bottom: 30px;">info@terabits.xyz </h6>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template> 
+</odoo>

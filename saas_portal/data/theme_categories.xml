@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Catégorie parent Themes -->
+    <record id="module_category_themes" model="ir.module.category">
+        <field name="name">Themes</field>
+        <field name="description">Thèmes personnalisés pour Odoo</field>
+        <field name="sequence">5</field>
+    </record>
+
+    <!-- Catégorie Themes/Backend -->
+    <record id="module_category_themes_backend" model="ir.module.category">
+        <field name="name">Themes/Backend</field>
+        <field name="description">Thèmes pour l'interface backend (administration)</field>
+        <field name="parent_id" ref="module_category_themes"/>
+        <field name="sequence">1</field>
+    </record>
+
+    <!-- Catégorie Themes/Website -->
+    <record id="module_category_themes_website" model="ir.module.category">
+        <field name="name">Themes/Website</field>
+        <field name="description">Thèmes pour l'interface frontend (site public)</field>
+        <field name="parent_id" ref="module_category_themes"/>
+        <field name="sequence">2</field>
+    </record>
+
+    <!-- Catégorie Themes/eCommerce -->
+    <record id="module_category_themes_ecommerce" model="ir.module.category">
+        <field name="name">Themes/eCommerce</field>
+        <field name="description">Thèmes complets pour sites e-commerce</field>
+        <field name="parent_id" ref="module_category_themes"/>
+        <field name="sequence">3</field>
+    </record>
+
+    <!-- Catégorie parent KONDRO -->
+    <record id="module_category_kondro" model="ir.module.category">
+        <field name="name">KONDRO</field>
+        <field name="description">Modules KONDRONETWORKS pour la gestion d'entreprise</field>
+        <field name="sequence">6</field>
+    </record>
+
+    <!-- Catégorie KONDRO/CRM -->
+    <record id="module_category_kondro_crm" model="ir.module.category">
+        <field name="name">KONDRO/CRM</field>
+        <field name="description">Modules CRM et gestion de projets KONDRONETWORKS</field>
+        <field name="parent_id" ref="module_category_kondro"/>
+        <field name="sequence">1</field>
+    </record>
+
+    <!-- Catégorie KONDRO/Finance -->
+    <record id="module_category_kondro_finance" model="ir.module.category">
+        <field name="name">KONDRO/Finance</field>
+        <field name="description">Modules de gestion financière et trésorerie KONDRONETWORKS</field>
+        <field name="parent_id" ref="module_category_kondro"/>
+        <field name="sequence">2</field>
+    </record>
+
+    <!-- Catégorie parent Kondro (pour les modules DT qui utilisent "Kondro/Directeur Technique") -->
+    <record id="module_category_kondro_dt_parent" model="ir.module.category">
+        <field name="name">Kondro</field>
+        <field name="description">Modules Kondro pour le Directeur Technique</field>
+        <field name="sequence">7</field>
+    </record>
+
+    <!-- Catégorie Kondro/Directeur Technique -->
+    <record id="module_category_kondro_dt" model="ir.module.category">
+        <field name="name">Kondro/Directeur Technique</field>
+        <field name="description">Modules pour le Directeur Technique - Hub, Projets, Workflow, Docs et Reporting</field>
+        <field name="parent_id" ref="module_category_kondro_dt_parent"/>
+        <field name="sequence">1</field>
+    </record>
+</odoo>

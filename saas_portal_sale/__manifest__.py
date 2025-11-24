@@ -52,7 +52,7 @@ Module intégrant le système de ventes Odoo avec les plans SaaS, permettant la 
 - Nécessite saas_portal_start pour l'initialisation
 """,
     'depends': ['sale', 'saas_portal', 'saas_product_price_factor', 'saas_portal_start', 'analytic'],
-    'data': ['views/product_template_views.xml', 'views/product_attribute_views.xml', 'views/saas_portal.xml', 'data/mail_template_data.xml', 'data/ir_config_parameter.xml'],
+    'data': ['views/product_template_views.xml', 'views/product_attribute_views.xml', 'views/saas_portal.xml', 'views/pricing_page.xml', 'data/mail_template_data.xml', 'data/ir_config_parameter.xml'],
     'installable': True,
     'application': False,
     'sequence': 10,

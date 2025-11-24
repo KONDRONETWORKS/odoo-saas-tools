@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="layout" name="Main layout" inherit_id="portal.frontend_layout">
+        <xpath expr="//head" position="inside"> 
+            <t t-if="request.website.pwa_enable">
+                <link rel="manifest" t-attf-href="/get/pwa/manifest"/>
+                <meta name="apple-mobile-web-app-title" content="PWA"/>
+                <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+                <meta name="theme-color" content="black"/>
+                <t t-set="website" t-value="request.website"/>
+                <link rel="apple-touch-icon" t-att-href="'/web/image/website/%s/pwa_image_512/152x152' % (website.id) if website.pwa_image_512 else ''" />
+                <meta name="apple-mobile-web-app-capable" content="yes"/>
+            </t>  
+        </xpath>
+    </template> 
+    <template id="pwa_app_manifest" name="PWA App Manifest">
+        {
+            "name": "<t t-out="name"/>",
+            "short_name": "<t t-out="short_name"/>",
+            "icons":  <t t-out="icons"/>,
+            "start_url": "<t t-out="start_url" />",
+            "display": "standalone",
+            "scope": "/",
+            "background_color": "<t t-out="background_color"/>",
+            "theme_color": "<t t-out="theme_color"/>",
+            "shortcuts": <t t-out="shortcuts"/>
+        }
+    </template>
+    <template id="service_worker_bits" name="PWA service worker"> 
+        // Name of the cache
+        const CACHE_NAME = 'my-pwa-cache-v1';
+
+        // Resources to cache
+        const CACHE_ASSETS = [
+            '/', // Root page
+            '/index.html',
+            '/styles.css',
+            '/script.js',
+            '/images/icon.png'
+        ];
+
+        // Install event
+        self.addEventListener('install', event => {
+            console.log('[Service Worker] Installing service worker...');
+
+            event.waitUntil(
+                caches.open(CACHE_NAME).then(cache => {
+                    console.log('[Service Worker] Caching assets');
+                    return cache.addAll(CACHE_ASSETS);
+                })
+            );
+        });
+
+        // Activate event
+        self.addEventListener('activate', event => {
+            console.log('[Service Worker] Activating service worker...');
+
+            event.waitUntil(
+                caches.keys().then(cacheNames => {
+                    return Promise.all(
+                        cacheNames.map(cache => {
+                            if (cache !== CACHE_NAME) {
+                                console.log('[Service Worker] Removing old cache:', cache);
+                                return caches.delete(cache);
+                            }
+                        })
+                    );
+                })
+            );
+        });
+
+        // Fetch event
+        self.addEventListener('fetch', event => {
+            console.log('[Service Worker] Fetching:', event.request.url);
+
+            event.respondWith(
+                caches.match(event.request).then(response => {
+                    return response || fetch(event.request);
+                })
+            );
+        });
+
+    </template>
+</odoo>

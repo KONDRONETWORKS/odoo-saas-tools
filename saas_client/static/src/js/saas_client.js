@@ -1,30 +1,63 @@
-odoo.saas_client = function(instance){
-    var _t = instance.web._t,
-       _lt = instance.web._lt;
+/** @odoo-module **/
 
-    instance.web.WebClient.include({
-        _ab_location: function(dbuuid) {
-            var ab_register = _.str.sprintf('%s/%s', this._ab_register_value, dbuuid);
-            $('#announcement_bar_table').find('.url a').attr('href', ab_register);
-            return _.str.sprintf(this._ab_location_value, dbuuid);
-        },
-        show_annoucement_bar: function(){
-            var self = this;
-            var config_parameter = new instance.web.Model('ir.config_parameter');
-            var _super = self._super;
-            return config_parameter.call('search_read', [[['key', 'in', ['saas_client.ab_location', 'saas_client.ab_register']]], ['key', 'value']]).then(function(res) {
-                _.each(res, function(r){
-                    if (r.key === 'saas_client.ab_location') {
-                        self._ab_location_value = r.value;
-                    } else if (r.key === 'saas_client.ab_register') {
-                        self._ab_register_value = r.value;
-                    }
-                });
-                if (!self._ab_location_value) {
-                  return;  
-                }
-                _super.apply(self);
+import { registry } from "@web/core/registry";
+import { Component, useState, onWillStart } from "@odoo/owl";
+import { useService } from "@web/core/utils/hooks";
+
+export class SaasDashboard extends Component {
+    setup() {
+        this.orm = useService("orm");
+        this.action = useService("action");
+        this.state = useState({
+            announcement: null,
+            announcementUrl: null,
         });
+
+        onWillStart(async () => {
+            await this.loadData();
+        });
+    }
+
+    async loadData() {
+        try {
+            const result = await this.orm.call("ir.config_parameter", "search_read", [
+                [['key', 'in', ['saas_client.ab_location', 'saas_client.ab_register']]],
+                ['key', 'value']
+            ]);
+
+            let announcementUrl = null;
+            let announcementRegister = null;
+
+            result.forEach(r => {
+                if (r.key === 'saas_client.ab_location') {
+                    announcementUrl = r.value;
+                } else if (r.key === 'saas_client.ab_register') {
+                    announcementRegister = r.value;
+                }
+            });
+
+            if (announcementUrl) {
+                this.state.announcement = "New updates are available!";
+                this.state.announcementUrl = announcementUrl;
+            }
+        } catch (e) {
+            console.error("Failed to load SaaS data", e);
         }
-    });
-};
+    }
+
+    async onRefresh() {
+        await this.loadData();
+    }
+
+    onContactSupport() {
+        this.action.doAction({
+            type: "ir.actions.act_url",
+            url: "mailto:support@example.com",
+            target: "self",
+        });
+    }
+}
+
+SaasDashboard.template = "saas_client.SaasDashboard";
+
+registry.category("actions").add("saas_client.dashboard", SaasDashboard);

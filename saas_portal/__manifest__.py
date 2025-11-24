@@ -50,12 +50,13 @@ Module central du système SaaS qui gère le portail d'administration des instan
 - Gestion des permissions par groupe
 - Isolation des données clients
 """,
-    'depends': ['base', 'saas_oauth_provider', 'website', 'auth_signup', 'saas_base'],
+    'depends': ['base', 'saas_oauth_provider', 'website', 'auth_signup', 'saas_base', 'web'],
     'data': [
         'data/mail_template_data.xml',
         'data/plan_sequence.xml',
         'data/cron.xml',
         'data/init_data.xml',
+        'data/theme_categories.xml',
         'wizard/config_wizard_minimal.xml',
         'wizard/batch_delete.xml',
         'views/saas_portal.xml',
@@ -65,8 +66,13 @@ Module central du système SaaS qui gère le portail d'administration des instan
         'views/res_users.xml',
         'data/res_users.xml',
         'security/groups.xml',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'saas_portal/static/src/css/saas_portal_style.scss',
+        ],
+    },
     'post_init_hook': 'post_init_hook',
     'post_load': None,
     'installable': True,

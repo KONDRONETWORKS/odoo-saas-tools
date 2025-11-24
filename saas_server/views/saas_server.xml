@@ -64,14 +64,4 @@
             <field name="view_mode">list,form</field>
         </record>
     <menuitem action="action_clients" id="menu_clients" parent="menu_saas" sequence="10" />
-    <!-- Menu Plans - Référence à l'action de saas_portal -->
-    <!-- Action de secours pour Plans si saas_portal n'est pas chargé -->
-    <record id="action_plans_server" model="ir.actions.act_window">
-        <field name="name">Plans</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">saas_portal.plan</field>
-        <field name="view_mode">list,form</field>
-        <field name="context">{}</field>
-    </record>
-    <menuitem action="saas_portal.action_plans" id="menu_plans" parent="menu_saas" sequence="20" />
 </odoo>

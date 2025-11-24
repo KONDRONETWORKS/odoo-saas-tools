@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="header_custom_options" inherit_id="website.snippet_options">
+
+        <xpath expr="//we-select[@data-variable='header-template']/we-button[last()]" position="after">
+            <we-button title="Header Style 1" data-name="header_style_theme_crest_1" data-customize-website-views="theme_crest.header_theme_crest_1" data-customize-website-variable="'header_style_1'" data-img="/theme_crest/static/images/header_view_theme/header_1_1.svg"/>
+            <we-button title="Header Style 2" data-name="header_style_theme_crest_2" data-customize-website-views="theme_crest.header_theme_crest_2" data-customize-website-variable="'header_style_2'" data-img="/theme_crest/static/images/header_view_theme/header_1_2.svg"/>
+            <we-button title="Header Style 3" data-name="header_style_theme_crest_3" data-customize-website-views="theme_crest.header_theme_crest_3" data-customize-website-variable="'header_style_3'" data-img="/theme_crest/static/images/header_view_theme/header_1_4.svg"/>
+            <we-button title="Header Style 4" data-name="header_style_theme_crest_4" data-customize-website-views="theme_crest.header_theme_crest_4" data-customize-website-variable="'header_style_4'" data-img="/theme_crest/static/images/header_view_theme/header_1_3.svg"/>
+            <we-button title="Header Style 5" data-name="header_style_theme_crest_5" data-customize-website-views="theme_crest.header_theme_crest_5" data-customize-website-variable="'header_style_5'" data-img="/theme_crest/static/images/header_view_theme/header_1_5.svg"/>
+            <we-button title="Header Style 6" data-name="header_style_theme_crest_6" data-customize-website-views="theme_crest.header_theme_crest_6" data-customize-website-variable="'header_style_6'" data-img="/theme_crest/static/images/header_view_theme/header_1_6.svg"/>
+            <we-button title="Header Style 7" data-name="header_style_theme_crest_7" data-customize-website-views="theme_crest.header_theme_crest_7" data-customize-website-variable="'header_style_7'" data-img="/theme_crest/static/images/header_view_theme/header_1_6.svg"/>
+        </xpath>
+    </template>
+    <!-- ========================== Footer styles ========================== -->
+    <template id="footer_custom_options" inherit_id="website.snippet_options">
+        <xpath expr="//we-select[@data-variable='footer-template']/we-button[last()]" position="after">
+            <we-button title="Footer Style 1: Crest" data-customize-website-views="theme_crest.footer_1_bits" data-customize-website-variable="'footer1_bits'" data-img="/theme_crest/static/images/footer_view_theme/footer_1.svg"/>
+
+            <we-button title="Footer Style 2: Crest" data-customize-website-views="theme_crest.footer_2_bits" data-customize-website-variable="'footer2_bits'" data-img="/theme_crest/static/images/footer_view_theme/footer_2.svg"/>
+
+            <we-button title="Footer Style 3: Crest" data-customize-website-views="theme_crest.footer_3_bits" data-customize-website-variable="'footer3_bits'" data-img="/theme_crest/static/images/footer_view_theme/footer_3.svg"/>
+
+            <we-button title="Footer Style 4: Crest" data-customize-website-views="theme_crest.footer_4_bits" data-customize-website-variable="'footer4_bits'" data-img="/theme_crest/static/images/footer_view_theme/footer_4.svg"/>
+
+            <we-button title="Footer Style 5: Crest" data-customize-website-views="theme_crest.footer_5_bits" data-customize-website-variable="'footer5_bits'" data-img="/theme_crest/static/images/footer_view_theme/footer_5.svg"/>
+
+            <we-button title="Footer Style 6: Crest" data-customize-website-views="theme_crest.footer_6_bits" data-customize-website-variable="'footer6_bits'" data-img="/theme_crest/static/images/footer_view_theme/footer_6.svg"/>
+
+            <we-button title="Footer Style 7: Crest" data-customize-website-views="theme_crest.footer_7_bits" data-customize-website-variable="'footer7_bits'" data-img="/theme_crest/static/images/footer_view_theme/footer_7.svg"/>
+
+            <we-button title="Footer Style 8: Crest" data-customize-website-views="theme_crest.footer_8_bits" data-customize-website-variable="'footer8_bits'" data-img="/theme_crest/static/images/footer_view_theme/footer_8.svg"/>
+
+            <we-button title="Footer Style 9: Crest" data-customize-website-views="theme_crest.footer_9_bits" data-customize-website-variable="'footer9_bits'" data-img="/theme_crest/static/images/footer_view_theme/footer_9.svg"/>
+
+            <we-button title="Footer Style 10: Crest" data-customize-website-views="theme_crest.footer_10_bits" data-customize-website-variable="'footer10_bits'" data-img="/theme_crest/static/images/footer_view_theme/footer_10.svg"/>
+
+        </xpath>
+        <xpath expr="." position="inside">
+            <!-- Image Hotspot -->
+            <div data-selector="img" data-no-check="true" data-js="ImageHotspot">
+                <we-row string="Hotspot">
+                    <we-button data-set-img-hotspot="enabled" string="On" data-name="hotspot_enable" data-select-class="demo_hotspot" data-no-preview="true"/>
+                    <we-button data-set-img-hotspot="disabled" string="Off" data-name="hotspot_disable" data-select-class="demo_hotspot" data-no-preview="true"/>
+                </we-row>
+            </div>
+            <div data-selector=".target_hotspot_tag" data-no-check="true" data-js="ImageHotspotEvent">
+                <!-- Hotspot Action -->
+                <we-row>
+                    <we-select string="Hotspot Action" data-no-preview="true" data-name="hotspot_action">
+                        <we-button data-name="redirect_url" data-select-class="redirect_url" data-set-action="redirect_url" data-customize-website-variable="'redirect_url'">Redirect URL</we-button>
+                        <we-button data-name="redirect_product" data-select-class="redirect_product" data-set-action="redirect_product" data-customize-website-variable="'redirect_product'">Redirect on product</we-button>
+                        <we-button data-name="show_card_product" data-select-class="show_card_product" data-set-action="show_card_product" data-customize-website-variable="'show_card_product'">Display basic product card</we-button>
+                        <we-button data-name="show_card_hotspot_bits" data-select-class="show_card_hotspot_bits quickviewbits" data-set-action="show_card_hotspot_bits" data-customize-website-variable="'show_card_hotspot_bits'">Display advanced product card</we-button>
+                    </we-select>
+                    <we-button class="fa fa-link" data-name="media_link_opt" data-dependencies="redirect_url, redirect_product" data-set-link="true" data-no-preview="true" title="Redirect the user elsewhere when he clicks on the media."/>
+                </we-row>
+
+                <t t-set="domain" t-translation="off">["|", ["website_id", "=", false], ["website_id", "=",<t t-out="current_website.id"/>
+                    ]]
+                </t>
+                <we-many2one string="Products" data-dependencies="redirect_product, show_card_product, show_card_hotspot_bits" data-name="product_template_opt" data-attribute-name="productTemplateIds" data-no-preview="true" data-model="product.template" t-att-data-domain="domain" data-allow-delete="true" data-fakem2m="true" data-set-product-link="true" data-select-data-attribute=""/>
+                <we-input string="Your URL" class="o_we_sublevel_1 o_we_large media_url_opt_remove" data-name="media_url_opt" data-dependencies="redirect_url, redirect_product" data-set-url="" data-no-preview="true" placeholder="www.example.com"/>
+                <we-checkbox string="Open in new window" class="o_we_sublevel_1" data-dependencies="media_url_opt redirect_url, redirect_product" data-set-new-window="true" data-no-preview="true"/>
+
+                <!-- Hotspot Shape -->
+                <we-select string="Shape" data-dependencies="hotspot_enable" data-variable="shape_hotspot" data-name="shape_hotspot" data-attribute-name="shape" data-attribute-default-value="circle_hotspot">
+                     <we-button data-name="shape-none" data-select-class="shape-none" data-select-data-attribute="shape-none">None</we-button>
+                    <we-button data-name="circle_hotspot" data-select-class="circle">Circle</we-button>
+                    <we-button data-name="square" data-select-class="square">Square</we-button>
+                    <we-button data-name="border-circle" data-select-class="border-circle">Border Circle</we-button>
+                    <we-button data-name="border-square" data-select-class="border-square">Border Square</we-button>
+                </we-select>
+                <we-colorpicker string="Border-color"
+                    title="Border-color"
+                    data-select-style=""
+                    data-css-property="border-color"
+                    data-color-prefix="border-"/>
+                
+                <we-row string="Background" class="o_we_full_row">
+                    <t t-call="web_editor.snippet_options_background_color_widget">
+                        <t t-set="with_color_combinations" t-value="True"/>
+                        <t t-set="with_gradients" t-value="True"/>
+                    </t>
+                </we-row>
+                
+                 <!-- Hotspot Icons-->
+                <we-select string="Hotspot Icons" data-dependencies="hotspot_enable" data-variable="shape_hotspot" data-name="shape_hotspot" data-attribute-name="icons" data-attribute-default-value="show_icon">
+                    <we-button data-name="show_icon" data-select-class="show_icon" data-select-data-attribute="show_icon">Show Icon</we-button>
+                    <we-button data-name="icons_none" data-select-class="icons_none" >None</we-button>
+                </we-select>
+                
+                <!-- Hotspot Animation -->
+                <we-select string="Hotspot Animation" data-dependencies="hotspot_enable" data-variable="animation_hotspot" data-name="animation_hotspot" data-attribute-name="fades" data-attribute-default-value="fade_hotspot">
+                    <we-button data-name="fade_hotspot" data-select-class="fade_hotspot" data-select-data-attribute="fade_hotspot">Fade
+                    </we-button>
+                    <we-button data-name="blink" data-select-class="blink">Blink</we-button>
+                </we-select>
+
+                <!-- Hotspot Theme -->
+                <we-select string="Animation Theme" data-dependencies="fade_hotspot" data-variable="animation_hotspot" data-name="animation_hotspot" data-attribute-name="theme" data-attribute-default-value="light_bg">
+                    <we-button data-name="none" data-select-class="animate-hotspot-none" data-select-data-attribute="animate-hotspot-none">none
+                    </we-button>
+                    <we-button data-name="light_bg" data-select-class="animate-hotspot-1">Animation 1
+                    </we-button>
+                    <we-button data-name="animate-hotspot-2" data-select-class="animate-hotspot-2">Animation 2</we-button>
+                    <we-button data-name="animate-hotspot-burst" data-select-class="animate-hotspot-burst">Burst</we-button>
+                    <we-button data-name="animate-hotspot-ping" data-select-class="animate-hotspot-ping">Ping</we-button>
+                    <we-button data-name="animate-hotspot-twist" data-select-class="animate-hotspot-twist">Twist</we-button>
+                    <we-button data-name="animate-hotspot-breathe" data-select-class="animate-hotspot-breathe">Breathe</we-button>
+                    <we-button data-name="animate-hotspot-glitch" data-select-class="animate-hotspot-glitch">Glitch</we-button>
+                    <we-button data-name="animate-hotspot-radar" data-select-class="animate-hotspot-radar">Radar</we-button>
+                    <we-button data-name="animate-hotspot-bounce" data-select-class="animate-hotspot-bounce">Bounce</we-button>
+                    <we-button data-name="animate-hotspot-wave" data-select-class="animate-hotspot-wave">Wave</we-button>
+                    <we-button data-name="animate-hotspot-twinkle" data-select-class="animate-hotspot-twinkle">Twinkle</we-button>
+                    <we-button data-name="animate-hotspot-spinpulse" data-select-class="animate-hotspot-spinpulse">Spin Pulse</we-button>
+
+                </we-select>
+                <we-colorpicker string="Animation Color"
+                    title="Animation Color"
+                    data-select-style=""
+                    data-css-property="--hotspot-border-color"
+                    data-color-prefix=""/>
+            </div>
+           <!-- Website Builder Options Panel -->
+            <div data-selector=".hotspot-icon" data-no-check="true" data-js="">
+                <we-select string="Select Icon" data-name="hotspot_icon" data-attribute-name="icon" data-attribute-default-value="fa-plus">
+                    <we-button data-name="icon_plus" data-select-class="fa-plus">Plus</we-button>
+                    <we-button data-name="icon_star" data-select-class="fa-star">Star</we-button>
+                    <we-button data-name="icon_heart" data-select-class="fa-heart">Heart</we-button>
+                    <we-button data-name="icon_circle" data-select-class="fa-circle">Circle</we-button>
+                    <we-button data-name="icon_shopping_basket" data-select-class="fa-shopping-basket">Shopping Basket</we-button>
+                    <we-button data-name="icon_shopping_bag" data-select-class="fa-shopping-bag">Shopping Bag</we-button>
+                    <we-button data-name="icon_dot_circle_o" data-select-class="fa-dot-circle-o">Dot Circle</we-button>
+                    <we-button data-name="icon_map_marker" data-select-class="fa-map-marker">Map Marker</we-button>
+                    <we-button data-name="icon_fa_eye" data-select-class="fa-eye">Eye</we-button>
+                    <we-button data-name="icon_shopping_cart" data-select-class="fa-shopping-cart">Shopping Cart</we-button>
+                </we-select>
+                <we-row string="Background" class="o_we_full_row">
+                    <t t-call="web_editor.snippet_options_background_color_widget">
+                        <t t-set="with_color_combinations" t-value="True"/>
+                        <t t-set="with_gradients" t-value="True"/>
+                    </t>
+                </we-row>
+                <we-colorpicker string="Color"
+                    title="Color"
+                    data-select-style=""
+                    data-css-property="color"
+                    data-color-prefix="text-"/>
+            </div>
+            <div data-selector=".dynmic_snippet" data-target="&gt; .row">
+                <we-button-group string="Text Position" title="Text Position">
+                    <we-button title="Align Top" data-select-class="align-items-start" data-img="/website/static/src/img/snippets_options/align_top_right.svg"/>
+                    <we-button title="Align Middle" data-select-class="align-items-center" data-img="/website/static/src/img/snippets_options/align_middle_right.svg"/>
+                    <we-button title="Align Bottom" data-select-class="align-items-end" data-img="/website/static/src/img/snippets_options/align_bottom_right.svg"/>
+                </we-button-group>
+            </div>
+        </xpath>
+        <xpath expr="//we-select[@data-name='o_wsale_zoom_mode']" position="replace">
+            <we-select string="Image Zoom" class="o_we_sublevel_1" data-name="o_wsale_zoom_mode" data-no-preview="true" data-reload="/">
+                <we-button data-name="o_wsale_zoom_hover" data-customize-website-views="theme_crest.product_picture_magnify_hover_bits">Magnifier on hover</we-button>
+                <we-button data-name="o_wsale_zoom_click" data-customize-website-views="theme_crest.product_picture_magnify_click_bits">Pop-up on Click</we-button>
+                <we-button data-name="o_wsale_zoom_both" data-customize-website-views="theme_crest.product_picture_magnify_both_bits">Both</we-button>
+                <we-button data-name="o_wsale_zoom_none" data-customize-website-views="">None</we-button>
+            </we-select>
+        </xpath>
+
+    </template>
+
+
+    <template id="mega_menu_snippet_options_bits" inherit_id="website.snippet_options">
+        <!-- Mega Menu -->
+        <xpath expr="//div[@data-js='MegaMenuLayout']/we-select/we-button[last()]" position="after">
+            <t t-set="_label">Mega Menu Crest 1</t>
+            <we-button t-att-data-select-label="_label" data-select-template="crest_theme_core.mega_menu_bits_1" data-img="/theme_crest/static/images/mega-menu/mega-menu_1.svg" t-out="_label"/>
+            <t t-set="_label">Mega Menu Crest 2</t>
+            <we-button t-att-data-select-label="_label" data-select-template="crest_theme_core.mega_menu_bits_2" data-img="/theme_crest/static/images/mega-menu/mega-menu_2.svg" t-out="_label"/>
+
+        </xpath>
+
+        <xpath expr="//div[@data-js='Button']" position="before">
+            <div data-selector="a" data-no-check="true" data-js="">
+                <we-select string="Button Style" data-name="btn_style_1" data-attribute-name="class" data-attribute-default-value="o_s_btn_style_1">
+                    <we-button data-name="btn_style_1" data-select-class="o_s_btn_style_1">Style 1</we-button>
+                    <we-button data-name="btn_style_2" data-select-class="o_s_btn_style_2">Style 2</we-button>
+                    <we-button data-name="btn_style_3" data-select-class="o_s_btn_style_3">Style 3</we-button>
+                    <we-button data-name="btn_style_4" data-select-class="o_s_btn_style_4">Style 4</we-button>
+                    <we-button data-name="btn_style_5" data-select-class="o_s_btn_style_5">Style 5</we-button>
+                </we-select>
+                 <we-select string="Border Radius" data-name="border-radius" data-attribute-name="class" data-attribute-default-value="rounded-0">
+                    <we-button data-name="btn_style_1" data-select-class="rounded-0">radius none</we-button>
+                    <we-button data-name="btn_style_2" data-select-class="rounded-1">radius 1</we-button>
+                    <we-button data-name="btn_style_3" data-select-class="rounded-2">radius 2</we-button>
+                    <we-button data-name="btn_style_4" data-select-class="rounded-3">radius 3</we-button>
+                    <we-button data-name="btn_style_4" data-select-class="rounded-pill">Rounded Pill</we-button>
+                </we-select>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -18,4 +18,8 @@
             </field>
         </record>
     -->
+    <record id="action_saas_dashboard" model="ir.actions.client">
+        <field name="name">SaaS Dashboard</field>
+        <field name="tag">saas_client.dashboard</field>
+    </record>
 </odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="theme_crest.DomainSnippet">
+        <div class="mb-2 row  align-items-center p-0">
+            <div class="col-12">
+                <label class="group-domain-label pb-1">Templates:</label>
+            </div>
+            <div class="col-lg-4 col-12">
+                <select class="group-domain-input  me-0" t-on-change="ev => this.state.selectedTemplate = ev.target.value" t-att-value="state.selectedTemplate">
+                    <t t-foreach="state.defaulTemplate" t-as="template" t-key="template.id">
+                        <option t-att-value="template.id">
+                            <t t-esc="template.title"/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+        </div>
+        <div t-if="state.selectedTemplate == 'default'" class="row mx-auto mb-2">
+            <!-- todo -->
+            <!-- <Domain/> -->
+        </div>
+        <div t-if="state.selectedTemplate == 'default'" class="mb-2 row align-items-center">
+            <div class="col-12">
+                <label class="group-domain-label pb-1">Order by:</label>
+            </div>
+            <div class="col-lg-4 col-12">
+                <select class="group-domain-input" t-on-change="ev => this.state.selectedOrder = ev.target.value" t-att-value="state.selectedOrder">
+                    <t t-foreach="state.orderBy" t-as="order" t-key="order.id">
+                        <option t-att-value="order.orderBy">
+                            <t t-esc="order.title"/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+        </div>
+        <div class="mb-2 row align-items-center p-0">
+            <div class="col-12">
+                <label class="group-domain-label">Products: </label>
+                <t t-esc="state.limit"/>
+            </div>
+            <div class="col-lg-4 col-12">
+                <input t-att-value="state.limit" t-on-change="ev => this.state.limit = ev.target.value" type="range" min="4" max="20" class="mt-1 w-100 progress"/>
+            </div>
+        </div>
+    </t>
+</templates>

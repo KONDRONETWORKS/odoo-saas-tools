@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="products_bits" inherit_id="website_sale.products" name="Products">
+        <xpath expr="//div[@id='wrap']" position="before">
+            <!-- <t t-set="is_enabled_product_offers" t-value="theme_config.get('product_offers')"/> -->
+            <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+            <t t-set="is_enable_pricelist_offer_timer" t-value="theme_config.get('pricelist_offer_timer')"/>
+            <t t-set="is_active_quickview" t-value="theme_config.get('card_quickview_btn')"/>
+            <t t-set="is_active_wishlist" t-value="theme_config.get('card_wishlist_btn')"/>
+            <t t-set="is_active_cart" t-value="theme_config.get('card_cart_btn')"/>
+            <t t-set="is_active_compare" t-value="theme_config.get('card_compare_btn')"/>
+            <t t-set="is_active_product_lable" t-value="theme_config.get('card_product_lbl')"/>
+            <t t-set="is_active_product_terms_and_condition" t-value="theme_config.get('card_product_terms_and_condition')"/>
+            <t t-set="is_active_stock_lable" t-value="theme_config.get('card_stock_lbl')"/>
+            <t t-set="is_active_rattings" t-value="theme_config.get('card_rattings')"/>
+            <t t-set="hover_img_enabled" t-value="theme_config.get('card_hover_image')"/>
+            <t t-set="enable_sidebar_filter" t-value="theme_config.get('filter_in_sidebar')"/>
+            <t t-set="show_category_in_filter" t-value="theme_config.get('show_category_in_filter')"/>
+            <t t-set="show_stock_avail_filter" t-value="theme_config.get('show_stock_avail_filter')"/>
+            <t t-set="show_ratings_filter" t-value="theme_config.get('show_ratings_filter')"/>
+            <t t-set="filter_style" t-value="theme_config.get('filters_design')"/>
+            <t t-set="category_style" t-value="theme_config.get('shop_category_style')"/>
+            <t t-set="show_catg_banner" t-value="theme_config.get('shop_category_banner')"/>
+            <t t-set="enable_load_more" t-value="theme_config.get('enable_loadmore_products')"/>
+            <t t-set="enable_lazyload_image" t-value="theme_config.get('enable_lazyload_image')"/>
+            <t t-set="card_product_style" t-value="theme_config.get('card_product_style')"/>
+            <t t-set="image_on_hover_style" t-value="theme_config.get('image_on_hover_style')"/>
+            <t t-set="card_border_style" t-value="theme_config.get('card_border_style')"/>
+
+        </xpath>
+        <xpath expr="//aside" position="replace">
+            <aside t-if="not enable_sidebar_filter" id="products_grid_before" t-attf-class="d-none d-lg-block position-sticky col-3 px-3 clearfix #{filter_style}">
+                <div class="o_wsale_products_grid_before_rail search_filter_category vh-100 ms-n2 pe-lg-2 pb-lg-5 ps-2 overflow-y-scroll">
+                    <!-- categories -->
+                    <div t-if="show_category_in_filter" class="products_categories">
+                        <t t-call="website_sale.products_categories_list"/>
+                    </div>
+                    <!-- Brands Attributes -->
+                    <!-- attributes -->
+                    <div class="products_attributes_filters">
+                        <t t-call="theme_crest.products_attributes_bits"/>
+                    </div>
+                    <t t-if="opt_wsale_filter_price and opt_wsale_attributes" t-call="website_sale.filter_products_price" />
+                </div>
+            </aside>
+        </xpath>
+        <!-- product header changes -->
+        <xpath expr="//div[@id='products_grid']" position="replace">
+            <div id="products_grid" t-attf-class="#{'o_wsale_layout_list' if layout_mode == 'list' else 'px-0'} {{'col-lg-9 px-0' if not enable_sidebar_filter else 'col-12 px-0'}}">
+                <t t-call="website_sale.products_breadcrumb">
+                    <t t-set="_classes" t-valuef="d-none d-lg-flex w-100 p-0 small"/>
+                </t>
+                <t t-if="category">
+                    <t t-set='editor_msg'>
+                        Drag building blocks here to customize the header for
+                        "<t t-esc='category.name'/>" category.
+                    </t>
+                    <div class="mb16" id="category_header" t-att-data-editor-message="editor_msg" t-field="category.website_description"/>
+                </t>
+                <t t-if="opt_wsale_categories_top" t-call="website_sale.filmstrip_categories"/>
+                <div class="products_header btn-toolbar flex-wrap align-items-center justify-content-between gap-3 mb-0 mb-md-2">
+                    <!-- <t t-if="is_view_active('website_sale.search')" t-call="website_sale.search">
+                        <t t-set="search" t-value="original_search or search"/>
+                        <t t-set="_form_classes" t-valuef="d-lg-inline {{'d-inline' if not category else 'd-none'}}"/>
+                    </t> -->
+
+                    <!-- <t t-call="website_sale.pricelist_list" t-cache="pricelist">
+                        <t t-set="_classes" t-valuef="d-none d-lg-inline"/>
+                    </t> -->
+
+                    <t t-if="is_view_active('website_sale.sort')" t-call="website_sale.sort">
+                        <t t-set="_classes" t-valuef="d-none d-lg-inline-block"/>
+                    </t>
+
+                    <div t-if="category" class="d-flex align-items-center d-lg-none me-auto">
+                        <t t-if="not category.parent_id" t-set="backUrl" t-valuef="/shop"/>
+                        <t t-else="" t-set="backUrl" t-value="keep('/shop/category/' + slug(category.parent_id), category=0)"/>
+
+                        <a t-attf-class="btn btn-{{navClass}} me-2 bg-primary text-white" t-att-href="category.parent_id and keep('/shop/category/' + slug(category.parent_id), category=0) or '/shop'">
+                            <i class="fa fa-angle-left"/>
+                        </a>
+                        <h4 t-out="category.name" class="mb-0 me-auto"/>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <button t-if="is_view_active('website_sale.sort') or enable_sidebar_filter" t-attf-class="btn btn-{{navClass}} position-relative {{not enable_sidebar_filter and 'd-lg-none'}} o_sidebar_filter_category" data-bs-toggle="offcanvas" data-bs-target="#o_wsale_offcanvas">
+                            <i class="fa fa-sliders"/>
+                            <span t-if="isFilteringByPrice or attrib_set or tags" t-attf-class="position-absolute top-0 start-100 translate-middle border border-{{navClass}} rounded-circle bg-danger p-1">
+                                <span class="visually-hidden">filters active</span>
+                            </span>
+                        </button>
+                        <t t-if="is_view_active('website_sale.add_grid_or_list_option')" t-call="website_sale.add_grid_or_list_option">
+                            <t t-set="_classes" t-valuef="d-flex"/>
+                        </t>
+                    </div>
+                </div>
+
+                <div t-if="original_search and products" class="alert alert-warning mt8">
+                    No results found for '<span t-esc="original_search"/>
+                    '. Showing results for '<span t-esc="search"/>
+                    '.
+                </div>
+
+                <t t-if="category">
+                    <t t-set='editor_msg'>Drag building blocks here to customize the header for "<t t-esc='category.name'/>
+                            " category.
+                    </t>
+                    <div class="mb16" id="category_header" t-att-data-editor-message="editor_msg" t-field="category.website_description"/>
+                </t>
+                <div t-if="filters_dict and len(filters_dict.keys())" class="applied_filters_bits my-3">
+                    <t t-call="theme_crest.applied_filters_bits"/>
+                </div>
+                <div t-if="products" t-attf-class="o_wsale_products_grid_table_wrapper pt-3 pt-lg-0">
+                    <t t-set="grid_md_allow_custom_cols" t-value="hasLeftColumn"/>
+                    <t t-set="grid_md_use_3col"
+                        t-value="not hasLeftColumn and ppr == 4"/>
+
+                    <section id="o_wsale_products_grid" t-attf-class="o_wsale_products_grid_table grid {{grid_md_allow_custom_cols and 'o_wsale_products_grid_table_md'}}"
+                        t-attf-style="--o-wsale-products-grid-gap: {{gap}}; --o-wsale-ppr: {{ppr}}; --o-wsale-ppg: {{ppg}}"
+                        t-att-data-ppg="ppg"
+                        t-att-data-ppr="ppr"
+                        t-att-data-default-sort="website.shop_default_sort"
+                        t-att-data-name="grid_block_name"
+                        >
+                        <t t-foreach="bins" t-as="tr_product">
+                            <t t-foreach="tr_product" t-as="td_product">
+                                <t t-if="td_product">
+                                    <t t-set="col_height" t-value="td_product['y']"/>
+                                    <t t-set="col_width"
+                                        t-value="12 // ppr * td_product['x']"/>
+                                    <t t-set="col_class_lg"
+                                        t-value="'g-col-lg-' + str(col_width)"/>
+                                    <t t-set="col_class_md"
+                                        t-value="grid_md_allow_custom_cols and ('g-col-md-' + str(col_width)) or grid_md_use_3col and 'g-col-md-4' or 'g-col-md-6'"/>
+                                    <t t-set="col_is_stretched"
+                                        t-value="(td_product['x'] &gt;= td_product['y'] * 2)"/>
+                                    <t t-set="col_is_custom_portrait"
+                                        t-value="not col_is_stretched and (col_height &gt; td_product['x'])"/>
+                                    <div 
+                                        t-attf-class="oe_product #{card_product_style} #{'' if enable_sidebar_filter else 'enable-sidebar-filter' } oe_product {{col_is_custom_portrait and 'oe_product_custom_portrait'}} g-col-6 {{col_class_md}} {{col_class_lg}} {{col_is_stretched and 'oe_product_size_stretch'}}"
+                                        t-attf-style="--o-wsale-products-grid-product-col-height: {{col_height}};"
+                                        t-att-data-ribbon-id="td_product['ribbon'].id"
+                                        t-att-data-colspan="td_product['x'] != 1 and td_product['x']"
+                                        t-att-data-rowspan="td_product['y'] != 1 and td_product['y']"
+                                        t-att-data-name="product_block_name"
+                                    >
+                                        <div t-attf-class="o_wsale_product_grid_wrapper position-relative h-100 o_wsale_product_grid_wrapper_#{td_product['x']}_#{td_product['y']} #{theme_config.get('card_border_style')}">
+                                            <!-- <t t-call="website_sale.products_item">
+                                                <t t-set="product" t-value="td_product['product']"/>
+                                            </t> -->
+                                            <t t-if="card_product_style == 'card_product_style_1'">
+                                                <t t-call="theme_crest.products_item_bits_1">
+                                                    <t t-set="product" t-value="td_product['product']"/>
+                                                </t>
+                                            </t>
+                                            <t t-if="card_product_style == 'card_product_style_2'">
+                                                <t t-call="theme_crest.products_item_bits_2">
+                                                    <t t-set="product" t-value="td_product['product']"/>
+                                                </t>
+                                            </t>
+                                            <t t-if="card_product_style == 'card_product_style_3'">
+                                                <t t-call="theme_crest.products_item_bits_3">
+                                                    <t t-set="product" t-value="td_product['product']"/>
+                                                </t>
+                                            </t>
+                                            <t t-if="card_product_style == 'card_product_style_4'">
+                                                <t t-call="theme_crest.products_item_bits_4">
+                                                    <t t-set="product" t-value="td_product['product']"/>
+                                                </t>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                        </t>
+                    </section>
+                </div>
+
+                <div t-else="" class="text-center text-muted mt128 mb256">
+                    <t t-if="not search">
+                        <h3 class="mt8">No product defined</h3>
+                        <p t-if="category">No product defined in this category.</p>
+                    </t>
+                    <t t-else="">
+                        <h3 class="mt8">No results</h3>
+                        <p>No results for "<strong t-esc='search'/>"<t t-if="category"> in category "<strong t-esc="category.display_name"/>"</t>.</p>
+                    </t>
+                    <p t-ignore="true" groups="sales_team.group_sale_manager">Click <i>'New'</i> in the top-right corner to create your first product.</p>
+                </div>
+                <div class="products_pager d-flex justify-content-center pt-5 pb-3">
+                    <t t-call="website.pager"/>
+                </div>
+                <t t-if="category">
+                    <t t-set='footer_editor_message'>
+                        Drag building blocks here to customize the footer for
+                        "<t t-esc='category.name'/>" category.
+                    </t>
+                    <div
+                        class="mb16"
+                        id="category_footer"
+                        t-att-data-editor-message="footer_editor_message"
+                        t-field="category.website_footer"
+                    />
+                </t>
+            </div>
+        </xpath>
+        <!-- ********************* -->
+
+        <!-- <xpath expr="//div[@id='products_grid']//button" position="replace"> 
+                    <button t-if="is_view_active('website_sale.sort') or enable_sidebar_filter" t-attf-class="btn btn-{{navClass}} position-relative {{not enable_sidebar_filter and 'd-lg-none'}}" data-bs-toggle="offcanvas" data-bs-target="#o_wsale_offcanvas">
+                        <i class="fa fa-sliders"/>
+                        <span t-if="isFilteringByPrice or attrib_set or tags" t-attf-class="position-absolute top-0 start-100 translate-middle border border-{{navClass}} rounded-circle bg-danger p-1"><span class="visually-hidden">filters active</span></span>
+                    </button>
+                </xpath> -->
+        <xpath expr="//t[@t-call='website_sale.products_breadcrumb']" position="before">
+            <t t-call="theme_crest.catgory_banner_bits"/>
+        </xpath>
+        <xpath expr="//t[@t-call='website_sale.products_breadcrumb']" position="replace"/>
+        <xpath expr="//t[@t-if='opt_wsale_categories_top']" position="replace"/>
+        <xpath expr="//div[hasclass('o_wsale_products_main_row')]" position="before">
+            <div class="row">
+                <div class="col-12 categ-breadcrumb">
+                    <t t-call="website_sale.products_breadcrumb">
+                        <t t-set="_classes" t-valuef="d-none d-lg-flex w-100 p-0 small"/>
+                    </t>
+                </div>
+                <div class="col-12 categ-top">
+                    <t t-if="opt_wsale_categories_top" t-call="website_sale.filmstrip_categories"/>
+                </div>
+            </div>
+        </xpath> 
+        <!-- shop pager -->
+        <xpath expr="//div[hasclass('products_pager')]" position="replace">
+            <t t-if="enable_load_more and pager['page_count'] > 1">
+                <div class="products_pager bits-pager container mt-4">
+                    <div class="row justify-content-center text-center">
+                        <div class="col-12 pager-link">
+                            <t t-if="not pager['page']['num'] == pager['page_count']">
+                                <a class="btn load-more-bits" t-att-href="pager['page_next']['url'] if pager['page']['num'] != pager['page_count'] else None">
+                                            Load More
+                                </a>
+                            </t>
+                            <t t-else="">
+                                <hr calss="limit-end"/>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="products_pager d-flex justify-content-center pt-5 pb-3 products_pager_pagination">
+                    <t t-call="website.pager">
+                        <t t-set="classname" t-valuef="justify-content-center "/>
+                        <!-- <t t-set="extraLinkClass" t-valuef="post_link"/> -->
+                    </t>
+                </div>
+            </t>
+        </xpath>
+    <!-- ********* -->
+</template>
+<!-- category banner -->
+<template id="catgory_banner_bits" name="Category Banner">
+    <t t-if="category and show_catg_banner">
+        <div class="row row-gutter-x">
+            <div class="col-12 col-md-12">
+                <div class="category-banner-bits w-100">
+                    <img class="categ-banner" t-attf-src="/web/image/product.public.category/#{category.id}/category_banner" t-att-alt="category.name" t-att-title="category.name"/>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+<!-- top categories slider -->
+<template id="filmstrip_categories_bits" inherit_id="website_sale.filmstrip_categories" name="Filmstrip categories bits">
+    <xpath expr="//div[@t-if='entries']" position="replace">
+        <div t-if="entries" class="o_wsale_filmstip_container d-flex align-items-stretch overflow-hidden my-2">
+            <div t-attf-class="o_wsale_filmstip_wrapper pb-1 overflow-auto bs_categ #{category_style}">
+                <ul class="o_wsale_filmstip d-flex align-items-stretch mb-0 list-unstyled overflow-visible">
+                    <t t-foreach="entries" t-as="c" t-if="c.image_1920" t-set="atLeastOneImage" t-value="True"/>
+                    <t t-if="category.parent_id" t-set="backUrl" t-value="keep('/shop/category/' + slug(category.parent_id), category=0)"/>
+                    <t t-else="" t-set="backUrl" t-value="'/shop'"/>
+                    <li t-foreach="entries" t-as="c" t-attf-class="d-flex {{'pe-3' if not c_last else ''}}" >
+                        <a t-att-href="keep('/shop/category/' + slug(c), category=0)" draggable="false" class="text-decoration-none">
+                            <input type="radio" t-attf-name="wsale_categories_top_radios_{{parentCategoryId}}" class="btn-check pe-none" t-att-id="c.id" t-att-value="c.id" t-att-checked="'true' if c.id == category.id else None"/>
+                            <div t-attf-class="categ_container btn btn-{{navClass}} d-flex align-items-center {{'ps-2 pe-3' if c.image_1920 else 'px-4'}} fs-6 fw-normal {{ 'border-primary' if c.id == category.id else '' }}" t-att-for="c.id">
+                                <div t-if="c.image_1920" t-attf-style="background-image:url('/web/image/product.public.category/#{c.id}/image_1920')" class="o_image_40_cover oe_img_bg o_bg_img_center rounded-3 me-3" t-att-alt="c.name" />
+                                <span t-field="c.name" class="text-nowrap" />
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </xpath>
+</template>
+
+
+<!-- ****** -->
+<!-- wishlist btn -->
+<template id="te_wishlist_bits" name="wishlist Button">
+    <div t-attf-class="co_action btn-wish #{card_border_style}" title="Add to Wishlist">
+        <t t-set="in_wish" t-value="product in products_in_wishlist"/>
+        <t t-set="product_variant_id" t-value="in_wish or product._get_first_possible_variant_id()"/>
+        <a t-if="product_variant_id" t-attf-class="o_add_wishlist #{card_border_style if card_product_style == 'card_product_style_3' or card_product_style == 'card_product_style_1' else '' }" t-att-disabled='in_wish or None' title="Add to Wishlist" t-att-data-product-template-id="product.id" t-att-data-product-product-id="product_variant_id" data-action="o_wishlist">
+            <i class="fa fa-heart"/>
+        </a>
+    </div>
+</template>
+<!-- compare btn -->
+<template id="te_compare_bits" name="Compare Button">
+    <div t-attf-class="co_action btn-compare #{card_border_style}" title="Add to Compare">
+        <t t-set="categories" t-value="product.valid_product_template_attribute_line_ids._prepare_categories_for_display()"/>
+        <t t-set="product_variant_id" t-value="product._get_first_possible_variant_id()"/>
+        <a t-attf-class="o_add_compare #{card_border_style if card_product_style == 'card_product_style_2' or card_product_style == 'card_product_style_3' or card_product_style == 'card_product_style_1'   else '' }" title="Compare" aria-label="Compare" t-att-data-product-product-id="product_variant_id" data-action="o_comparelist">
+            <i class="fa fa-bar-chart-o"/>
+        </a>
+    </div>
+</template>
+<!-- rattings -->
+<template id="product_rattings_bits" name="Rattings">
+    <t t-if="is_active_rattings">
+        <div class="o_product_page_reviews_link text-decoration-none text-nowrap">
+            <t t-set="trans_text_plural">%s</t>
+            <t t-set="trans_text_singular">%s</t>
+            <t t-set="rating_count" t-value="(trans_text_plural if product.rating_count > 1 else trans_text_singular) % product.rating_count"/>
+            <t t-set="rating_avg" t-value="round(product.rating_avg * 100) / 100"/>
+            <t t-if="rating_avg &lt;= 2">
+                <i class="fa fa-star-o" role="img"></i>
+            </t>
+            <t t-elif="rating_avg &gt;= 2.1 and rating_avg &lt;= 3.5">
+                <i class="fa fa-star-half-o" role="img"></i>
+            </t>
+            <t t-else="">
+                <i class="fa fa-star" role="img"></i>
+            </t>
+            <small class="text-muted ms-1">
+                <t t-esc="rating_avg"/>
+            </small>
+        </div>
+    </t>
+</template>
+<!-- stock label -->
+<template id="stock_lbl_bits" name="Stock Label">
+    <div t-if="product.check_inventory_config()" class="stock-lbl-bits">
+        <span>Sold Out</span>
+    </div>
+</template>
+<!-- variant  -->
+<template id="product_attrs_selector_bits" name="Product Attributes Selector">
+<t t-set="product_attrs" t-value="product.attribute_line_ids.filtered(lambda a: a.attribute_id.display_type and a.attribute_id.show_on_ecomm_card)"/>
+    <div t-if="len(product_attrs) and len(product_attrs.value_ids) > 1" class="pav_container d-flex align-items-center justify-content-center">
+        <t t-foreach="product_attrs.value_ids" t-as="attr" >
+            <t t-if="attr_index &lt; 3">
+                <div t-if="attr.attribute_id.name == 'Color' and product_attrs.value_ids[0].attribute_id.name == attr.attribute_id.name and attr.attribute_id.show_on_ecomm_card == True" t-att-title="attr.name" class="rounded-circle cursor-pointer position-relative">
+                        
+                        <span t-if="attr.html_color" class="rounded-circle color-attr-bits" t-att-data-valid="attr.id" t-att-data-product_id="product.id" t-attf-data-main-image="/web/image/product.product/#{product_attrs.product_template_value_ids[attr_index].ptav_product_variant_ids[0].id}/image_1920" t-attf-style="background-color: #{attr.html_color}"/>
+                   	     <span t-elif="attr.image" class="rounded-circle color-attr-bits" t-att-data-valid="attr.id" t-attf-data-main-image="/web/image/product.product/#{product_attrs.product_template_value_ids[attr_index].ptav_product_variant_ids[0].id}/image_1920" t-attf-style="background-image: url(/web/iamge/product.attribute.value/#{attr.id}/image);background-size:cover;"/>
+                </div>
+                <div t-if="attr.attribute_id.name != 'Color' and product_attrs.value_ids[0].attribute_id.name == attr.attribute_id.name and attr.attribute_id.show_on_ecomm_card == True" t-att-title="attr.name" class="rounded-circle cursor-pointer position-relative all-attr-bits" t-attf-data-main-image="/web/image/product.product/#{product_attrs.product_template_value_ids[attr_index].ptav_product_variant_ids[0].id}/image_1920">
+                        <span t-if="attr.image" class="rounded-circle all-attr-img" t-att-data-valid="attr.id" t-attf-data-main-image="/web/image/product.product/#{product_attrs.product_template_value_ids[attr_index].ptav_product_variant_ids[0].id}/image_1920" t-attf-style="background-image: url(/web/image/product.attribute.value/#{attr.id}/image);background-size:cover;"/>
+                        <span t-elif="attr.name" class="all-attr"><t t-esc="attr.name[0].upper()"/></span>
+                </div>
+            </t>
+        </t>
+        <t t-set="product_attrs_len" t-value="product_attrs.mapped('value_ids').filtered(lambda v: v.attribute_id.name == product_attrs[0].attribute_id.name)"/>
+        <t t-if="len(product_attrs_len) &gt; 3">
+            <a class="more-atv badge bg-gray text-black" t-att-href="product_href">3+</a>
+        </t>
+    </div>
+</template>
+<!-- b2b pricing content -->
+<template id="b2b_pricing_content_bits" name="B2B pricing">
+    <div class="">
+        <a t-att-href="'/web/login'" class="text-primary d-inline-block" alt="Login" title="Login">Login </a>
+        <p class="px-1 m-0 d-inline-block">|</p>
+        <a t-att-href="'/web/signup'" class="text-primary d-inline-block" alt="Signup" title="Signup"> Signup </a>
+        <span class="ps-1 d-inline-block"> for price</span>
+    </div>
+</template>
+<!-- applied_filters_bits -->
+<template id="applied_filters_bits" name="Applied filters bits">
+    <div class="applied-filters-container d-flex mb-2">
+        <div class="d-flex align-items-center">
+            <div class="product-count-bits me-2 text-nowrap">
+                Products(
+                <t t-esc="search_count"/>
+                )
+            </div>
+            <div t-if="len(filters_dict.keys())" class="attr_container product-clear-filter me-2">
+                <a t-attf-href="/shop" alt="Shop Products" class="text-decoration-none o_clear_all_category">
+                    <span>Clear all</span>
+                    <i class="fa fa-close ms-1"/>
+                </a>
+            </div>
+            <t t-foreach="filters_dict.keys()" t-as="fkey">
+                <t t-if="fkey == 'Attributes'">
+                    <t t-foreach="filters_dict[fkey].keys()" t-as="att_key">
+                        <div class="d-flex align-items-center">
+                            <span>
+                                <b t-esc="att_key"/>
+                            </span>
+                            <div class="attr_container ms-2 me-3">
+                                <t t-foreach="filters_dict[fkey][att_key]" t-as="att_val">
+                                    <t t-set="data_aval" t-value="str(filters_dict[fkey][att_key][att_val_index][0])+'-'+str(filters_dict[fkey][att_key][att_val_index][1])"/>
+                                    <span class="attrib_value mx-1" t-att-data-fname="'attrib'" t-att-data-aval="data_aval">
+                                        <span t-esc="filters_dict[fkey][att_key][att_val_index][2]"/>
+                                        <i class="fa fa-close ms-2" />
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-if="fkey == 'Brands'">
+                    <div class="d-flex align-items-center">
+                        <span class="text-nowrap">
+                            <b t-esc="'Brands :'"/>
+                        </span>
+                        <div class="attr_container ms-2 me-3">
+                            <t t-foreach="filters_dict[fkey]" t-as="brand">
+                                <t t-set="data_aval" t-value="str(brand[0])"/>
+                                <div class="attrib_value mx-1" t-att-data-fname="'attribs'" t-att-data-aval="data_aval">
+                                    <span t-esc="brand[1]"/>
+                                    <i class="fa fa-close ms-2" />
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+                <t t-if="fkey == 'Tags'">
+                    <div class="d-flex align-items-center">
+                        <span class="text-nowrap">
+                            <b t-esc="'Tags :'"/>
+                        </span>
+                        <div class="attr_container ms-2 me-3">
+                            <t t-foreach="filters_dict[fkey]" t-as="tag">
+                                <t t-set="data_aval" t-value="str(tag[0])"/>
+                                <span class="attrib_value mx-1" t-att-data-fname="'tags'" t-att-data-aval="data_aval">
+                                    <span t-esc="tag[1]"/>
+                                    <i class="fa fa-close ms-2" />
+                                </span>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </div>
+    </div>
+</template>
+    <!-- Mini Cart Template-->
+    <template id="mini_cart_bits" name="Shop Mini Cart">
+        <div class="mini-cart-style-bits">
+            <div class="empty-div"></div>
+            <t t-if="not website_sale_order or not website_sale_order.website_order_line">
+                <t t-call="theme_crest.empty_mini_cart_bits"/>
+            </t>
+            <div class="cart_body" t-if="website_sale_order and website_sale_order.website_order_line">
+                <div class="row cart-body-bits">
+                     <div class="col-lg-6 col-12">
+                        <t t-call="theme_crest.mini_cart_lines_bits"/>
+                     </div>
+                     <div class="col-lg-6 col-12">
+                            <div class="cart-summary-bits">
+                                <div class="clear-mini-cart-bits"><p>You have <span class="sigl-qtys-bits"><span class="qty_bits"> <t t-esc="website_sale_order.cart_quantity"/></span> <span class="qty_bits-sigl-info"> <t t-if="website_sale_order.cart_quantity > 1">items</t> <t t-else="">item</t> </span></span>in your cart </p><span t-if="len(request.website.sale_get_order().website_order_line)" class="clr_cart_bits">Clear Cart</span></div>
+                                <t t-call="website_sale.total"/>
+                            </div>
+                     </div>
+                </div> 
+            </div>
+            <div class="cart-btn-bar-bits">
+                <a href="/shop/cart" class="btn btn-view-bits btn-primary">View Cart</a>
+                <a href="/shop/checkout" class="btn-checkout-bits btn btn-secondary">Checkout</a>
+            </div>
+        </div>
+    </template>
+    <!-- Mini Cart Lines -->
+    <template id="mini_cart_lines_bits" name="Shop Mini Cart lines">
+        <div class="mini-main-cart-bits">
+            <ul class="mini-cart-products-bits">
+                <t t-foreach="website_sale_order.website_order_line" t-as="line"  t-attf-class="#{'optional_product info'}">
+                    <li class="mc-media-bits">
+                        <div class="mc-img-bits">
+                            <t t-if="line.product_id.product_tmpl_id">
+                                <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded '}" />
+                            </t>
+                        </div>
+                        <div class="mc-info-bits">
+                            <h6>
+                                <a t-attf-href="/shop/product/{{line.product_id.product_tmpl_id.id}}">
+                                    <t t-esc="line.product_id.with_context(display_default_code=False).display_name"/>
+                                </a>
+                                <t t-call="website_sale.cart_line_description_following_lines">
+                                    <t t-set="div_class" t-value="'cart-description'"/>
+                                </t>
+                            </h6>
+                            <div class="m_c_prod_price">
+                                <t t-if="line.discount">
+                                    <del t-attf-class="#{'text-danger  mr8'}" style="white-space: nowrap;" t-out="line.price_unit * line.product_uom_qty" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                </t>
+                                <t t-if="website.show_line_subtotals_tax_selection == 'tax_excluded'" t-set='product_price' t-value='line.price_subtotal'/>
+                                <t t-else="" t-set='product_price' t-value='line.price_total'/>
+                                <span t-out="product_price" t-attf-style="white-space: nowrap; display :inline-block; padding: #{'5px 10px' if line.discount else '5px 0px'};" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}"/>
+                                <small t-if="not line._is_not_sellable_line() and line.product_id.base_unit_price" class="cart_product_base_unit_price d-block text-muted" groups="website_sale.group_show_uom_price">
+                                    <t t-call='website_sale.base_unit_price'>
+                                        <t t-set='product' t-value='line.product_id'/>
+                                        <t t-set='combination_info' t-value="{'base_unit_price':product._get_base_unit_price(product_price)}"/>
+                                    </t>
+                                </small>
+                            </div>
+                            <div class="m_c_qty">
+                                <div class="css_quantity input-group">
+                                    <div class="input-group-prepend">
+                                        <a t-attf-href="#" class="btn btn-link js_add_cart_json rounded-0 d-md-inline-block" aria-label="Remove one" title="Remove one">
+                                            <i class="fa fa-minus"/>
+                                        </a>
+                                    </div>
+                                    <input type="text" t-attf-class="js_quantity form-control  quantity p-1 text-center sale_line_#{line.product_id.id}" t-att-data-line-id="line.id" t-att-data-product-id="line.product_id.id" t-att-value="int(line.product_uom_qty) == line.product_uom_qty and int(line.product_uom_qty) or line.product_uom_qty"/>
+                                    <div class="input-group-append">
+                                        <a t-attf-href="#" class="btn btn-link rounded-0  float_left js_add_cart_json d-md-inline-block" aria-label="Add one" title="Add one">
+                                            <i class="fa fa-plus"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href='#' aria-label="Remove from cart" title="Remove from cart" class='js_delete_product no-decoration'><i class='fa fa-trash-o'></i></a>
+                            </div>
+                        </div>
+                    </li>
+                </t>
+            </ul>
+            <div t-if="suggested_products and len(suggested_products)" class="min-suggested-bits">
+                <div id="suggestedProductControls" >
+                    <h5 t-attf-class="mini-title-bits" t-if="suggested_products">Suggested Accessories</h5>
+                    <div class="">
+                        <t t-foreach="suggested_products" t-as="suggested_prod">
+                            <div t-attf-class="">
+                                <div class="min-sa-pro-bits">
+                                    <div class="sa-img-bits">
+                                        <a t-att-href="suggested_prod.website_url">
+                                            <span t-field="suggested_prod.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': ''}" />
+                                        </a>
+                                    </div>
+                                    <div class="sa-info-bits">
+                                        <h6>
+                                            <a t-att-href="suggested_prod.website_url"><t t-esc="suggested_prod.name"/></a>
+                                        </h6>
+                                        <div class="m_c_prod_price">
+                                            <h6 class="oe_price_h4 css_editable_mode_hidden">
+                                                <t t-set="combination_info" t-value="suggested_prod._get_combination_info_variant()"/>
+                                                <del t-attf-class="text-danger mr8 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" style="white-space: nowrap;"/>
+                                                <span t-esc="combination_info['price']" t-options="{'widget': 'monetary','display_currency': website.currency_id}" t-attf-style="white-space: nowrap; display :inline-block; padding: #{'5px 10px' if line.discount else '5px 0px'};"/>
+                                            </h6>
+                                        </div>
+                                        <div class="sa-btn-bits">
+                                            <input class="js_quantity" name="product_id" t-att-data-product-id="suggested_prod.id" t-att-data-product-list="website_sale_order.website_order_line.product_id.mapped('id')" type="hidden"/>
+                                            <a t-if="suggested_prod.sudo()._website_show_quick_add()" role="button" class="js_add_suggested_products btn  text-nowrap">
+                                                <span><i class="fa fa-shopping-basket"></i></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Empty Mini Cart -->
+    <template id="empty_mini_cart_bits" name="Shop Empty Cart lines">
+        <div class="mini-cart-empty-bits">
+            <div>
+                <svg width="527" height="405" viewBox="0 0 527 405" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 200px;height: auto;">
+                    <path d="M41.634 370.844C54.0624 393.893 80.44 403.787 80.44 403.787C80.44 403.787 86.6671 376.312 74.2387 353.263C61.8103 330.214 35.4327 320.319 35.4327 320.319C35.4327 320.319 29.2056 347.795 41.634 370.844Z" fill="#2F2E41" />
+                    <path d="M419.647 297.511C400.271 315.126 397.022 343.11 397.022 343.11C397.022 343.11 425.188 342.535 444.565 324.921C463.941 307.306 467.19 279.321 467.19 279.321C467.19 279.321 439.024 279.896 419.647 297.511Z" fill="#2F2E41" />
+                    <path d="M50.1765 363.261C72.6149 376.761 81.2567 403.575 81.2567 403.575C81.2567 403.575 53.5186 408.502 31.0802 395.002C8.64174 381.502 0 354.688 0 354.688C0 354.688 27.7381 349.761 50.1765 363.261Z" fill="var(--primary)" />
+                    <path d="M429.065 303.975C421.368 329.005 397.425 343.852 397.425 343.852C397.425 343.852 385.962 318.117 393.659 293.087C401.356 268.058 425.298 253.211 425.298 253.211C425.298 253.211 436.762 278.946 429.065 303.975Z" fill="var(--primary)" />
+                    <path d="M362.06 360.29H125.274V358.587H360.356V275.967H145.18L134.727 254.19L136.263 253.453L146.252 274.263H362.06V360.29Z" fill="#2F2E41" />
+                    <path d="M156.789 402.026C166.667 402.026 174.675 394.018 174.675 384.139C174.675 374.26 166.667 366.252 156.789 366.252C146.91 366.252 138.902 374.26 138.902 384.139C138.902 394.018 146.91 402.026 156.789 402.026Z" fill="#3F3D56" />
+                    <path d="M333.101 402.026C342.979 402.026 350.987 394.018 350.987 384.139C350.987 374.26 342.979 366.252 333.101 366.252C323.222 366.252 315.214 374.26 315.214 384.139C315.214 394.018 323.222 402.026 333.101 402.026Z" fill="#3F3D56" />
+                    <path d="M387.385 247.859H121.237L63.6484 59.6227H446.693L446.344 60.7302L387.385 247.859ZM122.497 246.156H386.136L444.37 61.3262H65.9508L122.497 246.156Z" fill="#2F2E41" />
+                    <path d="M366.61 238.064H132.842L82.26 71.121H418.701L418.395 72.104L366.61 238.064Z" fill="#F2F2F2" />
+                    <path d="M451.465 42.806L449.818 42.369L461.059 0H526.448V1.70398H462.37L451.465 42.806Z" fill="#2F2E41" />
+                    <path d="M427.552 116.69H82.2584V118.393H427.552V116.69Z" fill="#2F2E41" />
+                    <path d="M407.777 179.45H101.459V181.153H407.777V179.45Z" fill="#2F2E41" />
+                    <path d="M256.017 60.4744H254.314V247.007H256.017V60.4744Z" fill="#2F2E41" />
+                    <path d="M332.286 60.421L320.057 246.949L321.758 247.061L333.986 60.5324L332.286 60.421Z" fill="#2F2E41" />
+                    <path d="M178.081 60.419L176.38 60.5298L188.538 247.063L190.238 246.952L178.081 60.419Z" fill="#2F2E41" />
+                </svg>
+            </div>
+            <p>Your Shopping Cart is empty</p>
+            <div class="button">
+                <a href="/shop" class="btn btn-bits-shop btn-primary">Shop Now</a>
+            </div>
+        </div>
+    </template>
+</odoo> 

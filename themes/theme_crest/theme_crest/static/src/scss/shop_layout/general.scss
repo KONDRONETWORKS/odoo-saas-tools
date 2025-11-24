@@ -1,0 +1,102 @@
+.bits-notify-container {
+  position: fixed;
+  left: 0px;
+  width: 450px;
+  bottom: 10px;
+  background: #fff;
+  z-index: 99;
+  border-radius: 10px;
+  padding: 10px 60px 10px 10px;
+  transition: transform 0.5s ease, opacity 0.5s, visibility 0.5s;
+  box-shadow: 0 0 35px #0000001f;
+  transform: translate(5%);
+  opacity: 1;
+  visibility: visible;
+  font-size: 13px;
+  @media (max-width: 576px) {
+    width: 335px !important;
+    padding: 10px 30px 10px 10px;
+  }
+  &.make-toast {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-5%);
+  }
+  .product-recent-purchase-bits {
+    padding: 4px;
+    a.col-3 {
+      padding: 0 !important;
+      img {
+        padding: 0 !important;
+        width: 100%;
+        height: 93px !important;
+        object-fit: contain;
+      }
+    }
+    .title-text {
+      font-size: 14px;
+    }
+    .detail {
+      display: block;
+      span {
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+      h6 {
+        font-size: 14px;
+        font-weight: bold;
+        display: -webkit-box !important;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    a.detail {
+      text-decoration: none;
+      display: -webkit-box !important;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &:hover {
+        background-color: #ffffff !important;
+      }
+    }
+    a.icon-btn {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      padding: 0px 10px 5px 0px;
+      border-radius: 6px;
+      width: max-content;
+      font-size: 20px;
+      text-decoration: none;
+    }
+    .foot-details {
+      span {
+        color: o-color("primary");
+        font-size: 14px !important;
+      }
+      i.fa-check-circle-o {
+        color: o-color("primary");
+      }
+      .icon-verified {
+        color: o-color("primary");
+        i {
+          &:before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+            top: 0;
+            left: 0;
+            -webkit-animation: scaleIcon 1.2s linear infinite;
+            animation: scaleIcon 1.2s linear infinite;
+          }
+        }
+      }
+    }
+  }
+}

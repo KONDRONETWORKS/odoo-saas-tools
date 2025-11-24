@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="theme_crest.default_row_template">
+        <div class="container">
+            <t t-foreach="data" t-as="row" t-key="row_index">
+                <div class="row">
+                    <t t-foreach="row" t-as="col" t-key="col?._uid">
+                        <div t-att-class="col.class" t-att-data-snp_config="stringify(col)">
+                            <t t-if="col &amp;&amp; col.visual &amp;&amp; col.visual.template">
+                                <t t-att-call="col.visual.template"/>
+                            </t>
+                            <t t-else="">
+                                <div class="col d-flex align-items-center justify-content-center py-3">
+                                    <h4 class="m-0">Empty Block</h4>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </div>
+    </t>
+    <t t-name="theme_crest.s_banner" name="Banner">
+        <section class="s_banner pt96 pb96">
+            <div class="">
+                <div class="row s_nb_column_fixed o_grid_mode" data-row-count="11">
+                    <div class="justify-content-center o_grid_item g-height-8 g-col-lg-5 col-lg-5" data-name="Box" style="z-index: 1; grid-area: 2 / 1 / 10 / 6;">
+                        <h1 class="display-3">Sell Online. <strong>Easily.</strong></h1>
+                        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                        <div class="s_hr text-start pb32 pt4" data-snippet="s_hr" data-name="Separator">
+                            <hr class="w-100 mx-auto"/>
+                        </div>
+                        <p>
+                            <a t-att-href="cta_btn_href" class="btn btn-lg btn-primary">Start Now <span class="fa fa-angle-right ms-2"/></a>
+                        </p>
+                    </div>
+                    <div class="o_grid_item o_grid_item_image g-col-lg-4 g-height-10 col-lg-4" style="z-index: 2; grid-area: 1 / 8 / 11 / 12;">
+                        <img class="img img-fluid mx-auto shadow rounded" src="/web/image/website.s_banner_default_image_2" alt=""/>
+                    </div>
+                    <div class="o_grid_item o_grid_item_image g-col-lg-2 g-height-5 col-lg-2 d-lg-block d-none o_snippet_mobile_invisible" style="z-index: 3; grid-area: 2 / 11 / 7 / 13;">
+                        <img class="img img-fluid mx-auto shadow rounded" src="/web/image/website.s_banner_default_image_3" alt=""/>
+                    </div>
+                    <div class="o_grid_item o_grid_item_image g-col-lg-3 g-height-5 col-lg-3 d-lg-block d-none o_snippet_mobile_invisible" style="z-index: 4; grid-area: 7 / 7 / 12 / 10;">
+                        <img class="img img-fluid mx-auto shadow rounded" src="/web/image/website.s_banner_default_image" alt=""/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </t >
+    <t t-name="theme_crest.s_countdown" name="Countdown">
+        <section class="s_countdown pt48 pb48"
+            data-display="dhms" data-end-action="nothing" data-size="175"
+            data-layout="circle" data-layout-background="none"
+            data-progress-bar-style="surrounded" data-progress-bar-weight="thin"
+            data-text-color="o-color-1" data-layout-background-color="400" data-progress-bar-color="o-color-1">
+            <div class="container">
+                <div class="s_countdown_canvas_wrapper text-center d-flex justify-content-center">
+                    <div class="s_countdown_canvas_flex" style="width: 25%; max-width: 175px;">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="175" height="175" class="w-100" viewBox="0 0 175 175"><defs></defs><g><text fill="var(--o-color-1)" stroke="none" font-family="Arial" font-size="43.75px" font-style="normal" font-weight="normal" text-decoration="normal" x="87.5" y="87.5" text-anchor="middle" dominant-baseline="central">2</text><text fill="var(--o-color-1)" stroke="none" font-family="Arial" font-size="14.583333333333334px" font-style="normal" font-weight="normal" text-decoration="normal" x="87.5" y="116.66666666666667" text-anchor="middle" dominant-baseline="central">Days</text><path fill="none" stroke="var(--o-color-1)" paint-order="fill stroke markers" d=" M 166.25 87.5 A 78.75 78.75 0 1 1 166.24996062500327 87.42125001312495" stroke-miterlimit="10" stroke-width="5" stroke-opacity="0.2" stroke-dasharray=""></path><path fill="none" stroke="var(--o-color-1)" paint-order="fill stroke markers" d=" M 87.5 8.75 A 78.75 78.75 0 0 1 146.0226550063448 34.80596474923991" stroke-miterlimit="10" stroke-width="5" stroke-dasharray=""></path></g></svg>
+                    </div>
+                    <div class="s_countdown_canvas_flex" style="width: 25%; max-width: 175px;">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="175" height="175" class="w-100" viewBox="0 0 175 175"><defs></defs><g><text fill="var(--o-color-1)" stroke="none" font-family="Arial" font-size="43.75px" font-style="normal" font-weight="normal" text-decoration="normal" x="87.5" y="87.5" text-anchor="middle" dominant-baseline="central">16</text><text fill="var(--o-color-1)" stroke="none" font-family="Arial" font-size="14.583333333333334px" font-style="normal" font-weight="normal" text-decoration="normal" x="87.5" y="116.66666666666667" text-anchor="middle" dominant-baseline="central">Hours</text><path fill="none" stroke="var(--o-color-1)" paint-order="fill stroke markers" d=" M 166.25 87.5 A 78.75 78.75 0 1 1 166.24996062500327 87.42125001312495" stroke-miterlimit="10" stroke-width="5" stroke-opacity="0.2" stroke-dasharray=""></path><path fill="none" stroke="var(--o-color-1)" paint-order="fill stroke markers" d=" M 87.5 8.75 A 78.75 78.75 0 1 1 19.30049945197547 126.87500000000003" stroke-miterlimit="10" stroke-width="5" stroke-dasharray=""></path></g></svg>
+                    </div>
+                    <div class="s_countdown_canvas_flex" style="width: 25%; max-width: 175px;">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="175" height="175" class="w-100" viewBox="0 0 175 175"><defs></defs><g><text fill="var(--o-color-1)" stroke="none" font-family="Arial" font-size="43.75px" font-style="normal" font-weight="normal" text-decoration="normal" x="87.5" y="87.5" text-anchor="middle" dominant-baseline="central">30</text><text fill="var(--o-color-1)" stroke="none" font-family="Arial" font-size="14.583333333333334px" font-style="normal" font-weight="normal" text-decoration="normal" x="87.5" y="116.66666666666667" text-anchor="middle" dominant-baseline="central">Minutes</text><path fill="none" stroke="var(--o-color-1)" paint-order="fill stroke markers" d=" M 166.25 87.5 A 78.75 78.75 0 1 1 166.24996062500327 87.42125001312495" stroke-miterlimit="10" stroke-width="5" stroke-opacity="0.2" stroke-dasharray=""></path><path fill="none" stroke="var(--o-color-1)" paint-order="fill stroke markers" d=" M 87.5 8.75 A 78.75 78.75 0 0 1 87.5 166.25" stroke-miterlimit="10" stroke-width="5" stroke-dasharray=""></path></g></svg>
+                    </div>
+                    <div class="s_countdown_canvas_flex" style="width: 25%; max-width: 175px;">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="175" height="175" class="w-100" viewBox="0 0 175 175"><defs></defs><g><text fill="var(--o-color-1)" stroke="none" font-family="Arial" font-size="43.75px" font-style="normal" font-weight="normal" text-decoration="normal" x="87.5" y="87.5" text-anchor="middle" dominant-baseline="central">45</text><text fill="var(--o-color-1)" stroke="none" font-family="Arial" font-size="14.583333333333334px" font-style="normal" font-weight="normal" text-decoration="normal" x="87.5" y="116.66666666666667" text-anchor="middle" dominant-baseline="central">Seconds</text><path fill="none" stroke="var(--o-color-1)" paint-order="fill stroke markers" d=" M 166.25 87.5 A 78.75 78.75 0 1 1 166.24996062500327 87.42125001312495" stroke-miterlimit="10" stroke-width="5" stroke-opacity="0.2" stroke-dasharray=""></path><path fill="none" stroke="var(--o-color-1)" paint-order="fill stroke markers" d=" M 87.5 8.75 A 78.75 78.75 0 1 1 8.75 87.50000000000001" stroke-miterlimit="10" stroke-width="5" stroke-dasharray=""></path></g></svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </t>
+    <t t-name="theme_crest.no_records" >
+        <div class="col d-flex flex-column align-items-center justify-content-center py-3">
+            <h4 class="m-0 text-400 s-fs-22"> Empty block </h4>
+            <h6 class="m-0 text-400 s-fs-14 mt-3">Edit snippet or delete row.</h6>
+        </div>
+    </t>
+</templates>

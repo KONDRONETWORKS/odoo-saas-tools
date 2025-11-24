@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="product_product_bits" inherit_id="website_sale_comparison.product_product" name="Product Product">
+        <xpath expr="//h6" position="replace">
+            <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+            <t t-if="not is_b2b_enabled">
+                <h6>
+                    <a t-att-href="product.website_url">
+                        <t t-esc="combination_info['display_name']" />
+                    </a>
+                    <br/>
+                    <div t-attf-class="{{'d-none' if combination_info['prevent_zero_price_sale'] else ''}}">
+                        <del t-if="combination_info['compare_list_price'] and (combination_info['compare_list_price'] &gt; combination_info['price'])" t-attf-class="text-danger mr8" style="white-space: nowrap;" t-esc="combination_info['compare_list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                        <del t-else="" t-attf-class="text-danger mr8 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        <span t-out="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                    </div>
+                    <div t-attf-class="{{'' if combination_info['prevent_zero_price_sale'] else 'd-none'}}" t-field="website.prevent_zero_price_sale_text"/>
+                </h6>
+            </t>
+            <t t-else="">
+                <t t-call="theme_crest.b2b_pricing_content_bits"/>
+            </t>
+        </xpath>
+
+    </template>
+
+    <template id="product_compare" inherit_id="website_sale_comparison.product_compare" name="Product Compair">
+        <xpath expr="//t[@t-call='website.layout']" position="replace">
+            <t t-call="website.layout">
+                <t t-set="is_b2b_enabled" t-value="request.website.sudo().get_b2b_config()"/>
+                <t t-set="additional_title">Shop Comparator</t>
+                <div id="wrap" class="js_sale">
+                    <div class="oe_structure oe_empty" id="oe_structure_website_sale_comparison_product_compare_1"/>
+                    <div class="container oe_website_sale pt-3">
+                        <section class="container">
+                            <h3>Compare Products</h3>
+                            <table class="table table-bordered table-hover text-center mt16 table-comparator" id="o_comparelist_table">
+                                <t t-set="categories" t-value="products._prepare_categories_for_display()"/>
+                                <thead>
+                                    <tr>
+                                        <td t-if="len(categories)" class='o_ws_compare_image td-top-left border-bottom-0'/>
+                                        <td t-foreach="products" t-as="product" class="o_ws_compare_image position-relative border-bottom-0">
+                                            <a href="#" t-att-data-product_product_id="product.id" class="o_comparelist_remove" t-if="len(products) &gt; 2">
+                                                <strong>x</strong>
+                                            </a>
+                                            <a t-att-href="product.website_url">
+                                                <img t-attf-src="/web/image/product.product/#{product.id}/image_256" class="img img-fluid" style="margin:auto;" alt="Product image"/>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td t-if="len(categories)" class='td-top-left border-top-0'/>
+                                        <td t-foreach="products" t-as="product" class="border-top-0">
+                                            <t t-set="combination_info" t-value="product._get_combination_info_variant()"/>
+                                            <div class='product_summary'>
+                                                <a class="o_product_comparison_table" t-att-href="product.website_url">
+                                                    <span t-esc="combination_info['display_name']"></span>
+                                                    <br/>
+                                                </a>
+
+                                                <t t-if="not is_b2b_enabled">
+                                                    <span class="o_comparison_price" t-if="combination_info['prevent_zero_price_sale']">
+                                                        <strong t-field="website.prevent_zero_price_sale_text"/>
+                                                    </span>
+                                                    <span class="o_comparison_price" t-else="">
+                                                        <strong>Price:</strong>
+                                                        <del t-if="combination_info['compare_list_price'] and (combination_info['compare_list_price'] &gt; combination_info['price'])" t-attf-class="text-danger mr8" style="white-space: nowrap;" t-esc="combination_info['compare_list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                                                        <del t-else="" t-attf-class="text-danger mr8 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-out="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                        <span t-out="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                        <small t-if="combination_info['base_unit_price']" class="d-block text-muted" groups="website_sale.group_show_uom_price">
+                                                            <t t-call='website_sale.base_unit_price'/>
+                                                        </small>
+                                                    </span>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-call="theme_crest.b2b_pricing_content_bits"/>
+                                                </t>
+                                                <form action="/shop/cart/update" method="post" class="text-center o_add_cart_form_compare" t-if="not is_b2b_enabled">
+                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                    <input name="product_id" type="hidden" t-att-value="product.id" t-att-data-product-tracking-info="'product_tracking_info' in combination_info and json.dumps(combination_info['product_tracking_info'])"/>
+                                                    <a t-if="combination_info['prevent_zero_price_sale']" t-att-href="website.contact_us_button_url" class="btn btn-primary btn_cta">
+                                                   Contact Us
+                                                    </a>
+                                                    <a t-else="" role="button" class="btn btn-primary a-submit" href="#">
+                                                        <i class="fa fa-shopping-cart me-2"/>
+                                                        Add to Cart
+                                                    </a>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="categories" t-as="category">
+                                        <t t-if="len(categories) &gt; 1">
+                                            <tr class="clickable" data-bs-toggle="collapse" t-att-data-bs-target="'.o_ws_category_%d' % category.id">
+                                                <th class="text-start" t-att-colspan="len(products) + 1">
+                                                    <i class="fa fa-chevron-circle-down o_product_comparison_collpase" role="img" aria-label="Collapse" title="Collapse"></i>
+                                                    <span t-if="category" t-field="category.name"/>
+                                                    <span t-else="">Uncategorized</span>
+                                                </th>
+                                            </tr>
+                                        </t>
+                                        <tr t-foreach="categories[category]" t-as="attribute" t-att-class="'collapse show o_ws_category_%d' % category.id">
+                                            <td>
+                                                <span t-field="attribute.name"/>
+                                            </td>
+                                            <td t-foreach="categories[category][attribute]" t-as="product">
+                                                <t t-foreach="categories[category][attribute][product]" t-as="ptav">
+                                                    <span t-field="ptav.name"/>
+                                                    <t t-if="not ptav_last">, </t>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="is_view_active('website_sale.product_tags') and any([product.all_product_tag_ids for product in products])">
+                                        <tr class="clickable" data-bs-toggle="collapse" data-bs-target=".o_ws_tags">
+                                            <th class="text-start" t-att-colspan="len(products) + 1">
+                                                <i class="fa fa-chevron-circle-down o_product_comparison_collpase" role="img" aria-label="Collapse" title="Collapse"></i>
+                                                <span>Tags</span>
+                                            </th>
+                                        </tr>
+                                        <tr class="collapse show o_ws_tags">
+                                            <td>
+                                                <span>Tags</span>
+                                            </td>
+                                            <td t-foreach="products" t-as="product">
+                                                <div class="d-flex justify-content-center">
+                                                    <t t-call="website_sale.product_tags">
+                                                        <t t-set="all_product_tags" t-value="product.all_product_tag_ids"/>
+                                                    </t>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+                    <div class="oe_structure" id="oe_structure_website_sale_comparison_product_compare_2"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

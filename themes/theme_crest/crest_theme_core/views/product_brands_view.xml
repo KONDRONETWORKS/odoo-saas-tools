@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="product_brands_view_form_bits" model="ir.ui.view">
+        <field name="name">product_brands.view.form.bits</field>
+        <field name="model">product.brands</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="brand_image" widget="image" class="oe_avatar" options="{'preview_image': 'brand_image'}"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="brand_description"/>
+                            <field name="website_ids" widget="many2many_tags"/>
+                            <field name="product_count" invisible="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="products" string="Products"> 
+                            <field name="product_ids" readonlny="1"/> 
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+     </record>
+     <record id="product_brands_view_tree_bits" model="ir.ui.view">
+        <field name="name">product_brands.view.list.bits</field>
+        <field name="model">product.brands</field>
+        <field name="arch" type="xml">
+            <list string="">
+                <field name="name"/>
+                <field name="product_count"/>
+                <field name="brand_image"/>
+            </list>
+        </field>
+     </record>
+     <record id="action_product_brandsview_bits" model="ir.actions.act_window">
+        <field name="name">Product Brands</field>
+        <field name="res_model">product.brands</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field> 
+     </record>
+     <menuitem id="menu_product_brands_view" name="Product Brands" action="action_product_brandsview_bits"
+        parent="crest_theme_core.menu_terabits_customisation_bits" sequence="10"/>
+</odoo>

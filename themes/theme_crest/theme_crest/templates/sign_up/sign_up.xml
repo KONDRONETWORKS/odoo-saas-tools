@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sign_up -->
+    <template id="login_layout" inherit_id="auth_signup.signup" name="Website Login Layout" priority="20">
+        <xpath expr="//form[contains(@class,'oe_signup_form')]" position="replace">
+            <div class="signup-layout-container-wrapper">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-10 col-lg-12">
+                            <div class="signup-layout-container">
+                                <div class="signup-form position-relative z-0 col-lg-6 col-12 order-1 py-5 px-4 o_anim_fade_in o_animate o_anim_from_right o_animate_both_scroll o_visible o_dynamic_empty o_animated">
+                                    <img src="/theme_crest/static/images/login.svg" alt="Login" class="login-bg-img z-n1 bg-white position-absolute top-0 start-0 end-0 bottom-0" />
+                                    <div class="row justify-content-center">
+                                        <div class="col-xl-6 row justify-content-center sign-up">
+                                            <form class=" shadow oe_signup_form card-body m-0" style="max-width: 540px;" role="form" method="post" t-if="not message">
+                                                <h2 class="mb-2 text-center" style="font-size: 40px;font-weight: 600;">Sign up </h2>
+                                                <p class=" text-center">Create new account</p>
+
+                                                <!-- <p class="lead mb-4 text-start">Registration takes less than a minute.</p> -->
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <t t-call="auth_signup.fields">
+                                                    <t t-set="only_passwords" t-value="bool(token and not invalid_token)"/>
+                                                </t>
+                                                <p class="alert alert-danger" t-if="error" role="alert">
+                                                    <t t-esc="error"/>
+                                                </p>
+                                                <input type="hidden" name="redirect" t-att-value="redirect"/>
+                                                <input type="hidden" name="token" t-att-value="token"/>
+                                                <div class="text-center oe_login_buttons d-grid">
+                                                    <button type="submit" class=" text-white rounded-pill btn-signup w-100 mb-2" style="font-size: 18px;font-weight:600;"> Sign up</button>
+                                                    <a t-attf-href="/web/login?{{ keep_query() }}" class="btn btn-link btn-sm" style="font-size: 16px;" role="button">Already have an account?</a>
+                                                    <div class="o_login_auth"/>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="signup-info col-lg-6 col-12 o_anim_fade_in o_animate o_anim_from_left o_animate_both_scroll o_visible o_dynamic_empty o_animated">
+                                    <div class="welcome-text">
+                                        <h1>Start <br></br> your journey <br></br> <b> Today</b></h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+    <template id="auth_signup_fields_bits" name="Auth Signup/ResetPassword form fields" inherit_id="auth_signup.fields">
+        <xpath expr="//div[contains(@class,'mb-3 field-login')]" position="replace">
+            <div class="mb-3 field-login">
+                <input type="text" name="login" t-att-value="login" id="login" class="form-control form-control-sm" autofocus="autofocus" autocapitalize="off" required="required" t-att-readonly="'readonly' if only_passwords else None" placeholder="Your Email" style="padding: 12px 20px; font-size: 16px; font-weight: 500; margin-bottom: 30px;"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[contains(@class,'mb-3 field-name')]" position="replace">
+            <div class="mb-3 field-name">
+                <input type="text" name="name" t-att-value="name" id="name" class="form-control form-control-sm" placeholder="Your Name" required="required" t-att-readonly="'readonly' if only_passwords else None" t-att-autofocus="'autofocus' if login and not only_passwords else None" style="padding: 12px 20px; font-size: 16px; font-weight: 500; margin-bottom: 30px;"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[contains(@class,'mb-3 field-password pt-2')]" position="replace">
+            <div class="mb-3 field-password">
+                <input type="password" name="password" id="password" class="form-control form-control-sm" required="required" t-att-autofocus="'autofocus' if only_passwords else None" placeholder="Password" style="padding: 12px 20px; font-size: 16px; font-weight: 500; margin-bottom: 30px;"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[contains(@class,'mb-3 field-confirm_password')]" position="replace">
+            <div class="mb-3 field-confirm_password">
+                <input type="password" name="confirm_password" id="confirm_password" class="form-control form-control-sm" required="required" placeholder="Confirm Password" style="padding: 12px 20px; font-size: 16px; font-weight: 500; margin-bottom: 30px;"/>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- login -->
+    <template id="auth_login_bits" name="Login" inherit_id="web.login">
+        <xpath expr="//t[@t-call='web.login_layout']" position="replace">
+            <t t-call="web.login_layout">
+                <!-- Login container -->
+                <div class="login-container-wrapper">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-12 ">
+                                <div class="login-container">
+                                    <!-- Left panel with welcome text -->
+                                    <div class="login-info position-relative col-lg-6 col-12 o_anim_fade_in o_animate o_anim_from_left o_animate_both_scroll o_visible o_dynamic_empty o_animated">
+                                        <div class="welcome-text">
+                                            <h1><b>WELCOME</b> <br></br> To The Website</h1>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Right panel with login form -->
+                                    <div class="login-form position-relative z-0 col-lg-6 col-12 o_anim_fade_in o_animate o_anim_from_right o_animate_both_scroll o_visible o_dynamic_empty o_animated">
+                                        <img src="/theme_crest/static/images/login.svg" alt="Login" class="login-bg-img z-n1 bg-white position-absolute top-0 start-0 end-0 bottom-0" />
+                                        <form class="oe_login_form" role="form" t-attf-action="/web/login" method="post" onsubmit="this.action = '/web/login' + location.hash">
+                                                    <h2 class="text-primary text-center">Sign in</h2>
+                                                    <p class=" text-center">Fill your email and password to sign in.</p>
+                                                    
+                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                    
+                                                    <!-- Database selector if multiple databases exist -->
+                                                    <div class="form-group d-none" t-if="databases and len(databases) &gt; 1">
+                                                        <label for="db" class="form-label text-end d-none">Database</label>
+                                                        <div t-attf-class="input-group">
+                                                            <input type="text" name="db" t-att-value="request.db" id="db" class="form-control" required="required" readonly="readonly"/>
+                                                            <a role="button" href="/web/database/selector" class="btn btn-primary d-flex align-items-center">
+                                                                Select
+                                                                <i class="fa fa-database ms-1" role="img" aria-label="Database" title="Database"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Email field -->
+                                                    <div class="form-group field-login">
+                                                        <input type="text" placeholder="Email" name="login" t-att-value="login" id="login" class="form-control" required="required" autocomplete="username" autofocus="autofocus" autocapitalize="off"/>
+                                                    </div>
+                                                    
+                                                    <!-- Password field -->
+                                                    <div class="form-group">
+                                                        <input type="password" placeholder="Password" name="password" id="password" class="form-control" required="required" autocomplete="current-password" t-att-autofocus="'autofocus' if login else None" maxlength="4096"/>
+                                                    </div>
+                                                    
+                                                    <!-- Remember me & Forgot password -->
+                                                    <div class="form-footer">
+                                                        <div class="form-check p-0">
+                                                            <input type="checkbox" id="remember-me" name="remember-me"/>
+                                                            <label for="remember-me">Remember me</label>
+                                                        </div>
+                                                        <a t-if="reset_password_enabled" t-attf-href="/web/reset_password?{{ keep_query() }}" class="forgot-password">Forgot Password?</a>
+                                                    </div>
+                                                    
+                                                    <!-- Error and success messages -->
+                                                    <p class="alert alert-danger" t-if="error" role="alert">
+                                                        <t t-esc="error"/>
+                                                    </p>
+                                                    <p class="alert alert-success" t-if="message" role="status">
+                                                        <t t-esc="message"/>
+                                                    </p>
+                                                    
+                                                    <!-- Login button -->
+                                                    <button type="submit" class="btn-login btn-primary">Sign In</button>
+                                                    
+                                                    <!-- Sign up link -->
+                                                    <div class="signup-link">
+                                                        Don't have an account? <a t-if="signup_enabled" t-attf-href="/web/signup?{{ keep_query() }}">Sign Up</a>
+                                                    </div>
+                                                    <div class="o_login_auth"/>
+                                                    <input type="hidden" name="redirect" t-att-value="redirect"/>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- reset_password -->
+    <template id="auth_reset_bits" name="Reset password" inherit_id="auth_signup.reset_password">
+        <xpath expr="//t[@t-call='web.login_layout']" position="replace">
+            <t t-call="web.login_layout">
+                <div class="auth-reset-container-wrapper">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-12">
+                                <div class="auth-reset-container o_animate o_visible o_dynamic_empty o_animated o_draggable o_anim_bounce_in o_animate_both_scroll">
+                                    <div t-if="message" class="oe_login_form clearfix overflow-hidden  position-relative z-0" style="max-width: 450px;padding: 50px;">
+                                        <img src="/theme_crest/static/images/login.svg" alt="Login"  class="login-bg-img z-n1 bg-white position-absolute top-0 start-0 end-0 bottom-0" />
+                                        <p class="alert alert-success" t-if="message" role="status">
+                                            <t t-esc="message"/>
+                                        </p>
+                                        <a href="/web/login" class="btn btn-link btn-sm float-start" role="button">Back to Login</a>
+                                    </div>
+                                      <div class="row justify-content-center">
+                                        <div class="col-xl-6 row justify-content-center sign-up ">
+                                            <form class="shadow oe_reset_password_form card-body m-0 overflow-hidden position-relative z-0" style="max-width: 450px;padding: 50px;" role="form" method="post" t-if="not message">
+                                                 <img src="/theme_crest/static/images/login.svg" alt="Login" class="login-bg-img z-n1 bg-white position-absolute top-0 start-0 end-0 bottom-0" />
+                                                <!-- <h2 class="mb-2 text-start" style="font-size: 32px;font-weight: 600;">Reset Password </h2> -->
+                                                <p class="lead mb-4 text-start">Fill your email and reset your password.</p>
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <t t-if="token and not invalid_token">
+                                                    <t t-call="auth_signup.fields">
+                                                        <t t-set="only_passwords" t-value="1"/>
+                                                    </t>
+                                                </t>
+                                                <t t-if="not token">
+                                                    <div class="mb-3 field-login">
+                                                        <!-- <label for="login" class="col-form-label">Your Email</label> -->
+                                                        <input placeholder="Your Email" type="text" name="login" t-att-value="login" id="login" class="form-control" autofocus="autofocus" required="required" autocapitalize="off"/>
+                                                    </div>
+                                                </t>
+                                                <p class="alert alert-danger" t-if="error" role="alert">
+                                                    <t t-esc="error"/>
+                                                </p>
+                                                <input type="hidden" name="redirect" t-att-value="redirect"/>
+                                                <input type="hidden" name="token" t-att-value="token"/>
+                                                <div class="clearfix oe_login_buttons d-grid mt-3">
+                                                    <button type="submit" class="btn text-white btn-primary">Reset Password</button>
+                                                    <div class="d-flex justify-content-between align-items-center small mt-2">
+                                                        <a t-if="not token" t-attf-href="/web/login?{{ keep_query() }}">Back to Login</a>
+                                                        <a t-if="invalid_token" href="/web/login">Back to Login</a>
+                                                    </div>
+                                                    <div class="o_login_auth"/>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

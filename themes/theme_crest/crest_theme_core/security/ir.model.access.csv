@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_theme_configuration,theme.configuration,model_theme_configuration,,1,1,1,1
+access_product_label_bits,product.label.bits,model_product_label_bits,,1,1,1,1
+access_product_offers_bits,product.offers.bits,model_product_offers_bits,,1,1,1,1
+access_product_attrib_details_bits,product.attrib.details.bits,model_product_attrib_details_bits,,1,1,1,1
+access_product_faq_bits,product.faq.bits,model_product_faq_bits,,1,1,1,1
+access_product_faq_lines_bits,product.faq.lines.bits,model_product_faq_lines_bits,,1,1,1,1
+access_product_brands,product.brands,model_product_brands,,1,1,1,1
+access_product_terms_conditions,product.terms.conditions,model_product_terms_conditions,,1,1,1,1
+access_product_terms_lines,product.terms.lines,model_product_terms_lines,,1,1,1,1
+access_menu_label,product.menu.lable,model_menu_label,,1,1,1,1
+access_product_inquiry,product.inquiry,model_product_inquiry,,1,1,1,1
+access_pwa_shortcuts,pwa.shortcuts,model_pwa_shortcuts,,1,1,1,1

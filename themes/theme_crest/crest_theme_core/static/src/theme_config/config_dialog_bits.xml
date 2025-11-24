@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+
+    <t t-name="ConfigDialogBits" owl="1">
+        <WebsiteDialog contentClass="'web-config-dialog'" title="title" size="size" header="true" primaryTitle="primaryTitle" primaryClick="() => this.saveConfig()" close="props.close">
+            <section class="config-dialog-bits">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-3 tabs">
+                            <ul class="nav-tabs">
+                                <li>
+                                    <button t-attf-class="btn-nav #{this.state.active_tab == 'general' ?'active':''}" t-on-click="()=>this.state.active_tab = 'general'"> 
+                                        General Settings
+                                    </button>
+                                </li>
+                                <li>
+                                    <button t-attf-class="btn-nav #{this.state.active_tab == 'shop' ?'active':''}" t-on-click="()=>this.state.active_tab = 'shop'">
+                                        Shop Page
+                                    </button>
+
+                                </li>
+                                <li>
+                                    <button t-attf-class="btn-nav #{this.state.active_tab == 'product_page' ?'active':''}" t-on-click="()=>this.state.active_tab = 'product_page'">
+                                        Product Page
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-9 tab-details ps-0">
+                            <section id="tab-general" t-attf-class="tab-detail tab-general #{this.state.active_tab == 'general' ?'active show':''}">
+                                <h6 class="main-title">Header</h6>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4 ">
+                                        <h5 class="sec-title">Enable language selector</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.h_lang_select" name="h_lang_select" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable pricelist selector</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.h_pricelist_select" name="h_pricelist_select" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show pricelist offer in header </h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.h_offer_line" name="h_offer_line" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show pricelist offer timer</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.pricelist_offer_timer" name="pricelist_offer_timer" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                 <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable cart popup</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.h_cart_popup" name="h_cart_popup" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable categories menu</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.h_category_menu" name="h_category_menu" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">NavBar Hover Effect</h5>
+                                    </div>
+                                    <div class="col-6">
+                                         <select class="form-input" name="navbar_hover_effect" t-on-change="(ev)=>this.onChangeValue(ev)">
+                                            <option t-att-selected="this.state.config_value.navbar_hover_effect=='navbar_hover_effect_1'" value="navbar_hover_effect_1">NavBar Hover Effect 1</option>
+                                             <option t-att-selected="this.state.config_value.navbar_hover_effect=='navbar_hover_effect_2'" value="navbar_hover_effect_2">NavBar Hover Effect 2</option>
+                                            <option t-att-selected="this.state.config_value.navbar_hover_effect=='navbar_hover_effect_3'" value="navbar_hover_effect_3">NavBar Hover Effect 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h6 class="main-title">B2B mode</h6>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable B2B mode</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.b2b_mode" name="b2b_mode" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <h6 class="main-title">Sticky product buy notification</h6>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show sticky product buy notification</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.show_sticky_product_buy_notify" name="show_sticky_product_buy_notify" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto" t-if="this.state.config_value.show_sticky_product_buy_notify">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">When to show notification</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="col-8 px-2">
+                                            <select class="form-input" name="select_when_notify_show" t-on-change="(ev)=>this.onChangeValue(ev)">
+                                                <option t-att-selected="this.state.config_value.select_when_notify_show=='on_add_to_cart'" value="on_add_to_cart">On add to cart</option>
+                                                <option t-att-selected="this.state.config_value.select_when_notify_show=='on_purchase'" value="on_purchase">On purchase</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="tab-shop" t-attf-class="tab-detail tab-shop #{this.state.active_tab == 'shop' ?'active show':''}">
+                                <h6 class="main-title">Product card</h6>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Product card style</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <select class="form-input" name="card_product_style" t-on-change="(ev)=>this.onChangeValue(ev)">
+                                            <option t-att-selected="this.state.config_value.card_product_style=='card_product_style_1'" value="card_product_style_1">Card Product Style 1</option>
+                                             <option t-att-selected="this.state.config_value.card_product_style=='card_product_style_2'" value="card_product_style_2">Card Product Style 2</option>
+                                            <option t-att-selected="this.state.config_value.card_product_style=='card_product_style_3'" value="card_product_style_3">Card Product Style 3</option>
+                                             <option t-att-selected="this.state.config_value.card_product_style=='card_product_style_4'" value="card_product_style_4">Card Product Style 4</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Border style</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <select class="form-input" name="card_border_style" t-on-change="(ev)=>this.onChangeValue(ev)">
+                                            <option t-att-selected="this.state.config_value.card_border_style=='square'" value="square">Square</option>
+                                            <option t-att-selected="this.state.config_value.card_border_style=='rounded'" value="rounded">Rounded</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Change product image on hover</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input class="form-input" type="checkbox" t-att-checked="this.state.config_value.card_hover_image" name="card_hover_image" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Product image on hover style</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <select class="form-input" name="image_on_hover_style" t-on-change="(ev)=>this.onChangeValue(ev)">
+                                            <option t-att-selected="this.state.config_value.image_on_hover_style=='hover_style_1'" value="hover_style_1">Hover Style 1</option>
+                                            <option t-att-selected="this.state.config_value.image_on_hover_style=='hover_style_2'" value="hover_style_2">Hover Style 2</option>
+                                            <option t-att-selected="this.state.config_value.image_on_hover_style=='hover_style_3'" value="hover_style_3">Hover Style 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- card actions -->
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4 ">
+                                        <h5 class="sec-title">Product actions</h5>
+                                    </div>
+                                    <div class="col-8 d-flex card-actions row m-auto">
+                                        <div class="card-action col-12 col-md-4 p-2 text-center" title="Add to Cart Button">
+                                            <label for="card_cart_btn" t-attf-class="btn-action #{this.state.config_value.card_cart_btn?'active':''}">
+                                                <input type="checkbox" t-att-checked="this.state.config_value.card_cart_btn" name="card_cart_btn" id="card_cart_btn" class="form-input" t-on-click="(ev)=>this.onChangeValue(ev)"/>
+                                                <i class="fa fa-shopping-cart"/>
+                                            </label>
+                                        </div>
+                                        <div class="card-action col-12 col-md-4 p-2 text-center" title="Add to Compare Button">
+                                            <label for="card_compare_btn" t-attf-class="btn-action #{this.state.config_value.card_compare_btn?'active':''}">
+                                                <input type="checkbox" t-att-checked="this.state.config_value.card_compare_btn" name="card_compare_btn" id="card_compare_btn" class="form-input" t-on-click="(ev)=>this.onChangeValue(ev)"/>
+                                                <i class="fa fa-bar-chart-o"/>
+                                            </label>
+                                        </div>
+                                        <div class="card-action  col-12 col-md-4 p-2 text-center" title="Quick View Button">
+                                            <label for="card_quickview_btn" t-attf-class="btn-action #{this.state.config_value.card_quickview_btn?'active':''}">
+                                                <input type="checkbox" t-att-checked="this.state.config_value.card_quickview_btn" name="card_quickview_btn" id="card_quickview_btn" class="form-input" t-on-click="(ev)=>this.onChangeValue(ev)"/>
+                                                <i class="fa fa-eye"/>
+                                            </label>
+                                        </div>
+                                        <div class="card-action col-12 col-md-4 p-2 text-center" title="Add to Wishlist Button">
+                                            <label for="card_wishlist_btn" t-attf-class="btn-action #{this.state.config_value.card_wishlist_btn?'active':''}">
+                                                <input type="checkbox" t-att-checked="this.state.config_value.card_wishlist_btn" name="card_wishlist_btn" id="card_wishlist_btn" class="form-input" t-on-click="(ev)=>this.onChangeValue(ev)"/>
+                                                <i class="fa fa-heart"/>
+                                            </label>
+                                        </div>
+                                        <!-- <div class="card-action col-12 col-md-4 text-center">  
+                                            <label for="card_show_similar" t-attf-class="btn-action #{this.state.config_value.card_show_similar?'active':''}">
+                                                <input type="checkbox" t-att-checked="this.state.config_value.card_show_similar" name="card_show_similar" class="form-input" t-on-click="(ev)=>this.onChangeValue(ev)"/><i class="fa fa-clone"/>
+                                            </label>
+                                        </div> -->
+                                        <div class="card-action col-12 col-md-4 p-2 text-center" title="Product Rattings">
+                                            <label for="card_rattings" t-attf-class="btn-action #{this.state.config_value.card_rattings?'active':''}">
+                                                <input type="checkbox" t-att-checked="this.state.config_value.card_rattings" name="card_rattings" id="card_rattings" class="form-input" t-on-click="(ev)=>this.onChangeValue(ev)"/>
+                                                <i class="fa fa-star-o"/>
+                                            </label>
+                                        </div>
+                                        <div class="card-action col-12 col-md-4 p-2 text-center" title="Out Of Stock">
+                                            <label for="card_stock_lbl" t-attf-class="btn-action #{this.state.config_value.card_stock_lbl?'active':''}">
+                                                <input type="checkbox" id="card_stock_lbl" t-att-checked="this.state.config_value.card_stock_lbl" name="card_stock_lbl" class="form-input" t-on-click="(ev)=>this.onChangeValue(ev)"/>
+                                                <i class="fa fa-window-close-o"></i>
+                                            </label>
+                                        </div>
+                                        <div class="card-action col-12 col-md-4 p-2 text-center" title="Tag Label">
+                                            <label for="card_product_lbl" t-attf-class="btn-action #{this.state.config_value.card_product_lbl?'active':''}">
+                                                <input type="checkbox" t-att-checked="this.state.config_value.card_product_lbl" name="card_product_lbl" id="card_product_lbl" class="form-input" t-on-click="(ev)=>this.onChangeValue(ev)"/>
+                                                <i class="fa fa-tag"/>
+                                            </label>
+                                        </div>
+                                         <div class="card-action col-12 col-md-4 p-2 text-center" title="Terms and condition">
+                                            <label for="card_product_terms_and_condition" t-attf-class="btn-action #{this.state.config_value.card_product_terms_and_condition?'active':''}">
+                                                <input type="checkbox" t-att-checked="this.state.config_value.card_product_terms_and_condition" name="card_product_terms_and_condition" id="card_product_terms_and_condition" class="form-input" t-on-click="(ev)=>this.onChangeValue(ev)"/>
+                                                <svg t-attf-fill="#191c64" style="width: 26px; height: auto; max-width: 100%; max-height: 100%;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM112 256l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable lazyload products</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input class="form-input" type="checkbox" t-att-checked="this.state.config_value.enable_lazyload_image" name="enable_lazyload_image" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable load more products</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input class="form-input" type="checkbox" t-att-checked="this.state.config_value.enable_loadmore_products" name="enable_loadmore_products" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <!-- filters -->
+                                <h6 class="main-title">Filter settings</h6>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Filters design</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <select class="form-input" name="filters_design" t-on-change="(ev)=>this.onChangeValue(ev)">
+                                            <option t-att-selected="this.state.config_value.filters_design == 'style-1'" value="style-1">Style 1 (Simple Collapsible)</option>
+                                            <option t-att-selected="this.state.config_value.filters_design == 'style-2'" value="style-2">Style 2 (Underline)</option>
+                                            <option t-att-selected="this.state.config_value.filters_design == 'style-3'" value="style-3">Style 3 (Square Boxed)</option>
+                                            <option t-att-selected="this.state.config_value.filters_design == 'style-4'" value="style-4">Style 4 (Card Saperated)</option>
+                                        </select>
+                                        <!--<input type="checkbox" name="h_lang_select" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/> -->
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable sidebar filter</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.filter_in_sidebar" name="filter_in_sidebar" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show products count</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.filter_product_count" name="filter_product_count" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show categories in filters</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.show_category_in_filter" name="show_category_in_filter" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show ratings filter</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.show_ratings_filter" name="show_ratings_filter" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show stock availability filter</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.show_stock_avail_filter" name="show_stock_avail_filter" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <!-- ********* -->
+                                <!-- Category settings -->
+                                <h6 class="main-title">Category settings</h6>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Category style</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <select class="form-input" name="shop_category_style" t-on-change="(ev)=>this.onChangeValue(ev)">
+                                            <option t-att-selected="this.state.config_value.shop_category_style == 'style-1'" value="style-1">style-1</option>
+                                            <option t-att-selected="this.state.config_value.shop_category_style == 'style-2'" value="style-2">style-2</option>
+                                            <option t-att-selected="this.state.config_value.shop_category_style == 'style-3'" value="style-3">style-3</option>
+                                            <option t-att-selected="this.state.config_value.shop_category_style == 'style-4'" value="style-4">style-4</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable category banner</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.shop_category_banner" name="shop_category_banner" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="tab-product" t-attf-class="tab-detail tab-product #{this.state.active_tab == 'product_page' ?'active show':''}">
+                                <h6 class="main-title">Product page settings</h6>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable product zoom</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.product_zoom" name="product_zoom" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show product offers</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.product_offers" name="product_offers" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable product brand detail</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.product_brand_detail" name="product_brand_detail" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show product tags</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.product_tags" name="product_tags" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show product KSU</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.product_sku" name="product_sku" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable sharing</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.product_sharing" name="product_sharing" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Enable inquiry button</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <!-- <t t-if="!this.state.crm_installed">
+                                            <button class="btn btn-outline-primary crm_install_btn" t-on-click="(ev)=>this.onActivateCRM(ev)">Install CRM module</button>
+                                        </t>
+                                        <t t-else="">
+                                            <input type="checkbox" t-att-checked="this.state.config_value.product_inquiry" name="product_inquiry" data-module="mo" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                        </t> -->
+                                        <input type="checkbox" t-att-checked="this.state.config_value.product_inquiry" name="product_inquiry" data-module="mo" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show extra T&amp;C</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.product_conditions" name="product_conditions" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show review tab</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.product_review_tab" name="product_review_tab" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show sticky product view</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.product_sticky_view" name="product_sticky_view" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show alternative products</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.show_alternative_products" name="show_alternative_products" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2 m-auto">
+                                    <div class="col-4">
+                                        <h5 class="sec-title">Show accessories products</h5>
+                                    </div>
+                                    <div class="col-8 px-2">
+                                        <input type="checkbox" t-att-checked="this.state.config_value.show_accessory_products" name="show_accessory_products" class="form-input" t-on-change="(ev)=>this.onChangeValue(ev)"/>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </WebsiteDialog>
+    </t>
+
+</templates>

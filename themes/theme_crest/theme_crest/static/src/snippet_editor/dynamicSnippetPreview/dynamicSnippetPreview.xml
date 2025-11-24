@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="theme_crest.DynamicSnippetPreview">
+        <div id="snippet_preview"></div>
+    </t> 
+</templates>

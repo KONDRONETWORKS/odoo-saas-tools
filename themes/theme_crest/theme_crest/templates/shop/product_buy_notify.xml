@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="website_layout_bits" inherit_id="website.layout" name="Website layout">
+        <xpath expr="//div[@id='wrapwrap']" position="inside">
+            <t t-set="theme_config" t-value="request.website.get_theme_config()"/>
+            <div t-if="theme_config and theme_config.show_sticky_product_buy_notify" class="bits-notify-container make-toast"></div>
+        </xpath>
+    </template>
+    <template id="product_buy_notify_bits" name="Product Buy Notify">
+        <div class="product-recent-purchase-bits row m-auto">
+            <a t-att-href="product_href" class="col-3 px-0">  
+                <img t-attf-src="/web/image/product.product/#{product.id}/image_1920" t-att-alt="product.name"/>
+            </a>
+            <t t-set="product_href" t-value="product.website_url" />
+            <div class="col-9 bg-100 bg-white px-2 d-flex flex-column justify-content-between">
+                <div class="body-details">
+                    <span class="title-text"><t t-esc="user_location_str"/></span>
+                    <a t-att-href="product_href" class="detail mt-2 title-text">
+                        <h6><t t-esc="product.name"/></h6>
+                    </a>
+                </div>
+                <div class="foot-details">
+                    <span class="pe-4 text-primary">
+                        <i class="fa fa-clock-o"></i>
+                        <t t-esc="purchased_time"/>
+                    </span> 
+                    <span class="text-primary">
+                        <span class="fa fa-check-circle-o d-inline-flex"> 
+                        </span>
+                        Verified
+                    </span> 
+                </div>
+            </div>
+            <a href="javascript:void(0)" class="icon-btn recent-close text-primary">×</a>
+        </div>
+    </template> 
+</odoo>

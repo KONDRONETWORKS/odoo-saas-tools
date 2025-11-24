@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_terms_conditions_view_form_bits" model="ir.ui.view">
+        <field name="name">product_terms_conditions.view.form.bits</field>
+        <field name="model">product.terms.conditions</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/> 
+                    </group>
+                    <notebook>
+                        <page name="terms" string="Terms">
+                            <field name="product_terms_lines"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="product_terms_conditions_view_tree_bits" model="ir.ui.view">
+        <field name="name">product_terms_conditions.view.list.bits</field>
+        <field name="model">product.terms.conditions</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/> 
+            </list>
+        </field>
+    </record>
+    <record id="product_terms_lines_view_form_bits" model="ir.ui.view">
+        <field name="name">product_terms_lines.view.form.bits</field>
+        <field name="model">product.terms.lines</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group >
+                            <field name="name"/>     
+                            <field name="indication_type"/>     
+                            <field name="indication_icon" invisible="indication_type != 'icon'"/>  
+                        </group>
+                        <group>
+                            <field name="indication_img" widget="image" invisible="indication_type != 'image'"/>
+                        </group> 
+                    </group> 
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_product_terms_lines_bits" model="ir.actions.act_window">
+        <field name="name">Product Terms &amp; Conditions</field>
+        <field name="res_model">product.terms.conditions</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field> 
+    </record>
+    <menuitem id="menu_product_tnc_bits" action="action_product_terms_lines_bits" name="Product Terms &amp; Conditions" parent="crest_theme_core.menu_terabits_customisation_bits" sequence="10"/> 
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="pricing_page" name="SaaS Pricing">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_pricing_header pt80 pb40 bg-light text-center">
+                    <div class="container">
+                        <h1 class="display-3 mb-3">Simple, Transparent Pricing</h1>
+                        <p class="lead text-muted">Choose the plan that fits your business needs.</p>
+                    </div>
+                </section>
+                
+                <section class="s_pricing_cards pb80 bg-light">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <t t-foreach="products" t-as="product">
+                                <div class="col-lg-4 mb-4">
+                                    <div class="card border-0 shadow-sm h-100 hover-shadow transition-all">
+                                        <div class="card-body p-5 text-center">
+                                            <h3 class="card-title mb-3" t-field="product.name"/>
+                                            <div class="display-4 font-weight-bold mb-4 text-primary">
+                                                <span t-field="product.list_price" t-options='{"widget": "monetary", "display_currency": product.currency_id}'/>
+                                                <small class="text-muted h6">/mo</small>
+                                            </div>
+                                            <p class="card-text text-muted mb-4" t-field="product.description_sale"/>
+                                            <a t-attr-href="'/shop/cart/update?product_id=%s' % product.id" class="btn btn-primary btn-lg btn-block rounded-pill w-100">Choose Plan</a>
+                                            <ul class="list-unstyled mt-4 text-start">
+                                                <li class="mb-2"><i class="fa fa-check text-success me-2"/> Unlimited Users</li>
+                                                <li class="mb-2"><i class="fa fa-check text-success me-2"/> 24/7 Support</li>
+                                                <li class="mb-2"><i class="fa fa-check text-success me-2"/> Daily Backups</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

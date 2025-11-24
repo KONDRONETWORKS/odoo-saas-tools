@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_attrib_details_bits_view_form_bits" model="ir.ui.view">
+        <field name="name">product.attrib.details.bits.view</field>
+        <field name="model">product.attrib.details.bits</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group> 
+                        <group>
+                            <field name="name" required="1"/>  
+                        </group> 
+                    </group>
+                    <notebook>
+                        <page string="Attribute Body" name="attribute_body">
+                            <field name="attribute_details" />
+                        </page> 
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="product_attrib_details_bits_view_tree" model="ir.ui.view">
+        <field name="name">product.attrib.details.bits.view.list</field>
+        <field name="model">product.attrib.details.bits</field>
+        <field name="arch" type="xml">
+            <list> 
+                <field name="name"/> 
+            </list>
+        </field>
+    </record>
+    <record id="action_product_attrib_details_bits" model="ir.actions.act_window">
+        <field name="name">Attribute Detail</field>
+        <field name="res_model">product.attrib.details.bits</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field> 
+    </record>
+    <menuitem
+        id="menu_product_attrib_details_bits"
+        action="action_product_attrib_details_bits"
+        name="Attributes Details"
+        parent="crest_theme_core.menu_terabits_customisation_bits"
+        sequence="10"/>
+</odoo>
